@@ -1,0 +1,11 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">  
+
+  <PropertyGroup Label="Globals">
+    <Platform Condition="'$(Platform)' == ''">x64</Platform>
+    <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
+    <NGS_OUTDIR>$(USERPROFILE)\</NGS_OUTDIR>
+    <NGS_TARGET>$(NGS_OUTDIR)win\cl\$(Platform)\$(Configuration)\</NGS_TARGET>
+    <NGS_ROOT>$(ProjectDir)..</NGS_ROOT>
+  </PropertyGroup>
+  
+</Project>

@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\inl">
+      <UniqueIdentifier>{8802bed9-e96d-4c55-8f6e-47bc3f32c439}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\ngs\inl\Alignment.hpp">
+      <Filter>Header Files\inl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\inl\AlignmentIterator.hpp">
+      <Filter>Header Files\inl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\inl\Fragment.hpp">
+      <Filter>Header Files\inl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\inl\FragmentIterator.hpp">
+      <Filter>Header Files\inl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\inl\Pileup.hpp">
+      <Filter>Header Files\inl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\inl\PileupEvent.hpp">
+      <Filter>Header Files\inl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\inl\PileupEventIterator.hpp">
+      <Filter>Header Files\inl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\inl\PileupIterator.hpp">
+      <Filter>Header Files\inl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\inl\Read.hpp">
+      <Filter>Header Files\inl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\inl\ReadCollection.hpp">
+      <Filter>Header Files\inl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\inl\ReadGroup.hpp">
+      <Filter>Header Files\inl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\inl\ReadGroupIterator.hpp">
+      <Filter>Header Files\inl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\inl\ReadIterator.hpp">
+      <Filter>Header Files\inl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\inl\Reference.hpp">
+      <Filter>Header Files\inl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\inl\ReferenceIterator.hpp">
+      <Filter>Header Files\inl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\inl\Statistics.hpp">
+      <Filter>Header Files\inl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\inl\StringRef.hpp">
+      <Filter>Header Files\inl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\Alignment.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\AlignmentIterator.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\ErrorMsg.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\Fragment.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\FragmentIterator.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\Pileup.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\PileupEvent.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\PileupEventIterator.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\PileupIterator.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\Read.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\ReadCollection.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\ReadGroup.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\ReadGroupIterator.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\ReadIterator.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\Reference.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\ReferenceIterator.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\Statistics.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\StringRef.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
