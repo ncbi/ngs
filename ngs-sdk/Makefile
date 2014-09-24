@@ -29,11 +29,12 @@ default: subtargs
 SUBDIRS =    \
 	language \
 	dispatch \
-	adapter
+	adapter  \
+	test
 
 SUBTARGS =     \
 	$(SUBDIRS) \
-	sdk-libs
+	sdk-libs   \
 
 include $(CURDIR)/Makefile.rules
 
