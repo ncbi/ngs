@@ -57,7 +57,7 @@ SUBTARGS_INST = \
 install: Makefile.config $(SUBTARGS_INST)
 
 # rule to run tests
-test runtests: Makefile.config
+test runtests: Makefile.config default
 	@ $(MAKE) -C test runtests
 
 # rule to run configuration
