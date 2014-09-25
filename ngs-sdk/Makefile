@@ -30,7 +30,6 @@ SUBDIRS =    \
 	language \
 	dispatch \
 	adapter  \
-	test
 
 SUBTARGS =     \
 	$(SUBDIRS) \

@@ -40,7 +40,7 @@ $(SUBDIRS_CLN): Makefile.config
 	@ $(MAKE) -s -C $(subst _cln,,$@) clean
 
 SUBTARGS_CLN = \
-	$(addsuffix _cln,$(SUBTARGS))
+	$(addsuffix _cln,$(SUBTARGS) test)
 
 clean: Makefile.config $(SUBTARGS_CLN)
 
