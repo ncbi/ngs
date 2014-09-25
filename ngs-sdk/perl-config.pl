@@ -28,6 +28,7 @@ my $DEBUG;
 use strict;
 
 require "package.perl";
+require "os-arch.pm";
 
 use File::Basename "fileparse";
 use Getopt::Long "GetOptions";
@@ -112,7 +113,7 @@ if ($AUTORUN) {
 }
 
 # initial values
-my $TARGDIR .= "$OUTDIR/$PACKAGE";
+my $TARGDIR = "$OUTDIR/$PACKAGE";
 $TARGDIR = $OPT{'outputdir'} if ($OPT{'outputdir'});
 $OUT_MAKEFILE = $OPT{'output-makefile'} if ($OPT{'output-makefile'});
 
@@ -127,12 +128,18 @@ my $BUILD_TYPE = "release";
 $BUILD_TYPE = "debug" if ( $BUILD eq "dbg" );
 
 println unless ($AUTORUN);
+
 print "checking system type... " unless ($AUTORUN);
-my $OSTYPE = `uname -s`; chomp $OSTYPE;
+
+my ($OS, $ARCH, $OSTYPE, $MARCH) = OsArch();
+
+$OUT_MAKEFILE .= ".$OS.$ARCH";
+
+#my $OSTYPE = `uname -s`; chomp $OSTYPE;
 println $OSTYPE unless ($AUTORUN);
 
 print "checking machine architecture... " unless ($AUTORUN);
-my $MARCH = `uname -m`; chomp $MARCH;
+#my $MARCH = `uname -m`; chomp $MARCH;
 println $MARCH unless ($AUTORUN);
 
 my $TOOLS = "";
@@ -145,17 +152,16 @@ println $VERSION unless ($AUTORUN);
 
 # determine architecture
 
-my ($ARCH, $BITS);
-
 print "checking for supported architecture... " unless ($AUTORUN);
+
+my $BITS;
+
 if ( $MARCH =~ m/x86_64/i )
 {
-    $ARCH = $MARCH;
     $BITS = 64;
 }
 elsif ( $MARCH =~ m/i?86/i )
 {
-    $ARCH = "i386";
     $BITS = 32;
 }
 else
@@ -165,12 +171,11 @@ else
 println "$MARCH ($BITS bits) is supported" unless ($AUTORUN);
 
 # determine OS and related norms
-my ($OS, $LPFX, $OBJX, $LOBX, $LIBX, $SHLX, $EXEX, $OSINC);
+my ($LPFX, $OBJX, $LOBX, $LIBX, $SHLX, $EXEX, $OSINC);
 
 print "checking for supported OS... " unless ($AUTORUN);
 if ( $OSTYPE =~ m/linux/i )
 {
-    $OS = "linux";
     $LPFX = "lib";
     $OBJX = "o";
     $LOBX = "pic.o";
@@ -185,7 +190,6 @@ if ( $OSTYPE =~ m/linux/i )
 }
 elsif ( $OSTYPE =~ m/darwin/i )
 {
-    $OS = "mac";
     $LPFX = "lib";
     $OBJX = "o";
     $LOBX = "pic.o";
@@ -297,78 +301,88 @@ if ($PKG{NGS_SDK_SRC}) {
 
 println "NGS_SDK_PREFIX = $NGS_SDK_PREFIX" if ($DEBUG);
 
-my @lines;
+my @config;
+my @c_arch;
 
 # create Makefile.config
-push (@lines, "### AUTO-GENERATED FILE ###" );
-push (@lines,  "" );
-push (@lines,  'include $(TOP)/Makefile.userconfig' );
-push (@lines,  "" );
-push (@lines, "# build type");
-push (@lines, "BUILD ?= $BUILD");
-push (@lines,  "" );
-push (@lines,  "# target OS" );
-push (@lines,  "OS = " . $OS );
-push (@lines,  "OSINC = " . $OSINC );
-push (@lines,  "" );
-push (@lines,  "# prefix string for system libraries" );
-push (@lines,  "LPFX = " . $LPFX );
-push (@lines,  "" );
-push (@lines,  "# suffix strings for system libraries" );
-push (@lines,  "LIBX = " . $LIBX . "   # ( static library )" );
-push (@lines,  "SHLX = " . $SHLX . "  # ( shared library )" );
-push (@lines,  "" );
-push (@lines,  "# suffix strings for system object files" );
-push (@lines,  "OBJX = " . $OBJX . "      # ( fixed )" );
-push (@lines,  "LOBX = " . $LOBX . "  # ( position independent )" );
-push (@lines,  "# suffix string for system executable" );
-push (@lines,  "EXEX = " . $EXEX );
-push (@lines,  "" );
+push (@config, "### AUTO-GENERATED FILE ###" );
+push (@c_arch, "### AUTO-GENERATED FILE ###" );
+push (@config,  "" );
+push (@c_arch,  "" );
+push (@config,  'OS_ARCH = $(shell perl $(TOP)/os-arch.perl)' );
+push (@config,  'include $(TOP)/Makefile.userconfig' );
+push (@config,  'include $(TOP)/Makefile.config.$(OS_ARCH)' );
+push (@config,  "" );
+push (@config, "# build type");
+push (@config, "BUILD ?= $BUILD");
+push (@config,  "" );
+push (@c_arch,  "# target OS" );
+push (@c_arch,  "OS = " . $OS );
+push (@c_arch,  "OSINC = " . $OSINC );
+push (@c_arch,  "" );
+push (@c_arch,  "# prefix string for system libraries" );
+push (@c_arch,  "LPFX = " . $LPFX );
+push (@c_arch,  "" );
+push (@c_arch,  "# suffix strings for system libraries" );
+push (@c_arch,  "LIBX = " . $LIBX . "   # ( static library )" );
+push (@c_arch,  "SHLX = " . $SHLX . "  # ( shared library )" );
+push (@c_arch,  "" );
+push (@c_arch,  "# suffix strings for system object files" );
+push (@c_arch,  "OBJX = " . $OBJX . "      # ( fixed )" );
+push (@c_arch,  "LOBX = " . $LOBX . "  # ( position independent )" );
+push (@c_arch,  "# suffix string for system executable" );
+push (@c_arch,  "EXEX = " . $EXEX );
+push (@c_arch,  "" );
 
-push (@lines,  "# system architecture and wordsize" );
+push (@c_arch,  "# system architecture and wordsize" );
 if ( $ARCH eq $MARCH )
 {
-    push (@lines,  "ARCH = " . $ARCH );
+    push (@c_arch,  "ARCH = " . $ARCH );
 }
 else
 {
-    push (@lines,  "ARCH = " . $ARCH . " # ( " . $MARCH . " )" );
+    push (@c_arch,  "ARCH = " . $ARCH . " # ( " . $MARCH . " )" );
 }
-push (@lines,  "BITS = " . $BITS );
-push (@lines,  "" );
+push (@c_arch,  "BITS = " . $BITS );
+push (@c_arch,  "" );
 
-push (@lines,  "# tools" );
-push (@lines,  "CC   = " . $CC ) if ($CC);
-push (@lines,  "CP   = " . $CP ) if ($CP);
-push (@lines,  "AR   = " . $AR ) if ($AR);
-push (@lines,  "ARX  = " . $ARX ) if ($ARX);
-push (@lines,  "ARLS = " . $ARLS ) if ($ARLS);
-push (@lines,  "LD   = " . $LD ) if ($LD);
-push (@lines,  "LP   = " . $LP ) if ($LP);
-push (@lines,  "JAVAC  = " . $JAVAC ) if ($JAVAC);
-push (@lines,  "JAVAH  = " . $JAVAH ) if ($JAVAH);
-push (@lines,  "JAR  = " . $JAR ) if ($JAR);
-push (@lines,  "" );
+push (@config,  "# tools" );
+push (@c_arch,  "# tools" );
+push (@c_arch,  "CC   = " . $CC ) if ($CC);
+push (@c_arch,  "CP   = " . $CP ) if ($CP);
+push (@c_arch,  "AR   = " . $AR ) if ($AR);
+push (@c_arch,  "ARX  = " . $ARX ) if ($ARX);
+push (@c_arch,  "ARLS = " . $ARLS ) if ($ARLS);
+push (@c_arch,  "LD   = " . $LD ) if ($LD);
+push (@c_arch,  "LP   = " . $LP ) if ($LP);
+push (@config,  "JAVAC  = " . $JAVAC ) if ($JAVAC);
+push (@config,  "JAVAH  = " . $JAVAH ) if ($JAVAH);
+push (@config,  "JAR  = " . $JAR ) if ($JAR);
+push (@config,  "" );
+push (@c_arch,  "" );
 
-push (@lines,  "# tool options" );
+push (@config,  "# tool options" );
+push (@c_arch,  "# tool options" );
 if ( $BUILD eq "dbg" ) {
-    push (@lines,  "DBG     = " . $DBG );
-    push (@lines,  "OPT     = ");
+    push (@c_arch,  "DBG     = " . $DBG );
+    push (@c_arch,  "OPT     = ");
 } else {
-    push (@lines,  "DBG     = ");
-    push (@lines,  "OPT     = " . $OPT ) if ($OPT);
+    push (@c_arch,  "DBG     = ");
+    push (@c_arch,  "OPT     = " . $OPT ) if ($OPT);
 }
-push (@lines,  "PIC     = " . $PIC ) if ($PIC);
+push (@c_arch,  "PIC     = " . $PIC ) if ($PIC);
 if ($PKG{LNG} eq 'C') {
-    push (@lines,  "SRCINC  = $INC. $INC\$(SRCDIR)" );
+    push (@c_arch,  "SRCINC  = $INC. $INC\$(SRCDIR)" );
 } elsif ($PKG{LNG} eq 'JAVA') {
-    push (@lines,  "SRCINC  = -sourcepath \$(INCPATHS)" );
+    push (@config,  "SRCINC  = -sourcepath \$(INCPATHS)" );
 }
-push (@lines,  "INCDIRS = \$(SRCINC) $INC\$(TOP)" ) if ($PIC);
-push (@lines,  "CFLAGS  = \$(DBG) \$(OPT) \$(INCDIRS) $MD" )
-    if ($PKG{LNG} eq 'C');
-push (@lines,  "CLSPATH = -classpath \$(CLSDIR)" );
-push (@lines,  "" );
+push (@c_arch,  "INCDIRS = \$(SRCINC) $INC\$(TOP)" ) if ($PIC);
+if ($PKG{LNG} eq 'C') {
+    push (@c_arch,  "CFLAGS  = \$(DBG) \$(OPT) \$(INCDIRS) $MD" );
+}
+push (@config,  "CLSPATH = -classpath \$(CLSDIR)" );
+push (@config,  "" );
+push (@c_arch,  "" );
 
 # version information
 
@@ -381,101 +395,107 @@ if ( $VERSION =~ /(\d+)\.(\d+)\.\d+/ )
     $MAJVERS = $2;
 }
 
-push (@lines,  "# NGS API and library version" );
-push (@lines,  "VERSION = " . $VERSION );
-push (@lines,  "MAJMIN = " . $MAJMIN );
-push (@lines,  "MAJVERS = " . $MAJVERS );
-push (@lines,  "" );
+push (@config,  "# NGS API and library version" );
+push (@config,  "VERSION = " . $VERSION );
+push (@config,  "MAJMIN = " . $MAJMIN );
+push (@config,  "MAJVERS = " . $MAJVERS );
+push (@config,  "" );
 
 # determine output path
 if ($PKG{LNG} eq 'C') {
-    $TARGDIR = $TARGDIR . "/" . $ARCH;
+#    $TARGDIR = $TARGDIR . "/" . $ARCH;
 }
-push (@lines,  "# output path" );
-push (@lines,  "TARGDIR ?= " . $TARGDIR );
-push (@lines,  "" );
+$TARGDIR = "$TARGDIR/$OS/$ARCH/$BUILD";
+push (@c_arch,  "# output path" );
+push (@c_arch,  "TARGDIR ?= " . $TARGDIR );
+push (@c_arch,  "" );
 
 # determine include install path
 # determine library install path
 
 # other things
-push (@lines,  "# derived paths" );
-push (@lines,  "MODPATH  ?= \$(subst \$(TOP)/,,\$(CURDIR))" );
-push (@lines,  "SRCDIR   ?= \$(TOP)/\$(MODPATH)" );
-push (@lines,  "MAKEFILE ?= \$(abspath \$(firstword \$(MAKEFILE_LIST)))" );
-push (@lines,  "BINDIR    = \$(TARGDIR)/bin" );
+push (@config,  "# derived paths" );
+push (@config,  "MODPATH  ?= \$(subst \$(TOP)/,,\$(CURDIR))" );
+push (@config,  "SRCDIR   ?= \$(TOP)/\$(MODPATH)" );
+push (@config,  "MAKEFILE ?= \$(abspath \$(firstword \$(MAKEFILE_LIST)))" );
+push (@config,  "BINDIR    = \$(TARGDIR)/bin" );
 if ($PKG{LNG} eq 'C') {
-    push (@lines,  "LIBDIR    = \$(TARGDIR)/lib" );
+    push (@config,  "LIBDIR    = \$(TARGDIR)/lib" );
 } elsif ($PKG{LNG} eq 'JAVA') {
-    push (@lines,  "LIBDIR    = \$(TARGDIR)/jar" );
+    push (@config,  "LIBDIR    = \$(TARGDIR)/jar" );
 }
-push (@lines,  "ILIBDIR   = \$(TARGDIR)/ilib" );
-push (@lines,  "OBJDIR    = \$(TARGDIR)/obj/\$(MODPATH)" );
-push (@lines,  "CLSDIR    = \$(TARGDIR)/cls" );
+push (@config,  "ILIBDIR   = \$(TARGDIR)/ilib" );
+push (@config,  "OBJDIR    = \$(TARGDIR)/obj/\$(MODPATH)" );
+push (@config,  "CLSDIR    = \$(TARGDIR)/cls" );
 
 if ($PKG{LNG} eq 'JAVA') {
-    push (@lines,
+    push (@config,
         "INCPATHS = \$(SRCDIR):\$(SRCDIR)/itf:\$(TOP)/gov/nih/nlm/ncbi/ngs" );
 }
 
-push (@lines,  "" );
+push (@config,  "" );
 
-push (@lines,  "# exports" );
-push (@lines,  "export TOP" );
-push (@lines,  "export MODPATH" );
-push (@lines,  "export SRCDIR" );
-push (@lines,  "export MAKEFILE" );
-push (@lines,  "" );
+push (@config,  "# exports" );
+push (@config,  "export TOP" );
+push (@config,  "export MODPATH" );
+push (@config,  "export SRCDIR" );
+push (@config,  "export MAKEFILE" );
+push (@config,  "" );
 
-push (@lines,  "# auto-compilation rules" );
+push (@config,  "# auto-compilation rules" );
 if ($PKG{LNG} eq 'C') {
-    push (@lines,  "\$(OBJDIR)/%.\$(OBJX): %.c" );
-    push (@lines,  "\t\$(CC) -o \$@ \$< \$(CFLAGS)" );
-    push (@lines,  "\$(OBJDIR)/%.\$(LOBX): %.c" );
-    push (@lines,  "\t\$(CC) -o \$@ \$< \$(PIC) \$(CFLAGS)" );
+    push (@config,  "\$(OBJDIR)/%.\$(OBJX): %.c" );
+    push (@config,  "\t\$(CC) -o \$@ \$< \$(CFLAGS)" );
+    push (@config,  "\$(OBJDIR)/%.\$(LOBX): %.c" );
+    push (@config,  "\t\$(CC) -o \$@ \$< \$(PIC) \$(CFLAGS)" );
 }
-push (@lines,  "\$(OBJDIR)/%.\$(OBJX): %.cpp" );
-push (@lines,  "\t\$(CP) -o \$@ \$< \$(CFLAGS)" );
-push (@lines,  "\$(OBJDIR)/%.\$(LOBX): %.cpp" );
-push (@lines,  "\t\$(CP) -o \$@ \$< \$(PIC) \$(CFLAGS)" );
-push (@lines,  "" );
+push (@config,  "\$(OBJDIR)/%.\$(OBJX): %.cpp" );
+push (@config,  "\t\$(CP) -o \$@ \$< \$(CFLAGS)" );
+push (@config,  "\$(OBJDIR)/%.\$(LOBX): %.cpp" );
+push (@config,  "\t\$(CP) -o \$@ \$< \$(PIC) \$(CFLAGS)" );
+push (@config,  "" );
 
 # this is part of Makefile
-push (@lines,  "VPATH = \$(SRCDIR)" );
-push (@lines,  "" );
+push (@config,  "VPATH = \$(SRCDIR)" );
+push (@config,  "" );
 
 # we know how to find jni headers
 if ($PKG{LNG} eq 'JAVA' and $OPT{'with-ngs-sdk-src'}) {
-    push(@lines, "JNIPATH = $OPT{'with-ngs-sdk-src'}/language/java");
+    push(@config, "JNIPATH = $OPT{'with-ngs-sdk-src'}/language/java");
 }
 
-push (@lines,  "# directory rules" );
+push (@config,  "# directory rules" );
 if ($PKG{LNG} eq 'C') {
-    push (@lines,  "\$(BINDIR) \$(LIBDIR) \$(ILIBDIR) \$(OBJDIR):\n"
+    push (@config,  "\$(BINDIR) \$(LIBDIR) \$(ILIBDIR) \$(OBJDIR):\n"
                  . "\tmkdir -p \$@" );
 } elsif ($PKG{LNG} eq 'JAVA') {
     # test if we have jni header path
-    push (@lines,  "\$(LIBDIR) \$(CLSDIR):\n\tmkdir -p \$@" );
+    push (@config,  "\$(LIBDIR) \$(CLSDIR):\n\tmkdir -p \$@" );
 }
-push (@lines,  "" );
+push (@config,  "" );
 
-push (@lines,  "# not real targets" );
-push (@lines,  ".PHONY: default clean install all std \$(TARGETS)" );
-push (@lines,  "" );
+push (@config,  "# not real targets" );
+push (@config,  ".PHONY: default clean install all std \$(TARGETS)" );
+push (@config,  "" );
 
-push (@lines,  "# dependencies" );
+push (@config,  "# dependencies" );
 if ($PKG{LNG} eq 'C') {
-    push (@lines,  "include \$(wildcard \$(OBJDIR)/*.d)" );
+    push (@config,  "include \$(wildcard \$(OBJDIR)/*.d)" );
 } elsif ($PKG{LNG} eq 'JAVA') {
-    push (@lines,  "include \$(wildcard \$(CLSDIR)/*.d)" );
+    push (@config,  "include \$(wildcard \$(CLSDIR)/*.d)" );
 }
 
-push (@lines,  "" );
+push (@config,  "" );
 
 unless ($OPT{'status'}) {
+    println "configure: creating 'Makefile.config'" unless ($AUTORUN);
+    open OUT, ">Makefile.config" or die "cannot open Makefile.config to write";
+    print OUT "$_\n" foreach (@config);
+    close OUT;
+
     println "configure: creating $OUT_MAKEFILE" unless ($AUTORUN);
     open OUT, ">$OUT_MAKEFILE" or die "cannot open $OUT_MAKEFILE to write";
-    print OUT "$_\n" foreach (@lines);
+    print OUT "$_\n" foreach (@c_arch);
     close OUT;
 }
 
