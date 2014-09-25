@@ -1,8 +1,0 @@
-Win32 
-x64
-ipch
-*.user
-*.opensdf
-*.sdf
-*.suo
-
