@@ -1,7 +1,9 @@
 sub OsArch {
-    my ($UNAME, $HOST_OS, $HOST_ARCH, $MARCH);
+    my ($UNAME, $HOST_OS, $HOST_ARCH, $MARCH, @ARCHITECTURES);
     if ($^O eq 'MSWin32') {
         $UNAME = $HOST_OS = 'win';
+        $HOST_ARCH = $MARCH = 'x86_64';
+        @ARCHITECTURES = qw(x86_64 i386);
     } else {
         $UNAME = `uname -s`;
         chomp $UNAME;
@@ -11,6 +13,7 @@ sub OsArch {
             $HOST_OS = 'linux';
         } elsif ($UNAME =~ /SunOS/) {
             $HOST_OS = 'sun';
+            @ARCHITECTURES = qw(x86_64 i386);
         } elsif ($UNAME =~ /xCYGWIN/) {
             $HOST_OS = 'win';
         } elsif ($UNAME =~ /xMINGW/) {
@@ -18,6 +21,7 @@ sub OsArch {
         }
         if ($HOST_OS eq 'mac') {
             $MARCH = $HOST_ARCH = MacArch();
+            @ARCHITECTURES = qw(x86_64 i386) if ($MARCH eq 'x86_64');
         } else {
             $MARCH = `uname -m`;
             chomp $MARCH;
@@ -43,12 +47,14 @@ sub OsArch {
                 $HOST_ARCH = 'x86_64';
             } elsif ($MARCH =~ /i86pc/) {
                 $HOST_ARCH = 'x86_64';
+                @ARCHITECTURES = qw(x86_64 i386);
             } elsif ($MARCH =~ /sun4v/) {
                 $HOST_ARCH = 'sparc64';
+		        @ARCHITECTURES = qw(sparc64 sparc32);
             }
         }
     }
-    ($HOST_OS, $HOST_ARCH, $UNAME, $MARCH);
+    ($HOST_OS, $HOST_ARCH, $UNAME, $MARCH, @ARCHITECTURES);
 }
 
 sub MacArch {
