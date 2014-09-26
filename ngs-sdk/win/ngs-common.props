@@ -1,5 +1,7 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">  
 
+  <Import Condition="Exists('$(ProjectDir)..\Makefile.config.win')" Project="$(ProjectDir)..\Makefile.config.win" />
+
   <PropertyGroup Label="Globals">
     <Platform Condition="'$(Platform)' == ''">x64</Platform>
     <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
