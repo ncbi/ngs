@@ -338,7 +338,9 @@ println "NGS_SDK_PREFIX = $NGS_SDK_PREFIX" if ($DEBUG);
 my @config;
 my @c_arch;
 
-$TARGDIR = File::Spec->catdir($TARGDIR, $OS, $TOOLS, $ARCH, $BUILD);
+if ($OS ne 'win') {
+    $TARGDIR = File::Spec->catdir($TARGDIR, $OS, $TOOLS, $ARCH, $BUILD);
+}
 
 if ($OS ne 'win') {
     # create Makefile.config
