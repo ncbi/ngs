@@ -534,8 +534,8 @@ if (! $OPT{'status'} ) {
         print OUT <<EndText;
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">  
   <PropertyGroup Label="Globals">
-    <$outdir>$TARGDIR\</$outdir>
-    <$root>$Bin\</$root>
+    <$outdir>$TARGDIR/\</$outdir>
+    <$root>$Bin/\</$root>
   </PropertyGroup>
 </Project>
 EndText
