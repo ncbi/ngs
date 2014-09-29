@@ -30,7 +30,7 @@ use strict;
 require 'package.perl';
 require 'os-arch.pm';
 
-use Cwd 'getcwd';
+use Cwd qw (abs_path getcwd);
 use File::Basename 'fileparse';
 use File::Spec 'catdir';
 use FindBin qw($Bin);
@@ -103,18 +103,26 @@ die "configure: error: $filename should be run as ./$filename"
 
 $OPT{'prefix'} = $package_default_prefix unless ($OPT{'prefix'});
 
+my $AUTORUN = $OPT{'output-makefile'} || $OPT{status};
+
+print "checking system type... " unless ($AUTORUN);
+my ($OS, $ARCH, $OSTYPE, $MARCH, @ARCHITECTURES) = OsArch();
+println $OSTYPE unless ($AUTORUN);
+
 {
     my $prefix = $OPT{'prefix'};
-    $OPT{eprefix} = $prefix unless ($OPT{eprefix});
+    $OPT{eprefix} = $prefix unless ($OPT{eprefix} || $OS eq 'win');
     my $eprefix = $OPT{eprefix};
-    $OPT{bindir} = File::Spec->catdir($eprefix, 'bin') unless ($OPT{bindir});
-    $OPT{libdir} = File::Spec->catdir($eprefix, 'lib') unless ($OPT{libdir});
-    unless ($OPT{includedir}) {
+    unless ($OPT{bindir} || $OS eq 'win') {
+        $OPT{bindir} = File::Spec->catdir($eprefix, 'bin') ;
+    }
+    unless ($OPT{libdir} || $OS eq 'win') {
+        $OPT{libdir} = File::Spec->catdir($eprefix, 'lib');
+    }
+    unless ($OPT{includedir} || $OS eq 'win') {
         $OPT{includedir} = File::Spec->catdir($eprefix, 'include');
     }
 }
-
-my $AUTORUN = $OPT{'output-makefile'} || $OPT{status};
 
 if ($AUTORUN) {
     while (1) {
@@ -145,11 +153,7 @@ $BUILD = "rel" if ($OPT{'without-debug'});
 my $BUILD_TYPE = "release";
 $BUILD_TYPE = "debug" if ( $BUILD eq "dbg" );
 
-println unless ($AUTORUN);
-
-print "checking system type... " unless ($AUTORUN);
-
-my ($OS, $ARCH, $OSTYPE, $MARCH, @ARCHITECTURES) = OsArch();
+#println unless ($AUTORUN);
 
 if ($OPT{arch}) {
     my $found;
@@ -169,7 +173,6 @@ if ($OPT{arch}) {
 $OUT_MAKEFILE .= ".$OS.$ARCH";
 
 #my $OSTYPE = `uname -s`; chomp $OSTYPE;
-println $OSTYPE unless ($AUTORUN);
 
 print "checking machine architecture... " unless ($AUTORUN);
 #my $MARCH = `uname -m`; chomp $MARCH;
@@ -298,8 +301,12 @@ my $NGS_SDK_PREFIX;
 foreach my $href (@REQ) {
     my $found;
     my %a = %$href;
-    print "checking for $a{name} package... " unless ($AUTORUN);
-    my $p = $OPT{$a{option}};
+    my ($name, $option) = ( $a{name}, $a{option} );
+    my $msg = "checking for $name package... ";
+    unless ($AUTORUN) {
+        print($msg);
+    }
+    my $p = $OPT{$option};
     if ($p) {
         print "\n\t$p " unless ($AUTORUN);
         unless (-d $p) {
@@ -310,17 +317,27 @@ foreach my $href (@REQ) {
             $found = 1;
         }
     } else {
-        println 'no' unless ($AUTORUN);
-        println "configure: error: required $a{name} package not found.";
+        print "$a{srcpath} " unless ($AUTORUN);
+        if (-e $a{srcpath}) {
+            println 'yes' unless ($AUTORUN);
+            $p = $a{srcpath};
+            $found = 1;
+        } else {
+            println 'no' unless ($AUTORUN);
+        }
     }
     unless ($found) {
-       exit 1;
+        println "configure: error: required $a{name} package not found.";
+        exit 1;
+    } else {
+        $p = abs_path($p);
     }
-    if ($a{name} eq 'ngs-sdk') {
+    if ($name eq 'ngs-sdk') {
         $NGS_SDK_PREFIX = $p;
     }
 }
 
+=pod
 if ($PKG{NGS_SDK_SRC}) {
     print "checking for ngs-sdk package source files... " unless ($AUTORUN);
     my $p = File::Spec->catdir('..', 'ngs-sdk');
@@ -332,6 +349,7 @@ if ($PKG{NGS_SDK_SRC}) {
         $OPT{'with-ngs-sdk-src'} = $p;
     }
 }
+=cut
 
 println "NGS_SDK_PREFIX = $NGS_SDK_PREFIX" if ($DEBUG);
 
@@ -525,8 +543,9 @@ if ($OS ne 'win') {
 
 if (! $OPT{'status'} ) {
     if ($OS eq 'win') {
-        my $out = 'Makefile.config.win';
-        open OUT, ">$out" or die "cannot open $out to write";
+        my $OUT = 'Makefile.config.win';
+        println "configure: creating '$OUT'";
+        open OUT, ">$OUT" or die "cannot open $OUT to write";
         my $name = PACKAGE_NAMW();
         my $outdir = $name . '_OUTDIR';
         my $root = $name . '_ROOT';
@@ -535,6 +554,18 @@ if (! $OPT{'status'} ) {
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">  
   <PropertyGroup Label="Globals">
     <$outdir>$TARGDIR/\</$outdir>
+EndText
+        if ($NGS_SDK_PREFIX) {
+            foreach my $href (@REQ) {
+                my %a = %$href;
+                if ($a{name} eq 'ngs-sdk') {
+                    my $root = "$a{namw}_ROOT";
+                    print OUT "    <$root>$NGS_SDK_PREFIX\/</$root>\n";
+                    last;
+                }
+            }
+        }
+        print OUT <<EndText;
     <$root>$Bin/\</$root>
   </PropertyGroup>
 </Project>
@@ -547,7 +578,7 @@ EndText
         print OUT "$_\n" foreach (@config);
         close OUT;
 
-        println "configure: creating $OUT_MAKEFILE" unless ($AUTORUN);
+        println "configure: creating '$OUT_MAKEFILE'" unless ($AUTORUN);
         open OUT, ">$OUT_MAKEFILE" or die "cannot open $OUT_MAKEFILE to write";
         print OUT "$_\n" foreach (@c_arch);
         close OUT;
@@ -558,7 +589,7 @@ print "OPT{output-makefile} = $OPT{'output-makefile'}\n" if ($DEBUG);
 
 unless ($AUTORUN) {
     my $OUT = 'user.status';
-    println "configure: creating $OUT";
+    println "configure: creating '$OUT'";
     open OUT, ">$OUT" or die "cannot open $OUT to write";
     print OUT "arch=$OPT{arch}\n" if ($OPT{arch});
     print OUT "BUILD=$BUILD\n";
@@ -573,7 +604,7 @@ unless ($AUTORUN) {
 }
 unless ($AUTORUN || $OS eq 'win') {
     my $OUT = 'Makefile.userconfig';
-    println "configure: creating $OUT";
+    println "configure: creating '$OUT'";
     open OUT, ">$OUT" or die "cannot open $OUT to write";
     print OUT "### AUTO-GENERATED FILE ###\n\n";
 
@@ -600,10 +631,27 @@ if (! $AUTORUN || $OPT{'status'}) {
     println "build type: $BUILD_TYPE";
     println "build output path: $OUTDIR";
     println "outputdir: $TARGDIR";
-    println "prefix: $OPT{'prefix'}";
-    println "eprefix: $OPT{'eprefix'}";
-    println "libdir: $OPT{'libdir'}";
-    println "includedir: $OPT{'includedir'}";
+
+    print "prefix: ";
+    print $OPT{'prefix'} if ($OS ne 'win');
+    println;
+
+    print "eprefix: ";
+    print $OPT{'eprefix'} if ($OPT{'eprefix'});
+    println;
+
+    print "includedir: ";
+    print $OPT{'includedir'} if ($OPT{'includedir'});
+    println;
+
+    print "bindir: ";
+    print $OPT{'bindir'} if ($OPT{'bindir'});
+    println;
+
+    print "libdir: ";
+    print $OPT{'libdir'} if ($OPT{'libdir'});
+    println;
+
     println "schemadir: $OPT{'shemadir'}" if ($OPT{'shemadir'});
     println;
 }
