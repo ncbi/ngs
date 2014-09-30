@@ -47,9 +47,6 @@ endif
 
 all std: $(TARGETS)
 
-#TODO: generate alongside INST_BINDIR
-INST_JAVADIR = $(INST_BINDIR)/../java
-            
 #TODO: update CLASSPATH
 install: $(TARGETS)
 	mkdir -p $(INST_JAVADIR) 

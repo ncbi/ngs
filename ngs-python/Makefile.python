@@ -40,9 +40,6 @@ all std: $(TARGETS)
 
 clean:
 
-#TODO: generate alongside INST_BINDIR
-INST_PYTHONDIR = $(INST_BINDIR)/../python
-            
 #TODO: update CLASSPATH (?)
 install: $(TARGETS)
 	mkdir -p $(INST_PYTHONDIR) 

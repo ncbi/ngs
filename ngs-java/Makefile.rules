@@ -62,10 +62,11 @@ test runtests: Makefile.config
 
 # rule to run configuration
 Makefile.config: Makefile.userconfig perl-config.pl
-	perl -w perl-config.pl --output-makefile $@
+	#perl -w perl-config.pl --output-makefile $@
 
 Makefile.userconfig:
-	touch $@
+	@echo "*** File '$@' is missing. Please run ./configure"
+	@false
 
 # not real targets
 .PHONY: default subdirs subtargs install clean test runtests \

@@ -5,7 +5,7 @@ sub PACKAGE_TYPE { 'B' }
 sub PACKAGE_NAME { "NGS-PYTHON" }
 sub PACKAGE_NAMW { "NGS_PYTHON" }
 sub CONFIG_OUT   { '.' }
-sub PKG { ( LNG  => 'C',
+sub PKG { ( LNG  => 'PYTHON',
             OUT  => 'ncbi-outdir',
             PATH  => '/usr/local/ngs/ngs-python',
             UPATH =>      '$HOME/ngs/ngs-python',

@@ -7,6 +7,7 @@ sub CONFIG_OUT   { '.' }
 sub PKG { ( LNG   => 'C',
             OUT   => 'ncbi-outdir',
             PATH  => '/usr/local/ngs/ngs-sdk',
-            UPATH =>      '$HOME/ngs/ngs-sdk', ) }
+            UPATH =>      '$HOME/ngs/ngs-sdk',
+            EXAMP => '1' ) }
 sub REQ {}
 1

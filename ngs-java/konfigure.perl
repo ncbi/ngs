@@ -135,6 +135,15 @@ println $OSTYPE unless ($AUTORUN);
     unless ($OPT{includedir} || $OS eq 'win') {
         $OPT{includedir} = File::Spec->catdir($eprefix, 'include');
     }
+    if ($PKG{LNG} eq 'PYTHON' && ! $OPT{pythondir} && $OS ne 'win') {
+        $OPT{pythondir} = $eprefix;
+    }
+    if ($PKG{LNG} eq 'JAVA' && ! $OPT{javadir} && $OS ne 'win') {
+        $OPT{javadir} = $eprefix;
+    }
+    if ($PKG{EXAMP} && ! $OPT{sharedir} && $OS ne 'win') {
+        $OPT{sharedir} = File::Spec->catdir($eprefix, 'share');
+    }
 }
 
 if ($AUTORUN) {
@@ -324,57 +333,34 @@ foreach my $href (@REQ) {
     my $i = $OPT{$a{option}};
     my $l = $i;
     if ($l) {
-        print "\n\t$l " unless ($AUTORUN);
-        unless (-d $l) {
-            println 'no' unless ($AUTORUN);
-            println "configure: error: required $a{name} package not found.";
-        } else {
-            println 'yes' unless ($AUTORUN);
-            $found_itf = $found_lib = 1;
-        }
+        $found_itf = $found_lib = find_lib_in_dir($l, $a{include});
     } else {
         unless ($found_itf) {
             my $try = $a{srcpath};
-            print "$try " unless ($AUTORUN);
-            if (-e $try) {
-                println 'yes' unless ($AUTORUN);
-                $i = $try;
-                $found_itf = 1;
-            } else {
-                println 'no' unless ($AUTORUN);
-            }
+            $found_itf = find_include_in_dir($a{srcpath}, $a{include});
+            $i = $found_itf if ($found_itf);
         }
         if (! $found_itf || (! $found_lib && $a{type} eq 'L')) {
             my $try = $a{pkgpath};
-            print "\t$try " unless ($AUTORUN);
-            if (-e $try) {
-                println 'yes' unless ($AUTORUN);
+            $found_lib = find_lib_in_dir($try, $a{include}, "\t");
+            if ($found_lib) {
+                $found_itf = $found_lib;
                 $i = $l = $try;
-                $found_itf = $found_lib = 1;
-            } else {
-                println 'no' unless ($AUTORUN);
             }
         }
         if (! $found_itf || (! $found_lib && $a{type} eq 'L')) {
             my $try = $a{usrpath};
-            print "\t$try " unless ($AUTORUN);
-            if (-e $try) {
-                println 'yes' unless ($AUTORUN);
+            $found_lib = find_lib_in_dir($try, $a{include}, "\t");
+            if ($found_lib) {
+                $found_itf = $found_lib;
                 $i = $l = $try;
-                $found_itf = $found_lib = 1;
-            } else {
-                println 'no' unless ($AUTORUN);
             }
         }
         if (! $found_lib && $a{type} eq 'L') {
             my $try = $a{bldpath};
-            print "\t$try " unless ($AUTORUN);
-            if (-e $try) {
-                println 'yes' unless ($AUTORUN);
+            $found_lib = find_lib_in_dir($try, '', "\t");
+            if ($found_lib) {
                 $l = $try;
-                $found_lib = 1;
-            } else {
-                println 'no' unless ($AUTORUN);
             }
         }
     }
@@ -667,6 +653,9 @@ unless ($AUTORUN) {
     print OUT "bindir=$OPT{bindir}\n" if ($OPT{bindir});
     print OUT "libdir=$OPT{libdir}\n" if ($OPT{libdir});
     print OUT "includedir=$OPT{includedir}\n" if ($OPT{includedir});
+    print OUT "sharedir=$OPT{sharedir}\n" if ($OPT{sharedir});
+    print OUT "javadir=$OPT{javadir}\n" if ($OPT{javadir});
+    print OUT "pythondir=$OPT{pythondir}\n" if ($OPT{pythondir});
     foreach my $href (@REQ) {
         my %a = %$href;
         print OUT "$a{option}=$OPT{$a{option}}\n" if ($OPT{$a{option}});
@@ -694,6 +683,9 @@ unless ($AUTORUN || $OS eq 'win') {
     print OUT "INST_LIBDIR = $OPT{libdir}\n" if ($OPT{libdir});
     print OUT "INST_INCDIR = $OPT{includedir}\n" if ($OPT{includedir});
     print OUT "INST_SCHEMADIR = $OPT{'shemadir'}" if ($OPT{'shemadir'});
+    print OUT "INST_SHAREDIR = $OPT{'sharedir'}" if ($OPT{'sharedir'});
+    print OUT "INST_JAVADIR = $OPT{'javadir'}" if ($OPT{'javadir'});
+    print OUT "INST_PYTHONDIR = $OPT{'pythondir'}" if ($OPT{'pythondir'});
     print OUT "\n";
     close OUT;
 }
@@ -724,7 +716,48 @@ if (! $AUTORUN || $OPT{'status'}) {
     println;
 
     println "schemadir: $OPT{'shemadir'}" if ($OPT{'shemadir'});
+    println "sharedir: $OPT{'sharedir'}" if ($OPT{'sharedir'});
+    println "javadir: $OPT{'javadir'}" if ($OPT{'javadir'});
+    println "pythondir: $OPT{'pythondir'}" if ($OPT{'pythondir'});
     println;
+}
+
+sub find_include_in_dir {
+    my ($try, $include, $print) = @_;
+    $print = "" unless ($print);
+    print "$print$try include... " unless ($AUTORUN);
+    unless (-d $try) {
+        println 'no' unless ($AUTORUN);
+        return 0;
+    } else {
+        if (-e "$try/$include") {
+            println 'yes' unless ($AUTORUN);
+            return $try;
+        } elsif (-e "$try/interfaces/$include") {
+            println 'yes' unless ($AUTORUN);
+            return "$try/interfaces";
+        } else {
+            println 'no' unless ($AUTORUN);
+            return 0;
+        }
+    }
+}
+sub find_lib_in_dir {
+    my ($try, $include, $print) = @_;
+    $print = "" unless ($print);
+    print "$print$try " unless ($AUTORUN);
+    unless (-d $try) {
+        println 'no' unless ($AUTORUN);
+        return 0;
+    } else {
+        if (! $include || -e "$try/$include") {
+            println 'include... yes' unless ($AUTORUN);
+            return 1;
+        } else {
+            println 'include... no' unless ($AUTORUN);
+            return 0;
+        }
+    }
 }
 
 sub check {
