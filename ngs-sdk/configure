@@ -31,4 +31,4 @@ cd $CURDIR
 perl -v > /dev/null 2>&1 || { echo "checking for perl... no"; \
     echo >&2 "configure: error: perl not found."; exit 1; }
 
-perl -w ./configure.perl $@
+perl -w ./konfigure.perl $@
