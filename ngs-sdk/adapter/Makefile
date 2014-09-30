@@ -66,5 +66,13 @@ ADAPT_SRC =           \
 ADAPT_OBJ = \
 	$(addprefix $(OBJDIR)/,$(addsuffix .$(LOBX),$(ADAPT_SRC)))
 
-$(LIBDIR)/$(LPFX)ngs-adapt-c++.$(LIBX): $(ADAPT_OBJ)
+$(LIBDIR)/$(LPFX)ngs-adapt-c++.$(VERSION_LIBX): $(ADAPT_OBJ)
 	$(AR) $@ $^
+    
+$(LIBDIR)/$(LPFX)ngs-adapt-c++.$(MAJVERS_LIBX): $(LIBDIR)/$(LPFX)ngs-adapt-c++.$(VERSION_LIBX)
+	rm -f $@
+	ln -s $^ $@
+
+$(LIBDIR)/$(LPFX)ngs-adapt-c++.$(LIBX): $(LIBDIR)/$(LPFX)ngs-adapt-c++.$(MAJVERS_LIBX)
+	rm -f $@
+	ln -s $^ $@    

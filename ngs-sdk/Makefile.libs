@@ -62,8 +62,17 @@ $(OBJDIR)ngs-disp: $(ILIBDIR)/$(LPFX)ngs-disp.$(LIBX)
 	mkdir -p $@
 	( cd $@; $(ARX) $^; $(ARLS) $^ | sed -e '/__\.SYMDEF/d' -e 's/^\(..*\)$$/$(subst /,\/,$@)\/\1/' > $@/manifest )
 
-$(LIBDIR)/$(LPFX)ngs-c++.$(LIBX): $(OBJDIR)ngs-bind-c++ $(OBJDIR)ngs-disp
+$(LIBDIR)/$(LPFX)ngs-c++.$(VERSION_LIBX): $(OBJDIR)ngs-bind-c++ $(OBJDIR)ngs-disp
 	( $(AR) $@ `cat $(addsuffix /manifest,$^)` )
+    
+$(LIBDIR)/$(LPFX)ngs-c++.$(MAJVERS_LIBX): $(LIBDIR)/$(LPFX)ngs-c++.$(VERSION_LIBX)
+	rm -f $@
+	ln -s $^ $@
+
+$(LIBDIR)/$(LPFX)ngs-c++.$(LIBX): $(LIBDIR)/$(LPFX)ngs-c++.$(MAJVERS_LIBX)
+	rm -f $@
+	ln -s $^ $@
+
 
 
 #-----------------------------------------------------------------------
@@ -94,9 +103,16 @@ SDK_DEPS =                             \
 	$(SDK_XLIBS)                       \
 	$(ILIBDIR)/$(LPFX)ngs-disp.$(LIBX)
 
-$(LIBDIR)/$(LPFX)ngs-sdk.$(SHLX): $(SDK_DEPS)
-	$(LP) $(DBG) $(OPT) -shared -o $@ `cat $(addsuffix /manifest,$(SDK_XLIBS))` $(SDK_LIB)
+$(LIBDIR)/$(LPFX)ngs-sdk.$(VERSION_SHLX): $(SDK_DEPS)
+	$(LP) $(DBG) $(OPT) -shared -o $@ $(SONAME) `cat $(addsuffix /manifest,$(SDK_XLIBS))` $(SDK_LIB)
 
+$(LIBDIR)/$(LPFX)ngs-sdk.$(MAJVERS_SHLX): $(LIBDIR)/$(LPFX)ngs-sdk.$(VERSION_SHLX)
+	rm -f $@
+	ln -s $^ $@
+
+$(LIBDIR)/$(LPFX)ngs-sdk.$(SHLX): $(LIBDIR)/$(LPFX)ngs-sdk.$(MAJVERS_SHLX)
+	rm -f $@
+	ln -s $^ $@
 
 # dependent upon internal libraries
 INTERNAL_LIBS =                             \

@@ -62,7 +62,7 @@ test runtests: Makefile.config default
 
 # rule to run configuration
 Makefile.config: Makefile.userconfig Makefile.config.$(shell perl $(TOP)/os-arch.perl) configure.perl
-	perl -w configure.perl --output-makefile $@
+	# perl -w configure.perl --output-makefile $@
 
 Makefile.userconfig Makefile.config.$(shell perl $(TOP)/os-arch.perl):
 	@echo "*** File '$@' is missing. Please run ./configure"
