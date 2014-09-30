@@ -27,7 +27,7 @@ my $DEBUG;
 
 use strict;
 
-require 'package.perl';
+require 'package.pm';
 require 'os-arch.pm';
 
 use Cwd qw (abs_path getcwd);
@@ -182,8 +182,7 @@ my $TOOLS = "";
 $TOOLS = "jdk" if ($PKG{LNG} eq 'JAVA');
 
 print "checking ngs version... " unless ($AUTORUN);
-open VFILE, "version" or die "failed to open version file - $!";
-my $VERSION = <VFILE>; chomp $VERSION;
+my $VERSION = VERSION();
 println $VERSION unless ($AUTORUN);
 
 # determine architecture
