@@ -1,2 +1,1 @@
 perl -w ./konfigure.perl %*
-

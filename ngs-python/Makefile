@@ -22,52 +22,15 @@
 #
 # ===========================================================================
 
-TOP ?= $(CURDIR)
-export TOP
+# default response to "make"
+default: subtargs
 
-subdirs: $(SUBDIRS)
+# the sub-targets
+SUBTARGS =  \
 
-$(SUBDIRS): Makefile.config
-	@ $(MAKE) -C $@
+# standard rules and phony targets
+include $(CURDIR)/Makefile.rules
 
-subtargs: $(SUBTARGS)
-
-# rules for "make clean"
-SUBDIRS_CLN = \
-	$(addsuffix _cln,$(SUBDIRS) test)
-
-$(SUBDIRS_CLN): Makefile.config
-	@ $(MAKE) -s -C $(subst _cln,,$@) clean
-
-SUBTARGS_CLN = \
-	$(addsuffix _cln,$(SUBTARGS) test)
-
-clean: Makefile.config $(SUBTARGS_CLN)
-
-# rules for "make install"
-SUBDIRS_INST = \
-	$(addsuffix _inst,$(SUBDIRS))
-
-$(SUBDIRS_INST): Makefile.config
-	@ $(MAKE) -C $(subst _inst,,$@) install
-
-SUBTARGS_INST = \
-	$(addsuffix _inst,$(SUBTARGS))
-
-install: Makefile.config $(SUBTARGS_INST)
-
-# rule to run tests
-test runtests: Makefile.config default
-	@ $(MAKE) -C test runtests
-
-# rule to run configuration
-Makefile.config: Makefile.userconfig Makefile.config.$(shell perl $(TOP)/os-arch.perl) konfigure.perl
-	# perl -w konfigure.perl --output-makefile $@
-
-Makefile.userconfig Makefile.config.$(shell perl $(TOP)/os-arch.perl):
-	@echo "*** File '$@' is missing. Please run ./configure"
-	@false
-
-# not real targets
-.PHONY: default subdirs subtargs install clean test runtests \
-	$(SUBTARGS) $(SUBTARGS_CLN) $(SUBTARGS_INST)
+# rules for making python code
+install: Makefile.config
+	@ $(MAKE) -f Makefile.python install

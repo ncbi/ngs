@@ -47,6 +47,14 @@ endif
 
 all std: $(TARGETS)
 
+#TODO: generate alongside INST_BINDIR
+INST_JAVADIR = $(INST_BINDIR)/../java
+            
+#TODO: update CLASSPATH
+install: $(TARGETS)
+	mkdir -p $(INST_JAVADIR) 
+	cp $(LIBDIR)/ngs-java.jar $(INST_JAVADIR)
+
 clean:
 	rm -rf $(LIBDIR)/ngs-java* $(CLSDIR)
 

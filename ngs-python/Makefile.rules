@@ -30,17 +30,17 @@ subdirs: $(SUBDIRS)
 $(SUBDIRS): Makefile.config
 	@ $(MAKE) -C $@
 
-subtargs: $(SUBTARGS)
+subtargs: Makefile.config $(SUBTARGS)
 
 # rules for "make clean"
 SUBDIRS_CLN = \
-	$(addsuffix _cln,$(SUBDIRS) test)
+	$(addsuffix _cln,$(SUBDIRS))
 
 $(SUBDIRS_CLN): Makefile.config
 	@ $(MAKE) -s -C $(subst _cln,,$@) clean
 
 SUBTARGS_CLN = \
-	$(addsuffix _cln,$(SUBTARGS) test)
+	$(addsuffix _cln,$(SUBTARGS))
 
 clean: Makefile.config $(SUBTARGS_CLN)
 
@@ -49,7 +49,7 @@ SUBDIRS_INST = \
 	$(addsuffix _inst,$(SUBDIRS))
 
 $(SUBDIRS_INST): Makefile.config
-	@ $(MAKE) -C $(subst _inst,,$@) install
+	@ $(MAKE) -s -C $(subst _inst,,$@) install
 
 SUBTARGS_INST = \
 	$(addsuffix _inst,$(SUBTARGS))
@@ -57,8 +57,8 @@ SUBTARGS_INST = \
 install: Makefile.config $(SUBTARGS_INST)
 
 # rule to run tests
-test runtests: Makefile.config default
-	@ $(MAKE) -C test runtests
+test runtests: Makefile.config
+#	@ $(MAKE) -C test runtests
 
 # rule to run configuration
 Makefile.config: Makefile.userconfig Makefile.config.$(shell perl $(TOP)/os-arch.perl) konfigure.perl
@@ -70,4 +70,4 @@ Makefile.userconfig Makefile.config.$(shell perl $(TOP)/os-arch.perl):
 
 # not real targets
 .PHONY: default subdirs subtargs install clean test runtests \
-	$(SUBTARGS) $(SUBTARGS_CLN) $(SUBTARGS_INST)
+	$(SUBTARGS) $(SUBTARGS_INST) $(SUBTARGS_CLN)

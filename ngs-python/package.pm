@@ -1,15 +1,15 @@
 ################################################################################
-sub PACKAGE      { "ngs-java" }
+sub PACKAGE      { "ngs-python" }
 sub VERSION      { "1.0.0" }
 sub PACKAGE_TYPE { 'B' }
-sub PACKAGE_NAME { "NGS-JAVA" }
-sub PACKAGE_NAMW { "NGS_JAVA" }
+sub PACKAGE_NAME { "NGS-PYTHON" }
+sub PACKAGE_NAMW { "NGS_PYTHON" }
 sub CONFIG_OUT   { '.' }
-sub PKG { ( LNG  => 'JAVA',
+sub PKG { ( LNG  => 'C',
             OUT  => 'ncbi-outdir',
-            PATH  => '/usr/local/ngs/ngs-java',
-            UPATH =>      '$HOME/ngs/ngs-java',
-            NGS_SDK_SRC => 1, ) }
+            PATH  => '/usr/local/ngs/ngs-python',
+            UPATH =>      '$HOME/ngs/ngs-python',
+        ) }
 sub REQ { ( { name    => 'ngs-sdk',
               namew   => 'NGS',
               option  => 'with-ngs-sdk-prefix',
@@ -20,8 +20,5 @@ sub REQ { ( { name    => 'ngs-sdk',
               bldpath => '$HOME/ncbi-outdir/ngs-sdk/$OS',
               include => 'ngs/itf/Refcount.h'
         } ) }
-
-=pod
-=cut
 
 1

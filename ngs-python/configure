@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # ===========================================================================
 #
 #                            PUBLIC DOMAIN NOTICE
@@ -22,52 +24,11 @@
 #
 # ===========================================================================
 
-TOP ?= $(CURDIR)
-export TOP
 
-subdirs: $(SUBDIRS)
+CURDIR="`dirname $0`"
+cd $CURDIR
 
-$(SUBDIRS): Makefile.config
-	@ $(MAKE) -C $@
+perl -v > /dev/null 2>&1 || { echo "checking for perl... no"; \
+    echo >&2 "configure: error: perl not found."; exit 1; }
 
-subtargs: $(SUBTARGS)
-
-# rules for "make clean"
-SUBDIRS_CLN = \
-	$(addsuffix _cln,$(SUBDIRS) test)
-
-$(SUBDIRS_CLN): Makefile.config
-	@ $(MAKE) -s -C $(subst _cln,,$@) clean
-
-SUBTARGS_CLN = \
-	$(addsuffix _cln,$(SUBTARGS) test)
-
-clean: Makefile.config $(SUBTARGS_CLN)
-
-# rules for "make install"
-SUBDIRS_INST = \
-	$(addsuffix _inst,$(SUBDIRS))
-
-$(SUBDIRS_INST): Makefile.config
-	@ $(MAKE) -C $(subst _inst,,$@) install
-
-SUBTARGS_INST = \
-	$(addsuffix _inst,$(SUBTARGS))
-
-install: Makefile.config $(SUBTARGS_INST)
-
-# rule to run tests
-test runtests: Makefile.config default
-	@ $(MAKE) -C test runtests
-
-# rule to run configuration
-Makefile.config: Makefile.userconfig Makefile.config.$(shell perl $(TOP)/os-arch.perl) konfigure.perl
-	# perl -w konfigure.perl --output-makefile $@
-
-Makefile.userconfig Makefile.config.$(shell perl $(TOP)/os-arch.perl):
-	@echo "*** File '$@' is missing. Please run ./configure"
-	@false
-
-# not real targets
-.PHONY: default subdirs subtargs install clean test runtests \
-	$(SUBTARGS) $(SUBTARGS_CLN) $(SUBTARGS_INST)
+perl -w ./konfigure.perl $@
