@@ -1,0 +1,84 @@
+# ===========================================================================
+#
+#                            PUBLIC DOMAIN NOTICE
+#               National Center for Biotechnology Information
+#
+#  This software/database is a "United States Government Work" under the
+#  terms of the United States Copyright Act.  It was written as part of
+#  the author's official duties as a United States Government employee and
+#  thus cannot be copyrighted.  This software/database is freely available
+#  to the public for use. The National Library of Medicine and the U.S.
+#  Government have not placed any restriction on its use or reproduction.
+#
+#  Although all reasonable efforts have been taken to ensure the accuracy
+#  and reliability of the software and data, the NLM and the U.S.
+#  Government do not and cannot warrant the performance or results that
+#  may be obtained by using this software or data. The NLM and the U.S.
+#  Government disclaim all warranties, express or implied, including
+#  warranties of performance, merchantability or fitness for any particular
+#  purpose.
+#
+#  Please cite the author in any work or product based on this material.
+#
+# ===========================================================================
+
+default: install
+
+TOP ?= $(CURDIR)
+MODPATH =
+
+include $(TOP)/Makefile.config
+
+#TODO: install symlink to includes in /usr/include/ngs
+#TODO: add libraries to $LD_LIBRARY_PATH by updating /etc/profile.d
+
+#-------------------------------------------------------------------------------
+# install
+# 
+ifeq (linux, $(OS))
+
+LIBRARIES_TO_INSTALL = \
+    ngs-sdk.$(SHLX) \
+    ngs-sdk.$(VERSION_SHLX) \
+    ngs-sdk.$(MAJVERS_SHLX) \
+    ngs-c++.$(LIBX) \
+    ngs-c++.$(VERSION_LIBX) \
+    ngs-c++.$(MAJVERS_LIBX) \
+    ngs-adapt-c++.$(LIBX) \
+    ngs-adapt-c++.$(VERSION_LIBX) \
+    ngs-adapt-c++.$(MAJVERS_LIBX) \
+    
+LIB_TARGET = $(INST_LIBDIR)$(BITS)
+
+copylibs:
+	@ echo "Installing libraries to $(LIB_TARGET)"
+	@ mkdir -p $(LIB_TARGET) 
+	@ cp -P $(addprefix  $(LIBDIR)/$(LPFX), $(LIBRARIES_TO_INSTALL)) $(LIB_TARGET)
+    
+copyincludes:
+	@ echo "Installing includes to $(INST_INCDIR)"
+	@ mkdir -p $(INST_INCDIR)
+	@ cp -r $(TOP)/ngs $(INST_INCDIR)/   
+
+copyexamples:
+	@ echo "Installing examples to $(INST_SHAREDIR)"
+	@ mkdir -p $(INST_SHAREDIR)
+	@ cp -r $(TOP)/examples/* $(INST_SHAREDIR)/
+    
+install: copylibs copyincludes copyexamples
+    
+.PHONY: copylibs copyincludes copyexamples
+
+else
+install:
+
+endif
+
+.PHONY: install
+
+##### copied from ncbi-vdb:
+# to debug as a fake root, uncomment the next 3 lines and change "ifeq (0, $(shell id -u))" below to "ifneq(0, ...)"
+#ROOT = $(HOME)/root
+#$(shell mkdir -p $(ROOT)/etc/profile.d)
+#$(shell mkdir -p $(ROOT)/usr/include)
+

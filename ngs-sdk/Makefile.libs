@@ -47,16 +47,9 @@ clean:
 	@ rm -f $(addprefix $(ILIBDIR)/$(LPFX),$(addsuffix *,$(INTLIBS))) \
 			$(addprefix $(LIBDIR)/$(LPFX),$(addsuffix *,$(EXTLIBS)))
 
-#TODO: install symlink to includes in /usr/include/ngs
-#TODO: add libraries to $LD_LIBRARY_PATH by updating /etc/profile.d
 install: $(TARGETS)
-	mkdir -p $(INST_BINDIR) $(INST_LIBDIR)$(BITS) $(INST_INCDIR) $(INST_SHAREDIR)
-	cp $(LIBDIR)/$(LPFX)ngs-sdk.* $(INST_LIBDIR)$(BITS)/
-	cp $(LIBDIR)/$(LPFX)ngs-c++.* $(INST_LIBDIR)$(BITS)/
-	cp $(LIBDIR)/$(LPFX)ngs-adapt-c++.* $(INST_LIBDIR)$(BITS)/
-	cp -r $(TOP)/ngs $(INST_INCDIR)/
-	cp -r $(TOP)/examples/* $(INST_SHAREDIR)/
-    
+	@ $(MAKE) -f Makefile.install install	
+
 #-----------------------------------------------------------------------
 # C++ client library that provides API to any engine
 ngs-c++: $(LIBDIR) $(LIBDIR)/$(LPFX)ngs-c++.$(LIBX)
