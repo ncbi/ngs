@@ -29,9 +29,6 @@ MODPATH =
 
 include $(TOP)/Makefile.config
 
-#TODO: install symlink to includes in /usr/include/ngs
-#TODO: add libraries to $LD_LIBRARY_PATH by updating /etc/profile.d
-
 #-------------------------------------------------------------------------------
 # install
 # 
@@ -65,6 +62,8 @@ copyexamples:
 	@ mkdir -p $(INST_SHAREDIR)
 	@ cp -r $(TOP)/examples/* $(INST_SHAREDIR)/
     
+#TODO: install symlink to includes in /usr/include/ngs
+#TODO: add libraries to $LD_LIBRARY_PATH by updating /etc/profile.d
 install: copylibs copyincludes copyexamples
     
 .PHONY: copylibs copyincludes copyexamples
