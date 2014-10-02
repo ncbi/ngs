@@ -666,7 +666,7 @@ if ($OS ne 'win') {
                      . "\tmkdir -p \$@" );
     } elsif ($PKG{LNG} eq 'JAVA') {
         # test if we have jni header path
-        push (@c_arch,  "\$(LIBDIR) \$(CLSDIR) \$(INST_JAVADIR):\n\tmkdir -p \$@" );
+        push (@c_arch,  "\$(LIBDIR) \$(CLSDIR) \$(INST_JARDIR):\n\tmkdir -p \$@" );
     }
     push (@c_arch,  "" );
 
@@ -890,7 +890,9 @@ sub expand {
                               )
                       }ex;
     }
-    $filename = abs_path($filename);
+    my $a = abs_path($filename);
+    $filename = $a if ($a);
+    $filename;
 }
 
 sub find_include_in_dir {
@@ -972,8 +974,8 @@ sub check_lib {
     my ($l) = @_;
     print "checking for $l library... ";
     while (1) {
-        open GCC, '| gcc -xc -' or last;
-        print GCC 'main(){}' or last;
+        open GCC, '| gcc -xc - 2> /dev/null' or last;
+        print GCC '#include <hdf5.h>\nmain(){}' or last;
         close GCC;
         println 'yes';
         return 1;

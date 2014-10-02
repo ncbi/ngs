@@ -74,6 +74,10 @@ ifeq (0, $(shell id -u))
 "if ( \$$status ) setenv CLASSPATH $(JAR_TARGET):\$$CLASSPATH\n"\
         >$(PROFILE_FILE).csh && chmod 644 $(PROFILE_FILE).sh || true;
 	@ #TODO: check version of the files above
+else
+	@ #
+	@ echo "Please add $(JAR_TARGET) to your CLASSPATH, i.e.:"
+	@ echo "      export CLASSPATH=$(JAR_TARGET):\$$CLASSPATH"    
 endif
 
 $(INST_JARDIR)/ngs-java.jar.$(VERSION): $(LIBDIR)/ngs-java.jar

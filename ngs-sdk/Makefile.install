@@ -63,7 +63,6 @@ copyexamples:
 INCLUDE_SYMLINK = $(ROOT)/usr/include/ngs
 PROFILE_FILE = $(ROOT)/etc/profile.d/ngs-sdk
 
-#TODO: add libraries to $LD_LIBRARY_PATH by updating /etc/profile.d
 install: copylibs copyincludes copyexamples
 ifeq (0, $(shell id -u))
 	@ # install symlink to includes 
@@ -77,12 +76,12 @@ ifeq (0, $(shell id -u))
 "if ! echo \$$LD_LIBRARY_PATH | /bin/grep -q $(LIB_TARGET)\n"\
 "then export LD_LIBRARY_PATH=$(LIB_TARGET):\$$LD_LIBRARY_PATH\n"\
 "fi" \
-        >$(PROFILE_FILE).sh || true;
+        >$(PROFILE_FILE).sh && chmod 644 $(PROFILE_FILE).sh || true;
 	@ echo -e \
 "#version $(VERSION)\n"\
 "echo \$$LD_LIBRARY_PATH | /bin/grep -q $(LIB_TARGET)\n"\
 "if ( \$$status ) setenv LD_LIBRARY_PATH $(LIB_TARGET):\$$LD_LIBRARY_PATH\n"\
-        >$(PROFILE_FILE).csh || true;
+        >$(PROFILE_FILE).csh && chmod 644 $(PROFILE_FILE).csh || true;
 	@ #TODO: check version of the files above
 endif
 .PHONY: copylibs copyincludes copyexamples
