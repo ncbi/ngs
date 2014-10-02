@@ -35,23 +35,17 @@ include $(TOP)/Makefile.config
 ifeq (linux, $(OS))
 
 LIBRARIES_TO_INSTALL = \
-    ngs-sdk.$(SHLX) \
     ngs-sdk.$(VERSION_SHLX) \
-    ngs-sdk.$(MAJVERS_SHLX) \
-    ngs-c++.$(LIBX) \
     ngs-c++.$(VERSION_LIBX) \
-    ngs-c++.$(MAJVERS_LIBX) \
-    ngs-adapt-c++.$(LIBX) \
     ngs-adapt-c++.$(VERSION_LIBX) \
-    ngs-adapt-c++.$(MAJVERS_LIBX) \
-    
+
 LIB_TARGET = $(INST_LIBDIR)$(BITS)
 
-copylibs:
-	@ echo "Installing libraries to $(LIB_TARGET)"
-	@ mkdir -p $(LIB_TARGET) 
-	@ cp -P $(addprefix  $(LIBDIR)/$(LPFX), $(LIBRARIES_TO_INSTALL)) $(LIB_TARGET)
-    
+LIBRARIES_WITH_PREFIX = \
+	$(addprefix $(LIB_TARGET)/$(LPFX),$(LIBRARIES_TO_INSTALL))
+
+copylibs: $(LIB_TARGET) $(LIBRARIES_WITH_PREFIX)
+
 copyincludes:
 	@ echo "Installing includes to $(INST_INCDIR)"
 	@ mkdir -p $(INST_INCDIR)
@@ -61,11 +55,11 @@ copyexamples:
 	@ echo "Installing examples to $(INST_SHAREDIR)"
 	@ mkdir -p $(INST_SHAREDIR)
 	@ cp -r $(TOP)/examples/* $(INST_SHAREDIR)/
-    
+
 #TODO: install symlink to includes in /usr/include/ngs
 #TODO: add libraries to $LD_LIBRARY_PATH by updating /etc/profile.d
 install: copylibs copyincludes copyexamples
-    
+
 .PHONY: copylibs copyincludes copyexamples
 
 else
@@ -81,3 +75,4 @@ endif
 #$(shell mkdir -p $(ROOT)/etc/profile.d)
 #$(shell mkdir -p $(ROOT)/usr/include)
 
+testy: $(INST_LIBDIR)$(BITS)/libngs-sdk.so.1.0.0
