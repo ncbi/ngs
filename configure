@@ -1,0 +1,12 @@
+#!/bin/sh
+
+perl -v > /dev/null 2>&1 || { echo "checking for perl... no"; echo >&2 "configure: error: perl not found."; exit 1; }
+
+for D in ngs-sdk ngs-java ngs-python
+do
+  if [ -d $D ]
+    then echo "CONFIGURING $D"
+    $D/configure $@
+    echo
+  fi
+done 

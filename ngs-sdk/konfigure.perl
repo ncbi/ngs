@@ -22,9 +22,6 @@
 #
 # ===========================================================================
 
-my $DEBUG;
-#++$DEBUG;
-
 use strict;
 
 require 'package.pm';
@@ -61,6 +58,7 @@ my @REQ = REQ();
 
 my @options = ( "arch=s",
                 "clean",
+                "debug",
                 "help",
                 "outputdir=s",
 #               "output-makefile=s",
@@ -130,7 +128,6 @@ die "configure: error: $filename should be run as ./$filename"
 $OPT{'prefix'} = $package_default_prefix unless ($OPT{'prefix'});
 
 my $AUTORUN = $OPT{status};
-die if ($AUTORUN);
 print "checking system type... " unless ($AUTORUN);
 my ($OS, $ARCH, $OSTYPE, $MARCH, @ARCHITECTURES) = OsArch();
 println $OSTYPE unless ($AUTORUN);
@@ -712,8 +709,6 @@ EndText
     }
 }
 
-#print "OPT{output-makefile} = $OPT{'output-makefile'}\n" if ($DEBUG);
-
 if (0 && ! $AUTORUN) {
     my $OUT = File::Spec->catdir(CONFIG_OUT(), 'user.status');
     println "configure: creating '$OUT'";
@@ -771,8 +766,11 @@ sub status {
         ($OS, $ARCH, $OSTYPE, $MARCH, @ARCHITECTURES) = OsArch();
         my $MAKEFILE
             = File::Spec->catdir(CONFIG_OUT(), "$OUT_MAKEFILE.$OS.$ARCH");
-println "loading $MAKEFILE" if ($DEBUG);
-        die "configure: error: run ./configure [OPTIONS]" unless (-e $MAKEFILE);
+        println "loading $MAKEFILE" if ($OPT{'debug'});
+        unless (-e $MAKEFILE) {
+            print STDERR "configure: error: run ./configure [OPTIONS] first.\n";
+            exit 1;
+        }
         open F, $MAKEFILE or die "cannot open $MAKEFILE";
         foreach (<F>) {
             chomp;
@@ -783,10 +781,10 @@ println "loading $MAKEFILE" if ($DEBUG);
             }
             elsif (/TARGDIR = /) {
                 $TARGDIR = $_;
-println "TARGDIR = $_" if ($DEBUG);
+                println "got $_" if ($OPT{'debug'});
             } elsif (/TARGDIR \?= (.+)/) {
                 $TARGDIR = $1 unless ($TARGDIR);
-println "TARGDIR ?= $_" if ($DEBUG);
+                println "got $_" if ($OPT{'debug'});
             }
             elsif (/INST_INCDIR = (.+)/) {
                 $OPT{includedir} = $1;
@@ -876,15 +874,15 @@ sub find_lib_in_dir {
         my $libdir = File::Spec->catdir($builddir, 'lib');
         my $ilibdir = File::Spec->catdir($builddir, 'ilib');
         my $f = File::Spec->catdir($libdir, $lib);
-println "\n$f" if $DEBUG;
+        println "\checking $f" if ($OPT{'debug'});
         unless (-e $f) {
             $libdir = File::Spec->catdir($try, 'lib' . $BITS);
             undef $ilibdir;
             $f = File::Spec->catdir($libdir, $lib);
-println "\n$f" if $DEBUG;
+            println "\checking $f" if ($OPT{'debug'});
         } elsif ($ilib) {
             $f = File::Spec->catdir($ilibdir, $ilib);
-println "\n$f" if $DEBUG;
+            println "\checking $f" if ($OPT{'debug'});
             unless (-e $f) {
                 println 'no' unless ($AUTORUN);
                 return;
@@ -894,7 +892,7 @@ println "\n$f" if $DEBUG;
             println 'no' unless ($AUTORUN);
             return;
         } elsif ($ilib && ! $ilibdir) {
-println "\n$f but no ilib" if $DEBUG;
+            println "\nfound $f but no ilib/" if ($OPT{'debug'});
             println 'no' unless ($AUTORUN);
             return;
         }
@@ -1049,9 +1047,10 @@ EndText
     println "Miscellaneous:";
     if ($^O ne 'MSWin32') {
         println
-             "  --status                print current configuration information"
+            "  --status                print current configuration information"
     }
     println "  --clean                 remove all configuration results";
+    println "  --debug                 print lots of debugging information";
     println;
 }
 
