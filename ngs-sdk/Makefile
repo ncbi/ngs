@@ -44,4 +44,5 @@ sdk-libs_cln: Makefile.config
 	@ $(MAKE) -f Makefile.libs clean
 
 sdk-libs_inst: Makefile.config
-	@ $(MAKE) -f Makefile.libs install
+	@ $(MAKE) -s -f Makefile.libs
+	@ $(MAKE) -f Makefile.install install

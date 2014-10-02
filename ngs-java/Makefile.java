@@ -48,9 +48,20 @@ endif
 all std: $(TARGETS)
 
 #TODO: update CLASSPATH
-install: $(TARGETS)
-	mkdir -p $(INST_JAVADIR) 
-	cp $(LIBDIR)/ngs-java.jar $(INST_JAVADIR)
+install: $(TARGETS) $(INST_JAVADIR) $(INST_JAVADIR)/ngs-java.jar.$(VERSION)
+
+$(INST_JAVADIR)/ngs-java.jar.$(VERSION): $(LIBDIR)/ngs-java.jar
+	@ echo -n "installing '$(@F)'... "
+	@ if cp $^ $@ && chmod 644 $@;                                                    \
+	  then                                                                            \
+	      rm -f $(subst $(VERSION),$(MAJVERS),$@) $(subst jar.$(VERSION),jar,$@);     \
+	      ln -s $(@F) $(subst $(VERSION),$(MAJVERS),$@);                              \
+	      ln -s $(subst $(VERSION),$(MAJVERS),$(@F)) $(subst jar.$(VERSION),jar,$@) ; \
+	      echo success;                                                               \
+	  else                                                                            \
+	      echo failure;                                                               \
+	      false;                                                                      \
+	  fi
 
 clean:
 	rm -rf $(LIBDIR)/ngs-java* $(CLSDIR)

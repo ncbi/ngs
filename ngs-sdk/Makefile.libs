@@ -47,9 +47,6 @@ clean:
 	@ rm -f $(addprefix $(ILIBDIR)/$(LPFX),$(addsuffix *,$(INTLIBS))) \
 			$(addprefix $(LIBDIR)/$(LPFX),$(addsuffix *,$(EXTLIBS)))
 
-install: $(TARGETS)
-	@ $(MAKE) -f Makefile.install install	
-
 #-----------------------------------------------------------------------
 # C++ client library that provides API to any engine
 ngs-c++: $(LIBDIR) $(LIBDIR)/$(LPFX)ngs-c++.$(LIBX)
@@ -67,11 +64,11 @@ $(OBJDIR)ngs-disp: $(ILIBDIR)/$(LPFX)ngs-disp.$(LIBX)
 $(LIBDIR)/$(LPFX)ngs-c++.$(VERSION_LIBX): $(OBJDIR)ngs-bind-c++ $(OBJDIR)ngs-disp
 	( $(AR) $@ `cat $(addsuffix /manifest,$^)` )
 	chmod -x,go-w $@
-    
+
 $(LIBDIR)/$(LPFX)ngs-c++.$(MAJVERS_LIBX): $(LIBDIR)/$(LPFX)ngs-c++.$(VERSION_LIBX)
 	rm -f $@
 	ln -s $(notdir $^) $@
-    
+
 $(LIBDIR)/$(LPFX)ngs-c++.$(LIBX): $(LIBDIR)/$(LPFX)ngs-c++.$(MAJVERS_LIBX)
 	rm -f $@
 	ln -s $(notdir $^) $@

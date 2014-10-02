@@ -83,7 +83,7 @@ ifeq (0, $(shell id -u))
 "echo \$$LD_LIBRARY_PATH | /bin/grep -q $(LIB_TARGET)\n"\
 "if ( \$$status ) setenv LD_LIBRARY_PATH $(LIB_TARGET):\$$LD_LIBRARY_PATH\n"\
         >$(PROFILE_FILE).csh || true;
-	@ #TODO: check version of the files aboveelse    
+	@ #TODO: check version of the files above
 endif
 .PHONY: copylibs copyincludes copyexamples
 
