@@ -71,8 +71,8 @@ $(LIBDIR)/$(LPFX)ngs-adapt-c++.$(VERSION_LIBX): $(ADAPT_OBJ)
     
 $(LIBDIR)/$(LPFX)ngs-adapt-c++.$(MAJVERS_LIBX): $(LIBDIR)/$(LPFX)ngs-adapt-c++.$(VERSION_LIBX)
 	rm -f $@
-	ln -s $^ $@
+	ln -s $(notdir $^) $@
 
 $(LIBDIR)/$(LPFX)ngs-adapt-c++.$(LIBX): $(LIBDIR)/$(LPFX)ngs-adapt-c++.$(MAJVERS_LIBX)
 	rm -f $@
-	ln -s $^ $@    
+	ln -s $(notdir $^) $@  

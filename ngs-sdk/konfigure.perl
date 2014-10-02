@@ -442,12 +442,10 @@ foreach my $href (@REQ) {
     }
 }
 
-#my @config;
 my @c_arch;
 
 if ($OS ne 'win') {
     # create Makefile.config
-    push (@c_arch, "### AUTO-GENERATED FILE ###" );
     push (@c_arch, "### AUTO-GENERATED FILE ###" );
     push (@c_arch,  "" );
     push (@c_arch,  "" );
@@ -695,13 +693,15 @@ EndText
 EndText
         close OUT;
     } else {
-=pod
         println "configure: creating 'Makefile.config'" unless ($AUTORUN);
         my $out = File::Spec->catdir(CONFIG_OUT(), 'Makefile.config');
         open OUT, ">$out" or die "cannot open $out to write";
-        print OUT "$_\n" foreach (@config);
+        print OUT "### AUTO-GENERATED FILE ###\n";
+        print OUT "\n";
+        print OUT "OS_ARCH = \$(shell perl \$(TOP)/os-arch.perl)\n";
+        print OUT "include \$(TOP)/Makefile.config.\$(OS_ARCH)\n";
         close OUT;
-=cut
+
         println "configure: creating '$OUT_MAKEFILE'" unless ($AUTORUN);
         open OUT, ">$OUT_MAKEFILE" or die "cannot open $OUT_MAKEFILE to write";
         print OUT "$_\n" foreach (@c_arch);
@@ -766,7 +766,7 @@ sub status {
         ($OS, $ARCH, $OSTYPE, $MARCH, @ARCHITECTURES) = OsArch();
         my $MAKEFILE
             = File::Spec->catdir(CONFIG_OUT(), "$OUT_MAKEFILE.$OS.$ARCH");
-        println "loading $MAKEFILE" if ($OPT{'debug'});
+        println "\t\tloading $MAKEFILE" if ($OPT{'debug'});
         unless (-e $MAKEFILE) {
             print STDERR "configure: error: run ./configure [OPTIONS] first.\n";
             exit 1;
@@ -781,10 +781,10 @@ sub status {
             }
             elsif (/TARGDIR = /) {
                 $TARGDIR = $_;
-                println "got $_" if ($OPT{'debug'});
+                println "\t\tgot $_" if ($OPT{'debug'});
             } elsif (/TARGDIR \?= (.+)/) {
                 $TARGDIR = $1 unless ($TARGDIR);
-                println "got $_" if ($OPT{'debug'});
+                println "\t\tgot $_" if ($OPT{'debug'});
             }
             elsif (/INST_INCDIR = (.+)/) {
                 $OPT{includedir} = $1;
@@ -874,15 +874,15 @@ sub find_lib_in_dir {
         my $libdir = File::Spec->catdir($builddir, 'lib');
         my $ilibdir = File::Spec->catdir($builddir, 'ilib');
         my $f = File::Spec->catdir($libdir, $lib);
-        println "\checking $f" if ($OPT{'debug'});
+        println "\t\tchecking $f" if ($OPT{'debug'});
         unless (-e $f) {
             $libdir = File::Spec->catdir($try, 'lib' . $BITS);
             undef $ilibdir;
             $f = File::Spec->catdir($libdir, $lib);
-            println "\checking $f" if ($OPT{'debug'});
+            println "\t\tchecking $f" if ($OPT{'debug'});
         } elsif ($ilib) {
             $f = File::Spec->catdir($ilibdir, $ilib);
-            println "\checking $f" if ($OPT{'debug'});
+            println "\t\tchecking $f" if ($OPT{'debug'});
             unless (-e $f) {
                 println 'no' unless ($AUTORUN);
                 return;
@@ -892,7 +892,7 @@ sub find_lib_in_dir {
             println 'no' unless ($AUTORUN);
             return;
         } elsif ($ilib && ! $ilibdir) {
-            println "\nfound $f but no ilib/" if ($OPT{'debug'});
+            println "\n\t\tfound $f but no ilib/" if ($OPT{'debug'});
             println 'no' unless ($AUTORUN);
             return;
         }

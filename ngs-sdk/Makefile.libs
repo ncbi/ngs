@@ -69,13 +69,11 @@ $(LIBDIR)/$(LPFX)ngs-c++.$(VERSION_LIBX): $(OBJDIR)ngs-bind-c++ $(OBJDIR)ngs-dis
     
 $(LIBDIR)/$(LPFX)ngs-c++.$(MAJVERS_LIBX): $(LIBDIR)/$(LPFX)ngs-c++.$(VERSION_LIBX)
 	rm -f $@
-	ln -s $^ $@
-
+	ln -s $(notdir $^) $@
+    
 $(LIBDIR)/$(LPFX)ngs-c++.$(LIBX): $(LIBDIR)/$(LPFX)ngs-c++.$(MAJVERS_LIBX)
 	rm -f $@
-	ln -s $^ $@
-
-
+	ln -s $(notdir $^) $@
 
 #-----------------------------------------------------------------------
 # Java and Python client library that provides language bindings to any engine
@@ -110,11 +108,11 @@ $(LIBDIR)/$(LPFX)ngs-sdk.$(VERSION_SHLX): $(SDK_DEPS)
 
 $(LIBDIR)/$(LPFX)ngs-sdk.$(MAJVERS_SHLX): $(LIBDIR)/$(LPFX)ngs-sdk.$(VERSION_SHLX)
 	rm -f $@
-	ln -s $^ $@
+	ln -s $(notdir $^) $@
 
 $(LIBDIR)/$(LPFX)ngs-sdk.$(SHLX): $(LIBDIR)/$(LPFX)ngs-sdk.$(MAJVERS_SHLX)
 	rm -f $@
-	ln -s $^ $@
+	ln -s $(notdir $^) $@
 
 # dependent upon internal libraries
 INTERNAL_LIBS =                             \
@@ -124,5 +122,5 @@ INTERNAL_LIBS =                             \
 	$(ILIBDIR)/$(LPFX)ngs-bind-python.$(LIBX)
 
 $(INTERNAL_LIBS):
-	@ echo missing $@
+	@ echo Missing $@. Please run `make`
 	@ false
