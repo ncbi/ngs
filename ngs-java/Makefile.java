@@ -47,10 +47,36 @@ endif
 
 all std: $(TARGETS)
 
-#TODO: update CLASSPATH
-install: $(TARGETS) $(INST_JAVADIR) $(INST_JAVADIR)/ngs-java.jar.$(VERSION)
+#-------------------------------------------------------------------------------
+# install
+# 
+ifeq (linux, $(OS))
 
-$(INST_JAVADIR)/ngs-java.jar.$(VERSION): $(LIBDIR)/ngs-java.jar
+#fake root for debugging
+#uncomment this line and change the test for root ( see under install: ) to succeed:
+#ROOT = ~/root
+
+PROFILE_FILE = $(ROOT)/etc/profile.d/ngs-java
+JAR_TARGET = $(INST_JARDIR)/ngs-java.jar
+
+install: $(TARGETS) $(INST_JARDIR) $(INST_JARDIR)/ngs-java.jar.$(VERSION)
+ifeq (0, $(shell id -u))
+	@ echo "Updating $(PROFILE_FILE).[c]sh"
+	@ echo -e \
+"#version $(VERSION)\n"\
+"if ! echo \$$CLASSPATH | /bin/grep -q $(JAR_TARGET)\n"\
+"then export CLASSPATH=$(JAR_TARGET):\$$CLASSPATH\n"\
+"fi" \
+        >$(PROFILE_FILE).sh && chmod 644 $(PROFILE_FILE).sh || true;
+	@ echo -e \
+"#version $(VERSION)\n"\
+"echo \$$CLASSPATH | /bin/grep -q $(JAR_TARGET)\n"\
+"if ( \$$status ) setenv CLASSPATH $(JAR_TARGET):\$$CLASSPATH\n"\
+        >$(PROFILE_FILE).csh && chmod 644 $(PROFILE_FILE).sh || true;
+	@ #TODO: check version of the files above
+endif
+
+$(INST_JARDIR)/ngs-java.jar.$(VERSION): $(LIBDIR)/ngs-java.jar
 	@ echo -n "installing '$(@F)'... "
 	@ if cp $^ $@ && chmod 644 $@;                                                    \
 	  then                                                                            \
@@ -66,7 +92,12 @@ $(INST_JAVADIR)/ngs-java.jar.$(VERSION): $(LIBDIR)/ngs-java.jar
 clean:
 	rm -rf $(LIBDIR)/ngs-java* $(CLSDIR)
 
-.PHONY: default all std $(TARGETS)
+else
+install:
+    
+endif
+
+.PHONY: default all std install $(TARGETS)
 
 #-------------------------------------------------------------------------------
 # JAVA NGS
