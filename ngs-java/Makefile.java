@@ -132,7 +132,7 @@ $(CLSDIR)/ngs-java-ncbi: $(CLSDIR)/ngs-java-itf $(NCBI_SRC_PATH)
 
 # rule to produce the jar
 $(LIBDIR)/ngs-java.jar: $(CLSDIR)/ngs-java-api $(CLSDIR)/ngs-java-itf $(CLSDIR)/ngs-java-ncbi
-	( cd $(CLSDIR); $(JAR) $@ `find . -name "*.class"` ) || ( rm -f $@ && false )
+	( cd $(CLSDIR); $(JAR) $@ `find . -name "*.class"`; chmod -x,go-w $@ ) || ( rm -f $@ && false )
 
 
 #-------------------------------------------------------------------------------
@@ -155,7 +155,7 @@ $(CLSDIR)/ngs-examples: $(NGS_EXAMPLES_PATH)
 
 # rule to produce the jar
 $(LIBDIR)/ngs-examples.jar: $(CLSDIR)/ngs-examples
-	( cd $(CLSDIR); $(JAR) $@ `find examples -name "*.class"` ) || ( rm -f $@ && false )
+	( cd $(CLSDIR); $(JAR) $@ `find examples -name "*.class"`; chmod -x,go-w $@  ) || ( rm -f $@ && false )
 
 #-------------------------------------------------------------------------------
 # JNI headers
