@@ -1,8 +1,10 @@
+################################################################################
 sub PACKAGE      { 'ngs-sdk' }
 sub VERSION      { '1.0.0' }
 sub PACKAGE_TYPE { 'L' }
 sub PACKAGE_NAME { 'NGS-SDK' }
 sub PACKAGE_NAMW { 'NGS' }
+sub DEPENDS      {}
 sub CONFIG_OUT   { '.' }
 sub PKG { ( LNG   => 'C',
             OUT   => 'ncbi-outdir',
