@@ -56,10 +56,35 @@ copyexamples:
 	@ mkdir -p $(INST_SHAREDIR)
 	@ cp -r $(TOP)/examples $(INST_SHAREDIR)/
 
-#TODO: install symlink to includes in /usr/include/ngs
+#fake root for debugging
+#uncomment this line and change the test for root ( see under install: ) to succeed:
+#ROOT = ~/root
+
+INCLUDE_SYMLINK = $(ROOT)/usr/include/ngs
+PROFILE_FILE = $(ROOT)/etc/profile.d/ngs-sdk
+
 #TODO: add libraries to $LD_LIBRARY_PATH by updating /etc/profile.d
 install: copylibs copyincludes copyexamples
-
+ifeq (0, $(shell id -u))
+	@ # install symlink to includes 
+	@ echo "Updating $(INCLUDE_SYMLINK)"
+	@ rm -rf $(INCLUDE_SYMLINK)
+	@ ln -s $(INST_INCDIR) $(INCLUDE_SYMLINK)
+	@ #
+	@ echo "Updating $(PROFILE_FILE).[c]sh"
+	@ echo -e \
+"#version $(VERSION)\n"\
+"if ! echo \$$LD_LIBRARY_PATH | /bin/grep -q $(LIB_TARGET)\n"\
+"then export LD_LIBRARY_PATH=$(LIB_TARGET):\$$LD_LIBRARY_PATH\n"\
+"fi" \
+        >$(PROFILE_FILE).sh || true;
+	@ echo -e \
+"#version $(VERSION)\n"\
+"echo \$$LD_LIBRARY_PATH | /bin/grep -q $(LIB_TARGET)\n"\
+"if ( \$$status ) setenv LD_LIBRARY_PATH $(LIB_TARGET):\$$LD_LIBRARY_PATH\n"\
+        >$(PROFILE_FILE).csh || true;
+	@ #TODO: check version of the files aboveelse    
+endif
 .PHONY: copylibs copyincludes copyexamples
 
 else
