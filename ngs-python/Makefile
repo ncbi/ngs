@@ -27,6 +27,7 @@ default: subtargs
 
 # the sub-targets
 SUBTARGS =  \
+	dummy
 
 # standard rules and phony targets
 include $(CURDIR)/Makefile.rules
@@ -34,3 +35,6 @@ include $(CURDIR)/Makefile.rules
 # rules for making python code
 install: Makefile.config
 	@ $(MAKE) -f Makefile.python install
+
+dummy:
+	@ echo "make complete"
