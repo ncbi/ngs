@@ -75,14 +75,27 @@ ifeq (0, $(shell id -u))
 "#version $(VERSION)\n"\
 "if ! echo \$$LD_LIBRARY_PATH | /bin/grep -q $(LIB_TARGET)\n"\
 "then export LD_LIBRARY_PATH=$(LIB_TARGET):\$$LD_LIBRARY_PATH\n"\
-"fi" \
+"fi\n"\
+"export NGS_LIBDIR=$(LIB_TARGET)\n" \
         >$(PROFILE_FILE).sh && chmod 644 $(PROFILE_FILE).sh || true;
 	@ echo -e \
 "#version $(VERSION)\n"\
 "echo \$$LD_LIBRARY_PATH | /bin/grep -q $(LIB_TARGET)\n"\
 "if ( \$$status ) setenv LD_LIBRARY_PATH $(LIB_TARGET):\$$LD_LIBRARY_PATH\n"\
+"setenv NGS_LIBDIR $(LIB_TARGET)\n" \
         >$(PROFILE_FILE).csh && chmod 644 $(PROFILE_FILE).csh || true;
 	@ #TODO: check version of the files above
+	@ #
+	@ echo "Use \$$NGS_LIBDIR in your link commands, e.g.:"
+	@ echo "      ld -L\$$NGS_LIBDIR -lngs-sdk ..."
+else
+	@ #
+	@ echo "Please add $(LIB_TARGET) to your LD_LIBRARY_PATH, e.g.:"
+	@ echo "      export LD_LIBRARY_PATH=$(LIB_TARGET):\$$LD_LIBRARY_PATH"   
+	@ #
+	@ echo "Use $(LIB_TARGET) in your link commands, e.g.:"
+	@ echo "      export NGS_LIBDIR=$(LIB_TARGET)"   
+	@ echo "      ld -L\$$NGS_LIBDIR -lngs-sdk ..."
 endif
 .PHONY: copylibs copyincludes copyexamples
 
