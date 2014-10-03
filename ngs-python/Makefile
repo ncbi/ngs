@@ -38,3 +38,6 @@ install: Makefile.config
 
 dummy:
 	@ echo "make complete"
+
+dummy_cln dummy_inst:
+	@ true
