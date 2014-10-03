@@ -67,8 +67,8 @@ install: copylibs copyincludes copyexamples
 ifeq (0, $(shell id -u))
 	@ # install symlink to includes 
 	@ echo "Updating $(INCLUDE_SYMLINK)"
-	@ rm -rf $(INCLUDE_SYMLINK)
-	@ ln -s $(INST_INCDIR) $(INCLUDE_SYMLINK)
+	@ rm -f $(INCLUDE_SYMLINK)
+	@ ln -s $(INST_INCDIR)/ngs $(INCLUDE_SYMLINK)
 	@ #
 	@ echo "Updating $(PROFILE_FILE).[c]sh"
 	@ echo -e \
