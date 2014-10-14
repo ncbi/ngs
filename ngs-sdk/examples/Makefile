@@ -28,16 +28,15 @@ default: std
 TOP ?= $(abspath ..)
 include $(TOP)/Makefile.config
 
-#VDB_INCDIR = $(abspath $(TOP)/../../interfaces)
-#INCDIRS += -I$(VDB_INCDIR)
-#VDB_LIBDIR = $(HOME)/lib64
+NCBI_VDB_LIBDIR = $(dir $(firstword $(shell find $(subst :, ,$(LD_LIBRARY_PATH) -maxdepth 1 -name libncbi-vdb.*) 2>/dev/null) ) )
 
-ifndef VDB_INCDIR
-
+ifeq (,$(NCBI_VDB_LIBDIR))
 std:
-	@ echo "These example applications require $(LPFX)ncbi-vdb"
+	@ echo "These example applications require $(LPFX)ncbi-vdb. Please install ncbi-vdb libraries and add their location to LD_LIBRARY_PATH."
 
 else
+
+INCDIRS += -I$(NCBI_VDB_LIBDIR)/../include -I../ngs  -I../../include
 
 TARGETS =         \
 	FragTest      \
@@ -55,7 +54,7 @@ clean:
 
 TEST_LIBS =           \
 	-L$(LIBDIR)       \
-	-L$(VDB_LIBDIR)   \
+	-L$(NCBI_VDB_LIBDIR)   \
 	-lncbi-ngs-c++    \
 	-lngs-c++         \
 	-lncbi-vdb-static \

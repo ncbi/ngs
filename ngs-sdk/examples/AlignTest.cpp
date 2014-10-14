@@ -24,7 +24,7 @@
 *
 */
 
-#include <ngs/ncbi/NGS.hpp>
+#include <ncbi-vdb/NGS.hpp>
 #include <ngs/ErrorMsg.hpp>
 #include <ngs/ReadCollection.hpp>
 #include <ngs/AlignmentIterator.hpp>
