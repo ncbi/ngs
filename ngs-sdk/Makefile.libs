@@ -63,7 +63,6 @@ $(OBJDIR)ngs-disp: $(ILIBDIR)/$(LPFX)ngs-disp.$(LIBX)
 
 $(LIBDIR)/$(LPFX)ngs-c++.$(VERSION_LIBX): $(OBJDIR)ngs-bind-c++ $(OBJDIR)ngs-disp
 	( $(AR) $@ `cat $(addsuffix /manifest,$^)` )
-	chmod -x,go-w $@
 
 $(LIBDIR)/$(LPFX)ngs-c++.$(MAJVERS_LIBX): $(LIBDIR)/$(LPFX)ngs-c++.$(VERSION_LIBX)
 	rm -f $@
@@ -103,7 +102,6 @@ SDK_DEPS =                             \
 
 $(LIBDIR)/$(LPFX)ngs-sdk.$(VERSION_SHLX): $(SDK_DEPS)
 	$(LP) $(DBG) $(OPT) -shared -o $@ $(SONAME) `cat $(addsuffix /manifest,$(SDK_XLIBS))` $(SDK_LIB)
-	chmod +x,go-w $@
 
 $(LIBDIR)/$(LPFX)ngs-sdk.$(MAJVERS_SHLX): $(LIBDIR)/$(LPFX)ngs-sdk.$(VERSION_SHLX)
 	rm -f $@
