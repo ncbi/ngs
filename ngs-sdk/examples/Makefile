@@ -86,8 +86,6 @@ ALIGN_TEST_OBJ = \
 $(BINDIR)/AlignTest$(EXEX): $(ALIGN_TEST_OBJ)
 	$(LP) $(DBG) $(OPT) -o $@ $^ -L$(LIBDIR) $(TEST_LIBS) 
 
-
-
 AlignSliceTest: $(BINDIR) $(OBJDIR) $(BINDIR)/AlignSliceTest$(EXEX)
 
 ALIGNSLICE_TEST_SRC = \
@@ -98,3 +96,20 @@ ALIGNSLICE_TEST_OBJ = \
 
 $(BINDIR)/AlignSliceTest$(EXEX): $(ALIGNSLICE_TEST_OBJ)
 	$(LP) $(DBG) $(OPT) -o $@ $^ -L$(LIBDIR) $(TEST_LIBS) 
+
+# ===========================================================================
+#
+# example runs
+
+run_frag:     $(BINDIR)/FragTest$(EXEX)
+	$^ ERR225922 1 1
+
+run_align: $(BINDIR)/AlignTest$(EXEX)
+	$^ ERR225922 1 1
+
+run_align_slice: $(BINDIR)/AlignSliceTest$(EXEX)
+	$^ SRR1121656 1 10000 20000 
+
+
+.PHONY: run_align run_align_slice run_frag
+    
