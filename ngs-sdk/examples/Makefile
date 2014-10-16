@@ -25,76 +25,78 @@
 
 default: std
 
-TOP ?= $(abspath ..)
-include $(TOP)/Makefile.config
+# All of this section is to provide semi-automatic detection of
+# required libraries. They SHOULD have been built and installed
+# already before building these examples.
 
-NCBI_VDB_LIBDIR = $(dir $(firstword $(shell find $(subst :, ,$(LD_LIBRARY_PATH) -maxdepth 1 -name libncbi-vdb.*) 2>/dev/null) ) )
+NCBI_VDB_LIBDIR = $(dir $(firstword $(shell find $(subst :, ,$(LD_LIBRARY_PATH) -maxdepth 1 -name libncbi-vdb.a) 2>/dev/null) ) )
+NGS_LIBDIR = $(dir $(firstword $(shell find $(subst :, ,$(LD_LIBRARY_PATH) -maxdepth 1 -name libngs-c++.a) 2>/dev/null) ) )
 
-ifeq (,$(NCBI_VDB_LIBDIR))
-std:
-	@ echo "These example applications require $(LPFX)ncbi-vdb. Please install ncbi-vdb libraries and add their location to LD_LIBRARY_PATH."
+$(NCBI_VDB_LIBDIR)/libncbi-vdb.a:
+    @ echo "These example applications require $(@F). Please install ncbi-vdb libraries and add their location to LD_LIBRARY_PATH."
+	@ false
 
-else
+$(NGS_LIBDIR)/libngs-c++.a:
+    @ echo "These example applications require $(@F). Please install ngs libraries and add their location to LD_LIBRARY_PATH."
+	@ false
 
-INCDIRS += -I$(NCBI_VDB_LIBDIR)/../include -I../ngs  -I../../include
+# END OF LIBRARY DETECTION
 
 TARGETS =         \
-	FragTest      \
-	AlignTest     \
-	AlignSliceTest
+    FragTest      \
+    AlignTest     \
+    AlignSliceTest
 
-all std: $(TARGETS)
-
-endif
+# This rule triggers detection of the libraries
+std: $(NCBI_VDB_LIBDIR)/libncbi-vdb.a $(NGS_LIBDIR)/libngs-c++.a $(TARGETS)
 
 clean:
-	rm -rf $(addprefix $(BINDIR)/,$(addsuffix *,$(TARGETS))) $(OBJDIR)
+    rm -f $(TARGETS) *.o
 
-.PHONY: default all std $(TARGETS)
+.PHONY: default std $(TARGETS)
 
-TEST_LIBS =           \
-	-L$(LIBDIR)       \
-	-L$(NCBI_VDB_LIBDIR)   \
-	-lncbi-ngs-c++    \
-	-lngs-c++         \
-	-lncbi-vdb-static \
-	-lpthread         \
-	-ldl              \
-	-lm
-
-FragTest: $(BINDIR) $(OBJDIR) $(BINDIR)/FragTest$(EXEX)
-
-FRAG_TEST_SRC = \
-	FragTest
+TEST_LIBS =              \
+    -L$(NCBI_VDB_LIBDIR) \
+    -L$(NGS_LIBDIR)      \
+    -lncbi-ngs-c++       \
+    -lngs-c++            \
+    -lncbi-vdb-static    \
+    -lpthread            \
+    -ldl                 \
+    -lm
 
 FRAG_TEST_OBJ = \
-	$(addprefix $(OBJDIR)/,$(addsuffix .$(OBJX),$(FRAG_TEST_SRC)))
+    FragTest.o
 
-$(BINDIR)/FragTest$(EXEX): $(FRAG_TEST_OBJ)
-	$(LP) $(DBG) $(OPT) -o $@ $^ -L$(LIBDIR) $(TEST_LIBS) 
+FragTest: $(FRAG_TEST_OBJ)
+    g++ -o $@ $^ $(TEST_LIBS) 
 
-
-
-AlignTest: $(BINDIR) $(OBJDIR) $(BINDIR)/AlignTest$(EXEX)
-
-ALIGN_TEST_SRC = \
-	AlignTest
 
 ALIGN_TEST_OBJ = \
-	$(addprefix $(OBJDIR)/,$(addsuffix .$(OBJX),$(ALIGN_TEST_SRC)))
+    AlignTest.o
 
-$(BINDIR)/AlignTest$(EXEX): $(ALIGN_TEST_OBJ)
-	$(LP) $(DBG) $(OPT) -o $@ $^ -L$(LIBDIR) $(TEST_LIBS) 
+AlignTest: $(ALIGN_TEST_OBJ)
+    g++ -o $@ $^ $(TEST_LIBS) 
 
-
-
-AlignSliceTest: $(BINDIR) $(OBJDIR) $(BINDIR)/AlignSliceTest$(EXEX)
-
-ALIGNSLICE_TEST_SRC = \
-	AlignSliceTest
 
 ALIGNSLICE_TEST_OBJ = \
-	$(addprefix $(OBJDIR)/,$(addsuffix .$(OBJX),$(ALIGNSLICE_TEST_SRC)))
+    AlignSliceTest.o
 
-$(BINDIR)/AlignSliceTest$(EXEX): $(ALIGNSLICE_TEST_OBJ)
-	$(LP) $(DBG) $(OPT) -o $@ $^ -L$(LIBDIR) $(TEST_LIBS) 
+AlignSliceTest: $(ALIGNSLICE_TEST_OBJ)
+    g++ -o $@ $^ $(TEST_LIBS) 
+
+# ===========================================================================
+#
+# example runs
+
+run_frag:  FragTest
+    ./$^ ERR225922 1 1
+
+run_align: AlignTest
+    ./$^ ERR225922 1 1
+
+run_align_slice: AlignSliceTest
+    ./$^ SRR1121656 1 10000 20000 
+
+
+.PHONY: run_align run_align_slice run_frag
