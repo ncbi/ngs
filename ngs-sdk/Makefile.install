@@ -55,9 +55,6 @@ copyexamples:
 	@ echo "Installing examples to $(INST_SHAREDIR)"
 	@ mkdir -p $(INST_SHAREDIR)
 	@ cp -r $(TOP)/examples $(INST_SHAREDIR)/
-	@ cp $(TOP)/os-arch.* $(INST_SHAREDIR)/
-	@ cp $(TOP)/Makefile.config $(INST_SHAREDIR)/
-	@ cp $(TOP)/Makefile.config.* $(INST_SHAREDIR)/
 
 #fake root for debugging
 #uncomment this line and change the test for root ( see under install: ) to succeed:
