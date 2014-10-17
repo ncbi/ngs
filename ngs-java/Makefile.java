@@ -98,7 +98,7 @@ clean:
 
 else
 install:
-    
+
 endif
 
 .PHONY: default all std install $(TARGETS)
