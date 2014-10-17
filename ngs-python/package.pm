@@ -10,6 +10,6 @@ sub PKG { ( LNG  => 'PYTHON',
             OUT  => 'ncbi-outdir',
             PATH  => '/usr/local/ngs/ngs-python',
             UPATH =>      '$HOME/ngs/ngs-python',
-        ) }
+            EXAMP => '1', ) }
 sub REQ {}
 1
