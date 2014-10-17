@@ -26,18 +26,58 @@
 default: std
 
 # All of this section is to provide semi-automatic detection of
-# required libraries. They SHOULD have been built and installed
+# required libraries and headers. They SHOULD have been built and installed
 # already before building these examples.
 
-NCBI_VDB_LIBDIR = $(dir $(firstword $(shell find $(subst :, ,$(LD_LIBRARY_PATH) -maxdepth 1 -name libncbi-vdb.a) 2>/dev/null) ) )
+NCBI_VDB_LIBDIR = $(dir $(firstword $(shell find $(subst :, ,$(LD_LIBRARY_PATH) -maxdepth 1 -name libncbi-vdb-static.a) 2>/dev/null) ) )
 NGS_LIBDIR = $(dir $(firstword $(shell find $(subst :, ,$(LD_LIBRARY_PATH) -maxdepth 1 -name libngs-c++.a) 2>/dev/null) ) )
 
-$(NCBI_VDB_LIBDIR)/libncbi-vdb.a:
-    @ echo "These example applications require $(@F). Please install ncbi-vdb libraries and add their location to LD_LIBRARY_PATH."
+ifeq (,$(wildcard /usr/include/ncbi-vdb))
+    ifeq (,$(wildcard $(NCBI_VDB_LIBDIR)/../include))
+    
+ncbi-headers:
+	@ echo "NCBI_VDB headers are not found (looking for /usr/include/ncbi-vdb or $(NCBI_VDB_LIBDIR)../include)"
+	@ false    
+    
+    else
+    
+CPPFLAGS += -I$(NCBI_VDB_LIBDIR)/../include
+ncbi-headers:
+	@ true
+    
+    endif
+else
+# found in /usr/include
+ncbi-headers:
+	@ true
+endif
+
+ifeq (,$(wildcard /usr/include/ngs))
+    ifeq (,$(wildcard $(NGS_LIBDIR)/../include))
+    
+ngs-headers:
+	@ echo "NGS headers are not found (looking for /usr/include/ngs or $(NGS_LIBDIR)../include)"
+	@ false    
+    
+    else
+    
+CPPFLAGS += -I$(NGS_LIBDIR)/../include
+ngs-headers:
+	@ true
+    
+    endif
+else    
+# found in /usr/include
+ngs-headers:
+	@ true
+endif
+
+$(NCBI_VDB_LIBDIR)/libncbi-vdb-static.a:
+	@ echo "These example applications require $(@F). Please install ncbi-vdb libraries and add their location to LD_LIBRARY_PATH."
 	@ false
 
 $(NGS_LIBDIR)/libngs-c++.a:
-    @ echo "These example applications require $(@F). Please install ngs libraries and add their location to LD_LIBRARY_PATH."
+	@ echo "These example applications require $(@F). Please install ngs libraries and add their location to LD_LIBRARY_PATH."
 	@ false
 
 # END OF LIBRARY DETECTION
@@ -47,11 +87,11 @@ TARGETS =         \
     AlignTest     \
     AlignSliceTest
 
-# This rule triggers detection of the libraries
-std: $(NCBI_VDB_LIBDIR)/libncbi-vdb.a $(NGS_LIBDIR)/libngs-c++.a $(TARGETS)
+# This rule triggers detection of the libraries and headers
+std: $(NCBI_VDB_LIBDIR)/libncbi-vdb-static.a ncbi-headers $(NGS_LIBDIR)/libngs-c++.a ngs-headers $(TARGETS)
 
 clean:
-    rm -f $(TARGETS) *.o
+	rm -f $(TARGETS) *.o
 
 .PHONY: default std $(TARGETS)
 
@@ -69,34 +109,34 @@ FRAG_TEST_OBJ = \
     FragTest.o
 
 FragTest: $(FRAG_TEST_OBJ)
-    g++ -o $@ $^ $(TEST_LIBS) 
+	g++ -o $@ $^ $(TEST_LIBS)
 
 
 ALIGN_TEST_OBJ = \
     AlignTest.o
 
 AlignTest: $(ALIGN_TEST_OBJ)
-    g++ -o $@ $^ $(TEST_LIBS) 
+	g++ -o $@ $^ $(TEST_LIBS)
 
 
 ALIGNSLICE_TEST_OBJ = \
     AlignSliceTest.o
 
 AlignSliceTest: $(ALIGNSLICE_TEST_OBJ)
-    g++ -o $@ $^ $(TEST_LIBS) 
+	g++ -o $@ $^ $(TEST_LIBS)
 
 # ===========================================================================
 #
 # example runs
 
 run_frag:  FragTest
-    ./$^ ERR225922 1 1
+	./$^ ERR225922 1 1
 
 run_align: AlignTest
-    ./$^ ERR225922 1 1
+	./$^ ERR225922 1 1
 
 run_align_slice: AlignSliceTest
-    ./$^ SRR1121656 1 10000 20000 
+	./$^ SRR1121656 1 10000 20000 
 
 
 .PHONY: run_align run_align_slice run_frag
