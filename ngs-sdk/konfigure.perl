@@ -350,7 +350,10 @@ foreach my $href (@REQ) {
     my $need_source = $a{type} =~ /S/;
     my $need_build = $a{type} =~ /B/;
     my $need_lib = $a{type} =~ /L/;
+    
     my ($inc, $lib, $ilib) = ($a{include}, $a{lib}); # file names to check
+    $lib =~ s/(\$\w+)/$1/eeg;
+
     if ($need_build) {
         $ilib = $a{ilib};
         ++$need_lib;
@@ -556,10 +559,10 @@ EndText
     L($F, "PIC     = $PIC") if ($PIC);
     if ($PKG{LNG} eq 'C') {
         if ($TOOLS =~ /clang/i) {
-      L($F, 'SONAME = -install_name ' .
+   L($F, 'SONAME  = -install_name ' .
                '$(INST_LIBDIR)$(BITS)/$(subst $(VERSION),$(MAJVERS),$(@F)) \\');
-      L($F, ' -compatibility_version $(MAJMIN) -current_version $(VERSION) \\');
-      L($F, ' -flat_namespace -undefined suppress');
+   L($F, '    -compatibility_version $(MAJMIN) -current_version $(VERSION) \\');
+   L($F, '    -flat_namespace -undefined suppress');
         } else {
       L($F, 'SONAME = -Wl,-soname=$(subst $(VERSION),$(MAJVERS),$(@F))');
      }
@@ -684,17 +687,15 @@ EndText
         T($F, '@ echo -n "installing \'$(@F)\'... "');
         T($F, '@ if cp $^ $@ && chmod 644 $@;                         \\');
         T($F, '  then                                                 \\');
-      if ($OS eq 'mac') {
         T($F, '      rm -f $(subst $(VERSION),$(MAJVERS),$@) '
-                      . '$(subst $(VERSION_LIBX),$(LIBX),$@); '
+                      . '$(subst $(VERSION_LIBX),$(LIBX),$@) '
                       . '$(subst .$(VERSION_LIBX),-static.$(LIBX),$@); \\');
-      } else {
-        T($F, '      rm -f $(subst $(VERSION),$(MAJVERS),$@) '
-                      . '$(subst $(VERSION_LIBX),$(LIBX),$@);         \\');
-      }
         T($F, '      ln -s $(@F) $(subst $(VERSION),$(MAJVERS),$@);   \\');
         T($F, '      ln -s $(subst $(VERSION),$(MAJVERS),$(@F)) '
                       . '$(subst $(VERSION_LIBX),$(LIBX),$@); \\');
+        T($F, '      ln -s $(subst $(VERSION_LIBX),$(LIBX),$(@F)) ' .
+       '$(INST_LIBDIR)$(BITS)/$(subst .$(VERSION_LIBX),-static.$(LIBX),$(@F));'
+                                                              . ' \\');
         T($F, '      echo success;                                    \\');
         T($F, '  else                                                 \\');
         T($F, '      echo failure;                                    \\');
@@ -712,13 +713,6 @@ EndText
         T($F, '      ln -s $(@F) $(subst $(VERSION),$(MAJVERS),$@);   \\');
         T($F, '      ln -s $(subst $(VERSION),$(MAJVERS),$(@F)) '
                       . '$(subst $(VERSION_SHLX),$(SHLX),$@); \\');
-      if ($OS ne 'mac') {
-        T($F, '      cp -v $(LIBDIR)/$(subst $(VERSION_SHLX),'
-                    . '$(VERSION_LIBX),$(@F)) $(INST_LIBDIR)$(BITS)/; \\');
-        T($F, '      ln -vfs $(subst $(VERSION_SHLX),$(VERSION_LIBX), $(@F)) ' .
-       '$(INST_LIBDIR)$(BITS)/$(subst .$(VERSION_SHLX),-static.\$(LIBX),$(@F));'
-                                                              . ' \\');
-      }
         T($F, '      echo success;                                    \\');
         T($F, '  else                                                 \\');
         T($F, '      echo failure;                                    \\');
