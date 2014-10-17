@@ -68,6 +68,7 @@ else
 	@ echo "Installing ngs package"
 	@ echo "Please add $(NGS_LIBDIR):$(VDB_LIBDIR) to your LD_LIBRARY_PATH, e.g.:"
 	@ echo "      export LD_LIBRARY_PATH=$(NGS_LIBDIR):$(VDB_LIBDIR):\$$LD_LIBRARY_PATH"
+	@ echo "Insufficient permissions to install python ngs package automatically"
 endif
 
 else
