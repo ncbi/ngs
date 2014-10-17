@@ -42,19 +42,23 @@ TEST_SRC =                      \
 
 NGS-JavaTest.jar: $(TEST_SRC)
 	javac $^ -d . -classpath $(CLASSPATH) && touch $@
-
+    
 # ===========================================================================
 #
 # example runs
 
+JAVAFLAGS = -classpath $(CLASSPATH) 
+#JAVAFLAGS += -Dvdb.System.loadLibrary=1
+#JAVAFLAGS += -Dvdb.log=FINEST
+
 run_frag: NGS-JavaTest.jar
-	java -classpath $^:$(CLASSPATH) examples.FragTest ERR225922 1 1
+	java $(JAVAFLAGS) examples.FragTest ERR225922 1 1 
 
 run_align: NGS-JavaTest.jar
-	java -classpath $^:$(CLASSPATH) examples.AlignTest ERR225922 1 1
+	java $(JAVAFLAGS) examples.AlignTest ERR225922 1 1
 
 run_align_slice: NGS-JavaTest.jar
-	java -classpath $^:$(CLASSPATH) examples.AlignSliceTest SRR1121656 1 10000 20000
+	java $(JAVAFLAGS) examples.AlignSliceTest SRR1121656 1 10000 20000
 
 
 .PHONY: run_align run_align_slice run_frag

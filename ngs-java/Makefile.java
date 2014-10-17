@@ -40,6 +40,12 @@ TARGETS =      \
 	$(INTLIBS) \
 	$(EXTLIBS)
 
+copyexamples:
+	@ echo "Installing examples to $(INST_SHAREDIR)/examples-java"
+	@ mkdir -p $(INST_SHAREDIR)/examples-java
+	@ cp $(TOP)/examples/Makefile $(INST_SHAREDIR)/examples-java
+	@ cp -r $(TOP)/examples/examples $(INST_SHAREDIR)/examples-java
+    
 # if configure was able to locate where the JNI headers go
 ifdef JNIPATH
 TARGETS += ngs-jni
@@ -59,7 +65,7 @@ ifeq (linux, $(OS))
 PROFILE_FILE = $(ROOT)/etc/profile.d/ngs-java
 JAR_TARGET = $(INST_JARDIR)/ngs-java.jar
 
-install: $(TARGETS) $(INST_JARDIR) $(INST_JARDIR)/ngs-java.jar.$(VERSION)
+install: $(TARGETS) $(INST_JARDIR) $(INST_JARDIR)/ngs-java.jar.$(VERSION) copyexamples
 ifeq (0, $(shell id -u))
 	@ echo "Updating $(PROFILE_FILE).[c]sh"
 	@ echo -e \
@@ -74,6 +80,7 @@ ifeq (0, $(shell id -u))
 "if ( \$$status ) setenv CLASSPATH $(JAR_TARGET):\$$CLASSPATH\n"\
         >$(PROFILE_FILE).csh && chmod 644 $(PROFILE_FILE).sh || true;
 	@ #TODO: check version of the files above
+    
 else
 	@ #
 	@ echo "Please add $(JAR_TARGET) to your CLASSPATH, i.e.:"
@@ -194,7 +201,7 @@ NGS_EXAMPLES =    \
 	AlignSliceTest
 
 NGS_EXAMPLES_PATH = \
-	$(addprefix $(SRCDIR)/examples/,$(addsuffix .java,$(NGS_EXAMPLES)))
+	$(addprefix $(SRCDIR)examples/examples/,$(addsuffix .java,$(NGS_EXAMPLES)))
 
 $(CLSDIR)/ngs-examples: $(NGS_EXAMPLES_PATH)
 	$(JAVAC) $(DBG) $^ -d $(CLSDIR) $(CLSPATH) $(SRCINC) && touch $@
