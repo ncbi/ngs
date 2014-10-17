@@ -22,7 +22,12 @@ class LibManager:
         return self._bind(self.c_lib_sdk, c_func_name_str, param_types_list, check_res_embedded)
     
     def resolve_libpath(self, lib_filename):
-        full_path = "./" + lib_filename # Try to load just by filename (CWD, PATH?)
+        # Try to load so from the root of ngs package
+        full_path = os.path.join(os.path.dirname(__file__), lib_filename)
+        
+        if not os.path.isfile(full_path):
+            full_path = "./" + lib_filename # Try to load just by filename (CWD, PATH?)
+            
         if not os.path.isfile(full_path):
             full_path = os.path.join(tempfile.gettempdir(), lib_filename) # Try to load from TMP
         
@@ -55,7 +60,7 @@ class LibManager:
         
         self.c_lib_engine = cdll.LoadLibrary(path_engine)
         self.c_lib_sdk = cdll.LoadLibrary(path_sdk)
-        
+
         ##############  ngs-engine imports below  ####################
         
         self._bind(self.c_lib_engine, "PY_NGS_Engine_ReadCollectionMake", [c_char_p, POINTER(c_void_p), POINTER(c_char), c_size_t], None)

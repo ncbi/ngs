@@ -40,8 +40,39 @@ all std: $(TARGETS)
 
 clean:
 
-#TODO: update CLASSPATH (?)
-install: $(TARGETS)
-	mkdir -p $(INST_PYTHONDIR) 
-	cp -r $(TOP)/ngs $(INST_PYTHONDIR)
-    
+copyexamples:
+	@ echo "Installing examples to $(INST_SHAREDIR)/examples-python"
+	@ mkdir -p $(INST_SHAREDIR)/examples-python
+	@ cp $(TOP)/examples/*.py $(INST_SHAREDIR)/examples-python
+
+
+#-------------------------------------------------------------------------------
+# install
+# 
+ifeq (linux, $(OS))
+
+#fake root for debugging
+#uncomment this line and change the test for root ( see under install: ) to succeed:
+#ROOT = ~/root 
+
+PROFILE_FILE = $(ROOT)/etc/profile.d/ngs-python
+
+install: $(TARGETS) $(INST_PYTHONDIR) copyexamples
+ifeq (0, $(shell id -u))
+	@ echo "Installing ngs package"
+	@ echo "Please add $(NGS_LIBDIR):$(VDB_LIBDIR) to your LD_LIBRARY_PATH, e.g.:"
+	@ echo "      export LD_LIBRARY_PATH=$(NGS_LIBDIR):$(VDB_LIBDIR):\$$LD_LIBRARY_PATH"
+	@ python setup.py install
+   
+else
+	@ echo "Installing ngs package"
+	@ echo "Please add $(NGS_LIBDIR):$(VDB_LIBDIR) to your LD_LIBRARY_PATH, e.g.:"
+	@ echo "      export LD_LIBRARY_PATH=$(NGS_LIBDIR):$(VDB_LIBDIR):\$$LD_LIBRARY_PATH"
+endif
+
+else
+install:
+
+endif
+
+.PHONY: default all std install $(TARGETS)
