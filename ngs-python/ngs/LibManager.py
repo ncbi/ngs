@@ -23,8 +23,13 @@ class LibManager:
     
     def resolve_libpath(self, lib_filename):
         # Try to load so from the root of ngs package
-        full_path = os.path.join(os.path.dirname(__file__), lib_filename)
+        #full_path = os.path.join(os.path.dirname(__file__), lib_filename)
+        full_path = lib_filename
+        return full_path
         
+        # TODO: cannot check path to dll with isfile()
+        # waiting on VDB-1296 to modify this function or
+        # get rid of it at all
         if not os.path.isfile(full_path):
             full_path = "./" + lib_filename # Try to load just by filename (CWD, PATH?)
             
