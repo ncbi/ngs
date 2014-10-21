@@ -33,7 +33,7 @@ import java.io.File;
   It iterates over all file names generated using LibManager.Location [array] */
 class LibPathIterator {
 
-    private static final String NCBI_NGS_JAR_NAME = "ngs-ncbi.jar";
+    private static final String NCBI_NGS_JAR_NAME = "ngs-java.jar";
 
 
     /** Creates an iterator that will go through all LibManager's location-s */
