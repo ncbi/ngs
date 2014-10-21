@@ -77,8 +77,7 @@ class LibManager implements FileCreator
 
     private LibManager ( Location locations [] )
     {
-        if (locations == null)
-            locations = getLocationProperty ();
+//      if (locations == null) locations = getLocationProperty ();
 
         if (locations != null)
             this.location = locations;
@@ -103,11 +102,11 @@ class LibManager implements FileCreator
         and using libname to generate the file name */
     public BufferedOutputStream create ( String libname )
     {
-        LibPathIterator i
+        LibPathIterator it
             = new LibPathIterator(this, mapLibraryName(libname), true);
 
         while (true) {
-            String pathname = i.nextName();
+            String pathname = it.nextName();
             if (pathname == null) {
                 return null;
             }
@@ -130,7 +129,28 @@ or pathname not found and its directory is not writable */
                 continue;
             }
 
-            knownLibPath = pathname;
+            int l = 9;
+            if (knownLibPath == null) {
+                knownLibPath = new String[l];
+            } else {
+                l = knownLibPath.length;
+            }
+            int i = 0;
+            for (i = 0; i < l; ++i) {
+                if (knownLibPath[i] == null) {
+                    break;
+                }
+            }
+            if (i >= l) {
+                String tmp[] = knownLibPath;
+                l *= 2;
+                knownLibPath = new String[l];
+                for (i = 0; i < tmp.length; ++i) {
+                    knownLibPath[i] = tmp[i];
+                }
+            }
+            knownLibPath[i] = pathname;
+
             Logger.fine("Opened " + pathname);
             return new BufferedOutputStream(s, HttpManager.BUF_SZ);
         }
@@ -283,7 +303,7 @@ or pathname not found and its directory is not writable */
         LibManager.loadLibrary() */
     private boolean download( String libname )
     {
-        String request = "cmd=lib&version=1.0";
+        String request = "cmd=lib&version=1.0&libname=" + libname;
 
         request += "&jar_vers=" + Manager.version();
 
@@ -295,7 +315,8 @@ or pathname not found and its directory is not writable */
         }
 
         for (int i = 0; i < SRATOOLKIT_CGI.length; ++i) {
-            int code = HttpManager.post(SRATOOLKIT_CGI[i], request, this, libname);
+            int code
+                = HttpManager.post(SRATOOLKIT_CGI[i], request, this, libname);
             if (code == 200) {
                 return true;
             } else {
@@ -356,10 +377,19 @@ or pathname not found and its directory is not writable */
                     if (knownLibPath == null) {
                         continue;
                     } else {
-                        name = new String[1];
-                        name[0] = knownLibPath;
+                        for (int i = 0;
+                            i < knownLibPath.length && knownLibPath[i] != null;
+                            ++i)
+                        {
+                            if (knownLibPath[i].contains(libname)) {
+                                name = new String[1];
+                                name[0] = knownLibPath[i];
+                                break;
+                            }
+                        }
                     }
-                } else {
+                }
+                if (name == null) {
                     name = mapLibraryName(libname);
                 }
                 Logger.finest("System.mapLibraryName(" + libname + ") = "
@@ -452,7 +482,7 @@ or pathname not found and its directory is not writable */
     }
 
 
-    private String knownLibPath; // location where the library was downloaded to
+    private String[] knownLibPath; // location where library was downloaded to
 
     private Location location[];
 

@@ -1,5 +1,7 @@
 Makefile.userconfig
 Makefile.config*
 user.status
+*.o
 *.class
 *.jar
+core.*
