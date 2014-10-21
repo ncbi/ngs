@@ -59,16 +59,16 @@ PROFILE_FILE = $(ROOT)/etc/profile.d/ngs-python
 
 install: $(TARGETS) $(INST_PYTHONDIR) copyexamples
 ifeq (0, $(shell id -u))
-	@ echo "Installing ngs package"
+	@ echo "Installing ngs package..."
+	@ python setup.py install
 	@ echo "Please add $(NGS_LIBDIR):$(VDB_LIBDIR) to your LD_LIBRARY_PATH, e.g.:"
 	@ echo "      export LD_LIBRARY_PATH=$(NGS_LIBDIR):$(VDB_LIBDIR):\$$LD_LIBRARY_PATH"
-	@ python setup.py install
    
 else
-	@ echo "Installing ngs package"
+	@ echo "Installing ngs package..."
+	@ python setup.py install --user
 	@ echo "Please add $(NGS_LIBDIR):$(VDB_LIBDIR) to your LD_LIBRARY_PATH, e.g.:"
 	@ echo "      export LD_LIBRARY_PATH=$(NGS_LIBDIR):$(VDB_LIBDIR):\$$LD_LIBRARY_PATH"
-	@ echo "Insufficient permissions to install python ngs package automatically"
 endif
 
 else
