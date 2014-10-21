@@ -62,7 +62,7 @@ class LibPathIterator {
     }
 
 
-    private LibPathIterator(LibManager mgr,
+    LibPathIterator(LibManager mgr,
         LibManager.Location location,
         String filename[],
         boolean parents)
@@ -417,25 +417,19 @@ Here we use it just to find where to write the downoaded file. */
         return true;
     }
 
-    /** NCBI_HOME (~/.ncbi). Create it if required. */
-    private String ncbiHome()
+    private boolean mkdir(String path, boolean closed)
     {
-        String path = System.getProperty("user.home");
-        if (path == null) {
-            return null;
-        }
+        File f = new File(path);
 
-        path += fileSeparator() + ".ncbi";
+        if (!f.exists()) {
+            try {
+                f.mkdirs();
+            } catch (SecurityException e) {
+                Logger.fine(e.toString());
+                return false;
+            }
 
-        if (parents) {
-            File f = new File(path);
-            if (!f.exists()) {
-                try {
-                    f.mkdirs();
-                } catch (SecurityException e) {
-                    Logger.fine(e.toString());
-                    return null;
-                }
+            if (closed) {
                 try {
                     f.setExecutable(false, false);
                 } catch (SecurityException e) {
@@ -451,21 +445,56 @@ Here we use it just to find where to write the downoaded file. */
                 } catch (SecurityException e) {
                     Logger.fine(e.toString());
                 }
-                try {
-                    f.setExecutable(true, true);
-                } catch (SecurityException e) {
-                    Logger.fine(e.toString());
-                }
-                try {
-                    f.setReadable(true, true);
-                } catch (SecurityException e) {
-                    Logger.fine(e.toString());
-                }
-                try {
-                    f.setWritable(true, true);
-                } catch (SecurityException e) {
-                    Logger.fine(e.toString());
-                }
+            }
+
+            try {
+                f.setExecutable(true, true);
+            } catch (SecurityException e) {
+                Logger.fine(e.toString());
+            }
+            try {
+                f.setReadable(true, true);
+            } catch (SecurityException e) {
+                Logger.fine(e.toString());
+            }
+            try {
+                f.setWritable(true, true);
+            } catch (SecurityException e) {
+                Logger.fine(e.toString());
+            }
+        }
+
+        return true;
+    }
+
+    /** NCBI_HOME (~/.ncbi). Create it if required. */
+    private String ncbiHome()
+    {
+        String path = System.getProperty("user.home");
+        if (path == null) {
+            return null;
+        }
+
+        path += fileSeparator() + ".ncbi";
+        if (parents) {
+            if (!mkdir(path, true)) {
+                return null;
+            }
+        }
+
+        path += fileSeparator() + "lib";
+        switch (LibManager.DetectJVM()) {
+            case b64:
+                path += "64";
+                break;
+            case b32:
+                path += "32";
+                break;
+        }
+
+        if (parents) {
+            if (!mkdir(path, false)) {
+                return null;
             }
         }
 
