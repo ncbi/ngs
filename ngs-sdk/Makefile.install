@@ -32,8 +32,6 @@ include $(TOP)/Makefile.config
 #-------------------------------------------------------------------------------
 # install
 # 
-ifeq (linux, $(OS))
-
 LIBRARIES_TO_INSTALL = \
     ngs-sdk.$(VERSION_SHLX) \
     ngs-c++.$(VERSION_LIBX) \
@@ -63,8 +61,14 @@ copyexamples:
 INCLUDE_SYMLINK = $(ROOT)/usr/include/ngs
 PROFILE_FILE = $(ROOT)/etc/profile.d/ngs-sdk
 
+ifeq (linux, $(OS))
+    ifeq (0, $(shell id -u))
+        LINUX_ROOT = true
+    endif
+endif
+
 install: copylibs copyincludes copyexamples
-ifeq (0, $(shell id -u))
+ifeq (true, $(LINUX_ROOT))
 	@ # install symlink to includes 
 	@ echo "Updating $(INCLUDE_SYMLINK)"
 	@ rm -f $(INCLUDE_SYMLINK)
@@ -97,12 +101,6 @@ else
 	@ echo "      export NGS_LIBDIR=$(LIB_TARGET)"   
 	@ echo "      ld -L\$$NGS_LIBDIR -lngs-sdk ..."
 endif
-.PHONY: copylibs copyincludes copyexamples
 
-else
-install:
-
-endif
-
-.PHONY: install
+.PHONY: install copylibs copyincludes copyexamples
 
