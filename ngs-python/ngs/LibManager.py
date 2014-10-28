@@ -52,7 +52,6 @@ def os_bits(machine=machine()):
 def lib_filename(lib_name):
     return "lib"+lib_name+LibManager.get_lib_extension()
     
-#@staticmethod
 def load_saved_library(lib_name):
     """search library in different possible locations
     and load it if found
@@ -67,16 +66,8 @@ def load_saved_library(lib_name):
         except OSError:
             pass
     
-    # lib = (
-        # cdll.LoadLibrary(os.path.join(os.path.expanduser('~'), ".ncbi", "lib"+str(os_bits()), lib_filename)) or
-        # cdll.LoadLibrary(lib_filename)) or
-        # cdll.LoadLibrary(os.path.join(".", lib_filename)) or
-        # cdll.LoadLibrary(os.path.join(tempfile.gettempdir(), lib_filename))
-    # )
-    
     return lib
 
-#@staticmethod
 def load_updated_library(lib_name):
     """download library from ncbi and load it
     """
@@ -132,9 +123,6 @@ def load_updated_library(lib_name):
 
     
 class LibManager:
-    # lib_path_engine = "/home/ukrainch/centos/gcc/x86_64/rel/lib/libncbi-vdb.so"
-    # lib_path_sdk = "/home/ukrainch/ncbi-outdir/ngs-sdk/x86_64/lib/libngs-sdk.so"
-    
     c_lib_engine = None
     c_lib_sdk = None
     

@@ -5,10 +5,10 @@ import sys
 #ver = version.get_git_version()
 
 decimal_ver = sys.version_info[0]*10 + sys.version_info[1]
-min_version = 25
+min_version = 26
 
 if decimal_ver < min_version:
-    print ("At least python " + str(min_version/10.) + " is required to run ngs package, and you're using " + str(decimal_ver/10.))
+    print ("At least python " + str(min_version/10.) + " is required to automatically install ngs package, and you're using " + str(decimal_ver/10.))
     exit()
 
 setup(name='ngs',
