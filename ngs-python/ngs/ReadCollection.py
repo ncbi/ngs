@@ -25,20 +25,20 @@
 # 
 
 
-from ctypes import c_void_p, c_uint64, byref, create_string_buffer
+from ctypes import c_void_p, c_uint64, byref, create_string_buffer, c_char_p
 from . import NGS
-
-from Refcount import Refcount
-from ErrorMsg import ErrorMsg
-from String import NGS_RawString, getNGSString, getNGSValue
-from Read import Read
-from ReadIterator import ReadIterator
-from ReadGroup import ReadGroup
-from ReadGroupIterator import ReadGroupIterator
-from Reference import Reference
-from ReferenceIterator import ReferenceIterator
-from Alignment import Alignment
-from AlignmentIterator import AlignmentIterator
+    
+from .Refcount import Refcount
+from .ErrorMsg import ErrorMsg
+from .String import NGS_RawString, getNGSString, getNGSValue
+from .Read import Read
+from .ReadIterator import ReadIterator
+from .ReadGroup import ReadGroup
+from .ReadGroupIterator import ReadGroupIterator
+from .Reference import Reference
+from .ReferenceIterator import ReferenceIterator
+from .Alignment import Alignment
+from .AlignmentIterator import AlignmentIterator
 
 class ReadCollection(Refcount):
     """Represents an NGS-capable object with a collection of
@@ -93,9 +93,11 @@ class ReadCollection(Refcount):
         :throws: ErrorMsg upon an error accessing data
         """
         ret = ReadGroup()
-
-        with NGS_RawString() as ngs_str_err:
+        ngs_str_err = NGS_RawString()
+        try:
             res = NGS.lib_manager.PY_NGS_ReadCollectionGetReadGroup(self.ref, spec, byref(ret.ref), byref(ngs_str_err.ref))
+        finally:
+            ngs_str_err.close()
         
         return ret
     
@@ -116,9 +118,11 @@ class ReadCollection(Refcount):
 
     def getReference(self, spec):
         ret = Reference()
-
-        with NGS_RawString() as ngs_str_err:
-            res = NGS.lib_manager.PY_NGS_ReadCollectionGetReference(self.ref, spec, byref(ret.ref), byref(ngs_str_err.ref))
+        ngs_str_err = NGS_RawString()
+        try:
+            res = NGS.lib_manager.PY_NGS_ReadCollectionGetReference(self.ref, spec.encode(), byref(ret.ref), byref(ngs_str_err.ref))
+        finally:
+            ngs_str_err.close()
         
         return ret
         
@@ -130,10 +134,12 @@ class ReadCollection(Refcount):
         :throws: ErrorMsg if Alignment does not exist
         """
         ret = Alignment()
-
-        with NGS_RawString() as ngs_str_err:
+        ngs_str_err = NGS_RawString()
+        try:
             res = NGS.lib_manager.PY_NGS_ReadCollectionGetAlignment(self.ref, alignmentId, byref(ret.ref), byref(ngs_str_err.ref))
-        
+        finally:
+            ngs_str_err.close()
+
         return ret
     
     # AlignmentCategory
@@ -144,10 +150,12 @@ class ReadCollection(Refcount):
         :returns: an iterator of all Alignments from specified categories
         """
         ret = AlignmentIterator()
-
-        with NGS_RawString() as ngs_str_err:
+        ngs_str_err = NGS_RawString()
+        try:
             res = NGS.lib_manager.PY_NGS_ReadCollectionGetAlignments(self.ref, categories, byref(ret.ref), byref(ngs_str_err.ref))
-        
+        finally:
+            ngs_str_err.close()
+
         return ret
         
     def getAlignmentCount(self, categories=Alignment.all):
@@ -155,10 +163,12 @@ class ReadCollection(Refcount):
         :returns: count of all alignments
         '''
         ret = c_uint64()
-
-        with NGS_RawString() as ngs_str_err:
+        ngs_str_err = NGS_RawString()
+        try:
             res = NGS.lib_manager.PY_NGS_ReadCollectionGetAlignmentCount(self.ref, categories, byref(ret), byref(ngs_str_err.ref))
-        
+        finally:
+            ngs_str_err.close()
+
         return ret.value
         
     def getAlignmentRange(self, first, count, categories=Alignment.all): # TODO: parameters order!
@@ -167,10 +177,12 @@ class ReadCollection(Refcount):
         :returns: an iterator across a range of Alignments
         '''
         ret = AlignmentIterator()
-
-        with NGS_RawString() as ngs_str_err:
+        ngs_str_err = NGS_RawString()
+        try:
             res = NGS.lib_manager.PY_NGS_ReadCollectionGetAlignmentRange(self.ref, first, count, categories, byref(ret.ref), byref(ngs_str_err.ref))
-        
+        finally:
+            ngs_str_err.close()
+
         return ret
 
     #----------------------------------------------------------------------
@@ -182,10 +194,12 @@ class ReadCollection(Refcount):
         :throws: ErrorMsg if Read does not exist
         """
         ret = Read()
-
-        with NGS_RawString() as ngs_str_err:
+        ngs_str_err = NGS_RawString()
+        try:
             res = NGS.lib_manager.PY_NGS_ReadCollectionGetRead(self.ref, readId, byref(ret.ref), byref(ngs_str_err.ref))
-        
+        finally:
+            ngs_str_err.close()
+
         return ret
     
     # ReadCategory
@@ -196,10 +210,12 @@ class ReadCollection(Refcount):
         :returns: an iterator of all contained machine Reads
         """
         ret = ReadIterator()
-
-        with NGS_RawString() as ngs_str_err:
+        ngs_str_err = NGS_RawString()
+        try:
             res = NGS.lib_manager.PY_NGS_ReadCollectionGetReads(self.ref, categories, byref(ret.ref), byref(ngs_str_err.ref))
-        
+        finally:
+            ngs_str_err.close()
+
         return ret
 
     def getReadCount(self, categories=Read.all):
@@ -207,18 +223,22 @@ class ReadCollection(Refcount):
         :returns: the number of reads in the collection
         """
         ret = c_uint64()
-
-        with NGS_RawString() as ngs_str_err:
+        ngs_str_err = NGS_RawString()
+        try:
             res = NGS.lib_manager.PY_NGS_ReadCollectionGetReadCount(self.ref, categories, byref(ret), byref(ngs_str_err.ref))
-        
+        finally:
+            ngs_str_err.close()
+
         return ret.value
 
     def getReadRange(self, first, count, categories=Read.all):
         ret = ReadIterator()
-
-        with NGS_RawString() as ngs_str_err:
+        ngs_str_err = NGS_RawString()
+        try:
             res = NGS.lib_manager.PY_NGS_ReadCollectionGetReadRange(self.ref, first, count, categories, byref(ret.ref), byref(ngs_str_err.ref))
-        
+        finally:
+            ngs_str_err.close()
+
         return ret
 
 
@@ -235,9 +255,8 @@ def openReadCollection(spec):
     ret = ReadCollection()
     ERROR_BUFFER_SIZE = 4096
     str_err = create_string_buffer(ERROR_BUFFER_SIZE)
-    from ctypes import cast
     from . import PY_RES_OK
-    res = NGS.lib_manager.PY_NGS_Engine_ReadCollectionMake(spec, byref(ret.ref), str_err, len(str_err))
+    res = NGS.lib_manager.PY_NGS_Engine_ReadCollectionMake(spec.encode(), byref(ret.ref), str_err, len(str_err))
     if res != PY_RES_OK:
         raise ErrorMsg(str_err.value)
         

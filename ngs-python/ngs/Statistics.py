@@ -27,8 +27,8 @@
 from ctypes import byref, c_uint32, c_int64, c_uint64, c_double
 from . import NGS
 
-from String import NGS_String, NGS_RawString, getNGSString, getNGSValue
-from Refcount import Refcount
+from .String import NGS_String, NGS_RawString, getNGSString, getNGSValue
+from .Refcount import Refcount
 
 # Statistical data container
 
@@ -41,8 +41,11 @@ class Statistics(Refcount):
 
     def getValueType(self, path):
         ret = c_uint32()
-        with NGS_RawString() as ngs_str_err:
+        ngs_str_err = NGS_RawString()
+        try:
             res = NGS.lib_manager.PY_NGS_StatisticsGetValueType(self.ref, path, byref(ret), byref(ngs_str_err.ref))
+        finally:
+            ngs_str_err.close()
         
         return ret.value
 
@@ -52,9 +55,16 @@ class Statistics(Refcount):
         :returns: textual representation of value
         :throws: ErrorMsg if path not found or value cannot be converted
         """
-        with NGS_RawString() as ngs_str_err, NGS_String() as ngs_str_ret:
-            res = NGS.lib_manager.PY_NGS_StatisticsGetAsString(self.ref, path, byref(ngs_str_ret.ref), byref(ngs_str_err.ref))
-            return ngs_str_ret.getPyString()
+        ngs_str_err = NGS_RawString()
+        try:
+            ngs_str_ret = NGS_String()
+            try:
+                res = NGS.lib_manager.PY_NGS_StatisticsGetAsString(self.ref, path, byref(ngs_str_ret.ref), byref(ngs_str_err.ref))
+                return ngs_str_ret.getPyString()
+            finally:
+                ngs_str_ret.close()
+        finally:
+            ngs_str_err.close()
 
     def getAsI64(self, path):
         """
@@ -63,8 +73,11 @@ class Statistics(Refcount):
         :throws: ErrorMsg if path not found or value cannot be converted
         """
         ret = c_int64()
-        with NGS_RawString() as ngs_str_err:
+        ngs_str_err = NGS_RawString()
+        try:
             res = NGS.lib_manager.PY_NGS_StatisticsGetAsI64(self.ref, path, byref(ret), byref(ngs_str_err.ref))
+        finally:
+            ngs_str_err.close()
         
         return ret.value
 
@@ -75,8 +88,11 @@ class Statistics(Refcount):
         :throws: ErrorMsg if path not found or value cannot be converted
         """
         ret = c_uint64()
-        with NGS_RawString() as ngs_str_err:
+        ngs_str_err = NGS_RawString()
+        try:
             res = NGS.lib_manager.PY_NGS_StatisticsGetAsU64(self.ref, path, byref(ret), byref(ngs_str_err.ref))
+        finally:
+            ngs_str_err.close()
         
         return ret.value
 
@@ -87,8 +103,11 @@ class Statistics(Refcount):
         :throws: ErrorMsg if path not found or value cannot be converted
         """
         ret = c_double()
-        with NGS_RawString() as ngs_str_err:
+        ngs_str_err = NGS_RawString()
+        try:
             res = NGS.lib_manager.PY_NGS_StatisticsGetAsDouble(self.ref, path, byref(ret), byref(ngs_str_err.ref))
+        finally:
+            ngs_str_err.close()
         
         return ret.value
 
@@ -97,6 +116,13 @@ class Statistics(Refcount):
         :param: path is null or empty to request first path, or a valid path string
         :returns: null if no more paths, or a valid path string
         """
-        with NGS_RawString() as ngs_str_err, NGS_String() as ngs_str_ret:
-            res = NGS.lib_manager.PY_NGS_StatisticsGetNextPath(self.ref, path, byref(ngs_str_ret.ref), byref(ngs_str_err.ref))
-            return ngs_str_ret.getPyString()
+        ngs_str_err = NGS_RawString()
+        try:
+            ngs_str_ret = NGS_String()
+            try:
+                res = NGS.lib_manager.PY_NGS_StatisticsGetNextPath(self.ref, path, byref(ngs_str_ret.ref), byref(ngs_str_err.ref))
+                return ngs_str_ret.getPyString()
+            finally:
+                ngs_str_ret.close()
+        finally:
+            ngs_str_err.close()

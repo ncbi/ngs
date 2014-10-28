@@ -26,8 +26,8 @@
 
 from ctypes import c_int
 from . import NGS
-from String import getNGSValue
-from ReadGroup import ReadGroup
+from .String import getNGSValue
+from .ReadGroup import ReadGroup
 
 # Iterates across a list of ReadGroups
 

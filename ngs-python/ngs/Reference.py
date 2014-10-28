@@ -26,12 +26,12 @@
 
 from ctypes import byref, c_int, c_uint64
 from . import NGS
-from Refcount import Refcount
-from String import NGS_RawString, NGS_String, getNGSString, getNGSValue
+from .Refcount import Refcount
+from .String import NGS_RawString, NGS_String, getNGSString, getNGSValue
 
-from Alignment import Alignment
-from AlignmentIterator import AlignmentIterator
-from PileupIterator import PileupIterator
+from .Alignment import Alignment
+from .AlignmentIterator import AlignmentIterator
+from .PileupIterator import PileupIterator
 
 # Represents a reference sequence
 
@@ -61,10 +61,17 @@ class Reference(Refcount):
         :param: length must be >= 0
         :returns: sub-sequence bases for Reference
         """
-        with NGS_RawString() as ngs_str_err, NGS_String() as ngs_str_ret:
-            res = NGS.lib_manager.PY_NGS_ReferenceGetReferenceBases(self.ref, offset, length, byref(ngs_str_ret.ref), byref(ngs_str_err.ref))
-            return ngs_str_ret.getPyString()
-    
+        ngs_str_err = NGS_RawString()
+        try:
+            ngs_str_ret = NGS_String()
+            try:
+                res = NGS.lib_manager.PY_NGS_ReferenceGetReferenceBases(self.ref, offset, length, byref(ngs_str_ret.ref), byref(ngs_str_err.ref))
+                return ngs_str_ret.getPyString()
+            finally:
+                ngs_str_ret.close()
+        finally:
+            ngs_str_err.close()
+
     def getReferenceChunk(self, offset, length=-1):
         """
         :param: offset is zero-based and non-negative
@@ -74,9 +81,16 @@ class Reference(Refcount):
         than requested. to obtain all bases available
         in chunk, use a negative "size" value
         """
-        with NGS_RawString() as ngs_str_err, NGS_String() as ngs_str_ret:
-            res = NGS.lib_manager.PY_NGS_ReferenceGetReferenceChunk(self.ref, offset, length, byref(ngs_str_ret.ref), byref(ngs_str_err.ref))
-            return ngs_str_ret.getPyString()
+        ngs_str_err = NGS_RawString()
+        try:
+            ngs_str_ret = NGS_String()
+            try:
+                res = NGS.lib_manager.PY_NGS_ReferenceGetReferenceChunk(self.ref, offset, length, byref(ngs_str_ret.ref), byref(ngs_str_err.ref))
+                return ngs_str_ret.getPyString()
+            finally:
+                ngs_str_ret.close()
+        finally:
+            ngs_str_err.close()
 
     # ----------------------------------------------------------------------
     # ALIGNMENTS
@@ -87,9 +101,11 @@ class Reference(Refcount):
         :throws: ErrorMsg if Alignment does not exist or is not part of this Reference
         """
         ret = Alignment()
-
-        with NGS_RawString() as ngs_str_err:
+        ngs_str_err = NGS_RawString()
+        try:
             res = NGS.lib_manager.PY_NGS_ReferenceGetAlignment(self.ref, alignmentId, byref(ret.ref), byref(ngs_str_err.ref))
+        finally:
+            ngs_str_err.close()
         
         return ret
 
@@ -98,9 +114,11 @@ class Reference(Refcount):
         :returns: an iterator of contained alignments
         """
         ret = AlignmentIterator()
-        
-        with NGS_RawString() as ngs_str_err:
+        ngs_str_err = NGS_RawString()
+        try:
             res = NGS.lib_manager.PY_NGS_ReferenceGetAlignments(self.ref, categories, byref(ret.ref), byref(ngs_str_err.ref))
+        finally:
+            ngs_str_err.close()
         
         return ret
 
@@ -112,9 +130,11 @@ class Reference(Refcount):
         :returns: an iterator across a range of Alignments
         """
         ret = AlignmentIterator()
-        
-        with NGS_RawString() as ngs_str_err:
+        ngs_str_err = NGS_RawString()
+        try:
             res = NGS.lib_manager.PY_NGS_ReferenceGetAlignmentSlice(self.ref, start, length, categories, byref(ret.ref), byref(ngs_str_err.ref))
+        finally:
+            ngs_str_err.close()
         
         return ret
 
@@ -126,9 +146,11 @@ class Reference(Refcount):
         :returns: an iterator of contained Pileups
         """
         ret = PileupIterator()
-        
-        with NGS_RawString() as ngs_str_err:
+        ngs_str_err = NGS_RawString()
+        try:
             res = NGS.lib_manager.PY_NGS_ReferenceGetPileups(self.ref, categories, byref(ret.ref), byref(ngs_str_err.ref))
+        finally:
+            ngs_str_err.close()
         
         return ret
 
@@ -140,9 +162,11 @@ class Reference(Refcount):
         :returns: an iterator of contained Pileups
         """
         ret = PileupIterator()
-        
-        with NGS_RawString() as ngs_str_err:
+        ngs_str_err = NGS_RawString()
+        try:
             res = NGS.lib_manager.PY_NGS_ReferenceGetPileupSlice(self.ref, start, length, categories, byref(ret.ref), byref(ngs_str_err.ref))
+        finally:
+            ngs_str_err.close()
         
         return ret
     

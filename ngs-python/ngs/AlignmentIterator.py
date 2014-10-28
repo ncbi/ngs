@@ -27,8 +27,8 @@
 from ctypes import c_int
 
 from . import NGS
-from String import getNGSValue
-from Alignment import Alignment
+from .String import getNGSValue
+from .Alignment import Alignment
 
 class AlignmentIterator(Alignment):
     def nextAlignment(self):

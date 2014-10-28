@@ -26,10 +26,10 @@
 from ctypes import c_char, c_int32, c_uint32, c_int64, c_void_p
 from . import NGS
 
-from String import getNGSString, getNGSValue
-from Refcount import Refcount
+from .String import getNGSString, getNGSValue
+from .Refcount import Refcount
 
-from Alignment import Alignment
+from .Alignment import Alignment
 
 
 # Represents a single cell of a sparse 2D matrix with Reference coordinates on one axis
