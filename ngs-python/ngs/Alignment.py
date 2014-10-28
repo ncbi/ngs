@@ -27,9 +27,9 @@
 from ctypes import byref, c_int, c_int32, c_uint32, c_int64, c_uint64, c_void_p
 from . import NGS
 
-from String import NGS_String, NGS_RawString, getNGSString, getNGSValue
+from .String import NGS_String, NGS_RawString, getNGSString, getNGSValue
 
-from Fragment import Fragment
+from .Fragment import Fragment
 
 # Represents an alignment between a Fragment and Reference sub-sequence
 # provides a path to Read and mate Alignment
@@ -121,9 +121,12 @@ class Alignment(Fragment):
         
     def getSoftClip(self, edge):
         ret = c_int32()
-        with NGS_RawString() as ngs_str_err:
+        ngs_str_err = NGS_RawString()
+        try:
             res = NGS.lib_manager.PY_NGS_AlignmentGetSoftClip(self.ref, edge, byref(ret), byref(ngs_str_err.ref))
-        
+        finally:
+            ngs_str_err.close()
+
         return ret.value
 
     def getTemplateLength(self):
@@ -133,17 +136,31 @@ class Alignment(Fragment):
         """
         :returns: a text string describing alignment details
         """
-        with NGS_RawString() as ngs_str_err, NGS_String() as ngs_str_ret:
-            res = NGS.lib_manager.PY_NGS_AlignmentGetShortCigar(self.ref, clipped, byref(ngs_str_ret.ref), byref(ngs_str_err.ref))
-            return ngs_str_ret.getPyString()
+        ngs_str_err = NGS_RawString()
+        try:
+            ngs_str_ret = NGS_String()
+            try:
+                res = NGS.lib_manager.PY_NGS_AlignmentGetShortCigar(self.ref, clipped, byref(ngs_str_ret.ref), byref(ngs_str_err.ref))
+                return ngs_str_ret.getPyString()
+            finally:
+                ngs_str_ret.close()
+        finally:
+            ngs_str_err.close()
 
     def getLongCigar(self, clipped):
         """
         :returns: a text string describing alignment details
         """
-        with NGS_RawString() as ngs_str_err, NGS_String() as ngs_str_ret:
-            res = NGS.lib_manager.PY_NGS_AlignmentGetLongCigar(self.ref, clipped, byref(ngs_str_ret.ref), byref(ngs_str_err.ref))
-            return ngs_str_ret.getPyString()
+        ngs_str_err = NGS_RawString()
+        try:
+            ngs_str_ret = NGS_String()
+            try:
+                res = NGS.lib_manager.PY_NGS_AlignmentGetLongCigar(self.ref, clipped, byref(ngs_str_ret.ref), byref(ngs_str_err.ref))
+                return ngs_str_ret.getPyString()
+            finally:
+                ngs_str_ret.close()
+        finally:
+            ngs_str_err.close()
 
     # ------------------------------------------------------------------
     # details of mate alignment            

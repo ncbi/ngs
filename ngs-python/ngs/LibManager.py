@@ -1,14 +1,144 @@
+# ===========================================================================
+# 
+#                            PUBLIC DOMAIN NOTICE
+#               National Center for Biotechnology Information
+# 
+#  This software/database is a "United States Government Work" under the
+#  terms of the United States Copyright Act.  It was written as part of
+#  the author's official duties as a United States Government employee and
+#  thus cannot be copyrighted.  This software/database is freely available
+#  to the public for use. The National Library of Medicine and the U.S.
+#  Government have not placed any restriction on its use or reproduction.
+# 
+#  Although all reasonable efforts have been taken to ensure the accuracy
+#  and reliability of the software and data, the NLM and the U.S.
+#  Government do not and cannot warrant the performance or results that
+#  may be obtained by using this software or data. The NLM and the U.S.
+#  Government disclaim all warranties, express or implied, including
+#  warranties of performance, merchantability or fitness for any particular
+#  purpose.
+# 
+#  Please cite the author in any work or product based on this material.
+# 
+# ===========================================================================
+# 
+# 
+
 from ctypes import cdll, c_char, c_int, c_char_p, c_int32, c_int64, c_double, POINTER, c_size_t, c_void_p, c_uint64, c_uint32
-import os, tempfile, platform
+import os, sys, platform, tempfile
+if sys.version_info[0] > 2:
+    from urllib.parse import urlencode
+    from urllib.request import urlopen
+else:
+    from urllib import urlencode
+    from urllib2 import urlopen
 
-from ErrorMsg import check_res_embedded
+from .ErrorMsg import check_res_embedded
+from . import ErrorMsg
 
+def machine():
+    """Return type of machine."""
+    if os.name == 'nt' and sys.version_info[:2] < (2,7):
+        return os.environ.get("PROCESSOR_ARCHITEW6432", 
+               os.environ.get('PROCESSOR_ARCHITECTURE', ''))
+    else:
+        return platform.machine()
+
+def os_bits(machine=machine()):
+    """Return bitness of operating system, or None if unknown."""
+    machine2bits = {'AMD64': 64, 'x86_64': 64, 'i386': 32, 'x86': 32}
+    return machine2bits.get(machine, None)
+
+def lib_filename(lib_name):
+    return "lib"+lib_name+LibManager.get_lib_extension()
+    
+#@staticmethod
+def load_saved_library(lib_name):
+    """search library in different possible locations
+    and load it if found
+    """
+    lib = None
+        
+    for dir in LibManager.get_directories_to_find_dll():
+        try:
+            lib = cdll.LoadLibrary(os.path.join(dir, lib_filename(lib_name) ))
+            if lib:
+                break
+        except OSError:
+            pass
+    
+    # lib = (
+        # cdll.LoadLibrary(os.path.join(os.path.expanduser('~'), ".ncbi", "lib"+str(os_bits()), lib_filename)) or
+        # cdll.LoadLibrary(lib_filename)) or
+        # cdll.LoadLibrary(os.path.join(".", lib_filename)) or
+        # cdll.LoadLibrary(os.path.join(tempfile.gettempdir(), lib_filename))
+    # )
+    
+    return lib
+
+#@staticmethod
+def load_updated_library(lib_name):
+    """download library from ncbi and load it
+    """
+    directory_created = (False, None)
+    file_created      = (False, None)
+    file_saved        = (False, None)
+    for dir in LibManager.get_directories_to_find_dll():
+        try:
+            if not dir:
+                continue
+            if not os.path.exists(dir):
+                os.makedirs(dir)
+            directory_created = (True, dir)
+        except:
+            directory_created = (False, dir)
+            continue
+
+        lib_path = os.path.join(dir, lib_filename(lib_name))
+        
+        try:
+            f = open(lib_path, "wb")
+            file_created = (True, lib_path)
+        except:
+            file_created = (False, lib_path)
+            continue
+
+        params = urlencode({
+            'cmd':     'lib',
+            'name':    lib_name,
+            'os_name': LibManager.get_post_os_name_param(),
+            'bits':    str(os_bits())
+        })
+        resp = urlopen(url=LibManager.URL_NCBI_SRATOOLKIT, data=params.encode())
+        if resp.code != 200:
+            raise ErrorMsg("Failed to download dll: url=" + LibManager.URL_NCBI_SRATOOLKIT + "; params=" + params + "; response code=" + str(resp.code))
+        
+        try:
+            f.write(resp.read())
+            f.close()
+            file_saved = (True, lib_path)
+        except:
+            file_saved = (False, lib_path)
+            continue
+            
+        return cdll.LoadLibrary(lib_path)
+    
+    if not directory_created[0]:
+        raise ErrorMsg("Failed to create directory '" + directory_created[1] + "' for " + lib_filename(lib_name))
+    elif not file_created[0]:
+        raise ErrorMsg("Failed to create file " + file_created[1])
+    elif not file_saved[0]:
+        raise ErrorMsg("Failed to save file " + file_saved[1])
+
+    
 class LibManager:
     # lib_path_engine = "/home/ukrainch/centos/gcc/x86_64/rel/lib/libncbi-vdb.so"
     # lib_path_sdk = "/home/ukrainch/ncbi-outdir/ngs-sdk/x86_64/lib/libngs-sdk.so"
     
     c_lib_engine = None
     c_lib_sdk = None
+    
+    URL_NCBI_SRATOOLKIT = 'http://trace.ncbi.nlm.nih.gov/Traces/sratoolkit/sratoolkit.cgi'
     
     def _bind(self, c_lib, c_func_name_str, param_types_list, errorcheck):
         setattr(self, c_func_name_str, getattr(c_lib, c_func_name_str))
@@ -21,51 +151,43 @@ class LibManager:
     def bind_sdk(self, c_func_name_str, param_types_list):
         return self._bind(self.c_lib_sdk, c_func_name_str, param_types_list, check_res_embedded)
     
-    def resolve_libpath(self, lib_filename):
-        # Try to load so from the root of ngs package
-        #full_path = os.path.join(os.path.dirname(__file__), lib_filename)
-        full_path = lib_filename
-        return full_path
+    @staticmethod
+    def get_directories_to_find_dll():
+        return (
+            os.path.join(os.path.expanduser('~'), ".ncbi", "lib"+str(os_bits())),
+            "",
+            ".",
+            tempfile.gettempdir(),
+        )
+    
+    @staticmethod
+    def get_post_os_name_param():
+        if (platform.system() == "Darwin"):
+            return "Mac"
+        else:
+            return platform.system()
         
-        # TODO: cannot check path to dll with isfile()
-        # waiting on VDB-1296 to modify this function or
-        # get rid of it at all
-        if not os.path.isfile(full_path):
-            full_path = "./" + lib_filename # Try to load just by filename (CWD, PATH?)
-            
-        if not os.path.isfile(full_path):
-            full_path = os.path.join(tempfile.gettempdir(), lib_filename) # Try to load from TMP
-        
-        # TODO: add more options here (download from ncbi, known path)
-        
-        if not os.path.isfile(full_path): # nothing worked - cannot resolve path
-            raise RuntimeError("FAILED to resolve path for " + lib_filename)
-        
-        return full_path
-
     @staticmethod
     def get_lib_extension():
         if platform.system() == "Windows":
-            return "dll"
-        #elif platform.name() == "": # TODO: add mac os
+            return ".dll"
+        elif platform.system() == "Darwin":
+            return ""
+        elif platform.system() == "Linux":
+            return ".so"
         else:
-            return "so"
+            return ""
     
     def initialize_ngs_bindings(self):
         if self.c_lib_engine and self.c_lib_sdk: # already initialized
             return
 
-        lib_ext = "." + LibManager.get_lib_extension()
-        
-        libname_engine = "libncbi-vdb" + lib_ext
-        libname_sdk = "libngs-sdk" + lib_ext
+        libname_engine = "ncbi-vdb"
+        libname_sdk = "ngs-sdk"
 
-        path_engine = self.resolve_libpath(libname_engine)
-        path_sdk = self.resolve_libpath(libname_sdk)
+        self.c_lib_engine = load_saved_library(libname_engine) or load_updated_library(libname_engine)
+        self.c_lib_sdk = load_saved_library(libname_sdk) or load_updated_library(libname_sdk)
         
-        self.c_lib_engine = cdll.LoadLibrary(path_engine)
-        self.c_lib_sdk = cdll.LoadLibrary(path_sdk)
-
         ##############  ngs-engine imports below  ####################
         
         self._bind(self.c_lib_engine, "PY_NGS_Engine_ReadCollectionMake", [c_char_p, POINTER(c_void_p), POINTER(c_char), c_size_t], None)

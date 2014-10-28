@@ -47,7 +47,7 @@ class NGS_String:
 
     def close(self):
         if self.ref:
-            from Refcount import RefcountRelease
+            from .Refcount import RefcountRelease
             RefcountRelease(self.ref)
             self.init_members_with_null()
             
@@ -71,7 +71,7 @@ class NGS_String:
         return self.size.value
         
     def getPyString(self):
-        return string_at(self.getData(), self.getSize())
+        return string_at(self.getData(), self.getSize()).decode()
 
 
 class NGS_RawString:
@@ -117,7 +117,7 @@ class NGS_RawString:
         return len(self.ref_to_char_p().value)
         
     def getPyString(self):
-        return string_at(self.getData(), self.getSize())
+        return string_at(self.getData(), self.getSize()).decode()
 
 
 def getNGSString(self, py_func):
@@ -130,10 +130,17 @@ def getNGSString(self, py_func):
     
     :remarks: NGS_String object is automatically released after this function returns
     """
-    with NGS_RawString() as ngs_str_err, NGS_String() as ngs_str_seq:
-        res = py_func(self.ref, byref(ngs_str_seq.ref), byref(ngs_str_err.ref))
-        #check_res(res, ngs_str_err)
-        return ngs_str_seq.getPyString()
+    ngs_str_err = NGS_RawString()
+    try:
+        ngs_str_seq = NGS_String()
+        try:
+            res = py_func(self.ref, byref(ngs_str_seq.ref), byref(ngs_str_err.ref))
+            #check_res(res, ngs_str_err)
+            return ngs_str_seq.getPyString()
+        finally:
+            ngs_str_seq.close()
+    finally:
+        ngs_str_err.close()
 
         
 def getNGSValue(self, py_func, value_type):
@@ -146,9 +153,12 @@ def getNGSValue(self, py_func, value_type):
     :throws: ErrorMsg
     """
     ret = value_type()
-    with NGS_RawString() as ngs_str_err:
+    ngs_str_err = NGS_RawString()
+    try:
         res = py_func(self.ref, byref(ret), byref(ngs_str_err.ref))
         #check_res(res, ngs_str_err)
+    finally:
+        ngs_str_err.close()
     
     return ret.value
 

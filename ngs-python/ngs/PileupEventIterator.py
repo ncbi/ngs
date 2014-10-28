@@ -27,8 +27,8 @@
 from ctypes import c_int
 
 from . import NGS
-from String import getNGSValue
-from PileupEvent import PileupEvent
+from .String import getNGSValue
+from .PileupEvent import PileupEvent
 
 #Iterates across a list of PileupEvents
 

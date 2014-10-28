@@ -27,10 +27,10 @@
 from ctypes import c_void_p
 from . import NGS
 
-from Refcount import Refcount
-from String import getNGSString, getNGSValue
+from .Refcount import Refcount
+from .String import getNGSString, getNGSValue
 
-from Statistics import Statistics
+from .Statistics import Statistics
 
 # Represents an NGS-capable object with a group of Reads
 
