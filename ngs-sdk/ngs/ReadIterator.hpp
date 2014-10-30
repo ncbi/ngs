@@ -37,7 +37,7 @@ namespace ngs
      * ReadIterator
      *  iterates across a list of Reads
      */
-    class  ReadIterator : public Read
+    class ReadIterator : public Read
     {
     public:
 

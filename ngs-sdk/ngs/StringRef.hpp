@@ -50,7 +50,7 @@ namespace ngs
      *  main purpose is to avoid copying
      *  provides a cast operator to create a language-specific String
      */
-    class   StringRef
+    class StringRef
     {
     public:
 

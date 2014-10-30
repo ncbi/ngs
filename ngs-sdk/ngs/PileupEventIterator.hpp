@@ -37,7 +37,7 @@ namespace ngs
      * PileupEventIterator
      *  iterates across a list of PileupEvents
      */
-    class  PileupEventIterator : public PileupEvent
+    class PileupEventIterator : public PileupEvent
     {
     public:
 

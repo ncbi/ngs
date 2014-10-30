@@ -50,7 +50,7 @@ namespace ngs
      * Statistics
      *  represents a set of statistics as a collection of path/value pairs
      */
-    class  Statistics 
+    class Statistics 
     {
     public:
 

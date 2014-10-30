@@ -50,7 +50,7 @@ namespace ngs
      * Fragment
      *  represents an NGS biological fragment
      */
-    class  Fragment
+    class Fragment
     {
     public:
 

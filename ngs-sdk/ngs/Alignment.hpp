@@ -45,7 +45,7 @@ namespace ngs
      *  represents an alignment between a Fragment and Reference sub-sequence
      *  provides a path to Read and mate Alignment
      */
-    class  Alignment : public Fragment
+    class Alignment : public Fragment
     {
     public:
 

@@ -52,7 +52,7 @@ namespace ngs
      * ReadCollection
      *  represents an NGS-capable object with a collection of Reads
      */
-    class  ReadCollection
+    class ReadCollection
     {
     public:
         
