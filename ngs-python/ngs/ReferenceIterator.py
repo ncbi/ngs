@@ -27,8 +27,8 @@
 from ctypes import c_int
 
 from . import NGS
-from String import getNGSValue
-from Reference import Reference
+from .String import getNGSValue
+from .Reference import Reference
 
 # Iterates across a list of References
 

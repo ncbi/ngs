@@ -6,14 +6,17 @@ sub PACKAGE_NAME { "NGS-PYTHON" }
 sub PACKAGE_NAMW { "NGS_PYTHON" }
 sub DEPENDS      {}
 sub CONFIG_OUT   { '.' }
-sub PKG { ( LNG  => 'PYTHON',
-            OUT  => 'ncbi-outdir',
+sub PKG { ( LNG   => 'PYTHON',
+            OUT   => 'ncbi-outdir',
             PATH  => '/usr/local/ngs/ngs-python',
             UPATH =>      '$HOME/ngs/ngs-python',
             EXAMP => '1', ) }
+sub REQ {}
+
+=pod
 sub REQ { (
             { name    => 'ngs-sdk',
-              namew   => 'NGS',
+              aname   => 'NGS',
               option  => 'with-ngs-sdk-prefix',
               origin  => 'I',
               type    => 'L',
@@ -26,7 +29,7 @@ sub REQ { (
               ilib    => 'libngs-bind-c++.a',
             },
             { name    => 'ncbi-vdb',
-              namew   => 'VDB',
+              aname   => 'VDB',
               option  => 'with-ncbi-vdb-prefix',
               origin  => 'I',
               type    => 'L',
@@ -38,5 +41,6 @@ sub REQ { (
               lib     => 'libncbi-vdb.$SHLX',
               ilib    => 'libkapp.a',
              } ) }
+=cut
 
 1

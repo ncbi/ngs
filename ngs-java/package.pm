@@ -6,14 +6,18 @@ sub PACKAGE_NAME { "NGS-JAVA" }
 sub PACKAGE_NAMW { "NGS_JAVA" }
 sub DEPENDS      {}
 sub CONFIG_OUT   { '.' }
-sub PKG { ( LNG  => 'JAVA',
-            OUT  => 'ncbi-outdir',
+sub PKG { ( LNG   => 'JAVA',
+            OUT   => 'ncbi-outdir',
             PATH  => '/usr/local/ngs/ngs-java',
             UPATH =>      '$HOME/ngs/ngs-java',
-            NGS_SDK_SRC => 1,
-            EXAMP => '1',  ) }
-sub REQ { ( { name    => 'ngs-sdk',
-              namew   => 'NGS',
+            EXAMP => '1'
+#           NGS_SDK_SRC => 1,
+        ) }
+sub REQ {}
+
+=pod
+( { name    => 'ngs-sdk',
+              aname   => 'NGS',
               option  => 'with-ngs-sdk-sources',
               origin  => 'I',
               type    => 'SI',
@@ -25,5 +29,6 @@ sub REQ { ( { name    => 'ngs-sdk',
               lib     => 'libngs-sdk.so',
               ilib    => 'libngs-bind-c++.a',
         } ) }
+=cut
 
 1

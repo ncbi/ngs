@@ -27,8 +27,8 @@
 from ctypes import c_int
 
 from . import NGS
-from String import getNGSValue
-from Read import Read
+from .String import getNGSValue
+from .Read import Read
 
 # ReadIterator
 # iterates across a list of Reads

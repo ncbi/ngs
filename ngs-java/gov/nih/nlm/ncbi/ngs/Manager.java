@@ -97,12 +97,15 @@ class Manager
         }
     }
 
-
-    // This jar's version : should match to JNI DLL's version
-    static int version ()
-    {
-        return 0x01000000;
+    /** ncbi-vdb version */
+    static String version() {
+        try {
+            return Version();
+        } catch (Throwable e) {
+            return "";
+        }
     }
+    private native static String Version ();
 
     private native static String Initialize ();
     private native static void Shutdown ();

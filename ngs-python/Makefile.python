@@ -57,6 +57,9 @@ ifeq (linux, $(OS))
 
 PROFILE_FILE = $(ROOT)/etc/profile.d/ngs-python
 
+$(INST_PYTHONDIR):
+	@ mkdir -p $@
+
 install: $(TARGETS) $(INST_PYTHONDIR) copyexamples
 ifeq (0, $(shell id -u))
 	@ echo "Installing ngs package..."

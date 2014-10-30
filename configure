@@ -26,11 +26,27 @@
 
 perl -v > /dev/null 2>&1 || { echo "checking for perl... no"; echo >&2 "configure: error: perl not found."; exit 1; }
 
-for D in ngs-sdk ngs-java ngs-python
-do
-  if [ -d $D ]
-    then echo "CONFIGURING $D"
-    $D/configure $@
-    echo
-  fi
-done 
+FILENAME="`basename $0`"
+CURDIR="`dirname $0`"
+
+if [ -z "$CURDIR" ]
+    then
+    echo configure: error: configure should be run as ./configure
+    exit 1
+fi
+
+
+if [ "$FILENAME" != configure -a ! -s configure ]
+    then
+    echo configure: error: configure should be run as ./configure
+else
+    cd $CURDIR
+    for D in ngs-sdk ngs-java ngs-python
+    do
+      if [ -d $D ]
+          then echo "CONFIGURING $D"
+          $D/configure $@
+          echo
+      fi
+    done
+fi
