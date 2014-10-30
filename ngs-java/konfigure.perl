@@ -91,6 +91,7 @@ die "configure: error" unless (GetOptions(\%OPT, @options));
 
 if ($OPT{'reconfigure'}) {
     my ($OS, $ARCH, $OSTYPE, $MARCH, @ARCHITECTURES) = OsArch();
+    $CONFIGURED = '';
     my $MAKEFILE
         = File::Spec->catdir(CONFIG_OUT(), "$OUT_MAKEFILE.$OS.$ARCH");
     println "\t\tloading $MAKEFILE" if ($OPT{'debug'});
@@ -104,6 +105,7 @@ if ($OPT{'reconfigure'}) {
             }
         }
     }
+    undef %OPT;
     unless (GetOptionsFromString($CONFIGURED, \%OPT, @options)) {
         die "configure: error";
     }
@@ -1250,6 +1252,8 @@ Build tuning:
 EndText
 
     println "Miscellaneous:";
+    println "  --reconfigure           rerun configure ";
+    println "                          using the same command-line arguments";
     if ($^O ne 'MSWin32') {
         println
             "  --status                print current configuration information"
