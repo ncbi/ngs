@@ -27,10 +27,6 @@
 #ifndef _hpp_ngs_stringref_
 #define _hpp_ngs_stringref_
 
-#ifndef _h_ngs_defs_
-#include <ngs/defs.h>
-#endif
-
 #ifndef _hpp_ngs_error_msg_
 #include <ngs/ErrorMsg.hpp>
 #endif
