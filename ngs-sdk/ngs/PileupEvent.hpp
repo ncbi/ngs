@@ -48,7 +48,7 @@ namespace ngs
      *  with Reference coordinates on one axis
      *  and stacked Alignments on the other axis
      */
-    class NGS_EXTERN PileupEvent
+    class  PileupEvent
     {
     public:
 

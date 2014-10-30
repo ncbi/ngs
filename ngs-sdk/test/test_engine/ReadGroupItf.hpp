@@ -85,7 +85,7 @@ namespace ngs_test_engine
             --instanceCount;
         }
 
-        static NGS_EXTERN  unsigned int instanceCount;
+        static   unsigned int instanceCount;
 
         int iterateFor;
     };

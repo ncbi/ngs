@@ -44,7 +44,7 @@ namespace ngs
     /*----------------------------------------------------------------------
      * FragmentItf
      */
-    class NGS_ITF_EXTERN  FragmentItf : public Refcount < FragmentItf, NGS_Fragment_v1 >
+    class   FragmentItf : public Refcount < FragmentItf, NGS_Fragment_v1 >
     {
     public:
 

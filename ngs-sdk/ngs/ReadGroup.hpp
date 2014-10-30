@@ -48,7 +48,7 @@ namespace ngs
      * ReadGroup
      *  represents an NGS-capable object with a group of Reads
      */
-    class NGS_EXTERN ReadGroup
+    class  ReadGroup
     {
     public:
 

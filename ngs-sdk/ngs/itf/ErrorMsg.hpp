@@ -42,7 +42,7 @@ namespace ngs
      *  a generic NGS error class
      *  holds a message describing what happened
      */
-    class NGS_ITF_EXTERN  ErrorMsg : public :: std :: exception
+    class   ErrorMsg : public :: std :: exception
     {
     public:
 

@@ -37,7 +37,7 @@ namespace ngs
      * PileupIterator
      *  iterates across a list of Pileups
      */
-    class NGS_EXTERN PileupIterator : public Pileup
+    class  PileupIterator : public Pileup
     {
     public:
 

@@ -32,12 +32,12 @@
  */
 #if defined _MSC_VER
  #if defined _LIBRARY
-  #define NGS_EXTERN   __declspec( dllexport ) 
+  #define    __declspec( dllexport ) 
  #else
-  #define NGS_EXTERN   __declspec( dllimport ) 
+  #define    __declspec( dllimport ) 
  #endif
 #else
- #define NGS_EXTERN   
+ #define    
 #endif
 
 #endif /* _h_ngs_defs_ */

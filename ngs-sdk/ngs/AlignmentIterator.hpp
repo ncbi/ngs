@@ -37,7 +37,7 @@ namespace ngs
      * AlignmentIterator
      *  iterates across a list of Alignments
      */
-    class NGS_EXTERN AlignmentIterator : public Alignment
+    class  AlignmentIterator : public Alignment
     {
     public:
 

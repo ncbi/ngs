@@ -43,7 +43,7 @@ namespace ngs
     /*----------------------------------------------------------------------
      * OpaqueRefcount
      */
-    class NGS_ITF_EXTERN  OpaqueRefcount
+    class   OpaqueRefcount
     {
     public:
 
@@ -65,7 +65,7 @@ namespace ngs
      * Refcount
      */
     template < class T, class C >
-    class NGS_ITF_EXTERN  Refcount : protected OpaqueRefcount
+    class   Refcount : protected OpaqueRefcount
     {
     public:
 

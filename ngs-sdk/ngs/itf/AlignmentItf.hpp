@@ -44,7 +44,7 @@ namespace ngs
     /*----------------------------------------------------------------------
      * AlignmentItf
      */
-    class NGS_ITF_EXTERN  AlignmentItf : public Refcount < AlignmentItf, NGS_Alignment_v1 >
+    class   AlignmentItf : public Refcount < AlignmentItf, NGS_Alignment_v1 >
     {
     public:
 

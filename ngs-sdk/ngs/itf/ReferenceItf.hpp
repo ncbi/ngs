@@ -46,7 +46,7 @@ namespace ngs
     /*----------------------------------------------------------------------
      * Reference
      */
-    class NGS_ITF_EXTERN   ReferenceItf : public Refcount < ReferenceItf, NGS_Reference_v1 >
+    class    ReferenceItf : public Refcount < ReferenceItf, NGS_Reference_v1 >
     {
     public:
 

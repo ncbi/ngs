@@ -37,7 +37,7 @@ namespace ngs
      * ReferenceIterator
      *  iterates across a list of References
      */
-    class NGS_EXTERN ReferenceIterator : public Reference
+    class  ReferenceIterator : public Reference
     {
     public:
 

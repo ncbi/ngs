@@ -48,7 +48,7 @@ namespace ngs
      * Reference
      *  represents a reference sequence
      */
-    class NGS_EXTERN Reference
+    class  Reference
     {
     public:
 

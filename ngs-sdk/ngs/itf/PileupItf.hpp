@@ -45,7 +45,7 @@ namespace ngs
     /*----------------------------------------------------------------------
      * PileupItf
      */
-    class NGS_ITF_EXTERN  PileupItf : public Refcount < PileupItf, NGS_Pileup_v1 >
+    class   PileupItf : public Refcount < PileupItf, NGS_Pileup_v1 >
     {
     public:
 

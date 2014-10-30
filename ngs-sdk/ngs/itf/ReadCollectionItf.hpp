@@ -48,7 +48,7 @@ namespace ngs
     /*----------------------------------------------------------------------
      * ReadCollectionItf
      */
-    class NGS_ITF_EXTERN  ReadCollectionItf : public Refcount < ReadCollectionItf, NGS_ReadCollection_v1 >
+    class   ReadCollectionItf : public Refcount < ReadCollectionItf, NGS_ReadCollection_v1 >
     {
     public:
         

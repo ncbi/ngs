@@ -54,7 +54,7 @@ namespace ngs
      *  main purpose is to avoid copying
      *  provides a cast operator to create a language-specific String
      */
-    class NGS_EXTERN  StringRef
+    class   StringRef
     {
     public:
 
@@ -116,7 +116,7 @@ namespace ngs
     };
 
     // support for C++ ostream
-      NGS_EXTERN :: std :: ostream & operator << ( :: std :: ostream & s, const StringRef & str );
+       :: std :: ostream & operator << ( :: std :: ostream & s, const StringRef & str );
 
 } // namespace ngs
 
