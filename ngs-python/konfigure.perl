@@ -362,10 +362,10 @@ foreach my $href (@REQ) {
     my %a = %$href;
     next if ($a{option} && $DEPEND_OPTIONS{$a{option}});
     my $is_optional = optional($a{type});
-    my $some_optional = $a{type} =~ /F/;
+    my $quasi_optional = $a{type} =~ /Q/;
     my $need_source = $a{type} =~ /S/;
     my $need_build = $a{type} =~ /B/;
-    my $need_lib = $a{type} =~ /L|F/;
+    my $need_lib = $a{type} =~ /L|Q/;
     
     my ($inc, $lib, $ilib) = ($a{include}, $a{lib}); # file names to check
     $lib = '' unless ($lib);
@@ -439,7 +439,7 @@ foreach my $href (@REQ) {
     {
         if ($is_optional) {
             println "configure: optional $a{name} package not found: skipped.";
-        } elsif ($some_optional && $found_itf && ($need_lib && ! $found_lib)) {
+        } elsif ($quasi_optional && $found_itf && ($need_lib && ! $found_lib)) {
             println "configure: $a{name} package: "
                 . "found interface files but not libraries.";
         } else {
@@ -899,7 +899,6 @@ sub find_in_dir {
 #   print "\t$dir... " unless ($AUTORUN);
 #   print "[found] " if ($OPT{'debug'});
     my ($found_inc, $found_lib, $found_ilib);
-    my $nl = 1;
     if ($include) {
         print "\tincludes... " unless ($AUTORUN);
         if (-e "$dir/$include") {
@@ -915,7 +914,6 @@ sub find_in_dir {
             print "$dir: " if ($OPT{'debug'});
             println 'no' unless ($AUTORUN);
         }
-        $nl = 0;
     }
     if ($lib || $ilib) {
 #       print "\n\t" if ($nl && !$AUTORUN);
@@ -977,6 +975,8 @@ sub find_in_dir {
                         println $libdir;
                     }
                     ++$found;
+                } else {
+                    println 'no' unless ($AUTORUN);
                 }
             }
         }
@@ -986,7 +986,6 @@ sub find_in_dir {
             println 'no' unless ($AUTORUN);
             undef $found_lib;
         }
-        ++$nl;
     }
     return ($found_inc, $found_lib, $found_ilib);
 }
