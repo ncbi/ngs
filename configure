@@ -45,7 +45,7 @@ else
     do
       if [ -d $D ]
           then echo "CONFIGURING $D"
-          $D/configure $@
+          $D/configure "$@"
           echo
       fi
     done
