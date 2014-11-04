@@ -1,14 +1,69 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">  
 
-  <Import Condition="Exists('$(ProjectDir)..\Makefile.config.win')" Project="$(ProjectDir)..\Makefile.config.win" />
+    <Import Condition="Exists('$(ProjectDir)..\Makefile.config.win')" Project="$(ProjectDir)..\Makefile.config.win" />
 
-  <PropertyGroup Label="Globals">
-    <Platform Condition="'$(Platform)' == ''">x64</Platform>
-    <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
+    <PropertyGroup Label="Globals">
+        <Platform Condition="'$(Platform)' == ''">x64</Platform>
+        <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
     
-    <NGS_OUTDIR Condition="'$(NGS_OUTDIR)' == ''">$(USERPROFILE)\</NGS_OUTDIR>
-    <NGS_ROOT Condition="'$(NGS_ROOT)' == ''">$(ProjectDir)..\</NGS_ROOT>
-    <NGS_TARGET Condition="'$(NGS_TARGET)' == ''">$(NGS_OUTDIR)win\cl\$(Platform)\$(Configuration)\</NGS_TARGET>    
-  </PropertyGroup>
+        <NGS_OUTDIR Condition="'$(NGS_OUTDIR)' == ''">$(USERPROFILE)\</NGS_OUTDIR>
+        <NGS_ROOT Condition="'$(NGS_ROOT)' == ''">$(ProjectDir)..\</NGS_ROOT>
+        <NGS_TARGET Condition="'$(NGS_TARGET)' == ''">$(NGS_OUTDIR)win\cl\$(Platform)\$(Configuration)\</NGS_TARGET>    
+    </PropertyGroup>
   
+    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+
+    <PropertyGroup Label="Configuration">
+        <CharacterSet>Unicode</CharacterSet>
+        <IntDir>$(NGS_TARGET)\obj\$(ProjectName)\</IntDir>
+        <TargetName>$(ProjectName)</TargetName>
+        <LinkIncremental>false</LinkIncremental>
+    </PropertyGroup>
+    
+    <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
+        <WholeProgramOptimization>false</WholeProgramOptimization>
+        <UseDebugLibraries>true</UseDebugLibraries>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)'=='Release'" Label="Configuration">
+        <WholeProgramOptimization>true</WholeProgramOptimization>
+        <UseDebugLibraries>false</UseDebugLibraries>
+    </PropertyGroup>
+    
+    <ItemDefinitionGroup>
+        <ClCompile>
+            <WarningLevel>Level3</WarningLevel>
+            <CompileAsManaged>false</CompileAsManaged>
+            <MinimalRebuild>true</MinimalRebuild>
+            <DisableLanguageExtensions>false</DisableLanguageExtensions>
+            <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+            <DisableSpecificWarnings>4996;4101;4251;4290</DisableSpecificWarnings>
+            <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+        </ClCompile>
+    </ItemDefinitionGroup>
+    
+    <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
+        <ClCompile>
+            <Optimization>Disabled</Optimization>
+            <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+            <PreprocessorDefinitions>_DEBUGGING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+        </ClCompile>
+        <Link>
+            <GenerateDebugInformation>true</GenerateDebugInformation>
+        </Link>
+    </ItemDefinitionGroup>
+    <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
+        <ClCompile>
+            <Optimization>MaxSpeed</Optimization>
+            <FunctionLevelLinking>true</FunctionLevelLinking>
+            <IntrinsicFunctions>true</IntrinsicFunctions>
+            <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+            <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+        </ClCompile>
+        <Link>
+            <GenerateDebugInformation>false</GenerateDebugInformation>
+            <EnableCOMDATFolding>true</EnableCOMDATFolding>
+            <OptimizeReferences>true</OptimizeReferences>
+        </Link>
+    </ItemDefinitionGroup>
+    
 </Project>
