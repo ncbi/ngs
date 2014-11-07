@@ -19,12 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   
-    <Import Project="lib-project.props" />
-  
     <PropertyGroup Label="Globals">
         <ProjectGuid>{06FA485F-8AA9-4F3B-B1E3-D8CF1993637B}</ProjectGuid>
         <ProjectName>libngs-disp</ProjectName>
     </PropertyGroup>
+    
+    <Import Project="lib-project.props" />
   
     <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
     <ImportGroup Label="ExtensionTargets" />
