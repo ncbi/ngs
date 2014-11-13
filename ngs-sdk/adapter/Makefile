@@ -68,7 +68,7 @@ ADAPT_OBJ = \
 
 $(LIBDIR)/$(LPFX)ngs-adapt-c++.$(VERSION_LIBX): $(ADAPT_OBJ)
 	$(AR) $@ $^
-    
+
 $(LIBDIR)/$(LPFX)ngs-adapt-c++.$(MAJVERS_LIBX): $(LIBDIR)/$(LPFX)ngs-adapt-c++.$(VERSION_LIBX)
 	rm -f $@
 	ln -s $(notdir $^) $@
