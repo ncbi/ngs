@@ -23,7 +23,7 @@
  * ===========================================================================
  */
 
-#include "ngs-bam.hpp"
+#include <ngs-bam/ngs-bam.hpp>
 #include "bam.hpp"
 
 #include <ngs/ReadCollection.hpp>

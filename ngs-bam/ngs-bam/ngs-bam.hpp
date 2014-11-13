@@ -39,8 +39,7 @@ namespace NGS_BAM
      *  create an object representing a named collection of reads
      *  "path" is a file-system path to a BAM file
      */
-    ngs :: ReadCollection openReadCollection ( const std :: string & path )
-        throw ( ngs :: ErrorMsg );
+    ngs :: ReadCollection openReadCollection ( const std :: string & path );
 }
 
 #endif // _hpp_ngs_bam_
