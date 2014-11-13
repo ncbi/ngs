@@ -1,7 +1,7 @@
 ################################################################################
 sub PACKAGE      { "ngs-python" }
 sub VERSION      { "1.0.0" }
-sub PACKAGE_TYPE { 'B' }
+sub PACKAGE_TYPE { 'P' }
 sub PACKAGE_NAME { "NGS-PYTHON" }
 sub PACKAGE_NAMW { "NGS_PYTHON" }
 sub DEPENDS      {}
@@ -11,36 +11,25 @@ sub PKG { ( LNG   => 'PYTHON',
             PATH  => '/usr/local/ngs/ngs-python',
             UPATH =>      '$HOME/ngs/ngs-python',
             EXAMP => '1', ) }
-sub REQ {}
-
-=pod
 sub REQ { (
             { name    => 'ngs-sdk',
               aname   => 'NGS',
               option  => 'with-ngs-sdk-prefix',
               origin  => 'I',
-              type    => 'L',
-              srcpath => '../ngs-sdk',
+              type    => 'D',
               pkgpath => '/usr/local/ngs/ngs-sdk',
               usrpath =>      '$HOME/ngs/ngs-sdk',
               bldpath => '$HOME/ncbi-outdir/ngs-sdk',
-              include => 'ngs/itf/Refcount.h',
               lib     => 'libngs-sdk.$SHLX',
-              ilib    => 'libngs-bind-c++.a',
             },
             { name    => 'ncbi-vdb',
               aname   => 'VDB',
               option  => 'with-ncbi-vdb-prefix',
               origin  => 'I',
-              type    => 'L',
-              srcpath => '../../ncbi-vdb',
+              type    => 'D',
               pkgpath => '/usr/local/ncbi/ncbi-vdb',
               usrpath =>      '$HOME/ncbi/ncbi-vdb',
               bldpath => '$HOME/ncbi-outdir/ncbi-vdb',
-              include => 'klib/rc.h',
               lib     => 'libncbi-vdb.$SHLX',
-              ilib    => 'libkapp.a',
              } ) }
-=cut
-
 1

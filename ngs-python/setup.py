@@ -9,7 +9,7 @@ min_version = 26
 
 if decimal_ver < min_version:
     print ("At least python " + str(min_version/10.) + " is required to automatically install ngs package, and you're using " + str(decimal_ver/10.))
-    exit()
+    exit(1)
 
 setup(name='ngs',
       #version=ver,
