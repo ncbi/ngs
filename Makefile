@@ -30,6 +30,7 @@ SUBDIRS =    \
 	ngs-sdk \
 	ngs-java \
 	ngs-python \
+	ngs-bam
 
 SUBDIRS_CLN = \
 	$(addsuffix _cln,$(SUBDIRS))

@@ -37,7 +37,7 @@ install: Makefile.config
 	@ $(MAKE) -f Makefile.python install
 
 dummy:
-	@ echo "make complete"
+	@ echo "make complete for python"
 
 dummy_cln dummy_inst:
 	@ true
