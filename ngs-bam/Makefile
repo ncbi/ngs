@@ -25,11 +25,23 @@
 
 default: std
 
-TOP ?= $(abspath ../ngs-sdk)
+TOP ?= $(CURDIR)
+MODPATH=
 include $(TOP)/Makefile.config
 
+ifdef NGS_INCDIR
+	INCDIRS += -I$(NGS_INCDIR)
+endif
+
+INTLIBS = \
+
+EXTLIBS = \
+	ngs-bam \
+	ngs-bam-c++
+
 TARGETS =      \
-    ngs-bam
+	$(INTLIBS) \
+	$(EXTLIBS)
 
 all std: $(TARGETS)
 
@@ -40,27 +52,58 @@ clean:
 
 ngs-bam: $(LIBDIR) $(OBJDIR) $(LIBDIR)/$(LPFX)ngs-bam.$(SHLX)
 
-runtests: ngs-bam
+ngs-bam-c++: $(LIBDIR) $(OBJDIR) $(LIBDIR)/$(LPFX)ngs-bam-c++.$(LIBX)
+
+runtests: ngs-bam ngs-bam-c++
 
 #-------------------------------------------------------------------------------
 # ngs-bam
 #
 NGS_BAM_SRC = \
-    bam       \
-    ngs-bam
+	bam		  \
+	ngs-bam
 
 NGS_BAM_OBJ = \
 	$(addprefix $(OBJDIR)/,$(addsuffix .$(LOBX),$(NGS_BAM_SRC)))
 
-NGS_BAM_LIB = \
-    -lngs-adapt-c++ \
-	-lngs-bind-c++ \
-	-lngs-disp \
+NGS_BAM_DEPS = $(NGS_BAM_OBJ)
+
+NGS_BAM_LIB =
+
+ifdef NGS_LIBDIR
+	NGS_BAM_LIB += -L$(NGS_LIBDIR)
+	NGS_BAM_DEPS += $(NGS_LIBDIR)/$(LPFX)ngs-adapt-c++.$(LIBX)
+endif
+
+NGS_BAM_LIB +=      \
+	-lngs-adapt-c++ \
 	-lz
 
-$(LIBDIR)/$(LPFX)ngs-bam.$(SHLX): $(LIBDIR)/$(LPFX)ngs-adapt-c++.$(LIBX) $(NGS_BAM_OBJ)
-	$(LP) --shared -o $@ $(NGS_BAM_OBJ) -L$(LIBDIR) -L$(ILIBDIR) $(NGS_BAM_LIB)
+$(LIBDIR)/$(LPFX)ngs-bam.$(VERSION_SHLX): $(NGS_BAM_DEPS)
+	$(LP) $(DBG) $(OPT) -shared -o $@ $(SONAME) $(NGS_BAM_OBJ) $(NGS_BAM_LIB)
 
-$(LIBDIR)/$(LPFX)ngs-adapt-c++.$(LIBX):
+$(LIBDIR)/$(LPFX)ngs-bam.$(MAJVERS_SHLX): $(LIBDIR)/$(LPFX)ngs-bam.$(VERSION_SHLX)
+	@ rm -f $@
+	ln -s $(notdir $^) $@
+
+$(LIBDIR)/$(LPFX)ngs-bam.$(SHLX): $(LIBDIR)/$(LPFX)ngs-bam.$(MAJVERS_SHLX)
+	@ rm -f $@
+	ln -s $(notdir $^) $@
+
+$(LIBDIR)/$(LPFX)ngs-bam-c++.$(VERSION_LIBX): $(NGS_BAM_OBJ)
+	$(AR) $@ $^
+
+$(LIBDIR)/$(LPFX)ngs-bam-c++.$(MAJVERS_LIBX): $(LIBDIR)/$(LPFX)ngs-bam-c++.$(VERSION_LIBX)
+	@ rm -f $@
+	ln -s $(notdir $^) $@
+
+$(LIBDIR)/$(LPFX)ngs-bam-c++.$(LIBX): $(LIBDIR)/$(LPFX)ngs-bam-c++.$(MAJVERS_LIBX)
+	@ rm -f $@
+	ln -s $(notdir $^) $@
+
+REQUIRED_LIBS =                                \
+	$(NGS_LIBDIR)/$(LPFX)ngs-adapt-c++.$(LIBX)
+
+$(REQUIRED_LIBS):
 	@ echo missing $@
 	@ false

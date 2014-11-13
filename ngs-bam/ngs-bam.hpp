@@ -23,9 +23,24 @@
  * ===========================================================================
  */
 
-#include <string>
-#include <ngs/ReadCollection.hpp>
+#ifndef _hpp_ngs_bam_
+#define _hpp_ngs_bam_
 
-namespace NGS_BAM {
-    ngs::ReadCollection openReadCollection(std::string const &path);
+#ifndef _hpp_ngs_read_collection_
+#include <ngs/ReadCollection.hpp>
+#endif
+
+#include <string>
+
+namespace NGS_BAM
+{
+
+    /* openReadCollection
+     *  create an object representing a named collection of reads
+     *  "path" is a file-system path to a BAM file
+     */
+    ngs :: ReadCollection openReadCollection ( const std :: string & path )
+        throw ( ngs :: ErrorMsg );
 }
+
+#endif // _hpp_ngs_bam_

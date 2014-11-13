@@ -23,6 +23,9 @@
  * ===========================================================================
  */
 
+#include <stdint.h>
+#include <string.h>
+
 #include <stdexcept>
 #include <vector>
 #include <map>
