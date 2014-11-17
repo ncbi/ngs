@@ -10,7 +10,7 @@ sub PKG { ( LNG   => 'C',
             OUT   => 'ncbi-outdir',
             PATH  => '/usr/local/ngs/ngs-bam',
             UPATH =>      '$HOME/ngs/ngs-bam',
-            EXAMP => '1' ) }
+      ) }
 sub REQ
     { (
             { name    => 'ngs-sdk',
@@ -22,8 +22,8 @@ sub REQ
               pkgpath => '/usr/local/ngs/ngs-sdk',
               usrpath =>      '$HOME/ngs/ngs-sdk',
               bldpath => '$HOME/ncbi-outdir/ngs-sdk',
-              include => 'ngs/itf/Refcount.h',
-              lib     => 'libngs-c++.a',
+              include => 'ngs/adapter/StringItf.hpp', # ngs/ReadCollection.hpp
+              lib     => 'libngs-adapt-c++.a',
             }
     ) }
 1
