@@ -18,14 +18,13 @@
         <IntDir>$(NGS_TARGET)\obj\$(ProjectName)\</IntDir>
         <TargetName>$(ProjectName)</TargetName>
         <LinkIncremental>false</LinkIncremental>
+        <WholeProgramOptimization>false</WholeProgramOptimization>
     </PropertyGroup>
     
     <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
-        <WholeProgramOptimization>false</WholeProgramOptimization>
         <UseDebugLibraries>true</UseDebugLibraries>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)'=='Release'" Label="Configuration">
-        <WholeProgramOptimization>true</WholeProgramOptimization>
         <UseDebugLibraries>false</UseDebugLibraries>
     </PropertyGroup>
     
