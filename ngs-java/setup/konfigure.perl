@@ -1241,7 +1241,7 @@ sub check {
 
 ################################################################################
 
-sub optional { $_[0] =~ /^[LS]I$/ }
+sub optional { $_[0] =~ /O/ }
 
 sub help {
 #  --prefix=PREFIX         install architecture-independent files in PREFIX
@@ -1345,7 +1345,7 @@ EndText
 
     print <<EndText if (PACKAGE_TYPE() eq 'B');
 Optional Features:
-  --enable-static         build static libraries [default=no]
+  --enable-static         build static executable [default=no]
 
 EndText
 
