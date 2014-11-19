@@ -1,3 +1,5 @@
-sub PACKAGE_NAME { 'NGS-SDK' }
-sub HAVE        { ( LIBS => 1, ) }
+sub PACKAGE_NAME { 'NGS-BAM' }
+sub HAVE        { ( LIBS => 1, USR_INCLUDES => 1, ) }
+sub INCLUDES    {  'ngs-bam' }
+sub LIBS        { ( 'ngs-bam' => 'SHL', 'ngs-bam-c++' => 'LIB', ) }
 1
