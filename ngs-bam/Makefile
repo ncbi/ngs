@@ -39,6 +39,7 @@ clean: Makefile.config
 	@ $(MAKE) -f Makefile.libs clean
 
 install: Makefile.config
-	#TBD
+	@ $(MAKE) -f Makefile.libs
+	@ perl $(TOP)/setup/install
 
 .PHONY: std clean install
