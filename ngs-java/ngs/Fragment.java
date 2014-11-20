@@ -61,7 +61,7 @@ public interface Fragment
     /** 
      * getFragmentBases
      * @param offset is zero-based and non-negative
-     * @param length must be >= 0
+     * @param length must be &ge; 0
      * @return sequence bases
      */
     String getFragmentBases ( long offset, long length )
@@ -86,7 +86,7 @@ public interface Fragment
     /** 
      * getFragmentQualities using ASCII offset of 33
      * @param offset is zero-based and non-negative
-     * @param length must be >= 0
+     * @param length must be &ge; 0
      * @return phred quality values
      */
     String getFragmentQualities ( long offset, long length )

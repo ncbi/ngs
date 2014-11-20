@@ -75,7 +75,7 @@ public interface Reference
     /** 
      * getReferenceBases
      * @param offset is zero-based and non-negative
-     * @param length must be >= 0
+     * @param length must be &ge; 0
      * @return sub-sequence bases for Reference
      */
     String getReferenceBases ( long offset, long length )
@@ -97,7 +97,7 @@ public interface Reference
     /** 
      * getReferenceChunk
      * @param offset is zero-based and non-negative
-     * @param length must be >= 0
+     * @param length must be &gt; 0
      * @return largest contiguous chunk available of sub-sequence bases for Reference
      * <p>
      *  NB - actual returned sequence may be shorter
