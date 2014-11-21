@@ -1,3 +1,3 @@
 sub PACKAGE_NAME { 'NGS-PYTHON' }
-sub HAVE        { ( EXAMPLES => 1, PYTHON => 1, ) }
+sub HAVE        { ( DLLS => 1, EXAMPLES => 1, PYTHON => 1, ) }
 1
