@@ -37,7 +37,7 @@ class NGS:
     def openReadCollection(spec):
         NGS.lib_manager.initialize_ngs_bindings()
     
-        from ReadCollection import openReadCollection  # entry point - adding name to ngs package global namespace
+        from .ReadCollection import openReadCollection  # entry point - adding name to ngs package global namespace
         return openReadCollection(spec)
 
 

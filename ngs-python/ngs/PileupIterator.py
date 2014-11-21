@@ -27,8 +27,8 @@
 from ctypes import c_int
 
 from . import NGS
-from String import getNGSValue
-from Pileup import Pileup
+from .String import getNGSValue
+from .Pileup import Pileup
 
 # Iterates across a list of Pileups
 

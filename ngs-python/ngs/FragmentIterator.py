@@ -27,8 +27,8 @@
 from ctypes import c_int
 
 from . import NGS
-from String import getNGSValue
-from Fragment import Fragment
+from .String import getNGSValue
+from .Fragment import Fragment
 
 class FragmentIterator(Fragment):
     def nextFragment(self):

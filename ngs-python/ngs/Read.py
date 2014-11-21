@@ -27,8 +27,8 @@
 from ctypes import byref, c_uint32
 from . import NGS
 
-from String import NGS_String, NGS_RawString, getNGSString, getNGSValue
-from FragmentIterator import FragmentIterator
+from .String import NGS_String, NGS_RawString, getNGSString, getNGSValue
+from .FragmentIterator import FragmentIterator
 
     # Read
     # represents an NGS machine read
@@ -70,9 +70,16 @@ class Read(FragmentIterator):
         :param: length must be >= 0
         :returns: sequence bases
         """
-        with NGS_RawString() as ngs_str_err, NGS_String() as ngs_str_seq:
-            res = NGS.lib_manager.PY_NGS_ReadGetReadBases(self.ref, offset, length, byref(ngs_str_seq.ref), byref(ngs_str_err.ref))
-            return ngs_str_seq.getPyString()
+        ngs_str_err = NGS_RawString()
+        try:
+            ngs_str_seq = NGS_String()
+            try:
+                res = NGS.lib_manager.PY_NGS_ReadGetReadBases(self.ref, offset, length, byref(ngs_str_seq.ref), byref(ngs_str_err.ref))
+                return ngs_str_seq.getPyString()
+            finally:
+                ngs_str_seq.close()
+        finally:
+            ngs_str_err.close()
         
     def getReadQualities(self, offset=0, length=-1):
         """
@@ -80,7 +87,13 @@ class Read(FragmentIterator):
         :param: length must be >= 0
         :returns: phred quality values using ASCII offset of 33
         """
-        with NGS_RawString() as ngs_str_err, NGS_String() as ngs_str_seq:
-            res = NGS.lib_manager.PY_NGS_ReadGetReadQualities(self.ref, offset, length, byref(ngs_str_seq.ref), byref(ngs_str_err.ref))
-            return ngs_str_seq.getPyString()
-
+        ngs_str_err = NGS_RawString()
+        try:
+            ngs_str_seq = NGS_String()
+            try:
+                res = NGS.lib_manager.PY_NGS_ReadGetReadQualities(self.ref, offset, length, byref(ngs_str_seq.ref), byref(ngs_str_err.ref))
+                return ngs_str_seq.getPyString()
+            finally:
+                ngs_str_seq.close()
+        finally:
+            ngs_str_err.close()

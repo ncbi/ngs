@@ -1,7 +1,7 @@
 from ctypes import byref, c_void_p
 
 from . import NGS
-from String import NGS_RawString
+from .String import NGS_RawString
 
 def RefcountRelease(ref):
     """Releases NGS-object imported from ngs-sdk
@@ -10,8 +10,11 @@ def RefcountRelease(ref):
     :returns: None
     :throws: ErrorMsg
     """
-    with NGS_RawString() as ngs_str_err:
+    ngs_str_err = NGS_RawString()
+    try:
         res = NGS.lib_manager.PY_NGS_RefcountRelease(ref, byref(ngs_str_err.ref))
+    finally:
+        ngs_str_err.close()
 
 def RefcountRawStringRelease(ref):
     """Releases raw string imported from ngs-sdk
@@ -20,8 +23,11 @@ def RefcountRawStringRelease(ref):
     :returns: None
     :throws: ErrorMsg
     """
-    with NGS_RawString() as ngs_str_err:
+    ngs_str_err = NGS_RawString()
+    try:
         res = NGS.lib_manager.PY_NGS_RawStringRelease(ref, byref(ngs_str_err.ref))
+    finally:
+        ngs_str_err.close()
 
 # def RefcountEngineRelease(ref):
     # """Releases NGS-object imported from ngs engine
