@@ -1366,16 +1366,27 @@ Optional Features:
 
 EndText
 
-    print <<EndText if ($^O ne 'MSWin32');
+    my ($OS, $ARCH, $OSTYPE, $MARCH, @ARCHITECTURES) = OsArch();
+
+    if ($^O ne 'MSWin32') {
+        print <<EndText;
 Build tuning:
   --with-debug
   --without-debug
-  --arch=name             specify the name of the target architecture
+EndText
+
+        if (@ARCHITECTURES) {
+            print
+"  --arch=name             specify the name of the target architecture\n";
+        }
+
+        print <<EndText;
 
   --build-prefix=DIR      generate build output into DIR directory
                           [$OUTDIR]
 
 EndText
+    }
 
     println 'Miscellaneous:';
     println '  --reconfigure           rerun configure';
