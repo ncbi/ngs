@@ -39,7 +39,7 @@ use Cwd qw(abs_path getcwd);
 use File::Basename 'fileparse';
 use File::Spec 'catdir';
 use FindBin qw($Bin);
-use Getopt::Long qw(GetOptions GetOptionsFromString);
+use Getopt::Long qw(GetOptions);
 
 chdir '..' or die "cannot cd to package root";
 
@@ -98,6 +98,11 @@ my %OPT;
 die "configure: error" unless (GetOptions(\%OPT, @options));
 
 if ($OPT{'reconfigure'}) {
+    unless (eval "use Getopt::Long qw(GetOptionsFromString)") {
+        print "configure: error: reconfigure option is not avaliable because your perl does not support Getopt::Long::GetOptionsFromString\n";
+        exit 1;
+    }
+
     my ($OS, $ARCH, $OSTYPE, $MARCH, @ARCHITECTURES) = OsArch();
     $CONFIGURED = '';
     my $MAKEFILE
@@ -116,6 +121,7 @@ if ($OPT{'reconfigure'}) {
         print STDERR "configure: error: run ./configure [OPTIONS] first.\n";
         return 1;
     }
+
     undef %OPT;
     unless (GetOptionsFromString($CONFIGURED, \%OPT, @options)) {
         die "configure: error";
