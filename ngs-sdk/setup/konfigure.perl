@@ -1177,6 +1177,7 @@ sub check_tool {
         return 1;
     } else {
         println "no";
+        return 0;
     }
 }
 
