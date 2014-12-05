@@ -8,6 +8,7 @@ sub DEPENDS      {}
 sub CONFIG_OUT   { '.' }
 sub PKG { ( LNG   => 'JAVA',
             OUT   => 'ncbi-outdir',
+            LOCOUT=> '../../../OUTDIR',
             PATH  => '/usr/local/ngs/ngs-java',
             UPATH =>      '$HOME/ngs/ngs-java',
             EXAMP => '1'
