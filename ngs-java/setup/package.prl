@@ -15,21 +15,4 @@ sub PKG { ( LNG   => 'JAVA',
 #           NGS_SDK_SRC => 1,
         ) }
 sub REQ {}
-
-=pod
-( { name    => 'ngs-sdk',
-              aname   => 'NGS',
-              option  => 'with-ngs-sdk-sources',
-              origin  => 'I',
-              type    => 'SI',
-              srcpath => '../ngs-sdk',
-              pkgpath => '/usr/local/ngs/ngs-sdk',
-              usrpath =>      '$HOME/ngs/ngs-sdk',
-              bldpath => '$HOME/ncbi-outdir/ngs-sdk/$OS',
-              include => 'ngs/itf/Refcount.h',
-              lib     => 'libngs-sdk.so',
-              ilib    => 'libngs-bind-c++.a',
-        } ) }
-=cut
-
 1
