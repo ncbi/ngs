@@ -113,7 +113,7 @@ copydocs:
 	@ cp -r $(LIBDIR)/javadoc/* $(DOC_TARGET)
 
 clean:
-	rm -rf $(LIBDIR)/ngs-java* $(CLSDIR)
+	rm -rf $(LIBDIR)/ngs-* $(CLSDIR)
 
 .PHONY: default all std clean install copyexamples copydocs $(TARGETS)
 
