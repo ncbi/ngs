@@ -8,22 +8,24 @@ sub DEPENDS      {}
 sub CONFIG_OUT   { '.' }
 sub PKG { ( LNG   => 'C',
             OUT   => 'ncbi-outdir',
+            LOCOUT=> '../../../OUTDIR',
             PATH  => '/usr/local/ngs/ngs-bam',
             UPATH =>      '$HOME/ngs/ngs-bam',
+            NOMODPATH => 1,
       ) }
-sub REQ
-    { (
-            { name    => 'ngs-sdk',
-              aname   => 'NGS',
-              option  => 'with-ngs-sdk-prefix',
-              origin  => 'I',
-              type    => 'L',
-              srcpath => '../ngs-sdk',
-              pkgpath => '/usr/local/ngs/ngs-sdk',
-              usrpath =>      '$HOME/ngs/ngs-sdk',
-              bldpath => '$HOME/ncbi-outdir/ngs-sdk',
-              include => 'ngs/adapter/StringItf.hpp', # ngs/ReadCollection.hpp
-              lib     => 'libngs-adapt-c++.a',
+sub REQ { (
+           { name       => 'ngs-sdk',
+             aname      => 'NGS',
+             option     => 'with-ngs-sdk-prefix',
+             origin     => 'I',
+             type       => 'L',
+             srcpath    => '../ngs-sdk',
+             pkgpath    => '/usr/local/ngs/ngs-sdk',
+             usrpath    =>      '$HOME/ngs/ngs-sdk',
+             bldpath    => '$HOME/ncbi-outdir/ngs-sdk',
+             locbldpath => '$Bin/../../../OUTDIR/ngs-sdk',
+             include    => 'ngs/adapter/StringItf.hpp', # ngs/ReadCollection.hpp
+             lib        => 'libngs-adapt-c++.a',
             }
-    ) }
+        ) }
 1

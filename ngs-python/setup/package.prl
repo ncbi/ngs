@@ -8,6 +8,7 @@ sub DEPENDS      {}
 sub CONFIG_OUT   { '.' }
 sub PKG { ( LNG   => 'PYTHON',
             OUT   => 'ncbi-outdir',
+            LOCOUT=> '../../../OUTDIR',
             PATH  => '/usr/local/ngs/ngs-python',
             UPATH =>      '$HOME/ngs/ngs-python',
             EXAMP => '1', ) }
@@ -20,6 +21,7 @@ sub REQ { (
               pkgpath => '/usr/local/ngs/ngs-sdk',
               usrpath =>      '$HOME/ngs/ngs-sdk',
               bldpath => '$HOME/ncbi-outdir/ngs-sdk',
+              locbldpath=>'$Bin/../../../OUTDIR/ngs-sdk',
               lib     => 'libngs-sdk.$SHLX',
             },
             { name    => 'ncbi-vdb',
@@ -30,6 +32,7 @@ sub REQ { (
               pkgpath => '/usr/local/ncbi/ncbi-vdb',
               usrpath =>      '$HOME/ncbi/ncbi-vdb',
               bldpath => '$HOME/ncbi-outdir/ncbi-vdb',
+              locbldpath=>'$Bin/../../../OUTDIR/ncbi-vdb',
               lib     => 'libncbi-vdb.$SHLX',
              } ) }
 1

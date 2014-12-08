@@ -1,4 +1,6 @@
+*.pyc
+build
 Makefile.userconfig
 Makefile.config*
+reconfigure
 user.status
-*.pyc

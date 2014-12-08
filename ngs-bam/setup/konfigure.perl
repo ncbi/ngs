@@ -45,10 +45,14 @@ chdir '..' or die "cannot cd to package root";
 
 check();
 
-my $CONFIGURED = '';
-foreach (@ARGV) {
-    $CONFIGURED .= "\t" if ($CONFIGURED);
-    $CONFIGURED .= "'$_'";
+my ($CONFIGURED, $RECONFIGURE) = ('');
+if (@ARGV) {
+    foreach (@ARGV) {
+        $CONFIGURED .= "\t" if ($CONFIGURED);
+        $CONFIGURED .= "'$_'";
+    }
+} elsif (-f 'reconfigure') {
+    ++$RECONFIGURE;
 }
 
 my %PKG = PKG();
@@ -63,8 +67,6 @@ my $HOME = $ENV{HOME} || $ENV{USERPROFILE}
     || $ENV{LOGDIR} || getcwd || (getpwuid($<))[7] || abs_path('.');
 
 $PKG{UPATH} = expand($PKG{UPATH});
-
-my $OUTDIR = File::Spec->catdir($HOME, $PKG{OUT});
 
 my $package_default_prefix = $PKG{PATH};
 my $schema_default_dir = $PKG{SCHEMA_PATH} if ($PKG{SCHEMA_PATH});
@@ -96,6 +98,15 @@ push @options, "shemadir" if ($PKG{SCHEMA_PATH});
 
 my %OPT;
 die "configure: error" unless (GetOptions(\%OPT, @options));
+++$OPT{'reconfigure'} if ($RECONFIGURE);
+
+$OPT{'local-build-out'}
+    = -e File::Spec->catdir($ENV{HOME}, 'tmp', 'local-build-out');
+my $OUTDIR = File::Spec->catdir($HOME, $PKG{OUT});
+if ($OPT{'local-build-out'}) {
+    my $o = expand_path(File::Spec->catdir($Bin, $PKG{LOCOUT}));
+    $OUTDIR = $o if ($o);
+}
 
 if ($OPT{'reconfigure'}) {
     unless (eval 'use Getopt::Long qw(GetOptionsFromString); 1') {
@@ -105,7 +116,16 @@ configure: error: your perl does not support Getopt::Long::GetOptionsFromString
 EndText
         exit 1;
     }
-
+    println "reconfiguring...";
+    open F, 'reconfigure' or die 'cannot open reconfigure';
+    $_ = <F>;
+    chomp;
+    unless (m|^\./configure\s*(.*)$|) {
+        println 'configure: error: cannot reconfigure';
+        println 'run "./configure --clean" then run "./configure [OPTIONS]"';
+        exit 1;
+    }
+#pod
     my ($OS, $ARCH, $OSTYPE, $MARCH, @ARCHITECTURES) = OsArch();
     $CONFIGURED = '';
     my $MAKEFILE
@@ -124,11 +144,12 @@ EndText
         print STDERR "configure: error: run ./configure [OPTIONS] first.\n";
         return 1;
     }
+#cut
 
+    println "running \"./configure $1\"...";
     undef %OPT;
-    unless (GetOptionsFromString($CONFIGURED, \%OPT, @options)) {
-        die "configure: error";
-    }
+    die "configure: error" unless (GetOptionsFromString($1, \%OPT, @options));
+    ++$OPT{reconfigure};
 }
 
 if ($OPT{'help'}) {
@@ -136,7 +157,7 @@ if ($OPT{'help'}) {
     exit 0;
 } elsif ($OPT{'clean'}) {
     {
-        foreach (glob(CONFIG_OUT() . '/Makefile.config*'),
+        foreach ('reconfigure', glob(CONFIG_OUT() . '/Makefile.config*'),
             File::Spec->catdir(CONFIG_OUT(), 'Makefile.userconfig'),
             File::Spec->catdir(CONFIG_OUT(), 'user.status'))
         {
@@ -418,7 +439,8 @@ foreach my $href (DEPENDS()) {
 }
 
 foreach my $href (@REQ) {
-    $href->{bldpath} = expand($href->{bldpath}) if ($href->{bldpath});
+    $href->{   bldpath} = expand($href->{   bldpath}) if ($href->{   bldpath});
+    $href->{locbldpath} = expand($href->{locbldpath}) if ($href->{locbldpath});
     my ($found_itf, $found_lib, $found_ilib);        # found directories
     my %a = %$href;
     next if ($a{option} && $DEPEND_OPTIONS{$a{option}});
@@ -518,6 +540,7 @@ foreach my $href (@REQ) {
             }
             unless ($fl || $fil) {
                 my $try = $a{bldpath};
+                $try = $a{locbldpath} if ($OPT{'local-build-out'});
                 (undef, $fl, $fil) = find_in_dir($try, undef, $lib, $ilib);
                 $found_lib  = $fl  if (! $found_lib  && $fl);
                 $found_ilib = $fil if (! $found_ilib && $fil);
@@ -768,11 +791,13 @@ EndText
         L($F, 'LIBDIR    = $(TARGDIR)/jar');
     }
 
-    print $F <<EndText;
-ILIBDIR   = \$(TARGDIR)/ilib
-OBJDIR    = \$(TARGDIR)/obj/\$(MODPATH)
-CLSDIR    = \$(TARGDIR)/cls
-EndText
+    L($F, 'ILIBDIR   = $(TARGDIR)/ilib');
+    if ($PKG{NOMODPATH}) {
+        L($F, 'OBJDIR    = $(TARGDIR)/obj');
+    } else {
+        L($F, 'OBJDIR    = $(TARGDIR)/obj/$(MODPATH)');
+    }
+    L($F, 'CLSDIR    = $(TARGDIR)/cls');
 
     if ($PKG{LNG} eq 'JAVA') {
         L($F,
@@ -980,6 +1005,14 @@ EndText
         print COUT "include \$(TOP)/$CONFIG_OUT/Makefile.config.\$(OS_ARCH)\n";
         close COUT;
     }
+}
+
+unless ($OPT{'reconfigure'}) {
+    println "configure: creating 'reconfigure'" unless ($AUTORUN);
+    $CONFIGURED =~ s/\t/ /g;
+    open my $F, '>reconfigure' or die 'cannot open reconfigure to write';
+    print $F "./configure $CONFIGURED\n";
+    close $F;
 }
 
 status() if ($OS ne 'win');
@@ -1317,10 +1350,11 @@ sub check {
 
     my %PKG = PKG();
 
-    die "No LNG"   unless $PKG{LNG};
-    die "No OUT"   unless $PKG{OUT};
-    die "No PATH"  unless $PKG{PATH};
-    die "No UPATH" unless $PKG{UPATH};
+    die "No LNG"    unless $PKG{LNG};
+    die "No LOCOUT" unless $PKG{LOCOUT};
+    die "No OUT"    unless $PKG{OUT};
+    die "No PATH"   unless $PKG{PATH};
+    die "No UPATH"  unless $PKG{UPATH};
 
     foreach my $href (DEPENDS()) { die "No DEPENDS::name" unless $href->{name} }
 
@@ -1344,7 +1378,8 @@ sub check {
                 die "No $href->{name}:srcpath" unless $href->{srcpath};
             }
             unless ($href->{type} =~ /I/) {
-                die "No $href->{name}:bldpath" unless $href->{bldpath};
+                die "No $href->{name}:bldpath"    unless $href->{bldpath   };
+                die "No $href->{name}:locbldpath" unless $href->{locbldpath};
             }
             if ($href->{type} =~ /B/) {
                 die "No $href->{name}:ilib"    unless $href->{ilib};
