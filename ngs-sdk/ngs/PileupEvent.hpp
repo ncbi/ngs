@@ -144,7 +144,12 @@ namespace ngs
             // (i.e. can retrieve deletion count),
             // but is actuall a gap in the read
             // inherent in technology like Complete Genomics
-            read_gap                  = 9
+            read_gap                  = 9,
+            
+            
+            alignment_start           = 0x80,
+            alignment_stop            = 0x40,
+            alignment_minus_strand    = 0x20,
         };
 
         /* getEventType
