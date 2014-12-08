@@ -1,5 +1,10 @@
-Makefile.userconfig
-Makefile.config*
-reconfigure
-user.status
 *.o
+/Makefile.config*
+/Makefile.userconfig
+/reconfigure
+/user.status
+/win/ipch
+/win/ngs-sdk.opensdf
+/win/ngs-sdk.sdf
+/win/ngs-sdk.suo
+/win/ipch
