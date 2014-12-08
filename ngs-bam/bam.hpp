@@ -43,18 +43,18 @@ static T LE2Host(void const *const src)
 {
     union {
         uint8_t ch[sizeof(T)];
-        T v;
+        T v; // ensures alignment if necessary
     } u;
     memcpy(reinterpret_cast<void *>(&u), src, sizeof(T));
 #if BYTE_ORDER == LITTLE_ENDIAN
     return u.v;
 #else
     T y = 0;
-    unsigned j = sizeof(T);
-    
-    for (unsigned i = 0; i < sizeof(T); ++i)
+    size_t j = sizeof(T);
+
+    for (size_t i = 0; i < sizeof(T); ++i)
         y = (y << 8) | u.ch[--j];
-    
+
     return y;
 #endif
 }
@@ -93,11 +93,11 @@ class RefIndex;
 class HeaderRefInfo
 {
     friend class BAMFile;
-    
+
     RefIndex const *index;
     std::string name;
     unsigned length;
-    
+
     HeaderRefInfo(std::string const &Name, int32_t const Length)
     : name(Name), length(Length), index(0)
     {}
@@ -116,8 +116,14 @@ public:
     }
 };
 
-class BAMRecord {
-    unsigned size;
+struct SizedRawData
+{
+    uint32_t size;
+    uint8_t data[1];
+};
+
+struct BAMLayout : public SizedRawData {
+/* layout looks like:
     uint8_t
         m_refID[4],
         m_pos[4],
@@ -128,57 +134,88 @@ class BAMRecord {
         m_next_pos[4],
         m_tlen[4],
         m_readname[1];
+ */
+    enum layout {
+        start_refID = 0,
+        start_pos = 4,
+        start_bin_mq_nl = start_pos + 4,
+        start_flag_nc = start_bin_mq_nl + 4,
+        start_l_seq = start_flag_nc + 4,
+        start_next_refID = start_l_seq + 4,
+        start_next_pos = start_next_refID + 4,
+        start_tlen = start_next_pos + 4,
+        start_readname = start_tlen + 4,
+
+        length_fixed_part = start_readname,
+
+        start_nl = start_bin_mq_nl,
+        start_mq = start_nl + 1,
+        start_bin = start_mq + 1,
+        start_nc = start_flag_nc,
+        start_flag = start_nc + 2
+    };
+    uint8_t const *p_refID     () const { return data + start_refID     ; }
+    uint8_t const *p_pos       () const { return data + start_pos       ; }
+    uint8_t const *p_nl        () const { return data + start_nl        ; }
+    uint8_t const *p_mq        () const { return data + start_mq        ; }
+    uint8_t const *p_bin       () const { return data + start_bin       ; }
+    uint8_t const *p_nc        () const { return data + start_nc        ; }
+    uint8_t const *p_flag      () const { return data + start_flag      ; }
+    uint8_t const *p_l_seq     () const { return data + start_l_seq     ; }
+    uint8_t const *p_next_refID() const { return data + start_next_refID; }
+    uint8_t const *p_next_pos  () const { return data + start_next_pos  ; }
+    uint8_t const *p_tlen      () const { return data + start_tlen      ; }
+    uint8_t const *p_readname  () const { return data + start_readname  ; }
     
-    uint8_t const *_cigar() const { return &m_readname[l_read_name()]; }
-    uint8_t const *_seq() const { return _cigar() + 4 * nc(); }
-
-    static size_t abs_min_size() {
-        BAMRecord const *const dummy = 0;
-
-        return (size_t)(dummy->m_readname - dummy->m_refID);
-    }
     size_t min_size() const {
-        uint8_t const *const end = &m_readname[l_read_name() + 4 * nc() + ((l_seq() + 1) >> 1) + l_seq()];
-        return (size_t)(end - m_refID);
+        if (size < length_fixed_part)
+            return length_fixed_part;
+        
+        uint16_t const nc = LE2Host<uint16_t>(p_nc());
+        uint32_t const lseq = LE2Host<int32_t>(p_l_seq());
+        return length_fixed_part + 4u * nc + ((lseq + 1) >> 1) + lseq;
     }
     void const *endp() const {
-        return (void const *)(m_refID + size);
+        return (void const *)(data + size);
     }
+};
 
-    friend class BAMFile;
-    BAMRecord() {}
-
+class BAMRecord : private BAMLayout {
 public:
-    ~BAMRecord() {}
-
-    int32_t refID() const { return LE2Host<int32_t>(m_refID); }
-    int32_t pos() const { return LE2Host<int32_t>(m_pos); }
-    uint8_t mq() const { return m_bin_mq_nl[1]; }
-    uint8_t l_read_name() const { return m_bin_mq_nl[0]; }
-    uint16_t flag() const { return LE2Host<uint32_t>(m_flag_nc) >> 16; }
-    uint16_t nc() const { return LE2Host<uint32_t>(m_flag_nc) & 0xFFFF; }
-    int32_t l_seq() const { return LE2Host<int32_t>(m_l_seq); }
-    int32_t next_refID() const { return LE2Host<int32_t>(m_next_refID); }
-    int32_t next_pos() const { return LE2Host<int32_t>(m_next_pos); }
-    int32_t tlen() const { return LE2Host<int32_t>(m_tlen); }
-    char const *readname() const { return (char const *)m_readname; }
-    uint32_t cigar(unsigned const i) const {
-        return LE2Host<uint32_t>(_cigar() + i * 4);
+    bool isTooSmall() const {
+        return (size_t)size < min_size();
     }
+
+    int32_t refID() const { return LE2Host<int32_t>(p_refID()); }
+    int32_t pos() const { return LE2Host<int32_t>(p_pos()); }
+    uint8_t mq() const { return *p_mq(); }
+    uint8_t l_read_name() const { return *p_nl(); }
+    uint16_t flag() const { return LE2Host<uint16_t>(p_flag()); }
+    uint16_t nc() const { return LE2Host<uint16_t>(p_nc()); }
+    int32_t l_seq() const { return LE2Host<int32_t>(p_l_seq()); }
+    int32_t next_refID() const { return LE2Host<int32_t>(p_next_refID()); }
+    int32_t next_pos() const { return LE2Host<int32_t>(p_next_pos()); }
+    int32_t tlen() const { return LE2Host<int32_t>(p_tlen()); }
+    char const *readname() const { return (char const *)p_readname(); }
+    uint32_t cigar(unsigned const i) const {
+        uint8_t const *const p_cigar = p_readname() + l_read_name();
+        return LE2Host<uint32_t>(p_cigar + 4u * i);
+    }
+    uint8_t const *seq() const { return p_readname() + l_read_name() + 4u * nc(); }
     char seq(unsigned const i) const {
         static char const tr[] = "=ACMGRSVTWYHKDBN";
-        uint8_t const b4na2 = _seq()[i >> 1];
+        uint8_t const b4na2 = seq()[i >> 1];
         uint8_t const lo = b4na2 & 15;
         uint8_t const hi = b4na2 >> 4;
         return tr[(i & 1) ? lo : hi];
     }
-    uint8_t const *qual() const { return (uint8_t const *)(_seq() + ((l_seq() + 1) >> 1)); }
+    uint8_t const *qual() const { return seq() + ((l_seq() + 1) >> 1); }
     void const *extra() const { return (void const *)(qual() + l_seq()); }
-    
+
     unsigned refLen() const {
         unsigned const n = nc();
         unsigned rslt = 0;
-        
+
         for (unsigned i = 0; i < n; ++i) {
             uint32_t const op = cigar(i);
             int const code = op & 0x0F;
@@ -199,26 +236,26 @@ public:
     }
     bool isMateMapped() const {
         int const FLAG = flag();
-        
+
         return ((FLAG & 0x0001) == 0 || (FLAG & 0x0008) != 0 || next_refID() < 0 || next_pos() < 0) ? false : true;
     }
-    
+
     void cigarString(std::string &rslt, bool const clipped, char const OPCODE[]) const {
         unsigned const n = nc();
         int last_len = 0;
         char last_code = 0;
         unsigned last_size = 0;
-        
+
         rslt.resize(0);
         rslt.reserve(11*n);
-        
+
         for (unsigned i = 0; i < n; ++i) {
             char buf[12];
             char *cur = buf + sizeof(buf);
             uint32_t const op = cigar(i);
             char const code = OPCODE[op & 0x0F];
             int len = op >> 4;
-            
+
             if (last_code == code) {
                 len += last_len;
                 rslt.resize(last_size);
@@ -226,7 +263,7 @@ public:
             last_size = (unsigned)rslt.size();
             last_len = len;
             last_code = code;
-            
+
             *--cur = '\0';
             *--cur = code;
             for ( ; ; ) {
@@ -251,7 +288,7 @@ public:
                 char value[1];
             } array;
         } value;
-        
+
         static int type_size(int const type) {
             switch (type) {
                 case 'A':
@@ -269,7 +306,7 @@ public:
                     return -1;
             }
         }
-        
+
         int size(void const *const max) const {
             if (val_type == 'B') {
                 int const elem_size = type_size(value.array.type);
@@ -277,7 +314,7 @@ public:
                     return -1;
                 int const elem_count = LE2Host<int32_t>(value.array.count);
                 char const *end = &value.array.value[elem_size * elem_count];
-                
+
                 if (end > max)
                     return -1;
                 return (int)(end - tag);
@@ -331,14 +368,14 @@ public:
             else
                 return value.scalar;
         }
-        
+
         typedef OptionalField const constOptionalField;
         class const_iterator : public std::iterator<std::forward_iterator_tag, constOptionalField>
         {
             friend class BAMRecord;
             void const *cur;
             void const *const endp;
-            
+
             const_iterator(void const *const init, void const *const last) : cur(init), endp(last) {}
         public:
             const_iterator &operator ++() {
@@ -380,7 +417,7 @@ public:
         return 0;
     }
     virtual void DumpSAM(std::ostream &oss, BAMRecord const &rec) const {
-        
+
     }
 };
 
@@ -394,13 +431,13 @@ class BAMFile : public BAMRecordSource {
     std::ifstream::pos_type bpos;   /* file position of bambuffer */
     std::ifstream::pos_type cpos;   /* file position of iobuffer  */
     z_stream zs;
-    
+
     unsigned first_bam_cur;
     unsigned bam_cur;               /* current offset in bambuffer */
-    
+
     Bytef iobuffer[2*IO_BLK_SIZE];
     Bytef bambuffer[BAM_BLK_MAX];
-    
+
     unsigned FillBuffer(int const n);
     void ReadZlib(void);
     size_t ReadN(size_t N, void *Dst);
@@ -413,21 +450,21 @@ class BAMFile : public BAMRecordSource {
     void ReadHeader(void);
     void LoadIndexData(size_t const fsize, char const data[]);
     void LoadIndex(std::string const &filepath);
-    
+
 public:
     BAMFile(std::string const &filepath);
-    
+
     void Seek(std::ifstream::pos_type const &new_bpos, unsigned new_bam_cur);
     void Rewind() {
         Seek(first_bpos, first_bam_cur);
     }
     virtual bool isGoodRecord(BAMRecord const &rec);
     virtual BAMRecord const *Read();
-    
+
     unsigned countOfReferences() const {
         return (unsigned)references.size();
     }
-    
+
     int getReferenceIndexByName(std::string const &name) const {
         std::map<std::string, unsigned>::const_iterator i = referencesByName.find(name);
         if (i != referencesByName.end())
@@ -435,11 +472,11 @@ public:
         else
             return -1;
     }
-    
+
     HeaderRefInfo const &getRefInfo(unsigned const i) const {
         return references[i];
     }
-    
+
     BAMRecordSource *Slice(std::string const &rname, unsigned start, unsigned last);
 
     void DumpSAM(std::ostream &oss, BAMRecord const &rec) const;
@@ -447,7 +484,7 @@ public:
 
 class BAMFileSlice : public BAMRecordSource {
     friend class BAMFile;
-    
+
     BAMFile *const parent;
     BAMFilePosTypeList const index;
     unsigned const refID;
@@ -460,7 +497,7 @@ class BAMFileSlice : public BAMRecordSource {
         BAMFilePosType const pos = *cur++;
         std::ifstream::pos_type const fpos = pos.fpos();
         uint16_t const bpos = pos.bpos();
-        
+
         parent->Seek(fpos, bpos);
     }
     BAMFileSlice(BAMFile &p, unsigned const r, unsigned const s, unsigned const e, BAMFilePosTypeList const &i)
@@ -480,10 +517,10 @@ public:
     virtual BAMRecord const *Read() {
         for ( ; ; ) {
             BAMRecord const *const current = parent->Read();
-            
+
             if (!current)
                 return 0;
-            
+
             if (!current->isSelfMapped()) {
                 delete current;
                 continue;
@@ -496,7 +533,7 @@ public:
                 return 0;
             }
             unsigned const LEN = current->refLen();
-            
+
             if (POS + LEN <= start) {
                 delete current;
                 continue;
