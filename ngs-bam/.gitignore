@@ -1,2 +1,2 @@
-Makefile.config*
-reconfigure
+/Makefile.config*
+/reconfigure
