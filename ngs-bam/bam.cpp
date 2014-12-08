@@ -609,18 +609,27 @@ BAMFile::BAMFile(std::string const &filepath)
 
 BAMRecord const *BAMFile::Read()
 {
+    union aligned_BAMRecord {
+        SizedRawData raw;
+        BAMRecord record;
+        struct {
+            uint8_t align[16];
+        } align;
+    };
     int32_t datasize;
     
-    if (!ReadI32(datasize))
+    if (!ReadI32(datasize)) // assumes cause is EOF
         return 0;
     
-    if (datasize < BAMRecord::abs_min_size())
-        throw std::runtime_error("record is too small");
+    if (datasize < 0)
+        throw std::runtime_error("file is corrupt: record size < 0");
 
-    int32_t *data = new int32_t[((datasize + 3)/4)+1];
-    data[0] = datasize;
-    if (Read(datasize, (char *)(data + 1)))
-        return (BAMRecord const *)(data);
+    uint32_t const size = (uint32_t)datasize;
+    
+    union aligned_BAMRecord *data = new aligned_BAMRecord[(size + sizeof(aligned_BAMRecord) - 1)/sizeof(aligned_BAMRecord)];
+    data->raw.size = size;
+    if (Read(size, data->raw.data))
+        return &data->record;
 
     delete [] data;
     throw std::runtime_error("file is truncated");
@@ -628,7 +637,7 @@ BAMRecord const *BAMFile::Read()
 
 bool BAMFile::isGoodRecord(BAMRecord const &rec)
 {
-    if (rec.size < rec.min_size())
+    if (rec.isTooSmall())
         return false;
     
     unsigned const refs = (unsigned)references.size();
