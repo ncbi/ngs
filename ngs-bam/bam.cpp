@@ -626,7 +626,7 @@ BAMRecord const *BAMFile::Read()
 
     uint32_t const size = (uint32_t)datasize;
     
-    union aligned_BAMRecord *data = new aligned_BAMRecord[(size + sizeof(aligned_BAMRecord) - 1)/sizeof(aligned_BAMRecord)];
+    union aligned_BAMRecord *data = new aligned_BAMRecord[(size + sizeof(uint32_t) + sizeof(aligned_BAMRecord) - 1)/sizeof(aligned_BAMRecord)];
     data->raw.size = size;
     if (Read(size, data->raw.data))
         return &data->record;
