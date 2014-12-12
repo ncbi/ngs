@@ -641,6 +641,34 @@ JNIEXPORT jstring JNICALL Java_ngs_itf_AlignmentItf_GetLongCigar
 
 /*
  * Class:     ngs_itf_AlignmentItf
+ * Method:    GetRNAOrientation
+ * Signature: (J)C
+ */
+JNIEXPORT jchar JNICALL Java_ngs_itf_AlignmentItf_GetRNAOrientation
+    ( JNIEnv * jenv, jobject jthis , jlong jself )
+{
+    try
+    {
+        return Self ( jself ) -> getRNAOrientation ();
+    }
+    catch ( ErrorMsg & x )
+    {
+        ErrorMsgThrow ( jenv, xt_error_msg, x . what () );
+    }
+    catch ( std :: exception & x )
+    {
+        ErrorMsgThrow ( jenv, xt_runtime, x . what () );
+    }
+    catch ( ... )
+    {
+        JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
+    }
+
+    return 0;
+}
+
+/*
+ * Class:     ngs_itf_AlignmentItf
  * Method:    HasMate
  * Signature: (J)Z
  */

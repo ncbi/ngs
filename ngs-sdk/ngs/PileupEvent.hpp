@@ -166,8 +166,9 @@ namespace ngs
             throw ( ErrorMsg );
 
         /* getAlignmentQuality
-         *  retrieves base aligned at current Reference position
+         *  retrieves quality aligned at current Reference position
          *  throws exception if event is an insertion or deletion
+         *  quality is ascii-encoded phred score
          */
         char getAlignmentQuality () const
             throw ( ErrorMsg );

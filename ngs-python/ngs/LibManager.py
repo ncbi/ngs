@@ -227,6 +227,7 @@ class LibManager:
         self.bind_sdk("PY_NGS_AlignmentGetTemplateLength",            [c_void_p, POINTER(c_uint64), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_AlignmentGetShortCigar",                [c_void_p, c_int, POINTER(c_void_p), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_AlignmentGetLongCigar",                 [c_void_p, c_int, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_AlignmentGetRNAOrientation",            [c_void_p, POINTER(c_int), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_AlignmentHasMate",                      [c_void_p, POINTER(c_int), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_AlignmentGetMateAlignmentId",           [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_AlignmentGetMateAlignment",             [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])

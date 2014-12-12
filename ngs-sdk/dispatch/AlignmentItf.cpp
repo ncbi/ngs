@@ -400,6 +400,30 @@ namespace ngs
         return StringItf :: Cast ( ret );
     }
 
+    char AlignmentItf :: getRNAOrientation () const
+        throw ( ErrorMsg )
+    {
+        // the object is really from C
+        const NGS_Alignment_v1 * self = Test ();
+
+        // cast vtable to our level
+        const NGS_Alignment_v1_vt * vt = Access ( self -> vt );
+
+        // test for v1.1
+        if ( vt -> dad . minor_version < 1 )
+            throw ErrorMsg ( "the Alignment interface provided by this NGS engine is too old to support this message" );
+
+        // call through C vtable
+        ErrBlock err;
+        assert ( vt -> get_rna_orientation != 0 );
+        char orientation  = ( * vt -> get_rna_orientation ) ( self, & err );
+
+        // check for errors
+        err . Check ();
+
+        return orientation;
+    }
+
     bool AlignmentItf :: hasMate () const
         throw ()
     {

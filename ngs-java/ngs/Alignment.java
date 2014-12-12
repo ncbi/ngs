@@ -181,6 +181,15 @@ public interface Alignment
     String getLongCigar ( boolean clipped )
         throws ErrorMsg;
 
+    /**
+     * getRNAOrientation
+     * @return '+' if positive strand is transcribed
+     * @return '-' if negative strand is transcribed
+     * @return '?' if unknown
+     */
+    char getRNAOrientation ()
+        throws ErrorMsg;
+
 
     /*------------------------------------------------------------------
      * details of mate alignment

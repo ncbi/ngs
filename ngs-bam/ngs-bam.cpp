@@ -142,6 +142,9 @@ public:
     ngs_adapt::StringItf *getLongCigar(bool clipped) const {
         return getCigar(clipped, "MIDNSHP=X???????");
     }
+    char getRNAOrientation () const {
+        throw std::runtime_error("no rows");
+    }
     bool getIsReversedOrientation() const {
         throw std::runtime_error("no rows");
     }
