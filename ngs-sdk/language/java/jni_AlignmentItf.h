@@ -169,6 +169,14 @@ JNIEXPORT jstring JNICALL Java_ngs_itf_AlignmentItf_GetLongCigar
 
 /*
  * Class:     ngs_itf_AlignmentItf
+ * Method:    GetRNAOrientation
+ * Signature: (J)C
+ */
+JNIEXPORT jchar JNICALL Java_ngs_itf_AlignmentItf_GetRNAOrientation
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     ngs_itf_AlignmentItf
  * Method:    HasMate
  * Signature: (J)Z
  */

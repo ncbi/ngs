@@ -285,6 +285,16 @@ class AlignmentItf
     }
 
 
+    /* getRNAOrientation
+     */
+    public char getRNAOrientation ()
+        throws ErrorMsg
+    {
+        return this . GetRNAOrientation ( self );
+    }
+
+
+
     /*------------------------------------------------------------------
      * details of mate alignment
      */
@@ -404,6 +414,8 @@ class AlignmentItf
     private native String GetShortCigar ( long self, boolean clipped )
         throws ErrorMsg;
     private native String GetLongCigar ( long self, boolean clipped )
+        throws ErrorMsg;
+    private native char GetRNAOrientation ( long self )
         throws ErrorMsg;
     private native boolean HasMate ( long self );
     private native String GetMateAlignmentId ( long self )

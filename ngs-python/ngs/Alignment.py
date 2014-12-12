@@ -162,6 +162,14 @@ class Alignment(Fragment):
         finally:
             ngs_str_err.close()
 
+    def getRNAOrientation(self):
+        """
+        :returns: '+' if positive strand is transcribed
+        :returns: '-' if negative strand is transcribed
+        :returns: '?' if unknown
+        """
+        return char(getNGSValue(self, NGS.lib_manager.PY_NGS_AlignmentGetRNAOrientation, c_int))
+
     # ------------------------------------------------------------------
     # details of mate alignment            
             

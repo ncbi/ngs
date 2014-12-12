@@ -312,6 +312,21 @@ namespace ngs_adapt
         return 0;
     }
 
+    char CC AlignmentItf :: get_rna_orientation ( const NGS_Alignment_v1 * iself, NGS_ErrBlock_v1 * err )
+    {
+        const AlignmentItf * self = Self ( iself );
+        try
+        {
+            return self -> getRNAOrientation ();
+        }
+        catch ( ... )
+        {
+            ErrBlockHandleException ( err );
+        }
+
+        return false;
+    }
+
     bool CC AlignmentItf :: has_mate ( const NGS_Alignment_v1 * iself, NGS_ErrBlock_v1 * err )
     {
         const AlignmentItf * self = Self ( iself );
@@ -410,10 +425,11 @@ namespace ngs_adapt
         {
             "ngs_adapt::AlignmentItf",
             "NGS_Alignment_v1",
-            0,
+            1,
             & FragmentItf :: ivt . dad
         },
 
+        // v1.0
         get_id,
         get_ref_spec,
         get_map_qual,
@@ -436,7 +452,10 @@ namespace ngs_adapt
         get_mate_alignment,
         get_mate_ref_spec,
         get_mate_is_reversed,
-        next
+        next,
+
+        // v1.1
+        get_rna_orientation
     };
 
 } // namespace ngs_adapt

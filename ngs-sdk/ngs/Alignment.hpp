@@ -186,6 +186,14 @@ namespace ngs
         StringRef getLongCigar ( bool clipped ) const
             throw ( ErrorMsg );
 
+        /* getRNAOrientation
+         *  returns '+' if positive strand is transcribed
+         *  returns '-' if negative strand is transcribed
+         *  returns '?' if unknown
+         */
+        char getRNAOrientation () const
+            throw ( ErrorMsg );
+
 
         /*------------------------------------------------------------------
          * details of mate alignment

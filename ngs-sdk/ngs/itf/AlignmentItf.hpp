@@ -82,6 +82,8 @@ namespace ngs
             throw ( ErrorMsg );
         StringItf * getLongCigar ( bool clipped ) const
             throw ( ErrorMsg );
+        char getRNAOrientation () const
+            throw ( ErrorMsg );
         bool hasMate () const
             throw ();
         StringItf * getMateAlignmentId () const

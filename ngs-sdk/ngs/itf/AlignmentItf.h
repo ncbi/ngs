@@ -49,6 +49,7 @@ struct NGS_Alignment_v1_vt
 {
     NGS_VTable dad;
 
+    /* v1.0 interface */
     NGS_String_v1 * ( CC * get_id ) ( const NGS_Alignment_v1 * self, NGS_ErrBlock_v1 * err );
     NGS_String_v1 * ( CC * get_ref_spec ) ( const NGS_Alignment_v1 * self, NGS_ErrBlock_v1 * err );
     int32_t ( CC * get_map_qual ) ( const NGS_Alignment_v1 * self, NGS_ErrBlock_v1 * err );
@@ -72,6 +73,9 @@ struct NGS_Alignment_v1_vt
     NGS_String_v1 * ( CC * get_mate_ref_spec ) ( const NGS_Alignment_v1 * self, NGS_ErrBlock_v1 * err );
     bool ( CC * get_mate_is_reversed ) ( const NGS_Alignment_v1 * self, NGS_ErrBlock_v1 * err );
     bool ( CC * next ) ( NGS_Alignment_v1 * self, NGS_ErrBlock_v1 * err );
+
+    /* v1.1 */
+    char ( CC * get_rna_orientation ) ( const NGS_Alignment_v1 * self, NGS_ErrBlock_v1 * err );
 };
 
 
