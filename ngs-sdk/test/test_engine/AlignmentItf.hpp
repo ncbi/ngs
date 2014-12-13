@@ -161,6 +161,11 @@ namespace ngs_test_engine
             return new ngs_adapt::StringItf( cigar.c_str(), cigar.size() ); 
         }
 
+        virtual char getRNAOrientation () const 
+        { 
+            return '+'; 
+        }
+
         virtual bool hasMate () const 
         { 
             return true; 
