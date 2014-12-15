@@ -82,6 +82,11 @@ public:
     }
 };
 
+// base class for the Alignment types
+// defines the default behavior of the Alignment types
+// by design, this class doesn't actually do anything but throw errors
+// it is the type that is returned when there can't be any alignments
+// for example, if want_primary and want_secondary are both false
 class ReadCollection::AlignmentNone : public ngs_adapt::AlignmentItf
 {
     virtual ngs_adapt::StringItf *getCigar(bool const clipped, char const OPCODE[]) const {
