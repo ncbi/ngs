@@ -96,7 +96,7 @@ def load_updated_library(lib_name):
 
         params = urlencode({
             'cmd':     'lib',
-            'name':    lib_name,
+            'libname': lib_name,
             'os_name': LibManager.get_post_os_name_param(),
             'bits':    str(os_bits())
         })
