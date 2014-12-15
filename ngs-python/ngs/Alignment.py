@@ -24,7 +24,7 @@
 # 
 # 
 
-from ctypes import byref, c_int, c_int32, c_uint32, c_int64, c_uint64, c_void_p
+from ctypes import byref, c_char, c_int, c_int32, c_uint32, c_int64, c_uint64, c_void_p
 from . import NGS
 
 from .String import NGS_String, NGS_RawString, getNGSString, getNGSValue
@@ -168,7 +168,7 @@ class Alignment(Fragment):
         :returns: '-' if negative strand is transcribed
         :returns: '?' if unknown
         """
-        return char(getNGSValue(self, NGS.lib_manager.PY_NGS_AlignmentGetRNAOrientation, c_int))
+        return getNGSValue(self, NGS.lib_manager.PY_NGS_AlignmentGetRNAOrientation, c_char)
 
     # ------------------------------------------------------------------
     # details of mate alignment            

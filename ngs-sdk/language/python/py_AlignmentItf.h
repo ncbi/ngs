@@ -55,7 +55,7 @@ PY_RES_TYPE PY_NGS_AlignmentGetSoftClip                  ( void* pRef, uint32_t 
 PY_RES_TYPE PY_NGS_AlignmentGetTemplateLength            ( void* pRef, uint64_t* pRet, void** ppNGSStrError );
 PY_RES_TYPE PY_NGS_AlignmentGetShortCigar                ( void* pRef, int clipped, void** ppNGSStringBuf, void** ppNGSStrError );
 PY_RES_TYPE PY_NGS_AlignmentGetLongCigar                 ( void* pRef, int clipped, void** ppNGSStringBuf, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_AlignmentGetRNAOrientation            ( void* pRef, int* pRet, void** ppNGSStrError );
+PY_RES_TYPE PY_NGS_AlignmentGetRNAOrientation            ( void* pRef, char* pRet, void** ppNGSStrError );
 PY_RES_TYPE PY_NGS_AlignmentHasMate                      ( void* pRef, int* pRet, void** ppNGSStrError );
 PY_RES_TYPE PY_NGS_AlignmentGetMateAlignmentId           ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
 PY_RES_TYPE PY_NGS_AlignmentGetMateAlignment             ( void* pRef, void** ppRet, void** ppNGSStrError );
