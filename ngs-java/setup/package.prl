@@ -12,7 +12,6 @@ sub PKG { ( LNG   => 'JAVA',
             PATH  => '/usr/local/ngs/ngs-java',
             UPATH =>      '$HOME/ngs/ngs-java',
             EXAMP => '1'
-#           NGS_SDK_SRC => 1,
         ) }
 sub REQ {}
 1
