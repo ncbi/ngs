@@ -51,15 +51,19 @@ clean:
 # C++ client library that provides API to any engine
 ngs-c++: $(LIBDIR) $(LIBDIR)/$(LPFX)ngs-c++.$(LIBX)
 
+ifeq (,$(MAKE_MANIFEST))
+MAKE_MANIFEST = ( cd $@; $(ARX) $^; $(ARLS) $^ | sed -e '/__\.SYMDEF/d' -e 's/^\(..*\)$$/$(subst /,\/,$@)\/\1/' > $@/manifest )
+endif
+
 $(OBJDIR)ngs-bind-c++: $(ILIBDIR)/$(LPFX)ngs-bind-c++.$(LIBX)
 	rm -rf $@
 	mkdir -p $@
-	( cd $@; $(ARX) $^; $(ARLS) $^ | sed -e '/__\.SYMDEF/d' -e 's/^\(..*\)$$/$(subst /,\/,$@)\/\1/' > $@/manifest )
+	$(MAKE_MANIFEST)
 
 $(OBJDIR)ngs-disp: $(ILIBDIR)/$(LPFX)ngs-disp.$(LIBX)
 	rm -rf $@
 	mkdir -p $@
-	( cd $@; $(ARX) $^; $(ARLS) $^ | sed -e '/__\.SYMDEF/d' -e 's/^\(..*\)$$/$(subst /,\/,$@)\/\1/' > $@/manifest )
+	$(MAKE_MANIFEST)
 
 $(LIBDIR)/$(LPFX)ngs-c++.$(VERSION_LIBX): $(OBJDIR)ngs-bind-c++ $(OBJDIR)ngs-disp
 	( $(AR) $@ `cat $(addsuffix /manifest,$^)` )
@@ -80,12 +84,12 @@ ngs-sdk: $(LIBDIR) $(LIBDIR)/$(LPFX)ngs-sdk.$(SHLX)
 $(OBJDIR)ngs-bind-java: $(ILIBDIR)/$(LPFX)ngs-bind-java.$(LIBX)
 	rm -rf $@
 	mkdir -p $@
-	( cd $@; $(ARX) $^; $(ARLS) $^ | sed -e '/__\.SYMDEF/d' -e 's/^\(..*\)$$/$(subst /,\/,$@)\/\1/' > $@/manifest )
+	$(MAKE_MANIFEST)
 
 $(OBJDIR)ngs-bind-python: $(ILIBDIR)/$(LPFX)ngs-bind-python.$(LIBX)
 	rm -rf $@
 	mkdir -p $@
-	( cd $@; $(ARX) $^; $(ARLS) $^ | sed -e '/__\.SYMDEF/d' -e 's/^\(..*\)$$/$(subst /,\/,$@)\/\1/' > $@/manifest )
+	$(MAKE_MANIFEST)
 
 # sub-libraries to link against
 SDK_LIB =        \
