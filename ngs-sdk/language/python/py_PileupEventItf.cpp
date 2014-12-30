@@ -42,4 +42,5 @@ GEN_PY_FUNC_GET                         ( PileupEvent, AlignmentBase,          c
 GEN_PY_FUNC_GET                         ( PileupEvent, AlignmentQuality,       char )
 GEN_PY_FUNC_GET_STRING                  ( PileupEvent, InsertionBases )
 GEN_PY_FUNC_GET_STRING                  ( PileupEvent, InsertionQualities )
-GEN_PY_FUNC_GET                         ( PileupEvent, DeletionCount,          uint32_t )
+GEN_PY_FUNC_GET                         ( PileupEvent, EventRepeatCount,       uint32_t )
+GEN_PY_FUNC_GET                         ( PileupEvent, EventIndelType,         uint32_t )

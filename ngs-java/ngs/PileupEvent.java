@@ -102,10 +102,24 @@ public interface PileupEvent
     /**
      *  EventType
      */
-    static int match     = 0;
-    static int mismatch  = 1;
-    static int insertion = 2;
-    static int deletion  = 3;
+    
+    // event types representable in reference coordinate space
+    static int match                     = 0;
+    static int mismatch                  = 1;
+    static int deletion                  = 2;
+
+    // an insertion cannot be represented in reference coordinate
+    // space ( so no insertion event can be directly represented ),
+    // but it can occur before a match or mismatch event.
+    // insertion is represented as a bit
+    static int insertion                 = 0x10;
+    static int insertion_before_match    = insertion | match;
+    static int insertion_before_mismatch = insertion | mismatch;
+
+    // additional modifier bits - may be added to any event above
+    static int alignment_start           = 0x80;
+    static int alignment_stop            = 0x40;
+    static int alignment_minus_strand    = 0x20;
 
     /**
      * getEventType
@@ -146,9 +160,40 @@ public interface PileupEvent
         throws ErrorMsg;
 
     /**
-     * getDeletionCount
-     * @return the number of Reference base positions remaining until the next non-deletion event in this alignment.
+     * getEventRepeatCount
+     * @return the number of times this event repeats, i.e. the distance to the first reference position yielding a different event type for this alignment
      */
-    int getDeletionCount ()
+    int getEventRepeatCount ()
+        throws ErrorMsg;
+
+    /**
+     * EventIndelType
+     */
+
+    static int normal_indel              = 0;
+
+    // introns behave like deletions
+    // (i.e. can retrieve deletion count),
+    // "_plus" and "_minus" signify direction
+    // of transcription if known
+    static int intron_plus               = 1;
+    static int intron_minus              = 2;
+    static int intron_unknown            = 3;
+
+    // overlap is reported as an insertion,
+    // but is actually an overlap in the read
+    // inherent in technology like Complete Genomics
+    static int read_overlap              = 4;
+
+    // gap is reported as a deletion,
+    // but is actually a gap in the read
+    // inherent in technology like Complete Genomics
+    static int read_gap                  = 5;
+
+    /**
+     * getEventIndelType
+     * @return detail about the type of indel when event type is an insertion or deletion
+     */
+    int getEventIndelType ()
         throws ErrorMsg;
 }

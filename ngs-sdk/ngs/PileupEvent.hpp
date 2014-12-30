@@ -88,6 +88,7 @@ namespace ngs
             throw ( ErrorMsg );
 
         /* getAlignmentPosition
+         *  gives position of event on sequence
          */
         int64_t getAlignmentPosition () const
             throw ( ErrorMsg );
@@ -115,38 +116,22 @@ namespace ngs
          */
         enum PileupEventType
         {
-            // no change to coordinate mapping
+            // event types representable in reference coordinate space
             match                     = 0,
             mismatch                  = 1,
+            deletion                  = 2,
+
+            // an insertion cannot be represented in reference coordinate
+            // space ( so no insertion event can be directly represented ),
+            // but it can occur before a match or mismatch event.
+            // insertion is represented as a bit
+            insertion                 = 0x10,
 
             // insertions into the reference
-            insertion_before_match    = 2,
-            insertion_before_mismatch = 3,
-
-            // overlap behaves like insertion
-            // (i.e. can retrieve insertion bases),
-            // but is actually an overlap in the read
-            // inherent in technology like Complete Genomics
-            read_overlap              = 4,
-
-            // deletions from the reference
-            deletion                  = 5,
-
-            // introns behave like deletions
-            // (i.e. can retrieve deletion count),
-            // "_plus" and "_minus" signify direction
-            // of transcription if known
-            intron_plus               = 6,
-            intron_minus              = 7,
-            intron_unknown            = 8,
-
-            // gap behaves like a deletion
-            // (i.e. can retrieve deletion count),
-            // but is actuall a gap in the read
-            // inherent in technology like Complete Genomics
-            read_gap                  = 9,
+            insertion_before_match    = insertion | match,
+            insertion_before_mismatch = insertion | mismatch,
             
-            
+            // additional modifier bits - may be added to any event above
             alignment_start           = 0x80,
             alignment_stop            = 0x40,
             alignment_minus_strand    = 0x20,
@@ -154,20 +139,41 @@ namespace ngs
 
         /* getEventType
          *  the type of event being represented
+         *
+         *  a match event indicates that the aligned sequence base
+         *  exactly matches the corresponding base in the reference.
+         *
+         *  a mismatch event indicates that the sequence and
+         *  references bases do not match even though they are
+         *  considered aligned. The actual sequence base and its
+         *  quality value may be retrieved with
+         *    "getAlignmentBase()" and "getAlignmentQuality()"
+         *
+         *  a deletion event indicates a base that is present in
+         *  the reference but missing in the sequence.
+         *
+         *  an insertion cannot be represented in reference coordinate
+         *  space ( so no insertion event can be directly represented ),
+         *  but it can occur before a match or mismatch event.
+         *  insertion is represented as a modifier bit. If this bit
+         *  is set, then the event was preceded by an insertion.
+         *  The inserted bases and qualities can be retrieved by
+         *    "getInsertionBases()" and "getInsertionQualities()"
+         *  
          */
         PileupEventType getEventType () const
             throw ( ErrorMsg );
 
         /* getAlignmentBase
          *  retrieves base aligned at current Reference position
-         *  throws exception if event is an insertion or deletion
+         *  returns '-' for deletion events
          */
         char getAlignmentBase () const
             throw ( ErrorMsg );
 
         /* getAlignmentQuality
          *  retrieves quality aligned at current Reference position
-         *  throws exception if event is an insertion or deletion
+         *  returns '!' for deletion events
          *  quality is ascii-encoded phred score
          */
         char getAlignmentQuality () const
@@ -175,6 +181,7 @@ namespace ngs
 
         /* getInsertionBases
          *  returns bases corresponding to insertion event
+         *  returns empty string for all non-insertion events
          */
         StringRef getInsertionBases () const
             throw ( ErrorMsg );
@@ -185,12 +192,44 @@ namespace ngs
         StringRef getInsertionQualities () const
             throw ( ErrorMsg );
 
-        /* getDeletionCount
-         *  returns the number of bases remaining in deletion event
-         *  i.e. the number of Reference base positions remaining
-         *  until the next non-deletion event in this alignment.
+        /* getEventRepeatCount
+         *  returns the number of times this event repeats
+         *  i.e. the distance to the first reference position
+         *  yielding a different event for this alignment.
          */
-        uint32_t getDeletionCount () const
+        uint32_t getEventRepeatCount () const
+            throw ( ErrorMsg );
+
+        /* EventIndelType
+         */
+        enum EventIndelType
+        {
+            normal_indel              = 0,
+
+            // introns behave like deletions
+            // (i.e. can retrieve deletion count),
+            // "_plus" and "_minus" signify direction
+            // of transcription if known
+            intron_plus               = 1,
+            intron_minus              = 2,
+            intron_unknown            = 3,
+
+            // overlap is reported as an insertion,
+            // but is actually an overlap in the read
+            // inherent in technology like Complete Genomics
+            read_overlap              = 4,
+
+            // gap is reported as a deletion,
+            // but is actually a gap in the read
+            // inherent in technology like Complete Genomics
+            read_gap                  = 5
+        };
+
+        /* getEventIndelType
+         *  returns detail about the type of indel
+         *  when event type is an insertion or deletion
+         */
+        EventIndelType getEventIndelType () const
             throw ( ErrorMsg );
 
     public:

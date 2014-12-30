@@ -64,7 +64,8 @@ namespace ngs_adapt
         virtual char getAlignmentQuality () const = 0;
         virtual StringItf * getInsertionBases () const = 0;
         virtual StringItf * getInsertionQualities () const = 0;
-        virtual uint32_t getDeletionCount () const = 0;
+        virtual uint32_t getEventRepeatCount () const = 0;
+        virtual uint32_t getEventIndelType () const = 0;
         virtual bool nextPileupEvent () = 0;
 
     protected:
@@ -87,7 +88,8 @@ namespace ngs_adapt
         static char CC get_align_qual ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
         static NGS_String_v1 * CC get_ins_bases ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
         static NGS_String_v1 * CC get_ins_quals ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
-        static uint32_t CC get_del_count ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
+        static uint32_t CC get_rpt_count ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
+        static uint32_t CC get_indel_type ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
         static bool CC next ( NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
     };
 

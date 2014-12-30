@@ -75,7 +75,9 @@ namespace ngs
             throw ( ErrorMsg );
         StringItf * getInsertionQualities () const
             throw ( ErrorMsg );
-        uint32_t getDeletionCount () const
+        uint32_t getEventRepeatCount () const
+            throw ( ErrorMsg );
+        uint32_t getEventIndelType () const
             throw ( ErrorMsg );
         bool nextPileupEvent ()
             throw ( ErrorMsg );

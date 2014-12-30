@@ -420,15 +420,43 @@ JNIEXPORT jstring JNICALL Java_ngs_itf_PileupEventItf_GetInsertionQualities
 
 /*
  * Class:     ngs_itf_PileupEventItf
- * Method:    GetDeletionCount
+ * Method:    GetEventRepeatCount
  * Signature: (J)I
  */
-JNIEXPORT jint JNICALL Java_ngs_itf_PileupEventItf_GetDeletionCount
+JNIEXPORT jint JNICALL Java_ngs_itf_PileupEventItf_GetEventRepeatCount
     ( JNIEnv * jenv, jobject jthis, jlong jself )
 {
     try
     {
-        return ( jint ) Self ( jself ) -> getDeletionCount ();
+        return ( jint ) Self ( jself ) -> getEventRepeatCount ();
+    }
+    catch ( ErrorMsg & x )
+    {
+        ErrorMsgThrow ( jenv, xt_error_msg, x . what () );
+    }
+    catch ( std :: exception & x )
+    {
+        ErrorMsgThrow ( jenv, xt_runtime, x . what () );
+    }
+    catch ( ... )
+    {
+        JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
+    }
+
+    return 0;
+}
+
+/*
+ * Class:     ngs_itf_PileupEventItf
+ * Method:    GetEventIndelType
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_ngs_itf_PileupEventItf_GetEventIndelType
+    ( JNIEnv * jenv, jobject jthis, jlong jself )
+{
+    try
+    {
+        return ( jint ) Self ( jself ) -> getEventIndelType ();
     }
     catch ( ErrorMsg & x )
     {

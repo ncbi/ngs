@@ -243,12 +243,27 @@ namespace ngs_adapt
         return 0;
     }
 
-    uint32_t CC PileupEventItf :: get_del_count ( const NGS_PileupEvent_v1 * iself, NGS_ErrBlock_v1 * err )
+    uint32_t CC PileupEventItf :: get_rpt_count ( const NGS_PileupEvent_v1 * iself, NGS_ErrBlock_v1 * err )
     {
         const PileupEventItf * self = Self ( iself );
         try
         {
-            return self -> getDeletionCount ();
+            return self -> getEventRepeatCount ();
+        }
+        catch ( ... )
+        {
+            ErrBlockHandleException ( err );
+        }
+
+        return 0;
+    }
+
+    uint32_t CC PileupEventItf :: get_indel_type ( const NGS_PileupEvent_v1 * iself, NGS_ErrBlock_v1 * err )
+    {
+        const PileupEventItf * self = Self ( iself );
+        try
+        {
+            return self -> getEventIndelType ();
         }
         catch ( ... )
         {
@@ -295,7 +310,8 @@ namespace ngs_adapt
         get_align_qual,
         get_ins_bases,
         get_ins_quals,
-        get_del_count,
+        get_rpt_count,
+        get_indel_type,
         next
     };
 

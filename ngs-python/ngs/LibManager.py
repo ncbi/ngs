@@ -259,7 +259,8 @@ class LibManager:
         self.bind_sdk("PY_NGS_PileupEventGetAlignmentQuality",       [c_void_p, POINTER(c_char), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_PileupEventGetInsertionBases",         [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_PileupEventGetInsertionQualities",     [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
-        self.bind_sdk("PY_NGS_PileupEventGetDeletionCount",          [c_void_p, POINTER(c_uint32), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_PileupEventGetEventRepeatCount",       [c_void_p, POINTER(c_uint32), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_PileupEventGetEventIndelType",         [c_void_p, POINTER(c_uint32), POINTER(c_void_p)])
 
         self.bind_sdk("PY_NGS_PileupEventIteratorNext",              [c_void_p, POINTER(c_int), POINTER(c_void_p)])
         

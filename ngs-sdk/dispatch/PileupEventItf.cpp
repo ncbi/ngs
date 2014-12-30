@@ -319,7 +319,7 @@ namespace ngs
         return StringItf :: Cast ( ret );
     }
 
-    uint32_t PileupEventItf :: getDeletionCount () const
+    uint32_t PileupEventItf :: getEventRepeatCount () const
         throw ( ErrorMsg )
     {
         // the object is really from C
@@ -330,8 +330,28 @@ namespace ngs
 
         // call through C vtable
         ErrBlock err;
-        assert ( vt -> get_del_count != 0 );
-        uint32_t ret  = ( * vt -> get_del_count ) ( self, & err );
+        assert ( vt -> get_rpt_count != 0 );
+        uint32_t ret  = ( * vt -> get_rpt_count ) ( self, & err );
+
+        // check for errors
+        err . Check ();
+
+        return ret;
+    }
+
+    uint32_t PileupEventItf :: getEventIndelType () const
+        throw ( ErrorMsg )
+    {
+        // the object is really from C
+        const NGS_PileupEvent_v1 * self = Test ();
+
+        // cast vtable to our level
+        const NGS_PileupEvent_v1_vt * vt = Access ( self -> vt );
+
+        // call through C vtable
+        ErrBlock err;
+        assert ( vt -> get_indel_type != 0 );
+        uint32_t ret  = ( * vt -> get_indel_type ) ( self, & err );
 
         // check for errors
         err . Check ();

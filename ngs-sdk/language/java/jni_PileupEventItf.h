@@ -113,10 +113,18 @@ JNIEXPORT jstring JNICALL Java_ngs_itf_PileupEventItf_GetInsertionQualities
 
 /*
  * Class:     ngs_itf_PileupEventItf
- * Method:    GetDeletionCount
+ * Method:    GetEventRepeatCount
  * Signature: (J)I
  */
-JNIEXPORT jint JNICALL Java_ngs_itf_PileupEventItf_GetDeletionCount
+JNIEXPORT jint JNICALL Java_ngs_itf_PileupEventItf_GetEventRepeatCount
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     ngs_itf_PileupEventItf
+ * Method:    GetEventIndelType
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_ngs_itf_PileupEventItf_GetEventIndelType
   (JNIEnv *, jobject, jlong);
 
 #ifdef __cplusplus
