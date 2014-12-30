@@ -18,41 +18,24 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  
-    <Import Project="lib-project.props" />
-  
-    <PropertyGroup Label="Globals">
-        <ProjectGuid>{FB574D6F-8684-45AE-A0AF-B52BA67E9FDE}</ProjectGuid>
-    </PropertyGroup>
-  
-    <ItemGroup>
-        <ProjectReference Include="libadapter.vcxproj">
-            <Project>{b9096fef-5b55-4308-a81f-3b52ca968be9}</Project>
-        </ProjectReference>
-        <ProjectReference Include="libdispatch.vcxproj">
-            <Project>{06fa485f-8aa9-4f3b-b1e3-d8cf1993637b}</Project>
-        </ProjectReference>
-        <ProjectReference Include="libngs-c++.vcxproj">
-            <Project>{a8ac88d2-fada-4458-a251-db2e039678a4}</Project>
-        </ProjectReference>
-    </ItemGroup>
-  
-    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  
-    <ImportGroup Label="ExtensionTargets" />
-  
-    <ItemGroup>
-        <ClCompile Include="..\test\test_engine\test_engine.cpp" />
-    </ItemGroup>
-    <ItemGroup>
-        <ClInclude Include="..\test\test_engine\AlignmentItf.hpp" />
-        <ClInclude Include="..\test\test_engine\PileupEventItf.hpp" />
-        <ClInclude Include="..\test\test_engine\PileupItf.hpp" />
-        <ClInclude Include="..\test\test_engine\ReadCollectionItf.hpp" />
-        <ClInclude Include="..\test\test_engine\ReadGroupItf.hpp" />
-        <ClInclude Include="..\test\test_engine\ReadItf.hpp" />
-        <ClInclude Include="..\test\test_engine\ReferenceItf.hpp" />
-        <ClInclude Include="..\test\test_engine\StatisticsItf.hpp" />
-        <ClInclude Include="..\test\test_engine\test_engine.hpp" />
-    </ItemGroup>
+  <Import Project="lib-project.props" />
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{FB574D6F-8684-45AE-A0AF-B52BA67E9FDE}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+  <ItemGroup>
+    <ClCompile Include="..\test\test_engine\test_engine.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\test\test_engine\AlignmentItf.hpp" />
+    <ClInclude Include="..\test\test_engine\PileupEventItf.hpp" />
+    <ClInclude Include="..\test\test_engine\PileupItf.hpp" />
+    <ClInclude Include="..\test\test_engine\ReadCollectionItf.hpp" />
+    <ClInclude Include="..\test\test_engine\ReadGroupItf.hpp" />
+    <ClInclude Include="..\test\test_engine\ReadItf.hpp" />
+    <ClInclude Include="..\test\test_engine\ReferenceItf.hpp" />
+    <ClInclude Include="..\test\test_engine\StatisticsItf.hpp" />
+    <ClInclude Include="..\test\test_engine\test_engine.hpp" />
+  </ItemGroup>
 </Project>

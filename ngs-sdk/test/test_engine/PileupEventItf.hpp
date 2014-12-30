@@ -111,10 +111,21 @@ namespace ngs_test_engine
             static std::string quals = "#$";
             return new ngs_adapt::StringItf ( quals.c_str(), quals.size() );
         }
-
+/*
         virtual uint32_t getDeletionCount () const
         {
             return 23;
+        }
+*/
+        virtual uint32_t getEventRepeatCount () const
+        {
+            return 45;
+        }
+
+
+        virtual uint32_t getEventIndelType () const
+        {
+            return ( uint32_t ) ngs::PileupEvent::intron_minus;
         }
 
         virtual bool nextPileupEvent ()
