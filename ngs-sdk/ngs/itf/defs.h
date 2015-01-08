@@ -48,19 +48,6 @@ extern "C" {
 #endif
 
 /*--------------------------------------------------------------------------
- * DLL interface
- */
-#if defined _MSC_VER
- #if defined _LIBRARY
-  #define NGS_ITF_EXTERN   __declspec( dllexport ) 
- #else
-  #define NGS_ITF_EXTERN   __declspec( dllimport ) 
- #endif
-#else
- #define NGS_ITF_EXTERN   
-#endif
-
-/*--------------------------------------------------------------------------
  * NGS_ErrBlock
  *  see "ErrBlock.h"
  */

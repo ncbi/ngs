@@ -61,9 +61,9 @@ test runtests: Makefile.config default
 	@ $(MAKE) -C test runtests
 
 # rule to run configuration
-Makefile.config: Makefile.config.$(shell perl $(TOP)/os-arch.perl) konfigure.perl
+Makefile.config: Makefile.config.$(shell perl $(TOP)/setup/os-arch.perl) setup/konfigure.perl
 
-Makefile.config.$(shell perl $(TOP)/os-arch.perl):
+Makefile.config.$(shell perl $(TOP)/setup/os-arch.perl):
 	@echo "*** File '$@' is missing. Please run ./configure"
 	@false
 

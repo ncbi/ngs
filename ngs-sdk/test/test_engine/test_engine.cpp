@@ -35,19 +35,19 @@
 #include "PileupItf.hpp"
 #include "PileupEventItf.hpp"
 
-NGS_EXTERN  unsigned int ngs_test_engine::ReadCollectionItf::instanceCount = 0;
-NGS_EXTERN  unsigned int ngs_test_engine::ReadGroupItf::instanceCount = 0;
-NGS_EXTERN  unsigned int ngs_test_engine::ReferenceItf::instanceCount = 0;
-NGS_EXTERN  unsigned int ngs_test_engine::AlignmentItf::instanceCount = 0;
-NGS_EXTERN  unsigned int ngs_test_engine::ReadItf::instanceCount = 0;
-NGS_EXTERN  unsigned int ngs_test_engine::StatisticsItf::instanceCount = 0;
-NGS_EXTERN  unsigned int ngs_test_engine::PileupItf::instanceCount = 0;
-NGS_EXTERN  unsigned int ngs_test_engine::PileupEventItf::instanceCount = 0;
+  unsigned int ngs_test_engine::ReadCollectionItf::instanceCount = 0;
+  unsigned int ngs_test_engine::ReadGroupItf::instanceCount = 0;
+  unsigned int ngs_test_engine::ReferenceItf::instanceCount = 0;
+  unsigned int ngs_test_engine::AlignmentItf::instanceCount = 0;
+  unsigned int ngs_test_engine::ReadItf::instanceCount = 0;
+  unsigned int ngs_test_engine::StatisticsItf::instanceCount = 0;
+  unsigned int ngs_test_engine::PileupItf::instanceCount = 0;
+  unsigned int ngs_test_engine::PileupEventItf::instanceCount = 0;
 
 namespace ngs_test_engine
 {
 
-	NGS_EXTERN  ngs::ReadCollection NGS::openReadCollection ( const String & spec ) throw ( ErrorMsg )
+	  ngs::ReadCollection NGS::openReadCollection ( const String & spec ) throw ( ErrorMsg )
 	{
         ngs_adapt::ReadCollectionItf * ad_itf = new ngs_test_engine::ReadCollectionItf ( spec . c_str () );
         NGS_ReadCollection_v1 * c_obj = ad_itf -> Cast ();

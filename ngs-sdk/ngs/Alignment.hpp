@@ -45,7 +45,7 @@ namespace ngs
      *  represents an alignment between a Fragment and Reference sub-sequence
      *  provides a path to Read and mate Alignment
      */
-    class NGS_EXTERN Alignment : public Fragment
+    class Alignment : public Fragment
     {
     public:
 
@@ -184,6 +184,14 @@ namespace ngs
          *  returns a text string describing alignment details
          */
         StringRef getLongCigar ( bool clipped ) const
+            throw ( ErrorMsg );
+
+        /* getRNAOrientation
+         *  returns '+' if positive strand is transcribed
+         *  returns '-' if negative strand is transcribed
+         *  returns '?' if unknown
+         */
+        char getRNAOrientation () const
             throw ( ErrorMsg );
 
 

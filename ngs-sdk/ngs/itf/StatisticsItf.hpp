@@ -44,7 +44,7 @@ namespace ngs
     /*----------------------------------------------------------------------
      * StatisticsItf
      */
-    class NGS_ITF_EXTERN  StatisticsItf : public Refcount < StatisticsItf, NGS_Statistics_v1 >
+    class   StatisticsItf : public Refcount < StatisticsItf, NGS_Statistics_v1 >
     {
     public:
 

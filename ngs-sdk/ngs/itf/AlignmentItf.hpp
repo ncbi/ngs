@@ -44,7 +44,7 @@ namespace ngs
     /*----------------------------------------------------------------------
      * AlignmentItf
      */
-    class NGS_ITF_EXTERN  AlignmentItf : public Refcount < AlignmentItf, NGS_Alignment_v1 >
+    class   AlignmentItf : public Refcount < AlignmentItf, NGS_Alignment_v1 >
     {
     public:
 
@@ -81,6 +81,8 @@ namespace ngs
         StringItf * getShortCigar ( bool clipped ) const
             throw ( ErrorMsg );
         StringItf * getLongCigar ( bool clipped ) const
+            throw ( ErrorMsg );
+        char getRNAOrientation () const
             throw ( ErrorMsg );
         bool hasMate () const
             throw ();

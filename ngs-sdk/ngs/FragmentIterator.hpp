@@ -37,7 +37,7 @@ namespace ngs
      * FragmentIterator
      *  iterates across a list of Fragments
      */
-    class NGS_EXTERN FragmentIterator : public Fragment
+    class FragmentIterator : public Fragment
     {
     public:
 

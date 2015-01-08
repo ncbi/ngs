@@ -61,27 +61,28 @@ clean: stdjclean
 # classes for ngs-ncbi
 #
 
-LIB_SRC =                      \
+LIB_SRC =                          \
+	HttpException              \
 	HttpManager                \
-	LibManager      	       \
-	LibPathIterator   	       \
+	LibManager                 \
+	LibPathIterator	           \
 	Logger      	           \
 	Manager      	           \
-    ReadCollectionItf          \
-    Refcount                   \
-    ReadGroupIteratorItf       \
-    ReadGroupItf               \
-    ReferenceIteratorItf       \
-    ReferenceItf               \
-    AlignmentItf               \
-    AlignmentIteratorItf       \
-    ReadItf                    \
-    ReadIteratorItf            \
-    PileupIteratorItf          \
-    PileupItf                  \
-    FragmentItf                \
-    PileupEventIteratorItf     \
-    PileupEventItf             \
+	ReadCollectionItf          \
+	Refcount                   \
+	ReadGroupIteratorItf       \
+	ReadGroupItf               \
+	ReferenceIteratorItf       \
+	ReferenceItf               \
+	AlignmentItf               \
+	AlignmentIteratorItf       \
+	ReadItf                    \
+	ReadIteratorItf            \
+	PileupIteratorItf          \
+	PileupItf                  \
+	FragmentItf                \
+	PileupEventIteratorItf     \
+	PileupEventItf             \
 	TestyTheBear               \
 
 NGS_SRC =                      \

@@ -27,39 +27,48 @@
 package gov.nih.nlm.ncbi.ngs;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 
 /** Helper class responsible for HTTP-related activities:
     download files using GET/POST */
 class HttpManager
 {
-    /** GET implementation. Calls download() to process the response. */
-    private static boolean get(String from, FileCreator creator, String libname)
+    /** POST implementation. Returns response text */
+    static String post(String spec,
+            String request)
+        throws HttpException
     {
-        System.err.println(from + " ->" + libname + "...");
+        String result = "";
 
-        URL url = null;
-        try {
-            url = new URL(from);
-        } catch (java.net.MalformedURLException e) {
-            System.err.println("Bad URL: " + from + ": " + e);
-            return false;
-        }
+        Logger.fine(spec + "?" + request + "...");
+        
+        InputStream is = getPostInputStream(spec, request);
 
-        InputStream in = null;
+        InputStreamReader isr = new java.io.InputStreamReader(is);
+
+        BufferedReader in = new BufferedReader(isr);
+
         try {
-            in = url.openStream();
+            String inputLine;
+            while ((inputLine = in.readLine()) != null)  {
+                result += inputLine;
+            }
+
+            in.close();
         } catch (IOException e) {
-            System.err.println("Cannot download " + from + ": " + e);
-            return false;
+            throw new HttpException(-3);
         }
 
-        return download(in, creator, libname);
+        return result;
     }
+
 
     /** POST implementation. Calls download() to process the response. */
     static int post(String spec,
@@ -69,13 +78,59 @@ class HttpManager
     {
         Logger.fine(spec + "?" + request + " -> " + libname + "...");
 
+        try {
+            InputStream in = getPostInputStream(spec, request);
+
+            if (download(in, creator, libname)) {
+                return 200;
+            } else {
+                return -3;
+            }
+        } catch (HttpException e) {
+            return e.getResponseCode();
+        }
+    }
+
+
+    /** GET implementation. Calls download() to process the response. */
+    private static boolean get(String spec,
+        FileCreator creator,
+        String libname)
+    {
+        System.err.println(spec + " ->" + libname + "...");
+
         URL url = null;
         try {
             url = new URL(spec);
         } catch (java.net.MalformedURLException e) {
             System.err.println("Bad URL: " + spec + ": " + e);
-            return -1;
+            return false;
         }
+
+        InputStream in = null;
+        try {
+            in = url.openStream();
+        } catch (IOException e) {
+            System.err.println("Cannot download " + spec + ": " + e);
+            return false;
+        }
+
+        return download(in, creator, libname);
+    }
+
+
+    private static InputStream getPostInputStream(String spec,
+            String request)
+        throws HttpException
+    {
+        URL url = null;
+        try {
+            url = new URL(spec);
+        } catch (java.net.MalformedURLException e) {
+            System.err.println("Bad URL: " + spec + ": " + e);
+            throw new HttpException(-1);
+        }
+
         InputStream in = null;
         try {
             java.net.URLConnection urlConn = url.openConnection();
@@ -93,23 +148,19 @@ class HttpManager
 
             in = urlConn.getInputStream();
 
-            // What if CGI returns non-200 status?
             HttpURLConnection httpConnection = (HttpURLConnection) urlConn;
             int status = httpConnection.getResponseCode();
             if (status != 200) {
-                return status;
+                throw new HttpException(status);
             }
         } catch (IOException e) {
             System.err.println(e);
-            return -2;
+            throw new HttpException(-2);
         }
 
-        if (download(in, creator, libname)) {
-            return 200;
-        } else {
-            return -3;
-        }
+        return in;
     }
+
 
     /** Download InputStream, use FileCreator to create output file */
     private static boolean download(InputStream in,
@@ -153,6 +204,7 @@ class HttpManager
 
         return true;
     }
+
 
     /** Size of buffer for HTTP-related buffered IO operations */
     static final int BUF_SZ = 128 * 1024;

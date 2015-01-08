@@ -42,7 +42,7 @@ namespace ngs
      * ErrBlock
      *  holds a message describing what happened
      */
-    struct NGS_ITF_EXTERN  ErrBlock : public :: NGS_ErrBlock_v1
+    struct   ErrBlock : public :: NGS_ErrBlock_v1
     {
         void Throw () const
             throw ( ErrorMsg );

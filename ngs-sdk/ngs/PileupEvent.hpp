@@ -48,7 +48,7 @@ namespace ngs
      *  with Reference coordinates on one axis
      *  and stacked Alignments on the other axis
      */
-    class NGS_EXTERN PileupEvent
+    class PileupEvent
     {
     public:
 
@@ -115,11 +115,42 @@ namespace ngs
          */
         enum PileupEventType
         {
-            match     = 0,
-            mismatch  = 1,
-            insertion = 2,
-            deletion  = 3
-        };         
+            // no change to coordinate mapping
+            match                     = 0,
+            mismatch                  = 1,
+
+            // insertions into the reference
+            insertion_before_match    = 2,
+            insertion_before_mismatch = 3,
+
+            // overlap behaves like insertion
+            // (i.e. can retrieve insertion bases),
+            // but is actually an overlap in the read
+            // inherent in technology like Complete Genomics
+            read_overlap              = 4,
+
+            // deletions from the reference
+            deletion                  = 5,
+
+            // introns behave like deletions
+            // (i.e. can retrieve deletion count),
+            // "_plus" and "_minus" signify direction
+            // of transcription if known
+            intron_plus               = 6,
+            intron_minus              = 7,
+            intron_unknown            = 8,
+
+            // gap behaves like a deletion
+            // (i.e. can retrieve deletion count),
+            // but is actuall a gap in the read
+            // inherent in technology like Complete Genomics
+            read_gap                  = 9,
+            
+            
+            alignment_start           = 0x80,
+            alignment_stop            = 0x40,
+            alignment_minus_strand    = 0x20,
+        };
 
         /* getEventType
          *  the type of event being represented
@@ -135,12 +166,12 @@ namespace ngs
             throw ( ErrorMsg );
 
         /* getAlignmentQuality
-         *  retrieves base aligned at current Reference position
+         *  retrieves quality aligned at current Reference position
          *  throws exception if event is an insertion or deletion
+         *  quality is ascii-encoded phred score
          */
         char getAlignmentQuality () const
             throw ( ErrorMsg );
-
 
         /* getInsertionBases
          *  returns bases corresponding to insertion event

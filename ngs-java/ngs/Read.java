@@ -105,7 +105,7 @@ public interface Read
     /** 
      * getReadBases
      * @param offset is zero-based and non-negative
-     * @param length must be >= 0
+     * @param length must be &ge; 0
      * @return sequence bases
      */
     String getReadBases ( long offset, long length )
@@ -130,7 +130,7 @@ public interface Read
     /**
      * getReadQualities
      * @param offset is zero-based and non-negative
-     * @param length must be >= 0
+     * @param length must be &ge; 0
      * @return phred quality values using ASCII offset of 33
      */
     String getReadQualities ( long offset, long length )

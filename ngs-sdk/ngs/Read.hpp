@@ -45,7 +45,7 @@ namespace ngs
      *  represents an NGS machine read
      *  having some number of biological Fragments
      */
-    class NGS_EXTERN Read : public FragmentIterator
+    class Read : public FragmentIterator
     {
     public:
 

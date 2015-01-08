@@ -132,10 +132,11 @@ public interface ReadCollection
      * The object id is unique within any given ReadCollection,
      * and may designate an Alignment of any category.
      *
+     * Note Excessive usage may create pressure on JVM and System memory.
+     *
      * @return an individual Alignment instance
      * @throws ErrorMsg if Alignment is not found
      * @throws ErrorMsg upon an error accessing data
-     * @.note Excessive usage may create pressure on JVM and System memory.
      */
     Alignment getAlignment ( String alignmentId )
         throws ErrorMsg;
@@ -149,7 +150,7 @@ public interface ReadCollection
 
     /** 
      * Count all Alignments within the ReadCollection
-     * @return 0 if there are no aligned Reads, > 0 otherwise
+     * @return 0 if there are no aligned Reads, &gt; 0 otherwise
      * @throws ErrorMsg upon an error accessing data
      */
     long getAlignmentCount ()

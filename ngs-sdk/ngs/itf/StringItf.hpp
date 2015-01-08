@@ -39,7 +39,7 @@ namespace ngs
      * StringItf
      *  a dynamically allocated object representing a string reference
      */
-    class NGS_ITF_EXTERN  StringItf : public Refcount < StringItf, NGS_String_v1 >
+    class   StringItf : public Refcount < StringItf, NGS_String_v1 >
     {
     public:
 

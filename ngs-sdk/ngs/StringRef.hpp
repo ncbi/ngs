@@ -27,10 +27,6 @@
 #ifndef _hpp_ngs_stringref_
 #define _hpp_ngs_stringref_
 
-#ifndef _h_ngs_defs_
-#include <ngs/defs.h>
-#endif
-
 #ifndef _hpp_ngs_error_msg_
 #include <ngs/ErrorMsg.hpp>
 #endif
@@ -54,7 +50,7 @@ namespace ngs
      *  main purpose is to avoid copying
      *  provides a cast operator to create a language-specific String
      */
-    class NGS_EXTERN  StringRef
+    class StringRef
     {
     public:
 
@@ -116,7 +112,7 @@ namespace ngs
     };
 
     // support for C++ ostream
-      NGS_EXTERN :: std :: ostream & operator << ( :: std :: ostream & s, const StringRef & str );
+       :: std :: ostream & operator << ( :: std :: ostream & s, const StringRef & str );
 
 } // namespace ngs
 

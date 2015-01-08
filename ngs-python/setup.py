@@ -1,15 +1,15 @@
-from setuptools import setup
+from distutils.core import setup
 import sys
 #import version
 
 #ver = version.get_git_version()
 
 decimal_ver = sys.version_info[0]*10 + sys.version_info[1]
-min_version = 27
+min_version = 26
 
 if decimal_ver < min_version:
-    print ("At least python {} is required to run ngs package, and you're using {}".format(min_version/10., decimal_ver/10.))
-    exit()
+    print ("At least python " + str(min_version/10.) + " is required to automatically install ngs package, and you're using " + str(decimal_ver/10.))
+    exit(1)
 
 setup(name='ngs',
       #version=ver,

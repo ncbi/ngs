@@ -42,7 +42,7 @@ namespace ngs_test_engine
          *  "spec" may be a path to an object
          *  or may be an id, accession, or URL
          */
-        static NGS_EXTERN ReadCollection openReadCollection ( const String & spec ) throw ( ErrorMsg );
+        static  ReadCollection openReadCollection ( const String & spec ) throw ( ErrorMsg );
     };
 
 } // namespace ngs_test_engine

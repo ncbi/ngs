@@ -45,7 +45,7 @@ namespace ngs
      *  represents a slice through a stack of Alignments
      *  at a given position on the Reference
      */
-    class NGS_EXTERN Pileup
+    class Pileup
     {
     public:
 

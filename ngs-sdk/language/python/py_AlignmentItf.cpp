@@ -53,6 +53,7 @@ GEN_PY_FUNC_GET_BY_PARAMS_1             ( Alignment, SoftClip, int32_t, uint32_t
 GEN_PY_FUNC_GET                         ( Alignment, TemplateLength, uint64_t )
 GEN_PY_FUNC_GET_STRING_BY_PARAMS_1      ( Alignment, ShortCigar, bool, clipped )
 GEN_PY_FUNC_GET_STRING_BY_PARAMS_1      ( Alignment, LongCigar, bool, clipped )
+GEN_PY_FUNC_GET                         ( Alignment, RNAOrientation, char )
 //GEN_PY_FUNC_GET                         ( Alignment, HasMate, bool ) // TODO: decide what to do with non-standard names
 GEN_PY_FUNC_GET_EXPLICIT_NAMES          ( Alignment, bool, PY_NGS_AlignmentHasMate, hasMate )
 GEN_PY_FUNC_GET_STRING                  ( Alignment, MateAlignmentId )

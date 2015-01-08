@@ -96,7 +96,7 @@ def load_updated_library(lib_name):
 
         params = urlencode({
             'cmd':     'lib',
-            'name':    lib_name,
+            'libname': lib_name,
             'os_name': LibManager.get_post_os_name_param(),
             'bits':    str(os_bits())
         })
@@ -227,6 +227,7 @@ class LibManager:
         self.bind_sdk("PY_NGS_AlignmentGetTemplateLength",            [c_void_p, POINTER(c_uint64), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_AlignmentGetShortCigar",                [c_void_p, c_int, POINTER(c_void_p), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_AlignmentGetLongCigar",                 [c_void_p, c_int, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_AlignmentGetRNAOrientation",            [c_void_p, POINTER(c_char), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_AlignmentHasMate",                      [c_void_p, POINTER(c_int), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_AlignmentGetMateAlignmentId",           [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_AlignmentGetMateAlignment",             [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])

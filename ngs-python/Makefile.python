@@ -57,18 +57,31 @@ ifeq (linux, $(OS))
 
 PROFILE_FILE = $(ROOT)/etc/profile.d/ngs-python
 
+$(INST_PYTHONDIR):
+	@ mkdir -p $@
+
 install: $(TARGETS) $(INST_PYTHONDIR) copyexamples
 ifeq (0, $(shell id -u))
 	@ echo "Installing ngs package..."
 	@ python setup.py install
-	@ echo "Please add $(NGS_LIBDIR):$(VDB_LIBDIR) to your LD_LIBRARY_PATH, e.g.:"
-	@ echo "      export LD_LIBRARY_PATH=$(NGS_LIBDIR):$(VDB_LIBDIR):\$$LD_LIBRARY_PATH"
    
 else
 	@ echo "Installing ngs package..."
 	@ python setup.py install --user
+endif
+
+ifneq (, $(NGS_LIBDIR))
+ifneq (, $(VDB_LIBDIR))
 	@ echo "Please add $(NGS_LIBDIR):$(VDB_LIBDIR) to your LD_LIBRARY_PATH, e.g.:"
 	@ echo "      export LD_LIBRARY_PATH=$(NGS_LIBDIR):$(VDB_LIBDIR):\$$LD_LIBRARY_PATH"
+endif
+endif
+
+ifeq (, $(NGS_LIBDIR))
+	@ echo "You will need to install ngs-sdk library in order to run ngs-python."
+endif
+ifeq (, $(VDB_LIBDIR))
+	@ echo "You will need to install ncbi-vdb library in order to run ngs-python."
 endif
 
 else

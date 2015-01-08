@@ -67,6 +67,7 @@ namespace ngs_adapt
         virtual uint64_t getTemplateLength () const = 0;
         virtual StringItf * getShortCigar ( bool clipped ) const = 0;
         virtual StringItf * getLongCigar ( bool clipped ) const = 0;
+        virtual char getRNAOrientation () const = 0;
         virtual bool hasMate () const = 0;
         virtual StringItf * getMateAlignmentId () const = 0;
         virtual AlignmentItf * getMateAlignment () const = 0;
@@ -114,6 +115,7 @@ namespace ngs_adapt
         static uint64_t CC get_template_len ( const NGS_Alignment_v1 * self, NGS_ErrBlock_v1 * err );
         static NGS_String_v1 * CC get_short_cigar ( const NGS_Alignment_v1 * self, NGS_ErrBlock_v1 * err, bool clipped );
         static NGS_String_v1 * CC get_long_cigar ( const NGS_Alignment_v1 * self, NGS_ErrBlock_v1 * err, bool clipped );
+        static char CC get_rna_orientation ( const NGS_Alignment_v1 * self, NGS_ErrBlock_v1 * err );
         static bool CC has_mate ( const NGS_Alignment_v1 * self, NGS_ErrBlock_v1 * err );
         static NGS_String_v1 * CC get_mate_id ( const NGS_Alignment_v1 * self, NGS_ErrBlock_v1 * err );
         static NGS_Alignment_v1 * CC get_mate_alignment ( const NGS_Alignment_v1 * self, NGS_ErrBlock_v1 * err );

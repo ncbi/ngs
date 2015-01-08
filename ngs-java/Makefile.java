@@ -40,12 +40,6 @@ TARGETS =      \
 	$(INTLIBS) \
 	$(EXTLIBS)
 
-copyexamples:
-	@ echo "Installing examples to $(INST_SHAREDIR)/examples-java"
-	@ mkdir -p $(INST_SHAREDIR)/examples-java
-	@ cp $(TOP)/examples/Makefile $(INST_SHAREDIR)/examples-java
-	@ cp -r $(TOP)/examples/examples $(INST_SHAREDIR)/examples-java
-    
 # if configure was able to locate where the JNI headers go
 ifdef JNIPATH
 TARGETS += ngs-jni
@@ -56,7 +50,6 @@ all std: $(TARGETS)
 #-------------------------------------------------------------------------------
 # install
 # 
-ifeq (linux, $(OS))
 
 #fake root for debugging
 #uncomment this line and change the test for root ( see under install: ) to succeed:
@@ -64,9 +57,17 @@ ifeq (linux, $(OS))
 
 PROFILE_FILE = $(ROOT)/etc/profile.d/ngs-java
 JAR_TARGET = $(INST_JARDIR)/ngs-java.jar
+DOC_TARGET = $(INST_SHAREDIR)/doc/
 
-install: $(TARGETS) $(INST_JARDIR) $(INST_JARDIR)/ngs-java.jar.$(VERSION) copyexamples
-ifeq (0, $(shell id -u))
+ifeq (linux, $(OS))
+    ifeq (0, $(shell id -u))
+        LINUX_ROOT = true
+        DOC_TARGET = $(ROOT)/usr/local/share/doc/ngs/
+    endif
+endif
+
+install: $(TARGETS) javadoc $(INST_JARDIR) $(INST_JARDIR)/ngs-java.jar.$(VERSION) copydocs copyexamples 
+ifeq (true, $(LINUX_ROOT))
 	@ echo "Updating $(PROFILE_FILE).[c]sh"
 	@ echo -e \
 "#version $(VERSION)\n"\
@@ -100,15 +101,21 @@ $(INST_JARDIR)/ngs-java.jar.$(VERSION): $(LIBDIR)/ngs-java.jar
 	      false;                                                                      \
 	  fi
 
+copyexamples:
+	@ echo "Installing examples to $(INST_SHAREDIR)/examples-java"
+	@ mkdir -p $(INST_SHAREDIR)/examples-java
+	@ cp $(TOP)/examples/Makefile $(INST_SHAREDIR)/examples-java
+	@ cp -r $(TOP)/examples/examples $(INST_SHAREDIR)/examples-java
+
+copydocs:
+	@ echo "Copying html docs to $(DOC_TARGET)..."
+	@ mkdir -p $(DOC_TARGET)
+	@ cp -r $(LIBDIR)/javadoc/* $(DOC_TARGET)
+
 clean:
-	rm -rf $(LIBDIR)/ngs-java* $(CLSDIR)
+	rm -rf $(LIBDIR)/ngs-* $(CLSDIR)
 
-else
-install:
-
-endif
-
-.PHONY: default all std install $(TARGETS)
+.PHONY: default all std clean install copyexamples copydocs $(TARGETS)
 
 #-------------------------------------------------------------------------------
 # JAVA NGS
@@ -244,3 +251,11 @@ $(JNIPATH)/headers-generated: $(MAKEFILE) $(LIBDIR)/ngs-java.jar
 	@ touch $@
 
 endif
+
+#-------------------------------------------------------------------------------
+# javadoc
+#
+javadoc:
+	javadoc -quiet -notimestamp $(CLSPATH) -sourcepath . gov.nih.nlm.ncbi.ngs ngs -d $(LIBDIR)/javadoc
+
+.PHONY: javadoc

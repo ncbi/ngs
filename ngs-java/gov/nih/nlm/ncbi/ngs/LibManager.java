@@ -57,10 +57,10 @@ class LibManager implements FileCreator
    Otherwise the manager will try to the search previous location entries first.
    May be you want it to test something (e.g. a bad library file). */
         KNOWN_PATH,    // from config or file downloaded from NCBI
+        NCBI_HOME,     // ~/.ncbi/lib64|32
         LIBPATH,       // iterate "java.library.path" - extended LD_LIBRARY_PATH
         NCBI_NGS_JAR_DIR, // directory where ncbi-ngs.jar is
         CLASSPATH,     // iterate "java.class.path" - where java classes are
-        NCBI_HOME,     // ~/.ncbi/ TODO: mkdir NCBI_HOME if does not exist
         CWD,           // "."
         TMP            // Temporary folder
     }
@@ -97,63 +97,83 @@ class LibManager implements FileCreator
         }
     }
 
+////////////////////////////////////////////////////////////////////////////////
+
+    private void updateKnownLibPath(String pathname) {
+        int l = 9;
+        if (knownLibPath == null) {
+            knownLibPath = new String[l];
+        } else {
+            l = knownLibPath.length;
+        }
+        int i = 0;
+        for (i = 0; i < l; ++i) {
+            if (knownLibPath[i] == null) {
+                break;
+            }
+        }
+        if (i >= l) {
+            String tmp[] = knownLibPath;
+            l *= 2;
+            knownLibPath = new String[l];
+            for (i = 0; i < tmp.length; ++i) {
+                knownLibPath[i] = tmp[i];
+            }
+        }
+        knownLibPath[i] = pathname;
+    }
+
 
     /** Creates a file by finding directory by iterating the location array
         and using libname to generate the file name */
     public BufferedOutputStream create ( String libname )
     {
-        LibPathIterator it
-            = new LibPathIterator(this, mapLibraryName(libname), true);
-
-        while (true) {
-            String pathname = it.nextName();
-            if (pathname == null) {
-                return null;
+        for (int i = 0; i < 2; ++i) {
+            Location location = null;
+            boolean model = true;
+            switch (i) {
+                case 0:
+                    location = Location.NCBI_HOME;
+                    model = false;
+                    break;
+                case 1:
+                    break;
             }
+            LibPathIterator it = new LibPathIterator
+                (this, location, mapLibraryName(libname, model), true);
 
-            Logger.fine("Trying to create " + pathname + "...");
-            File file = new File(pathname);
-            try {
-                pathname = file.getAbsolutePath();
-            } catch (SecurityException e) {
-                System.err.println(pathname + " : cannot getAbsolutePath " + e);
-            }
-            FileOutputStream s = null;
-            try {
-                s = new FileOutputStream(pathname);
-            } catch (java.io.FileNotFoundException e) {
+            while (true) {
+                String pathname = it.nextName();
+                if (pathname == null) {
+                    return null;
+                }
+
+                Logger.fine("Trying to create " + pathname + "...");
+                File file = new File(pathname);
+                try {
+                    pathname = file.getAbsolutePath();
+                } catch (SecurityException e) {
+                    System.err.println
+                        (pathname + " : cannot getAbsolutePath " + e);
+                }
+                FileOutputStream s = null;
+                try {
+                    s = new FileOutputStream(pathname);
+                } catch (java.io.FileNotFoundException e) {
 /* e.message = pathname (Permission denied):
 could be because pathname is not writable
 or pathname not found and its directory is not writable */
-                System.err.println("Cannot open " + pathname);
-                continue;
-            }
-
-            int l = 9;
-            if (knownLibPath == null) {
-                knownLibPath = new String[l];
-            } else {
-                l = knownLibPath.length;
-            }
-            int i = 0;
-            for (i = 0; i < l; ++i) {
-                if (knownLibPath[i] == null) {
-                    break;
+                    System.err.println("Cannot open " + pathname);
+                    continue;
                 }
-            }
-            if (i >= l) {
-                String tmp[] = knownLibPath;
-                l *= 2;
-                knownLibPath = new String[l];
-                for (i = 0; i < tmp.length; ++i) {
-                    knownLibPath[i] = tmp[i];
-                }
-            }
-            knownLibPath[i] = pathname;
 
-            Logger.fine("Opened " + pathname);
-            return new BufferedOutputStream(s, HttpManager.BUF_SZ);
+                updateKnownLibPath(pathname);
+
+                Logger.fine("Opened " + pathname);
+                return new BufferedOutputStream(s, HttpManager.BUF_SZ);
+            }
         }
+        return null;
     }
 
 
@@ -199,7 +219,15 @@ or pathname not found and its directory is not writable */
 
     static String[] mapLibraryName(String libname)
     {
-        String m = libnameWithModel(libname);
+        return mapLibraryName(libname, true);
+    }
+
+    static String[] mapLibraryName(String libname, boolean model)
+    {
+        String m = libname;
+        if (model) {
+            m = libnameWithModel(libname);
+        }
         String name = System.getProperty("os.name");
         int dup = 1;
         if (name != null  && name.equals("Mac OS X")) {
@@ -292,7 +320,7 @@ or pathname not found and its directory is not writable */
         return m;
     }
 
-    private enum Bit {
+    enum Bit {
         b32,
         b64,
         bUNKNOWN,
