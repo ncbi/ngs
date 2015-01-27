@@ -23,7 +23,7 @@ sub OsArch {
         }
         if ($HOST_OS eq 'mac') {
             $MARCH = $HOST_ARCH = MacArch();
-            @ARCHITECTURES = qw(x86_64 i386) if ($MARCH eq 'x86_64');
+            @ARCHITECTURES = qw(x86_64 i386 fat86) if ($MARCH eq 'x86_64');
         } else {
             $MARCH = `uname -m`;
             chomp $MARCH;
