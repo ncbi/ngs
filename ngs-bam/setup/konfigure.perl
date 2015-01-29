@@ -326,7 +326,7 @@ if ($OSTYPE =~ /linux/i) {
 println "$OSTYPE ($OS) is supported" unless ($AUTORUN);
 
 # tool chain
-my ($CPP, $CC, $CP, $AR, $ARX, $ARLS, $LD, $LP);
+my ($CPP, $CC, $CP, $AR, $ARX, $ARLS, $LD, $LP, $MAKE_MANIFEST);
 my ($JAVAC, $JAVAH, $JAR);
 my ($DBG, $OPT, $PIC, $INC, $MD);
 
@@ -350,7 +350,12 @@ if ($TOOLS eq 'gcc') {
     $CPP  = 'clang++';
     $CC   = 'clang -c';
     $CP   = "$CPP -c -mmacosx-version-min=10.6";
-    $AR   = 'ar rc';
+    if ($BITS eq '32_64') {
+        $MAKE_MANIFEST = '( echo "$^" > $@/manifest )';
+        $AR = 'libtool -static -o';
+    } else {
+        $AR = 'ar rc';
+    }
     $ARX  = 'ar x';
     $ARLS = 'ar t';
     $LD   = 'clang';
