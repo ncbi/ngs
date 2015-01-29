@@ -1,6 +1,6 @@
 ################################################################################
 sub PACKAGE      { 'ngs-bam' }
-sub VERSION      { '1.0.1' }
+sub VERSION      { '1.0.2' }
 sub PACKAGE_TYPE { 'L' }
 sub PACKAGE_NAME { 'NGS-BAM' }
 sub PACKAGE_NAMW { 'NGS' }
