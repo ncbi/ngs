@@ -27,9 +27,11 @@
 #ifndef _h_ngs_engine_atomic32_
 #define _h_ngs_engine_atomic32_
 
-#ifndef _h_ngs_adapter_defs_
-#include <ngs/adapter/defs.h>
-#endif
+typedef struct atomic32_t atomic32_t;
+struct atomic32_t
+{
+    volatile int counter;
+};
 
 #include <WINDOWS.H>
 
