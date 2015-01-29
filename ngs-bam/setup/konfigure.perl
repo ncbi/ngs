@@ -263,6 +263,7 @@ if ($OPT{arch}) {
             close F;
             last;
         }
+        println "build architecture: $ARCH" unless ($AUTORUN);
     } else {
         delete $OPT{arch};
     }
@@ -288,6 +289,8 @@ if ($MARCH =~ /x86_64/i) {
     $BITS = 64;
 } elsif ($MARCH =~ /i?86/i) {
     $BITS = 32;
+} elsif ($MARCH eq 'fat86') {
+    $BITS = '32_64';
 } else {
     die "unrecognized Architecture '$ARCH'";
 }
