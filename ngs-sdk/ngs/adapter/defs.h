@@ -32,6 +32,8 @@
 #include <stddef.h>
 #include <assert.h>
 
+#include <atomic32.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -47,15 +49,6 @@ typedef struct NGS_ErrBlock_v1 NGS_ErrBlock_v1;
  *  see "StringItf.h"
  */
 typedef struct NGS_String_v1 NGS_String_v1;
-
-/*--------------------------------------------------------------------------
- * atomic32_t
- */
-typedef struct atomic32_t atomic32_t;
-struct atomic32_t
-{
-    volatile int counter;
-};
 
 #ifdef __cplusplus
 }
