@@ -28,8 +28,6 @@ default: std
 TOP ?= $(abspath ..)
 include $(TOP)/Makefile.config
 
-SRCINC += -I$(SRCDIR)/$(OSINC)/$(ARCH) -I$(SRCDIR)/$(OSINC)
-
 INTLIBS = \
 
 EXTLIBS = \
