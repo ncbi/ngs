@@ -37,7 +37,7 @@
             <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
             <DisableSpecificWarnings>4996;4101;4251;4290</DisableSpecificWarnings>
              <StringPooling>true</StringPooling>
-            <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+            <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..;$(ProjectDir)..\ngs\win;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
         </ClCompile>
     </ItemDefinitionGroup>
     
