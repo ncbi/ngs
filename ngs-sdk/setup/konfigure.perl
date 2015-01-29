@@ -186,7 +186,9 @@ $OPT{'prefix'} = $package_default_prefix unless ($OPT{'prefix'});
 
 my $AUTORUN = $OPT{status};
 print "checking system type... " unless ($AUTORUN);
-my ($OS, $ARCH, $OSTYPE, $MARCH, @ARCHITECTURES) = OsArch();
+my ($OS, $ARCH, $OSTYPE,
+    $MARCH, # machine hardware name returned by uname -m
+    @ARCHITECTURES) = OsArch();
 println $OSTYPE unless ($AUTORUN);
 
 unless ($OSTYPE =~ /linux/i || $OSTYPE =~ /darwin/i || $OSTYPE eq 'win') {

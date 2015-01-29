@@ -1,5 +1,7 @@
 sub OsArch {
-    my ($UNAME, $HOST_OS, $HOST_ARCH, $MARCH, @ARCHITECTURES);
+    my ($UNAME, $HOST_OS, $HOST_ARCH,
+        $MARCH, # machine hardware name returned by uname -m
+        @ARCHITECTURES);
     if ($^O eq 'MSWin32') {
         $UNAME = $HOST_OS = 'win';
         $HOST_ARCH = $MARCH = 'x86_64';
