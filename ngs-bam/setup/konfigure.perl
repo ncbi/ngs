@@ -771,7 +771,13 @@ EndText
     } elsif ($PKG{LNG} eq 'JAVA') {
         L($F, 'SRCINC  = -sourcepath $(INCPATHS)');
     }
-    L($F, "INCDIRS = \$(SRCINC) $INC\$(TOP)") if ($PIC);
+    if ($PIC) {
+        if (PACKAGE_NAMW() eq 'NGS') {
+   L($F, "INCDIRS = \$(SRCINC) $INC\$(TOP) $INC\$(TOP)/ngs/\$(OSINC)/\$(ARCH)")
+        } else {
+   L($F, "INCDIRS = \$(SRCINC) $INC\$(TOP)")
+        }
+    }
     if ($PKG{LNG} eq 'C') {
         L($F, "CFLAGS  = \$(DBG) \$(OPT) \$(INCDIRS) $MD");
     }
