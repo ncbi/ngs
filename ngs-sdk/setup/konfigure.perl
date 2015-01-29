@@ -186,9 +186,7 @@ $OPT{'prefix'} = $package_default_prefix unless ($OPT{'prefix'});
 
 my $AUTORUN = $OPT{status};
 print "checking system type... " unless ($AUTORUN);
-my ($OS, $ARCH, $OSTYPE,
-    $MARCH, # machine hardware name returned by uname -m
-    @ARCHITECTURES) = OsArch();
+my ($OS, $ARCH, $OSTYPE, $MARCH, @ARCHITECTURES) = OsArch();
 println $OSTYPE unless ($AUTORUN);
 
 unless ($OSTYPE =~ /linux/i || $OSTYPE =~ /darwin/i || $OSTYPE eq 'win') {
@@ -265,7 +263,6 @@ if ($OPT{arch}) {
             close F;
             last;
         }
-        println "build architecture: $ARCH" unless ($AUTORUN);
     } else {
         delete $OPT{arch};
     }
@@ -289,8 +286,6 @@ my $BITS;
 
 if ($MARCH =~ /x86_64/i) {
     $BITS = 64;
-} elsif ($MARCH =~ /^fat86$/) {
-    $BITS = '32_64';
 } elsif ($MARCH =~ /i?86/i) {
     $BITS = 32;
 } else {
@@ -328,7 +323,7 @@ if ($OSTYPE =~ /linux/i) {
 println "$OSTYPE ($OS) is supported" unless ($AUTORUN);
 
 # tool chain
-my ($CPP, $CC, $CP, $AR, $ARX, $ARLS, $LD, $LP, $MAKE_MANIFEST);
+my ($CPP, $CC, $CP, $AR, $ARX, $ARLS, $LD, $LP);
 my ($JAVAC, $JAVAH, $JAR);
 my ($DBG, $OPT, $PIC, $INC, $MD);
 
@@ -352,12 +347,7 @@ if ($TOOLS eq 'gcc') {
     $CPP  = 'clang++';
     $CC   = 'clang -c';
     $CP   = "$CPP -c -mmacosx-version-min=10.6";
-    if ($BITS eq '32_64') {
-        $MAKE_MANIFEST = '( echo "$^" > $@/manifest )';
-        $AR = 'libtool -static -o';
-    } else {
-        $AR = 'ar rc';
-    }
+    $AR   = 'ar rc';
     $ARX  = 'ar x';
     $ARLS = 'ar t';
     $LD   = 'clang';
@@ -757,7 +747,6 @@ EndText
     L($F, "JAVAC = $JAVAC") if ($JAVAC);
     L($F, "JAVAH = $JAVAH") if ($JAVAH);
     L($F, "JAR   = $JAR"  ) if ($JAR);
-    L($F, "MAKE_MANIFEST = $MAKE_MANIFEST") if ($MAKE_MANIFEST);
     L($F);
 
     L($F, '# tool options');
@@ -1051,6 +1040,8 @@ unless ($OPT{'reconfigure'}) {
     open my $F, '>reconfigure' or die 'cannot open reconfigure to write';
     print $F "./configure $CONFIGURED\n";
     close $F;
+    my $perm = (stat $fh)[2] & 07777;
+#   print "==================================================== $perm\n";
 }
 
 status() if ($OS ne 'win');

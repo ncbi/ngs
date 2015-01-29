@@ -1040,6 +1040,8 @@ unless ($OPT{'reconfigure'}) {
     open my $F, '>reconfigure' or die 'cannot open reconfigure to write';
     print $F "./configure $CONFIGURED\n";
     close $F;
+    my $perm = (stat $fh)[2] & 07777;
+#   print "==================================================== $perm\n";
 }
 
 status() if ($OS ne 'win');
