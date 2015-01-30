@@ -34,6 +34,7 @@ TARGETS =         \
     AlignTest     \
     AlignSliceTest \
     RefTest \
+    PileupTest \
 
 # This rule triggers detection of the libraries and headers
 # in addition to building the examples
@@ -92,6 +93,14 @@ ALIGNSLICE_TEST_OBJ = \
 AlignSliceTest: $(ALIGNSLICE_TEST_OBJ)
 	g++ -o $@ $^ $(TEST_LIBS)
 
+
+# PileupTest
+#  slice a ReadCollection and output alignments
+PILEUP_TEST_OBJ = \
+    PileupTest.o
+
+PileupTest: $(PILEUP_TEST_OBJ)
+	g++ -o $@ $^ $(TEST_LIBS)
 
 # ===========================================================================
 #
