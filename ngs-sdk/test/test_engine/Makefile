@@ -57,7 +57,7 @@ TEST_ENGINE_LIB = \
 	-lngs-disp
 
 $(LIBDIR)/$(LPFX)test_engine.$(SHLX): $(LIBDIR)/$(LPFX)ngs-adapt-c++.$(LIBX) $(TEST_ENGINE_OBJ) 
-	$(LP) --shared -o $@ $(TEST_ENGINE_OBJ) -L$(LIBDIR) -L$(ILIBDIR) $(TEST_ENGINE_LIB)
+	$(LP) $(DBG) $(OPT) --shared -o $@ $(TEST_ENGINE_OBJ) -L$(LIBDIR) -L$(ILIBDIR) $(TEST_ENGINE_LIB)
 
 $(LIBDIR)/$(LPFX)ngs-adapt-c++.$(LIBX):
 	@ echo missing $@
