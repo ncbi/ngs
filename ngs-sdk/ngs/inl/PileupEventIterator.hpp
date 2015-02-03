@@ -46,6 +46,11 @@ namespace ngs
         throw ( ErrorMsg )
     { return self -> nextPileupEvent (); }
 
+    inline
+    void PileupEventIterator :: resetPileupEvent ()
+        throw ( ErrorMsg )
+    { return self -> resetPileupEvent (); }
+
 
 } // namespace ngs
 

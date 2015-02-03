@@ -15,6 +15,14 @@ extern "C" {
 JNIEXPORT jboolean JNICALL Java_ngs_itf_PileupEventIteratorItf_NextPileupEvent
   (JNIEnv *, jobject, jlong);
 
+/*
+ * Class:     ngs_itf_PileupEventIteratorItf
+ * Method:    ResetPileupEvent
+ * Signature: (J)V
+ */
+JNIEXPORT void JNICALL Java_ngs_itf_PileupEventIteratorItf_ResetPileupEvent
+  (JNIEnv *, jobject, jlong);
+
 #ifdef __cplusplus
 }
 #endif

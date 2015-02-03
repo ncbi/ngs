@@ -38,6 +38,10 @@
 namespace ngs
 {
 
+    // the "self" member is typed as PileupEventRef
+    // but is used here as an PileupRef
+#define self reinterpret_cast < const PileupItf * > ( self )
+
     /*----------------------------------------------------------------------
      * Pileup
      */
@@ -53,14 +57,16 @@ namespace ngs
     { return self -> getReferencePosition (); }
 
     inline
-    PileupEventIterator Pileup :: getPileupEvents () const
+    char Pileup :: getReferenceBase () const
         throw ( ErrorMsg )
-    { return PileupEventIterator ( self -> getPileupEvents () ); }
+    { return self -> getReferenceBase (); }
 
     inline
     uint32_t Pileup :: getPileupDepth () const
         throw ( ErrorMsg )
     { return self -> getPileupDepth (); }
+
+#undef self
 
 
 } // namespace ngs

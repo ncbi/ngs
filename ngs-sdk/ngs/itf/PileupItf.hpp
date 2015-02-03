@@ -40,7 +40,6 @@ namespace ngs
      * forwards
      */
     class StringItf;
-    class PileupEventItf;
 
     /*----------------------------------------------------------------------
      * PileupItf
@@ -53,7 +52,7 @@ namespace ngs
             throw ( ErrorMsg );
         int64_t getReferencePosition () const
             throw ( ErrorMsg );
-        PileupEventItf * getPileupEvents () const
+        char getReferenceBase () const
             throw ( ErrorMsg );
         uint32_t getPileupDepth () const
             throw ( ErrorMsg );

@@ -105,17 +105,17 @@ namespace ngs
     inline
     PileupIterator Reference :: getPileups ( Alignment :: AlignmentCategory categories ) const
         throw ( ErrorMsg )
-    { return PileupIterator ( self -> getPileups ( ( uint32_t ) categories ) ); }
+    { return PileupIterator ( ( PileupRef ) self -> getPileups ( ( uint32_t ) categories ) ); }
     
     inline
     PileupIterator Reference :: getPileupSlice ( int64_t start, uint64_t length ) const
         throw ( ErrorMsg )
-    { return PileupIterator ( self -> getPileupSlice ( start, length ) ); }
+    { return PileupIterator ( ( PileupRef ) self -> getPileupSlice ( start, length ) ); }
 
     inline
     PileupIterator Reference :: getPileupSlice ( int64_t start, uint64_t length, Alignment :: AlignmentCategory categories ) const
         throw ( ErrorMsg )
-    { return PileupIterator ( self -> getPileupSlice ( start, length, ( uint32_t ) categories ) ); }
+    { return PileupIterator ( ( PileupRef ) self -> getPileupSlice ( start, length, ( uint32_t ) categories ) ); }
 
 } // namespace ngs
 

@@ -49,10 +49,6 @@ namespace ngs
     {
     public:
 
-        StringItf * getReferenceSpec () const
-            throw ( ErrorMsg );
-        int64_t getReferencePosition () const
-            throw ( ErrorMsg );
         int32_t getMappingQuality () const
             throw ( ErrorMsg );
         StringItf * getAlignmentId () const
@@ -80,6 +76,8 @@ namespace ngs
         uint32_t getEventIndelType () const
             throw ( ErrorMsg );
         bool nextPileupEvent ()
+            throw ( ErrorMsg );
+        void resetPileupEvent ()
             throw ( ErrorMsg );
 
     };

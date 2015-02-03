@@ -38,40 +38,9 @@ namespace ngs_adapt
      * PileupEventItf
      */
 
-    PileupEventItf :: PileupEventItf ()
-        : Refcount < PileupEventItf, NGS_PileupEvent_v1 > ( & ivt . dad )
+    PileupEventItf :: PileupEventItf ( const NGS_VTable * vt )
+        : Refcount < PileupEventItf, NGS_PileupEvent_v1 > ( vt )
     {
-    }
-
-    NGS_String_v1 * CC PileupEventItf :: get_ref_spec ( const NGS_PileupEvent_v1 * iself, NGS_ErrBlock_v1 * err )
-    {
-        const PileupEventItf * self = Self ( iself );
-        try
-        {
-            StringItf * val = self -> getReferenceSpec ();
-            return val -> Cast ();
-        }
-        catch ( ... )
-        {
-            ErrBlockHandleException ( err );
-        }
-
-        return 0;
-    }
-
-    int64_t CC PileupEventItf :: get_ref_pos ( const NGS_PileupEvent_v1 * iself, NGS_ErrBlock_v1 * err )
-    {
-        const PileupEventItf * self = Self ( iself );
-        try
-        {
-            return self -> getReferencePosition ();
-        }
-        catch ( ... )
-        {
-            ErrBlockHandleException ( err );
-        }
-
-        return 0;
     }
 
     int32_t CC PileupEventItf :: get_map_qual ( const NGS_PileupEvent_v1 * iself, NGS_ErrBlock_v1 * err )
@@ -288,6 +257,19 @@ namespace ngs_adapt
         return false;
     }
 
+    void PileupEventItf :: reset ( NGS_PileupEvent_v1 * iself, NGS_ErrBlock_v1 * err )
+    {
+        PileupEventItf * self = Self ( iself );
+        try
+        {
+            self -> resetPileupEvent ();
+        }
+        catch ( ... )
+        {
+            ErrBlockHandleException ( err );
+        }
+    }
+
     NGS_PileupEvent_v1_vt PileupEventItf :: ivt =
     {
         {
@@ -297,8 +279,6 @@ namespace ngs_adapt
             & OpaqueRefcount :: ivt . dad
         },
 
-        get_ref_spec,
-        get_ref_pos,
         get_map_qual,
         get_align_id,
         get_alignment,
@@ -312,7 +292,8 @@ namespace ngs_adapt
         get_ins_quals,
         get_rpt_count,
         get_indel_type,
-        next
+        next,
+        reset
     };
 
 } // namespace ngs_adapt

@@ -51,6 +51,14 @@ namespace ngs
         bool nextPileupEvent ()
             throw ( ErrorMsg );
 
+
+        /* resetPileupEvent
+         *  resets to initial iterator state
+         *  the next call to "nextPileupEvent" will advance to first event
+         */
+        void resetPileupEvent ()
+            throw ( ErrorMsg );
+
     public:
 
         // C++ support

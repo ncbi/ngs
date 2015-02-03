@@ -31,6 +31,7 @@ package ngs;
  * Represents a slice through a stack of Alignments at a given position on the Reference
  */
 public interface Pileup
+    extends PileupEventIterator
 {
 
     /*----------------------------------------------------------------------
@@ -49,15 +50,10 @@ public interface Pileup
     long getReferencePosition ()
         throws ErrorMsg;
 
-
-    /*----------------------------------------------------------------------
-     * PileupEvent
-     */
-
     /**
-     * getPileupEvents
+     * @return base at current Reference position
      */
-    PileupEventIterator getPileupEvents ()
+    char getReferenceBase ()
         throws ErrorMsg;
 
 

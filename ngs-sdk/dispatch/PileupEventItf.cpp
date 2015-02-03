@@ -59,46 +59,6 @@ namespace ngs
      * PileupEventItf
      */
 
-    StringItf * PileupEventItf :: getReferenceSpec () const
-        throw ( ErrorMsg )
-    {
-        // the object is really from C
-        const NGS_PileupEvent_v1 * self = Test ();
-
-        // cast vtable to our level
-        const NGS_PileupEvent_v1_vt * vt = Access ( self -> vt );
-
-        // call through C vtable
-        ErrBlock err;
-        assert ( vt -> get_ref_spec != 0 );
-        NGS_String_v1 * ret  = ( * vt -> get_ref_spec ) ( self, & err );
-
-        // check for errors
-        err . Check ();
-
-        return StringItf :: Cast ( ret );
-    }
-
-    int64_t PileupEventItf :: getReferencePosition () const
-        throw ( ErrorMsg )
-    {
-        // the object is really from C
-        const NGS_PileupEvent_v1 * self = Test ();
-
-        // cast vtable to our level
-        const NGS_PileupEvent_v1_vt * vt = Access ( self -> vt );
-
-        // call through C vtable
-        ErrBlock err;
-        assert ( vt -> get_ref_pos != 0 );
-        int64_t ret  = ( * vt -> get_ref_pos ) ( self, & err );
-
-        // check for errors
-        err . Check ();
-
-        return ret;
-    }
-
     int32_t PileupEventItf :: getMappingQuality () const
         throw ( ErrorMsg )
     {
@@ -377,6 +337,24 @@ namespace ngs
         err . Check ();
 
         return ret;
+    }
+
+    void PileupEventItf :: resetPileupEvent ()
+        throw ( ErrorMsg )
+    {
+        // the object is really from C
+        NGS_PileupEvent_v1 * self = Test ();
+
+        // cast vtable to our level
+        const NGS_PileupEvent_v1_vt * vt = Access ( self -> vt );
+
+        // call through C vtable
+        ErrBlock err;
+        assert ( vt -> reset != 0 );
+        ( * vt -> reset ) ( self, & err );
+
+        // check for errors
+        err . Check ();
     }
 }
 

@@ -39,18 +39,6 @@ public interface PileupEvent
      */
 
     /** 
-     * getReferenceSpec
-     */
-    String getReferenceSpec ()
-        throws ErrorMsg;
-
-    /**
-     * getReferencePosition
-     */
-    long getReferencePosition ()
-        throws ErrorMsg;
-
-    /** 
      * getMappingQuality
      */
     int getMappingQuality ()
@@ -112,9 +100,16 @@ public interface PileupEvent
     // space ( so no insertion event can be directly represented ),
     // but it can occur before a match or mismatch event.
     // insertion is represented as a bit
-    static int insertion                 = 0x10;
+    static int insertion                 = 0x08;
+
+    // insertions into the reference
     static int insertion_before_match    = insertion | match;
     static int insertion_before_mismatch = insertion | mismatch;
+
+    // simultaneous insertion and deletion,
+    // a.k.a. a replacement
+    static int insertion_before_deletion = insertion | deletion;
+    static int replacement               = insertion_before_deletion;
 
     // additional modifier bits - may be added to any event above
     static int alignment_start           = 0x80;

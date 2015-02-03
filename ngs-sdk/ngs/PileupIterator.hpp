@@ -45,6 +45,7 @@ namespace ngs
          *  advance to first Pileup on initial invocation
          *  advance to next Pileup subsequently
          *  returns false if no more Pileups are available.
+         *  always resets PileupEventIterator
          *  throws exception if more Pileups should be available,
          *  but could not be accessed.
          */

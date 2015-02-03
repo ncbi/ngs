@@ -43,16 +43,6 @@ namespace ngs
      */
 
     inline
-    String PileupEvent :: getReferenceSpec () const
-        throw ( ErrorMsg )
-    { return StringRef ( self -> getReferenceSpec () ) . toString (); }
-
-    inline
-    int64_t PileupEvent :: getReferencePosition () const
-        throw ( ErrorMsg )
-    { return self -> getReferencePosition (); }
-
-    inline
     int PileupEvent :: getMappingQuality () const
         throw ( ErrorMsg )
     { return self -> getMappingQuality (); }

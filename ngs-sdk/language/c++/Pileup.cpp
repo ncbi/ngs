@@ -30,7 +30,7 @@ namespace ngs
 {
     Pileup :: Pileup ( PileupRef ref )
             throw ()
-        : self ( ref )
+        : PileupEventIterator ( ( PileupEventRef ) ref )
     {
         assert ( ref != 0 );
     }
@@ -38,24 +38,18 @@ namespace ngs
     Pileup & Pileup :: operator = ( const Pileup & obj )
         throw ( ErrorMsg )
     {
-        assert ( obj . self != 0 );
-        PileupRef new_ref = obj . self -> Duplicate ();
-        this -> self -> Release ();
-        this -> self = new_ref;
+        PileupEventIterator :: operator = ( obj );
         return * this;
     }
 
     Pileup :: Pileup ( const Pileup & obj )
             throw ( ErrorMsg )
-        : self ( obj . self == 0 ? 0 : obj . self -> Duplicate() )
+        : PileupEventIterator ( obj )
     {
-        assert ( obj . self != 0 );
     }
     
     Pileup :: ~ Pileup ()
         throw ()
     {
-        this -> self -> Release ();
-        this -> self = 0;
     }
 }

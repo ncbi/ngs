@@ -595,8 +595,8 @@ TEST_BEGIN_PILEUP ( Pileup_getReferencePosition )
     Assert ( 12345 == pileup.getReferencePosition() );
 TEST_END
 
-TEST_BEGIN_PILEUP ( Pileup_getPileupEvents )
-    ngs::PileupEventIterator events = pileup.getPileupEvents ();
+TEST_BEGIN_PILEUP ( Pileup_getReferenceBase )
+    char base = pileup.getReferenceBase ();
 TEST_END
 
 TEST_BEGIN_PILEUP ( Pileup_getPileupDepth )
@@ -609,7 +609,7 @@ void TestPileup ()
 
     Pileup_getReferenceSpec ();
     Pileup_getReferencePosition ();
-    Pileup_getPileupEvents ();
+    Pileup_getReferenceBase ();
     Pileup_getPileupDepth ();
 }
 
@@ -618,7 +618,7 @@ void TestPileup ()
 TEST_BEGIN_READCOLLECTION ( PileupEvent_Iteration )
     ngs::PileupIterator pileupIt = rc.getReference ( "refspec" ) .getPileups ( ngs::Alignment::all );
     Assert ( pileupIt.nextPileup () );
-    ngs::PileupEventIterator eventIt = pileupIt.getPileupEvents();
+    ngs::PileupEventIterator eventIt = pileupIt;
     // 7 events
     Assert ( eventIt.nextPileupEvent () );
     Assert ( eventIt.nextPileupEvent () );
@@ -634,17 +634,9 @@ TEST_END
     TEST_BEGIN_READCOLLECTION ( v ) \
         ngs::PileupIterator pileupIt = rc.getReference ( "refspec" ) .getPileups ( ngs::Alignment::all ); \
         Assert ( pileupIt.nextPileup () ); \
-        ngs::PileupEventIterator eventIt = pileupIt.getPileupEvents(); \
+        ngs::PileupEventIterator eventIt = pileupIt; \
         Assert ( eventIt.nextPileupEvent () ); \
         ngs::PileupEvent evt = eventIt;
-
-TEST_BEGIN_PILEUPEVENT ( PileupEvent_getReferenceSpec )
-    Assert ( "pileupEventRefSpec" == evt.getReferenceSpec() );
-TEST_END
-
-TEST_BEGIN_PILEUPEVENT ( PileupEvent_getReferencePosition )
-    Assert ( 1234 == evt.getReferencePosition() );
-TEST_END
 
 TEST_BEGIN_PILEUPEVENT ( PileupEvent_getMappingQuality )
     Assert ( 98 == evt.getMappingQuality() );
@@ -708,8 +700,6 @@ void TestPileupEvent ()
 {
     PileupEvent_Iteration();
 
-    PileupEvent_getReferenceSpec ();
-    PileupEvent_getReferencePosition ();
     PileupEvent_getMappingQuality ();
     PileupEvent_getAlignmentId ();
     PileupEvent_getAlignment ();
@@ -792,7 +782,6 @@ int main ()
     Assert ( ngs_test_engine::ReadItf::instanceCount == 0 );
     Assert ( ngs_test_engine::AlignmentItf::instanceCount == 0 );
     Assert ( ngs_test_engine::PileupItf::instanceCount == 0 );
-    Assert ( ngs_test_engine::PileupEventItf::instanceCount == 0 );
 
     // report results
     std :: cout << "Test cases run: " << tests_run << std::endl;

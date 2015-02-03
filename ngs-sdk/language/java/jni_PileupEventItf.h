@@ -9,22 +9,6 @@ extern "C" {
 #endif
 /*
  * Class:     ngs_itf_PileupEventItf
- * Method:    GetReferenceSpec
- * Signature: (J)Ljava/lang/String;
- */
-JNIEXPORT jstring JNICALL Java_ngs_itf_PileupEventItf_GetReferenceSpec
-  (JNIEnv *, jobject, jlong);
-
-/*
- * Class:     ngs_itf_PileupEventItf
- * Method:    GetReferencePosition
- * Signature: (J)J
- */
-JNIEXPORT jlong JNICALL Java_ngs_itf_PileupEventItf_GetReferencePosition
-  (JNIEnv *, jobject, jlong);
-
-/*
- * Class:     ngs_itf_PileupEventItf
  * Method:    GetMappingQuality
  * Signature: (J)I
  */

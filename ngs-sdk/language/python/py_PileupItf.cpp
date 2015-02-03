@@ -31,5 +31,5 @@
 
 GEN_PY_FUNC_GET_STRING                  ( Pileup, ReferenceSpec )
 GEN_PY_FUNC_GET                         ( Pileup, ReferencePosition, int64_t )
-GEN_PY_FUNC_GET                         ( Pileup, PileupEvents,      ngs::PileupEventItf* )
+GEN_PY_FUNC_GET                         ( Pileup, ReferenceBase,     char )
 GEN_PY_FUNC_GET                         ( Pileup, PileupDepth,       uint32_t )

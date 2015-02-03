@@ -27,8 +27,8 @@
 #ifndef _hpp_ngs_adapt_pileupitf_
 #define _hpp_ngs_adapt_pileupitf_
 
-#ifndef _hpp_ngs_adapt_refcount_
-#include <ngs/adapter/Refcount.hpp>
+#ifndef _hpp_ngs_adapt_pileup_eventitf_
+#include <ngs/adapter/PileupEventItf.hpp>
 #endif
 
 #ifndef _h_ngs_itf_pileupitf_
@@ -47,16 +47,28 @@ namespace ngs_adapt
     /*----------------------------------------------------------------------
      * PileupItf
      */
-    class PileupItf : public Refcount < PileupItf, NGS_Pileup_v1 >
+    class PileupItf : public PileupEventItf
     {
     public:
 
         virtual StringItf * getReferenceSpec () const = 0;
         virtual int64_t getReferencePosition () const = 0;
-        virtual PileupEventItf * getPileupEvents () const = 0;
+        virtual char getReferenceBase () const = 0;
         virtual uint32_t getPileupDepth () const = 0;
         virtual bool nextPileup () = 0;
 
+        inline NGS_Pileup_v1 * Cast ()
+        { return static_cast < NGS_Pileup_v1* > ( OpaqueRefcount :: offset_this () ); }
+
+        inline const NGS_Pileup_v1 * Cast () const
+        { return static_cast < const NGS_Pileup_v1* > ( OpaqueRefcount :: offset_this () ); }
+
+        // assistance for C objects
+        static inline PileupItf * Self ( NGS_Pileup_v1 * obj )
+        { return static_cast < PileupItf* > ( OpaqueRefcount :: offset_cobj ( obj ) ); }
+
+        static inline const PileupItf * Self ( const NGS_Pileup_v1 * obj )
+        { return static_cast < const PileupItf* > ( OpaqueRefcount :: offset_cobj ( obj ) ); }
     protected:
 
         PileupItf ();
@@ -66,7 +78,7 @@ namespace ngs_adapt
 
         static NGS_String_v1 * CC get_ref_spec ( const NGS_Pileup_v1 * self, NGS_ErrBlock_v1 * err );
         static int64_t CC get_ref_pos ( const NGS_Pileup_v1 * self, NGS_ErrBlock_v1 * err );
-        static NGS_PileupEvent_v1 * CC get_pileup_events ( const NGS_Pileup_v1 * self, NGS_ErrBlock_v1 * err );
+        static char CC get_ref_base ( const NGS_Pileup_v1 * self, NGS_ErrBlock_v1 * err );
         static uint32_t CC get_pileup_depth ( const NGS_Pileup_v1 * self, NGS_ErrBlock_v1 * err );
         static bool CC next ( NGS_Pileup_v1 * self, NGS_ErrBlock_v1 * err );
 

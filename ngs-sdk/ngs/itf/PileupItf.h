@@ -58,7 +58,7 @@ struct NGS_Pileup_v1_vt
 
     NGS_String_v1 * ( CC * get_ref_spec ) ( const NGS_Pileup_v1 * self, NGS_ErrBlock_v1 * err );
     int64_t ( CC * get_ref_pos ) ( const NGS_Pileup_v1 * self, NGS_ErrBlock_v1 * err );
-    struct NGS_PileupEvent_v1 * ( CC * get_pileup_events ) ( const NGS_Pileup_v1 * self, NGS_ErrBlock_v1 * err );
+    char ( CC * get_ref_base ) ( const NGS_Pileup_v1 * self, NGS_ErrBlock_v1 * err );
     uint32_t ( CC * get_pileup_depth ) ( const NGS_Pileup_v1 * self, NGS_ErrBlock_v1 * err );
     bool ( CC * next ) ( NGS_Pileup_v1 * self, NGS_ErrBlock_v1 * err );
 

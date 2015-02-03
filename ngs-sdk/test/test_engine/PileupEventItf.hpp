@@ -43,17 +43,6 @@ namespace ngs_test_engine
     {
     public:
     
-        virtual ngs_adapt::StringItf * getReferenceSpec () const 
-        {
-            static std::string refspec = "pileupEventRefSpec";
-            return new ngs_adapt::StringItf ( refspec.c_str(), refspec.size() );
-        }
-
-        virtual int64_t getReferencePosition () const 
-        {
-            return 1234;
-        }
-
         virtual int32_t getMappingQuality () const 
         {
             return 98;
@@ -111,12 +100,7 @@ namespace ngs_test_engine
             static std::string quals = "#$";
             return new ngs_adapt::StringItf ( quals.c_str(), quals.size() );
         }
-/*
-        virtual uint32_t getDeletionCount () const
-        {
-            return 23;
-        }
-*/
+
         virtual uint32_t getEventRepeatCount () const
         {
             return 45;
@@ -136,6 +120,10 @@ namespace ngs_test_engine
             case 0:     return false;
             default:    --iterateFor; return true;
             }
+        }
+
+        virtual void resetPileupEvent ()
+        {
         }
 
 	public:
