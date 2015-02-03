@@ -24,34 +24,12 @@
 *
 */
 
-#ifndef _h_ngs_adapt_defs_
-#define _h_ngs_adapt_defs_
+#define _ARCH_BITS __SIZEOF_POINTER__*__CHAR_BIT__
 
-#include <stdint.h>
-#include <stdbool.h>
-#include <stddef.h>
-#include <assert.h>
-
-#include <atomic32.h>
-
-#ifdef __cplusplus
-extern "C" {
+#if _ARCH_BITS == 32
+#include "../i386/atomic32.h"
+#elif _ARCH_BITS == 64
+#include "../x86_64/atomic32.h"
+#else
+#error "_ARCH_BITS not defined to be 32 or 64"
 #endif
-
-/*--------------------------------------------------------------------------
- * NGS_ErrBlock
- *  see "ErrBlock.h"
- */
-typedef struct NGS_ErrBlock_v1 NGS_ErrBlock_v1;
-
-/*--------------------------------------------------------------------------
- * NGS_String
- *  see "StringItf.h"
- */
-typedef struct NGS_String_v1 NGS_String_v1;
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif /* _h_ngs_adapt_defs_ */

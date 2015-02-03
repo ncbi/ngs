@@ -78,10 +78,15 @@ class PileupEvent(Refcount):
     # ----------------------------------------------------------------------
     # event details        
 
-    match     = 0
-    mismatch  = 1
-    insertion = 2
-    deletion  = 3
+    match                     = 0
+    mismatch                  = 1
+    deletion                  = 2
+    insertion                 = 0x10
+    insertion_before_match    = insertion | match
+    insertion_before_mismatch = insertion | mismatch
+    alignment_start           = 0x80
+    alignment_stop            = 0x40
+    alignment_minus_strand    = 0x20
 
     def getEventType(self):
         return getNGSValue(self, NGS.lib_manager.PY_NGS_PileupEventGetEventType, c_uint32)
@@ -112,9 +117,19 @@ class PileupEvent(Refcount):
         """
         return getNGSString(self, NGS.lib_manager.PY_NGS_PileupEventGetInsertionQualities)
 
-    def getDeletionCount(self):
+    def getEventRepeatCount(self):
         """
-        :returns: the number of Reference base positions remaining until the next non-deletion event in this alignment.
+        :returns: the number of times this event repeats, i.e. the distance to the first reference position yielding a different event type for this alignment
         """
-        return getNGSValue(self, NGS.lib_manager.PY_NGS_PileupEventGetDeletionCount, c_uint32)
+        return getNGSValue(self, NGS.lib_manager.PY_NGS_PileupEventGetEventRepeatCount, c_uint32)
+
+    normal_indel              = 0
+    intron_plus               = 1
+    intron_minus              = 2
+    intron_unknown            = 3
+    read_overlap              = 4
+    read_gap                  = 5
+
+    def getEvenIndeltType(self):
+        return getNGSValue(self, NGS.lib_manager.PY_NGS_PileupEventGetEventIndelType, c_uint32)
 

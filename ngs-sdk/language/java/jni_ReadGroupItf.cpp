@@ -30,6 +30,7 @@
 
 #include <ngs/itf/ReadGroupItf.hpp>
 #include <ngs/itf/ReadItf.hpp>
+#include <ngs/itf/StatisticsItf.hpp>
 #include <ngs/itf/StringItf.hpp>
 
 using namespace ngs;
@@ -41,6 +42,12 @@ ReadGroupItf * Self ( size_t jself )
         throw ErrorMsg ( "NULL self parameter" );
 
     return ( ReadGroupItf* ) jself;
+}
+
+inline
+jlong Cast ( StatisticsItf * obj )
+{
+    return ( jlong ) ( size_t ) obj;
 }
 
 #if READ_GROUP_SUPPORTS_READS
@@ -79,6 +86,35 @@ JNIEXPORT jstring JNICALL Java_ngs_itf_ReadGroupItf_GetName
 
     return 0;
 }
+
+/*
+ * Class:     ngs_itf_ReadGroupItf
+ * Method:    GetStatistics
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_ngs_itf_ReadGroupItf_GetStatistics
+    ( JNIEnv * jenv, jobject jthis, jlong jself )
+{
+    try
+    {
+        StatisticsItf * new_ref = Self ( jself ) -> getStatistics ();
+        return Cast ( new_ref );
+    }
+    catch ( ErrorMsg & x )
+    {
+        ErrorMsgThrow ( jenv, xt_error_msg, x . what () );
+    }
+    catch ( std :: exception & x )
+    {
+        ErrorMsgThrow ( jenv, xt_runtime, x . what () );
+    }
+    catch ( ... )
+    {
+        JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
+    }
+
+    return 0;
+}  
 
 #if READ_GROUP_SUPPORTS_READS
 

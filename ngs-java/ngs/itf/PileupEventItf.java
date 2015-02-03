@@ -186,17 +186,27 @@ class PileupEventItf
         return this . GetInsertionQualities ( self );
     }
 
-    /* getDeletionCount
-     *  returns the number of bases remaining in deletion event
-     *  i.e. the number of Reference base positions remaining
-     *  until the next non-deletion event in this alignment.
+    /* getEventRepeatCount
+     *  returns the number of times this event repeats
+     *  i.e. the distance to the first reference position
+     *  yielding a different event for this alignment.
      */
-    public int getDeletionCount ()
+    public int getEventRepeatCount ()
         throws ErrorMsg
     {
-        return this . GetDeletionCount ( self );
+        return this . GetEventRepeatCount ( self );
     }
 
+
+    /* getEventIndelType
+     *  returns detail about the type of indel
+     *  when event type is an insertion or deletion
+     */
+    public int getEventIndelType ()
+        throws ErrorMsg
+    {
+        return this . GetEventIndelType ( self );
+    }
 
     /*********************************
      * PileupEventItf Implementation *
@@ -251,6 +261,8 @@ class PileupEventItf
         throws ErrorMsg;
     private native String GetInsertionQualities ( long self )
         throws ErrorMsg;
-    private native int GetDeletionCount ( long self )
+    private native int GetEventRepeatCount ( long self )
+        throws ErrorMsg;
+    private native int GetEventIndelType ( long self )
         throws ErrorMsg;
 }

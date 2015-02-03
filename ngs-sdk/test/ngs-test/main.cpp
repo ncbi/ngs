@@ -690,8 +690,18 @@ TEST_BEGIN_PILEUPEVENT ( PileupEvent_getInsertionQualities)
     Assert ( "#$" == evt.getInsertionQualities().toString() );
 TEST_END
 
+/*
 TEST_BEGIN_PILEUPEVENT ( PileupEvent_getDeletionCount)
     Assert ( 23 == evt.getDeletionCount() );
+TEST_END
+*/
+
+TEST_BEGIN_PILEUPEVENT ( PileupEvent_getEventRepeatCount)
+    Assert ( 45 == evt.getEventRepeatCount() );
+TEST_END
+
+TEST_BEGIN_PILEUPEVENT ( PileupEvent_getEventIndelType)
+    Assert ( ngs::PileupEvent::intron_minus == evt.getEventIndelType() );
 TEST_END
 
 void TestPileupEvent ()
@@ -711,7 +721,9 @@ void TestPileupEvent ()
     PileupEvent_getAlignmentQuality ();
     PileupEvent_getInsertionBases ();
     PileupEvent_getInsertionQualities ();
-    PileupEvent_getDeletionCount ();
+    //PileupEvent_getDeletionCount ();
+    PileupEvent_getEventRepeatCount ();
+    PileupEvent_getEventIndelType ();
 
 }
 

@@ -108,9 +108,14 @@ namespace ngs
     { return StringRef ( self -> getInsertionQualities () ); }
 
     inline
-    uint32_t PileupEvent :: getDeletionCount () const
+    uint32_t PileupEvent :: getEventRepeatCount () const
         throw ( ErrorMsg )
-    { return self -> getDeletionCount (); }
+    { return self -> getEventRepeatCount (); }
+
+    inline
+    PileupEvent :: EventIndelType PileupEvent :: getEventIndelType () const
+        throw ( ErrorMsg )
+    { return ( PileupEvent :: EventIndelType ) self -> getEventIndelType (); }
 
 
 } // namespace ngs

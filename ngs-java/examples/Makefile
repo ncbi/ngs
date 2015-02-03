@@ -26,7 +26,7 @@
 default: std
 
 TARGETS =             \
-    NGS-JavaTest.jar
+	NGS-JavaTest.jar
 
 std: $(TARGETS)
 
@@ -35,14 +35,19 @@ clean:
 
 .PHONY: default std $(TARGETS)
 
-TEST_SRC =                      \
-	examples/FragTest.java      \
-	examples/AlignTest.java     \
-	examples/AlignSliceTest.java
+NGS_EXAMPLES = \
+	AlignTest \
+	AlignSliceTest \
+	FragTest \
+	RefTest \
 
-NGS-JavaTest.jar: $(TEST_SRC)
-	javac $^ -d . -classpath $(CLASSPATH) && touch $@
-    
+NGS_EXAMPLES_PATH = \
+	$(addprefix examples/,$(addsuffix .java,$(NGS_EXAMPLES)))
+
+NGS-JavaTest.jar: $(NGS_EXAMPLES_PATH)
+	javac $^ -d . -classpath $(CLASSPATH)
+	( jar cf $@ `find examples -name "*.class"`; chmod -x,o-w $@ ) || ( rm -f $@ && false )
+
 # ===========================================================================
 #
 # example runs

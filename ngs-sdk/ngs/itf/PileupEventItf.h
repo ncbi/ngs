@@ -68,7 +68,8 @@ struct NGS_PileupEvent_v1_vt
     char ( CC * get_align_qual ) ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
     NGS_String_v1 * ( CC * get_ins_bases ) ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
     NGS_String_v1 * ( CC * get_ins_quals ) ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
-    uint32_t ( CC * get_del_count ) ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
+    uint32_t ( CC * get_rpt_count ) ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
+    uint32_t ( CC * get_indel_type ) ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
     bool ( CC * next ) ( NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
 };
 

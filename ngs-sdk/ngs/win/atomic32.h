@@ -27,9 +27,13 @@
 #ifndef _h_ngs_engine_atomic32_
 #define _h_ngs_engine_atomic32_
 
-#ifndef _h_ngs_adapter_defs_
-#include <ngs/adapter/defs.h>
-#endif
+typedef struct atomic32_t atomic32_t;
+struct atomic32_t
+{
+    volatile int counter;
+};
+
+#include <WINDOWS.H>
 
 #ifdef __cplusplus
 extern "C" {
@@ -44,58 +48,29 @@ extern "C" {
     ( ( void ) ( ( ( v ) -> counter ) = ( i ) ) )
 
 /* add to v -> counter and return the prior value */
-static __inline__ int atomic32_read_and_add ( atomic32_t *v, int i )
-{
-    int rtn;
-    __asm__ __volatile__
-    (
-        "push %%ebx;"
-        "mov (%%ecx), %%eax;"
-        "mov %%edx, %%ebx;"
-        "add %%eax, %%ebx;"
-        "lock;"
-        "cmpxchg %%ebx, (%%ecx);"
-        "jne .-8;"
-        "pop %%ebx"
-        : "=a" ( rtn ), "=c" ( v )
-        : "c" ( v ), "d" ( i )
-    );
-    return rtn;
-}
+/* int atomic32_read_and_add ( atomic32_t *v, int i ) */
+#define atomic32_read_and_add( v, i ) \
+    InterlockedExchangeAdd ( ( volatile unsigned int * ) & ( v ) -> counter, ( i ) )
 
-static __inline__ void atomic32_dec ( atomic32_t *v )
-{
-    __asm__ __volatile__
-    (
-        "lock;"
-        "decl %0"
-        :"=m" (v->counter)
-        :"m" (v->counter)
-    );
-}
+/* void atomic32_dec ( atomic32_t *v ) */
+#define atomic32_dec( v ) \
+    InterlockedDecrement ( ( volatile unsigned int * ) & ( v ) -> counter )
 
-static __inline__
-int atomic32_read_and_add_gt ( atomic32_t *v, int i, int t )
-{
-    int rtn;
-    __asm__ __volatile__
-    (
-        "push %%ebx;"
-        "mov (%%ecx), %%eax;"
-        "cmp %%esi, %%eax;"
-        "mov %%edx, %%ebx;"
-        "jle .+10;"
-        "add %%eax, %%ebx;"
-        "lock;"
-        "cmpxchg %%ebx, (%%ecx);"
-        "jne .-12;"
-        "pop %%ebx"
-        : "=a" ( rtn ), "=c" ( v )
-        : "c" ( v ), "d" ( i ), "S" ( t )
-    );
-    return rtn;
-}
+/* int atomic32_test_and_set ( atomic32_t *v, int s, int t ) */
+#define atomic32_test_and_set( v, s, t ) \
+    InterlockedCompareExchange ( ( volatile unsigned int * ) & ( v ) -> counter, ( s ), ( t ) )
 
+static __inline int atomic32_read_and_add_gt ( atomic32_t *v, int i, int t )
+{
+	int val, val_intern;
+	for ( val = atomic32_read ( v ); val > t; val = val_intern )
+	{
+		val_intern = atomic32_test_and_set ( v, val + i, val );
+		if ( val_intern == val )
+			break;
+	}
+	return val;
+}
 
 #ifdef __cplusplus
 }
