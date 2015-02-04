@@ -246,8 +246,6 @@ class LibManager:
         
         # PileupEvent
         
-        self.bind_sdk("PY_NGS_PileupEventGetReferenceSpec",          [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
-        self.bind_sdk("PY_NGS_PileupEventGetReferencePosition",      [c_void_p, POINTER(c_int64), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_PileupEventGetMappingQuality",         [c_void_p, POINTER(c_int32), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_PileupEventGetAlignmentId",            [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_PileupEventGetAlignment",              [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
@@ -263,12 +261,13 @@ class LibManager:
         self.bind_sdk("PY_NGS_PileupEventGetEventIndelType",         [c_void_p, POINTER(c_uint32), POINTER(c_void_p)])
 
         self.bind_sdk("PY_NGS_PileupEventIteratorNext",              [c_void_p, POINTER(c_int), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_PileupEventIteratorReset",             [c_void_p, POINTER(c_int), POINTER(c_void_p)])
         
         # Pileup
 
         self.bind_sdk("PY_NGS_PileupGetReferenceSpec",     [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_PileupGetReferencePosition", [c_void_p, POINTER(c_int64), POINTER(c_void_p)])
-        self.bind_sdk("PY_NGS_PileupGetPileupEvents",      [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_PileupGetReferenceBase",     [c_void_p, POINTER(c_char), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_PileupGetPileupDepth",       [c_void_p, POINTER(c_uint32), POINTER(c_void_p)])
 
         self.bind_sdk("PY_NGS_PileupIteratorNext",         [c_void_p, POINTER(c_int), POINTER(c_void_p)])

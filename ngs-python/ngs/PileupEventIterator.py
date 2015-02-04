@@ -40,3 +40,11 @@ class PileupEventIterator(PileupEvent):
         :throws: ErrorMsg if more PileupEvents should be available, but could not be accessed.
         """
         return bool(getNGSValue(self, NGS.lib_manager.PY_NGS_PileupEventIteratorNext, c_int))
+        
+    def resetPileupEvent(self):
+        """resets to initial iterator state
+        the next call to "nextPileupEvent" will advance to first event
+        :returns: false if no more PileupEvents are available.
+        :throws: ErrorMsg if more PileupEvents should be available, but could not be accessed.
+        """
+        return bool(getNGSValue(self, NGS.lib_manager.PY_NGS_PileupEventIteratorReset, c_int))

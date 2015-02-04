@@ -45,13 +45,11 @@ class Pileup(Refcount):
     def getReferencePosition(self):
         return getNGSValue(self, NGS.lib_manager.PY_NGS_PileupGetReferencePosition, c_int64)
 
-    # ----------------------------------------------------------------------
-    # PileupEvent        
-        
-    def getPileupEvents(self):
-        ret = PileupEventIterator()
-        ret.ref = getNGSValue(self, NGS.lib_manager.PY_NGS_PileupGetPileupEvents, c_void_p)
-        return ret
+    def getReferenceBase(self):
+        """
+        :return: base at current Reference position
+        """
+        return getNGSValue(self, NGS.lib_manager.PY_NGS_PileupGetReferenceBase, c_int64)
 
     # ----------------------------------------------------------------------
     # details of this pileup row

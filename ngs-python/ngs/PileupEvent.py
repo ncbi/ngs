@@ -40,12 +40,6 @@ class PileupEvent(Refcount):
     # ----------------------------------------------------------------------
     # Reference
     
-    def getReferenceSpec(self):
-        return getNGSString(self, NGS.lib_manager.PY_NGS_PileupEventGetReferenceSpec)
-
-    def getReferencePosition(self):
-        return getNGSValue(self, NGS.lib_manager.PY_NGS_PileupEventGetReferencePosition, c_int64)
-
     def getMappingQuality(self):
         return getNGSValue(self, NGS.lib_manager.PY_NGS_PileupEventGetMappingQuality, c_int32)
 
@@ -78,15 +72,30 @@ class PileupEvent(Refcount):
     # ----------------------------------------------------------------------
     # event details        
 
-    match                     = 0
-    mismatch                  = 1
-    deletion                  = 2
-    insertion                 = 0x10
-    insertion_before_match    = insertion | match
-    insertion_before_mismatch = insertion | mismatch
-    alignment_start           = 0x80
-    alignment_stop            = 0x40
-    alignment_minus_strand    = 0x20
+    match                       = 0
+    mismatch                    = 1
+    deletion = 2
+    
+    # an insertion cannot be represented in reference coordinate
+    # space ( so no insertion event can be directly represented ),
+    # but it can occur before a match or mismatch event.
+    # insertion is represented as a bit
+    insertion                   = 0x08
+    
+    # insertions into the reference
+    insertion_before_match      = insertion | match
+    insertion_before_mismatch   = insertion | mismatch
+    
+    # simultaneous insertion and deletion,
+    # a.k.a. a replacement
+    insertion_before_deletion   = insertion | deletion
+    replacement                 = insertion_before_deletion
+    
+    # additional modifier bits - may be added to any event above
+    alignment_start             = 0x80
+    alignment_stop              = 0x40
+    alignment_minus_strand      = 0x20
+
 
     def getEventType(self):
         return getNGSValue(self, NGS.lib_manager.PY_NGS_PileupEventGetEventType, c_uint32)
@@ -123,12 +132,28 @@ class PileupEvent(Refcount):
         """
         return getNGSValue(self, NGS.lib_manager.PY_NGS_PileupEventGetEventRepeatCount, c_uint32)
 
+    # EventIndelType
+
     normal_indel              = 0
+
+    # introns behave like deletions
+    # (i.e. can retrieve deletion count),
+    # "_plus" and "_minus" signify direction
+    # of transcription if known
     intron_plus               = 1
     intron_minus              = 2
     intron_unknown            = 3
+
+    # overlap is reported as an insertion,
+    # but is actually an overlap in the read
+    # inherent in technology like Complete Genomics
     read_overlap              = 4
+
+    # gap is reported as a deletion,
+    # but is actually a gap in the read
+    # inherent in technology like Complete Genomics
     read_gap                  = 5
+
 
     def getEvenIndeltType(self):
         return getNGSValue(self, NGS.lib_manager.PY_NGS_PileupEventGetEventIndelType, c_uint32)
