@@ -328,7 +328,7 @@ println "$OSTYPE ($OS) is supported" unless ($AUTORUN);
 # tool chain
 my ($CPP, $CC, $CP, $AR, $ARX, $ARLS, $LD, $LP, $MAKE_MANIFEST);
 my ($JAVAC, $JAVAH, $JAR);
-my ($DBG, $OPT, $PIC, $INC, $MD);
+my ($ARCH_FL, $DBG, $OPT, $PIC, $INC, $MD) = ('');
 
 print "checking for supported tool chain... " unless ($AUTORUN);
 if ($TOOLS eq 'gcc') {
@@ -349,20 +349,26 @@ if ($TOOLS eq 'gcc') {
 } elsif ($TOOLS eq 'clang') {
     $CPP  = 'clang++';
     $CC   = 'clang -c';
-    $CP   = "$CPP -c -mmacosx-version-min=10.6";
-    if ($BITS eq '32_64') {
-        $MAKE_MANIFEST = '( echo "$^" > $@/manifest )';
-        $AR = 'libtool -static -o';
+    my $versionMin = '-mmacosx-version-min=10.6';
+    $CP   = "$CPP -c $versionMin";
+    if ($BITS ne '32_64') {
+        $ARCH_FL = '-arch i386' if ($BITS == 32);
+        $OPT = '-O3';
+        $AR      = 'ar rc';
+        $LD      = "clang $ARCH_FL";
+        $LP      = "$CPP $versionMin $ARCH_FL";
     } else {
-        $AR = 'ar rc';
+        $MAKE_MANIFEST = '( echo "$^" > $@/manifest )';
+        $ARCH_FL       = '-arch i386 -arch x86_64';
+        $OPT    = '-O3';
+        $AR     = 'libtool -static -o';
+        $LD     = "clang -Wl,-arch_multiple $ARCH_FL -Wl,-all_load";
+        $LP     = "$CPP $versionMin -Wl,-arch_multiple $ARCH_FL -Wl,-all_load";
     }
     $ARX  = 'ar x';
     $ARLS = 'ar t';
-    $LD   = 'clang';
-    $LP   = "$CPP -mmacosx-version-min=10.6";
 
     $DBG = '-g -DDEBUG';
-    $OPT = '-O3';
     $PIC = '-fPIC';
     $INC = '-I';
     $MD  = '-MD';
@@ -535,7 +541,8 @@ foreach my $href (@REQ) {
                 if ($OPT{'build-prefix'}) {
                     my $try = $OPT{'build-prefix'};
                     if ($tolib) {
-                        (undef, $fl, $fil) = find_in_dir($try, undef, $lib, $ilib);
+                        (undef, $fl, $fil)
+                            = find_in_dir($try, undef, $lib, $ilib);
                         if ($fl || $fil) {
                             $found_lib  = $fl  if (! $found_lib  && $fl);
                             $found_ilib = $fil if (! $found_ilib && $fil);
@@ -549,7 +556,8 @@ foreach my $href (@REQ) {
                     if (! ($try =~ /$a{name}$/)) {
                         $try = File::Spec->catdir($try, $a{name});
                         if ($tolib && ! $found) {
-                            (undef, $fl, $fil) = find_in_dir($try, undef, $lib, $ilib);
+                            (undef, $fl, $fil)
+                                = find_in_dir($try, undef, $lib, $ilib);
                             if ($fl || $fil) {
                                 $found_lib  = $fl  if (! $found_lib  && $fl);
                                 $found_ilib = $fil if (! $found_ilib && $fil);
@@ -566,7 +574,8 @@ foreach my $href (@REQ) {
                     my $try = $a{bldpath};
                     $try = $a{locbldpath} if ($OPT{'local-build-out'});
                     if ($tolib && ! $found) {
-                        (undef, $fl, $fil) = find_in_dir($try, undef, $lib, $ilib);
+                        (undef, $fl, $fil)
+                            = find_in_dir($try, undef, $lib, $ilib);
                         $found_lib  = $fl  if (! $found_lib  && $fl);
                         $found_ilib = $fil if (! $found_ilib && $fil);
                     }
@@ -718,7 +727,7 @@ VERSION_LIBX = \$(LIBX).\$(VERSION)
 MAJMIN_LIBX  = \$(LIBX).\$(MAJMIN)
 MAJVERS_LIBX = \$(LIBX).\$(MAJVERS)
 
-SHLX = $SHLX
+SHLX         = $SHLX
 VERSION_SHLX = $VERSION_SHLX
 MAJMIN_SHLX  = $MAJMIN_SHLX
 MAJVERS_SHLX = $MAJVERS_SHLX
@@ -728,7 +737,7 @@ OBJX = $OBJX
 LOBX = $LOBX
 
 # suffix string for system executable
-EXEX = $EXEX
+EXEX         = $EXEX
 VERSION_EXEX = \$(EXEX).\$(VERSION)
 MAJMIN_EXEX  = \$(EXEX).\$(MAJMIN)
 MAJVERS_EXEX = \$(EXEX).\$(MAJVERS)
@@ -745,16 +754,17 @@ BITS = $BITS
 # tools
 EndText
 
-    L($F, "CC    = $CC"   ) if ($CC);
-    L($F, "CP    = $CP"   ) if ($CP);
-    L($F, "AR    = $AR"   ) if ($AR);
-    L($F, "ARX   = $ARX"  ) if ($ARX);
-    L($F, "ARLS  = $ARLS" ) if ($ARLS);
-    L($F, "LD    = $LD"   ) if ($LD);
-    L($F, "LP    = $LP"   ) if ($LP);
-    L($F, "JAVAC = $JAVAC") if ($JAVAC);
-    L($F, "JAVAH = $JAVAH") if ($JAVAH);
-    L($F, "JAR   = $JAR"  ) if ($JAR);
+    L($F, "CC            = $CC"           ) if ($CC);
+    L($F, "CP            = $CP"           ) if ($CP);
+    L($F, "AR            = $AR"           ) if ($AR);
+    L($F, "ARX           = $ARX"          ) if ($ARX);
+    L($F, "ARLS          = $ARLS"         ) if ($ARLS);
+    L($F, "LD            = $LD"           ) if ($LD);
+    L($F, "LP            = $LP"           ) if ($LP);
+    L($F, "JAVAC         = $JAVAC"        ) if ($JAVAC);
+    L($F, "JAVAH         = $JAVAH"        ) if ($JAVAH);
+    L($F, "JAR           = $JAR"          ) if ($JAR);
+    L($F, "MAKE_MANIFEST = $MAKE_MANIFEST") if ($MAKE_MANIFEST);
     L($F);
 
     L($F, '# tool options');
@@ -781,13 +791,17 @@ EndText
     }
     if ($PIC) {
         if (PACKAGE_NAMW() eq 'NGS') {
-   L($F, "INCDIRS = \$(SRCINC) $INC\$(TOP) $INC\$(TOP)/ngs/\$(OSINC)/\$(ARCH)")
+            L($F, "INCDIRS = \$(SRCINC) $INC\$(TOP) "
+                .        "$INC\$(TOP)/ngs/\$(OSINC)/\$(ARCH)")
+        } elsif (PACKAGE_NAMW() eq 'NGS_BAM') {
+            L($F, "INCDIRS = \$(SRCINC) $INC\$(TOP) "
+                . "$INC\$(NGS_INCDIR)/ngs/\$(OSINC)/\$(ARCH)")
         } else {
-   L($F, "INCDIRS = \$(SRCINC) $INC\$(TOP)")
+            L($F, "INCDIRS = \$(SRCINC) $INC\$(TOP)")
         }
     }
     if ($PKG{LNG} eq 'C') {
-        L($F, "CFLAGS  = \$(DBG) \$(OPT) \$(INCDIRS) $MD");
+        L($F, "CFLAGS  = \$(DBG) \$(OPT) \$(INCDIRS) $MD $ARCH_FL");
     }
 
     L($F, 'CLSPATH = -classpath $(CLSDIR)');
