@@ -60,11 +60,10 @@ public:
         {
             String qual;
             String base;
-            cout         << it.getReferenceSpec ()
+            cout        << it.getReferenceSpec ()
                  << '\t' << ( it.getReferencePosition () + 1 )
                  << '\t' << it.getReferenceBase () 
-                 << '\t' << it.getPileupDepth ()
-                 << '\t';
+                 << '\t' << it.getPileupDepth ();
             while(it.nextPileupEvent())
             {
                 PileupEvent::PileupEventType e = it.getEventType ();
