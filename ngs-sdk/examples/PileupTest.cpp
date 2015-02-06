@@ -58,9 +58,20 @@ public:
         long i;
         for ( i = 0; it . nextPileup (); ++ i )
         {
+            String qual;
+            String base;
             cout         << it.getReferenceSpec ()
                  << '\t' << it.getReferencePosition ()
+                 << '\t' << it.getReferenceBase ()
                  << '\t' << it.getPileupDepth ()
+                 << '\t';
+            while(it.nextPileupEvent())
+            {
+                base += it.getAlignmentBase ();
+                qual += it.getAlignmentQuality ();
+            }
+            cout << '\t' + base
+                 << '\t' + qual
                  << '\n';
         }
 
