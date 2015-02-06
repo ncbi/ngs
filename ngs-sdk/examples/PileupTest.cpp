@@ -53,7 +53,7 @@ public:
 
         // start iterator on requested range
         long count = stop - start + 1;
-        PileupIterator it = ref.getPileupSlice ( start, count);
+        PileupIterator it = ref.getPileupSlice ( start-1 /*0-based*/, count);
 
         long i;
         for ( i = 0; it . nextPileup (); ++ i )
@@ -61,13 +61,38 @@ public:
             String qual;
             String base;
             cout         << it.getReferenceSpec ()
-                 << '\t' << it.getReferencePosition ()
-                 << '\t' << it.getReferenceBase ()
+                 << '\t' << ( it.getReferencePosition () + 1 )
+                 << '\t' << it.getReferenceBase () 
                  << '\t' << it.getPileupDepth ()
                  << '\t';
             while(it.nextPileupEvent())
             {
-                base += it.getAlignmentBase ();
+                PileupEvent::PileupEventType e = it.getEventType ();
+
+                if(e & PileupEvent::alignment_start)
+                {
+                    base += '^';
+                    base += (char) (it.getMappingQuality() + 33 );
+                }
+                if( (e&7) == PileupEvent::match)
+                {
+                    if(e & PileupEvent::alignment_minus_strand)
+                           base += ',';
+                    else   base += '.';
+                }
+                else if( (e&7) == PileupEvent::mismatch)
+                {
+                    if(e & PileupEvent::alignment_minus_strand)
+                         base += tolower(it.getAlignmentBase ());
+                    else
+                         base += it.getAlignmentBase ();
+                    
+                }
+                if(e & PileupEvent::alignment_stop)
+                {
+                    base += '$';
+                }
+
                 qual += it.getAlignmentQuality ();
             }
             cout << '\t' + base
