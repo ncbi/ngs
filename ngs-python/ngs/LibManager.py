@@ -160,7 +160,7 @@ class LibManager:
         if platform.system() == "Windows":
             return ".dll"
         elif platform.system() == "Darwin":
-            return ""
+            return ".dylib"
         elif platform.system() == "Linux":
             return ".so"
         else:
