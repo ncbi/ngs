@@ -112,6 +112,14 @@ public interface Alignment
      * details of this alignment
      */
 
+    /* AlignmentFilter
+     *  values should be or'd together to produce filter bits
+     */
+    static int passFailed = 1;       // reads rejected due to platform/vendor quality criteria
+    static int passDuplicates = 2;   // either a PCR or optical duplicate
+    static int minMapQuality = 4;    // pass alignments with mappingQuality >= param
+    static int maxMapQuality = 8;    // pass alignments with mappingQuality <= param
+
     /* AlignmentCategory
      */
     static int primaryAlignment   = 1;

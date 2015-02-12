@@ -106,6 +106,11 @@ namespace ngs
     PileupIterator Reference :: getPileups ( Alignment :: AlignmentCategory categories ) const
         throw ( ErrorMsg )
     { return PileupIterator ( ( PileupRef ) self -> getPileups ( ( uint32_t ) categories ) ); }
+
+    inline
+    PileupIterator Reference :: getPileups ( Alignment :: AlignmentCategory categories, Alignment :: AlignmentFilter filters, int32_t mappingQuality ) const
+        throw ( ErrorMsg )
+    { return PileupIterator ( ( PileupRef ) self -> getPileups ( ( uint32_t ) categories, ( uint32_t ) filters, mappingQuality ) ); }
     
     inline
     PileupIterator Reference :: getPileupSlice ( int64_t start, uint64_t length ) const
@@ -113,9 +118,9 @@ namespace ngs
     { return PileupIterator ( ( PileupRef ) self -> getPileupSlice ( start, length ) ); }
 
     inline
-    PileupIterator Reference :: getPileupSlice ( int64_t start, uint64_t length, Alignment :: AlignmentCategory categories ) const
+    PileupIterator Reference :: getPileupSlice ( int64_t start, uint64_t length, Alignment :: AlignmentCategory categories, Alignment :: AlignmentFilter filters, int32_t mappingQuality ) const
         throw ( ErrorMsg )
-    { return PileupIterator ( ( PileupRef ) self -> getPileupSlice ( start, length, ( uint32_t ) categories ) ); }
+    { return PileupIterator ( ( PileupRef ) self -> getPileupSlice ( start, length, ( uint32_t ) categories, ( uint32_t ) filters, mappingQuality ) ); }
 
 } // namespace ngs
 

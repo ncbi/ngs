@@ -358,6 +358,35 @@ JNIEXPORT jlong JNICALL Java_ngs_itf_ReferenceItf_GetPileups
 
 /*
  * Class:     ngs_itf_ReferenceItf
+ * Method:    GetFilteredPileups
+ * Signature: (JIII)J
+ */
+JNIEXPORT jlong JNICALL Java_ngs_itf_ReferenceItf_GetFilteredPileups
+    ( JNIEnv * jenv, jobject jthis, jlong jself, jint categories, jint filters, jint map_qual )
+{
+    try
+    {
+        PileupItf * new_ref = Self ( jself ) -> getPileups ( categories, filters, map_qual );
+        return Cast ( new_ref );
+    }
+    catch ( ErrorMsg & x )
+    {
+        ErrorMsgThrow ( jenv, xt_error_msg, x . what () );
+    }
+    catch ( std :: exception & x )
+    {
+        ErrorMsgThrow ( jenv, xt_runtime, x . what () );
+    }
+    catch ( ... )
+    {
+        JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
+    }
+
+    return 0;
+}
+
+/*
+ * Class:     ngs_itf_ReferenceItf
  * Method:    GetPileupSlice
  * Signature: (JIJJ)J
  */
@@ -367,6 +396,35 @@ JNIEXPORT jlong JNICALL Java_ngs_itf_ReferenceItf_GetPileupSlice
     try
     {
         PileupItf * new_ref = Self ( jself ) -> getPileupSlice ( offset, length, categories );
+        return Cast ( new_ref );
+    }
+    catch ( ErrorMsg & x )
+    {
+        ErrorMsgThrow ( jenv, xt_error_msg, x . what () );
+    }
+    catch ( std :: exception & x )
+    {
+        ErrorMsgThrow ( jenv, xt_runtime, x . what () );
+    }
+    catch ( ... )
+    {
+        JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
+    }
+
+    return 0;
+}
+
+/*
+ * Class:     ngs_itf_ReferenceItf
+ * Method:    GetFilteredPileupSlice
+ * Signature: (JJJIII)J
+ */
+JNIEXPORT jlong JNICALL Java_ngs_itf_ReferenceItf_GetFilteredPileupSlice
+    ( JNIEnv * jenv, jobject jthis, jlong jself, jlong offset, jlong length, jint categories, jint filters, jint map_qual )
+{
+    try
+    {
+        PileupItf * new_ref = Self ( jself ) -> getPileupSlice ( offset, length, categories, filters, map_qual );
         return Cast ( new_ref );
     }
     catch ( ErrorMsg & x )

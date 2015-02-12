@@ -41,6 +41,16 @@ extern "C" {
 struct NGS_Pileup_v1;
 struct NGS_Alignment_v1;
 
+enum NGS_ReferenceAlignFlags
+{
+    NGS_ReferenceAlignFlags_wants_primary   = 0x01,
+    NGS_ReferenceAlignFlags_wants_secondary = 0x02,
+    NGS_ReferenceAlignFlags_pass_bad        = 0x04,
+    NGS_ReferenceAlignFlags_pass_dups       = 0x08,
+    NGS_ReferenceAlignFlags_min_map_qual    = 0x10,
+    NGS_ReferenceAlignFlags_max_map_qual    = 0x20
+};
+
 
 /*--------------------------------------------------------------------------
  * NGS_Reference_v1
@@ -56,6 +66,7 @@ struct NGS_Reference_v1_vt
 {
     NGS_VTable dad;
 
+    /* v1.0 interface */
     NGS_String_v1 * ( CC * get_cmn_name ) ( const NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err );
     NGS_String_v1 * ( CC * get_canon_name ) ( const NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err );
     bool ( CC * is_circular ) ( const NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err );
@@ -70,6 +81,10 @@ struct NGS_Reference_v1_vt
     struct NGS_Pileup_v1 * ( CC * get_pileup_slice ) ( const NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err,
         int64_t start, uint64_t length, bool wants_primary, bool wants_secondary );
     bool ( CC * next ) ( NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err );
+
+    /* v1.1 interface */
+    struct NGS_Pileup_v1 * ( CC * get_filtered_pileups ) ( const NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err, uint32_t flags, int32_t map_qual );
+    struct NGS_Pileup_v1 * ( CC * get_filtered_pileup_slice ) ( const NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err, int64_t start, uint64_t length, uint32_t flags, int32_t map_qual );
 };
 
 

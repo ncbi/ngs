@@ -237,6 +237,21 @@ class ReferenceItf
         }
     }
 
+    public PileupIterator getPileups ( int categories, int filters, int mappingQuality )
+        throws ErrorMsg
+    {
+        long ref = this . GetFilteredPileups ( self, categories, filters, mappingQuality );
+        try
+        {
+            return new PileupIteratorItf ( ref );
+        }
+        catch ( Exception x )
+        {
+            this . release ( ref );
+            throw new ErrorMsg ( x . toString () );
+        }
+    }
+
     /* getPileupSlice
      *  creates a PileupIterator on a slice (window) of reference
      *  "start" is the signed starting position on reference
@@ -264,6 +279,20 @@ class ReferenceItf
         }
     }
 
+    public PileupIterator getPileupSlice ( long offset, long length, int categories, int filters, int mappingQuality )
+        throws ErrorMsg
+    {
+        long ref = this . GetFilteredPileupSlice ( self, offset, length, categories, filters, mappingQuality );
+        try
+        {
+            return new PileupIteratorItf ( ref );
+        }
+        catch ( Exception x )
+        {
+            this . release ( ref );
+            throw new ErrorMsg ( x . toString () );
+        }
+    }
 
     /*******************************
      * ReferenceItf Implementation *
@@ -313,6 +342,10 @@ class ReferenceItf
         throws ErrorMsg;
     private native long GetPileups ( long self, int categories )
         throws ErrorMsg;
+    private native long GetFilteredPileups ( long self, int categories, int filters, int mappingQuality )
+        throws ErrorMsg;
     private native long GetPileupSlice ( long self, long offset, long count, int categories )
+        throws ErrorMsg;
+    private native long GetFilteredPileupSlice ( long self, long offset, long count, int categories, int filters, int mappingQuality )
         throws ErrorMsg;
 }
