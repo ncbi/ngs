@@ -293,19 +293,21 @@ class LibManager:
         
         # Reference
         
-        self.bind_sdk("PY_NGS_ReferenceGetCommonName",     [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
-        self.bind_sdk("PY_NGS_ReferenceGetCanonicalName",  [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
-        self.bind_sdk("PY_NGS_ReferenceGetIsCircular",     [c_void_p, POINTER(c_int), POINTER(c_void_p)])
-        self.bind_sdk("PY_NGS_ReferenceGetLength",         [c_void_p, POINTER(c_uint64), POINTER(c_void_p)])
-        self.bind_sdk("PY_NGS_ReferenceGetReferenceBases", [c_void_p, c_uint64, c_uint64, POINTER(c_void_p), POINTER(c_void_p)])
-        self.bind_sdk("PY_NGS_ReferenceGetReferenceChunk", [c_void_p, c_uint64, c_uint64, POINTER(c_void_p), POINTER(c_void_p)])
-        self.bind_sdk("PY_NGS_ReferenceGetAlignment",      [c_void_p, c_char_p, POINTER(c_void_p), POINTER(c_void_p)])
-        self.bind_sdk("PY_NGS_ReferenceGetAlignments",     [c_void_p, c_uint32, POINTER(c_void_p), POINTER(c_void_p)])
-        self.bind_sdk("PY_NGS_ReferenceGetAlignmentSlice", [c_void_p, c_int64, c_uint64, c_uint32, POINTER(c_void_p), POINTER(c_void_p)])
-        self.bind_sdk("PY_NGS_ReferenceGetPileups",        [c_void_p, c_uint32, POINTER(c_void_p), POINTER(c_void_p)])
-        self.bind_sdk("PY_NGS_ReferenceGetPileupSlice",    [c_void_p, c_int64, c_uint64, c_uint32, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceGetCommonName",          [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceGetCanonicalName",       [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceGetIsCircular",          [c_void_p, POINTER(c_int), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceGetLength",              [c_void_p, POINTER(c_uint64), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceGetReferenceBases",      [c_void_p, c_uint64, c_uint64, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceGetReferenceChunk",      [c_void_p, c_uint64, c_uint64, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceGetAlignment",           [c_void_p, c_char_p, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceGetAlignments",          [c_void_p, c_uint32, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceGetAlignmentSlice",      [c_void_p, c_int64, c_uint64, c_uint32, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceGetPileups",             [c_void_p, c_uint32, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceGetFilteredPileups",     [c_void_p, c_uint32, c_uint32, c_int32, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceGetPileupSlice",         [c_void_p, c_int64, c_uint64, c_uint32, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceGetFilteredPileupSlice", [c_void_p, c_int64, c_uint64, c_uint32, c_uint32, c_int32, POINTER(c_void_p), POINTER(c_void_p)])
 
-        self.bind_sdk("PY_NGS_ReferenceIteratorNext",      [c_void_p, POINTER(c_int), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceIteratorNext",           [c_void_p, POINTER(c_int), POINTER(c_void_p)])
         
         # Statistics
         
