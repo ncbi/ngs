@@ -102,7 +102,17 @@ namespace ngs_test_engine
             return new ngs_test_engine::PileupItf ( 3 ); 
         }
 
+        virtual ngs_adapt :: PileupItf * getFilteredPileups ( uint32_t flags, int32_t map_qual ) const
+        {
+            return new ngs_test_engine::PileupItf ( 3 ); 
+        }
+
         virtual ngs_adapt :: PileupItf * getPileupSlice ( int64_t start, uint64_t length, bool wants_primary, bool wants_secondary ) const
+        {
+            return new ngs_test_engine::PileupItf ( ( unsigned int ) length ); 
+        }
+
+        virtual ngs_adapt :: PileupItf * getFilteredPileupSlice ( int64_t start, uint64_t length, uint32_t flags, int32_t map_qual ) const
         {
             return new ngs_test_engine::PileupItf ( ( unsigned int ) length ); 
         }

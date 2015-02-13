@@ -153,6 +153,19 @@ class Reference(Refcount):
             ngs_str_err.close()
         
         return ret
+    
+    def getFilteredPileups(self, categories, filters, mappingQuality):
+        """
+        :returns: an iterator of contained Pileups
+        """
+        ret = PileupIterator()
+        ngs_str_err = NGS_RawString()
+        try:
+            res = NGS.lib_manager.PY_NGS_ReferenceGetFilteredPileups(self.ref, categories, filters, mappingQuality, byref(ret.ref), byref(ngs_str_err.ref))
+        finally:
+            ngs_str_err.close()
+        
+        return ret
 
     def getPileupSlice(self, start, length, categories=Alignment.all):
         """Creates a PileupIterator on a slice (window) of reference
@@ -165,6 +178,22 @@ class Reference(Refcount):
         ngs_str_err = NGS_RawString()
         try:
             res = NGS.lib_manager.PY_NGS_ReferenceGetPileupSlice(self.ref, start, length, categories, byref(ret.ref), byref(ngs_str_err.ref))
+        finally:
+            ngs_str_err.close()
+        
+        return ret
+
+    def getFilteredPileupSlice(self, start, length, categories, filters, mappingQuality):
+        """Creates a PileupIterator on a slice (window) of reference
+        :param: start is the signed starting position on reference
+        :param: length is the unsigned number of bases in the window
+        :param: categories provides a means of filtering by AlignmentCategory
+        :returns: an iterator of contained Pileups
+        """
+        ret = PileupIterator()
+        ngs_str_err = NGS_RawString()
+        try:
+            res = NGS.lib_manager.PY_NGS_ReferenceGetFilteredPileupSlice(self.ref, start, length, categories, filters, mappingQuality, byref(ret.ref), byref(ngs_str_err.ref))
         finally:
             ngs_str_err.close()
         

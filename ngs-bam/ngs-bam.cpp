@@ -363,7 +363,13 @@ public:
     ngs_adapt::PileupItf *getPileups(bool const want_primary, bool const want_secondary) const {
         throw std::runtime_error("not available");
     }
+    ngs_adapt::PileupItf *getFilteredPileups(uint32_t flags, int32_t map_qual) const {
+        throw std::runtime_error("not available");
+    }
     ngs_adapt::PileupItf *getPileupSlice(int64_t const start, uint64_t const length, bool const want_primary, bool const want_secondary) const {
+        throw std::runtime_error("not available");
+    }
+    ngs_adapt::PileupItf *getFilteredPileupSlice(int64_t const start, uint64_t const length, uint32_t flags, int32_t map_qual) const {
         throw std::runtime_error("not available");
     }
     bool nextReference() {

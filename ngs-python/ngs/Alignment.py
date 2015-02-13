@@ -35,17 +35,27 @@ from .Fragment import Fragment
 # provides a path to Read and mate Alignment
 
 class Alignment(Fragment):
-    primaryAlignment   = 1
-    secondaryAlignment = 2
-    all                = primaryAlignment | secondaryAlignment
+
+    # AlignmentFilter constants
+    passFailed          = 1
+    passDuplicates      = 2
+    minMapQuality       = 4
+    maxMapQuality       = 8
+
+    # AlignmentCategory constants
+    primaryAlignment    = 1
+    secondaryAlignment  = 2
+    all                 = primaryAlignment | secondaryAlignment
     
-    clipLeft  = 0
-    clipRight = 1    
+    # ClipEdge constants
+    clipLeft            = 0
+    clipRight           = 1
+
 
     def getAlignmentId(self):
         """Retrieve an identifying String that can be used for later access.
         The id will be unique within ReadCollection.
-        :returns: alignment id
+        :returns: alignment id string
         :throws: ErrorMsg if the property cannot be retrieved
         """
         return getNGSString(self, NGS.lib_manager.PY_NGS_AlignmentGetAlignmentId)
@@ -117,8 +127,6 @@ class Alignment(Fragment):
         """
         return bool(getNGSValue(self, NGS.lib_manager.PY_NGS_AlignmentGetIsReversedOrientation, c_int))
 
-    # ClipEdge
-        
     def getSoftClip(self, edge):
         ret = c_int32()
         ngs_str_err = NGS_RawString()

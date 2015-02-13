@@ -209,6 +209,23 @@ namespace ngs_adapt
         return 0;
     }
 
+    NGS_Pileup_v1 * CC ReferenceItf :: get_filtered_pileups ( const NGS_Reference_v1 * iself, NGS_ErrBlock_v1 * err,
+        uint32_t flags, int32_t map_qual )
+    {
+        const ReferenceItf * self = Self ( iself );
+        try
+        {
+            PileupItf * val = self -> getFilteredPileups ( flags, map_qual );
+            return val -> Cast ();
+        }
+        catch ( ... )
+        {
+            ErrBlockHandleException ( err );
+        }
+
+        return 0;
+    }
+
     NGS_Pileup_v1 * CC ReferenceItf :: get_pileup_slice ( const NGS_Reference_v1 * iself, NGS_ErrBlock_v1 * err,
                                           int64_t start, uint64_t length, bool wants_primary, bool wants_secondary )
     {
@@ -216,6 +233,23 @@ namespace ngs_adapt
         try
         {
             PileupItf * val = self -> getPileupSlice ( start, length, wants_primary, wants_secondary );
+            return val -> Cast ();
+        }
+        catch ( ... )
+        {
+            ErrBlockHandleException ( err );
+        }
+
+        return 0;
+    }
+
+    NGS_Pileup_v1 * CC ReferenceItf :: get_filtered_pileup_slice ( const NGS_Reference_v1 * iself, NGS_ErrBlock_v1 * err,
+        int64_t start, uint64_t length, uint32_t flags, int32_t map_qual )
+    {
+        const ReferenceItf * self = Self ( iself );
+        try
+        {
+            PileupItf * val = self -> getFilteredPileupSlice ( start, length, flags, map_qual );
             return val -> Cast ();
         }
         catch ( ... )
@@ -246,10 +280,11 @@ namespace ngs_adapt
         {
             "ngs_adapt::ReferenceItf",
             "NGS_Reference_v1",
-            0,
+            1,
             & OpaqueRefcount :: ivt . dad
         },
 
+        // 1.0
         get_cmn_name,
         get_canon_name,
         is_circular,
@@ -261,7 +296,11 @@ namespace ngs_adapt
         get_align_slice,
         get_pileups,
         get_pileup_slice,
-        next
+        next,
+
+        // 1.1
+        get_filtered_pileups,
+        get_filtered_pileup_slice
     };
 
 } // namespace ngs_adapt
