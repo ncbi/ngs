@@ -366,7 +366,7 @@ JNIEXPORT jlong JNICALL Java_ngs_itf_ReferenceItf_GetFilteredPileups
 {
     try
     {
-        PileupItf * new_ref = Self ( jself ) -> getPileups ( categories, filters, map_qual );
+        PileupItf * new_ref = Self ( jself ) -> getFilteredPileups ( categories, filters, map_qual );
         return Cast ( new_ref );
     }
     catch ( ErrorMsg & x )
@@ -424,7 +424,7 @@ JNIEXPORT jlong JNICALL Java_ngs_itf_ReferenceItf_GetFilteredPileupSlice
 {
     try
     {
-        PileupItf * new_ref = Self ( jself ) -> getPileupSlice ( offset, length, categories, filters, map_qual );
+        PileupItf * new_ref = Self ( jself ) -> getFilteredPileupSlice ( offset, length, categories, filters, map_qual );
         return Cast ( new_ref );
     }
     catch ( ErrorMsg & x )

@@ -317,7 +317,7 @@ namespace ngs
         return ( categories & 0x03 ) | ( filters << 2 );
     }
 
-    PileupItf * ReferenceItf :: getPileups ( uint32_t categories, uint32_t filters, int32_t mappingQuality ) const
+    PileupItf * ReferenceItf :: getFilteredPileups ( uint32_t categories, uint32_t filters, int32_t mappingQuality ) const
         throw ( ErrorMsg )
     {
         // the object is really from C
@@ -385,7 +385,7 @@ namespace ngs
         return PileupItf :: Cast ( ret );
     }
 
-    PileupItf * ReferenceItf :: getPileupSlice ( int64_t start, uint64_t length, uint32_t categories, uint32_t filters, int32_t mappingQuality ) const
+    PileupItf * ReferenceItf :: getFilteredPileupSlice ( int64_t start, uint64_t length, uint32_t categories, uint32_t filters, int32_t mappingQuality ) const
         throw ( ErrorMsg )
     {
         // the object is really from C

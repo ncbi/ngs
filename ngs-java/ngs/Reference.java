@@ -164,13 +164,13 @@ public interface Reference
         throws ErrorMsg;
 
     /** 
-     * getPileups
+     * getFilteredPileups
      * Filtered according to criteria in parameters
      * @param filters is a set of filter bits defined in Alignment
      * @param mappingQuality is a cutoff to be used according to bits in "filter"
      * @return an iterator of contained Pileups
      */
-    PileupIterator getPileups ( int categories, int filters, int mappingQuality )
+    PileupIterator getFilteredPileups ( int categories, int filters, int mappingQuality )
         throws ErrorMsg;
 
     /** 
@@ -195,7 +195,7 @@ public interface Reference
         throws ErrorMsg;
 
     /** 
-     * getPileupSlice
+     * getFilteredPileupSlice
      * Creates a PileupIterator on a slice (window) of reference
      * filtered according to criteria in parameters
      * @param start is the signed starting position on reference
@@ -205,7 +205,7 @@ public interface Reference
      * @param mappingQuality is a cutoff to be used according to bits in "filter"
      * @return an iterator of contained Pileups
      */
-    PileupIterator getPileupSlice ( long start, long length,
+    PileupIterator getFilteredPileupSlice ( long start, long length,
             int categories, int filters, int mappingQuality )
         throws ErrorMsg;
 }

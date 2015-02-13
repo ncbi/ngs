@@ -237,7 +237,7 @@ class ReferenceItf
         }
     }
 
-    public PileupIterator getPileups ( int categories, int filters, int mappingQuality )
+    public PileupIterator getFilteredPileups ( int categories, int filters, int mappingQuality )
         throws ErrorMsg
     {
         long ref = this . GetFilteredPileups ( self, categories, filters, mappingQuality );
@@ -279,7 +279,7 @@ class ReferenceItf
         }
     }
 
-    public PileupIterator getPileupSlice ( long offset, long length, int categories, int filters, int mappingQuality )
+    public PileupIterator getFilteredPileupSlice ( long offset, long length, int categories, int filters, int mappingQuality )
         throws ErrorMsg
     {
         long ref = this . GetFilteredPileupSlice ( self, offset, length, categories, filters, mappingQuality );
