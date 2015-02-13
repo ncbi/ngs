@@ -227,6 +227,33 @@ namespace
 
         return ret;
     }
+
+    template < typename TRef, typename TVal_cpp, typename TVal_c, typename T1, typename T2, typename T3, typename T4, typename T5 >
+    PY_RES_TYPE PY_NGS_GetValueByParams5(void* pRef, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, TVal_c* pRet, void** ppNGSStrError, TVal_cpp (TRef::*pfn)(T1, T2, T3, T4, T5) const)
+    {
+        PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+        try
+        {
+            TVal_cpp res = (CheckedCast< TRef* >(pRef) ->* pfn)( p1, p2, p3, p4, p5 );
+            assert(pRet != NULL);
+            *pRet = (TVal_c)res;
+            ret = PY_RES_OK;
+        }
+        catch ( ngs::ErrorMsg & x )
+        {
+            ret = ExceptionHandler ( x, ppNGSStrError );
+        }
+        catch ( std::exception & x )
+        {
+            ret = ExceptionHandler ( x, ppNGSStrError );
+        }
+        catch ( ... )
+        {
+            ret = ExceptionHandler ( ppNGSStrError );
+        }
+
+        return ret;
+    }
 }
 
 /////////////////// Macros generating getters for any type of values ///////////////////////
@@ -274,6 +301,13 @@ PY_RES_TYPE generated_function_name(void* pRef, c_type<param_type1>::type_c p1, 
 PY_RES_TYPE PY_NGS_##object_name##Get##func_sub_name(void* pRef, c_type<param_type1>::type_c p1, c_type<param_type2>::type_c p2, c_type<param_type3>::type_c p3, c_type<value_type>::type_c* pRet, void** ppNGSStrError)\
 {\
     return PY_NGS_GetValueByParams3 <ngs::object_name##Itf, value_type, c_type<value_type>::type_c> ( pRef, (c_type<param_type1>::type_cpp)(p1), (c_type<param_type2>::type_cpp)(p2), (c_type<param_type3>::type_cpp)(p3), pRet, ppNGSStrError, & ngs::object_name##Itf::get##func_sub_name );\
+}
+
+
+#define GEN_PY_FUNC_GET_BY_PARAMS_5( object_name, func_sub_name, value_type, param_type1, p1, param_type2, p2, param_type3, p3, param_type4, p4, param_type5, p5 )\
+PY_RES_TYPE PY_NGS_##object_name##Get##func_sub_name(void* pRef, c_type<param_type1>::type_c p1, c_type<param_type2>::type_c p2, c_type<param_type3>::type_c p3, c_type<param_type4>::type_c p4, c_type<param_type5>::type_c p5, c_type<value_type>::type_c* pRet, void** ppNGSStrError)\
+{\
+    return PY_NGS_GetValueByParams5 <ngs::object_name##Itf, value_type, c_type<value_type>::type_c> ( pRef, (c_type<param_type1>::type_cpp)(p1), (c_type<param_type2>::type_cpp)(p2), (c_type<param_type3>::type_cpp)(p3), (c_type<param_type4>::type_cpp)(p4), (c_type<param_type5>::type_cpp)(p5), pRet, ppNGSStrError, & ngs::object_name##Itf::get##func_sub_name );\
 }
 
 /////////////////// Specialized macros to generate getters returning Strings ////////////////
