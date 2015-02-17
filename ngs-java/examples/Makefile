@@ -40,6 +40,7 @@ NGS_EXAMPLES = \
 	AlignSliceTest \
 	FragTest \
 	RefTest \
+	ReadGroupTest \
 
 NGS_EXAMPLES_PATH = \
 	$(addprefix examples/,$(addsuffix .java,$(NGS_EXAMPLES)))
