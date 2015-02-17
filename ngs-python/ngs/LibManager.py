@@ -248,7 +248,6 @@ class LibManager:
         
         self.bind_sdk("PY_NGS_PileupEventGetMappingQuality",         [c_void_p, POINTER(c_int32), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_PileupEventGetAlignmentId",            [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
-        self.bind_sdk("PY_NGS_PileupEventGetAlignment",              [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_PileupEventGetAlignmentPosition",      [c_void_p, POINTER(c_int64), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_PileupEventGetFirstAlignmentPosition", [c_void_p, POINTER(c_int64), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_PileupEventGetLastAlignmentPosition",  [c_void_p, POINTER(c_int64), POINTER(c_void_p)])
