@@ -99,26 +99,6 @@ namespace ngs
         return StringItf :: Cast ( ret );
     }
 
-    AlignmentItf * PileupEventItf :: getAlignment () const
-        throw ( ErrorMsg )
-    {
-        // the object is really from C
-        const NGS_PileupEvent_v1 * self = Test ();
-
-        // cast vtable to our level
-        const NGS_PileupEvent_v1_vt * vt = Access ( self -> vt );
-
-        // call through C vtable
-        ErrBlock err;
-        assert ( vt -> get_alignment != 0 );
-        NGS_Alignment_v1 * ret  = ( * vt -> get_alignment ) ( self, & err );
-
-        // check for errors
-        err . Check ();
-
-        return AlignmentItf :: Cast ( ret );
-    }
-
     int64_t PileupEventItf :: getAlignmentPosition () const
         throw ( ErrorMsg )
     {

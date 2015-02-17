@@ -28,7 +28,7 @@
 #define _inl_ngs_read_iterator_
 
 #ifndef _hpp_ngs_read_iterator_
-#include <ngs/c++/ReadIterator.hpp>
+#include <ngs/ReadIterator.hpp>
 #endif
 
 namespace ngs

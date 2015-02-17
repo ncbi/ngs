@@ -54,11 +54,6 @@ namespace ngs_test_engine
             return new ngs_adapt::StringItf ( alId.c_str(), alId.size() );
         }
 
-        virtual ngs_adapt::AlignmentItf * getAlignment () const
-        {
-            return new ngs_test_engine::AlignmentItf();
-        }
-
         virtual int64_t getAlignmentPosition () const
         {
             return 5678;

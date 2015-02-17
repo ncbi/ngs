@@ -43,12 +43,6 @@ PileupEventItf * Self ( size_t jself )
     return ( PileupEventItf* ) jself;
 }
 
-static
-jlong Cast ( AlignmentItf * obj )
-{
-    return ( jlong ) ( size_t ) obj;
-}
-
 /*
  * Class:     ngs_itf_PileupEventItf
  * Method:    GetMappingQuality
@@ -89,35 +83,6 @@ JNIEXPORT jstring JNICALL Java_ngs_itf_PileupEventItf_GetAlignmentId
     {
         StringItf * new_ref = Self ( jself ) -> getAlignmentId ();
         return StringItfConvertToJString ( new_ref, jenv );
-    }
-    catch ( ErrorMsg & x )
-    {
-        ErrorMsgThrow ( jenv, xt_error_msg, x . what () );
-    }
-    catch ( std :: exception & x )
-    {
-        ErrorMsgThrow ( jenv, xt_runtime, x . what () );
-    }
-    catch ( ... )
-    {
-        JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
-    }
-
-    return 0;
-}
-
-/*
- * Class:     ngs_itf_PileupEventItf
- * Method:    GetAlignment
- * Signature: (J)J
- */
-JNIEXPORT jlong JNICALL Java_ngs_itf_PileupEventItf_GetAlignment
-    ( JNIEnv * jenv, jobject jthis, jlong jself )
-{
-    try
-    {
-        AlignmentItf * new_ref = Self ( jself ) -> getAlignment ();
-        return Cast ( new_ref );
     }
     catch ( ErrorMsg & x )
     {

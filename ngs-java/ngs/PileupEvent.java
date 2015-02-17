@@ -56,12 +56,6 @@ public interface PileupEvent
     String getAlignmentId ()
         throws ErrorMsg;
 
-    /**
-     * getAlignment
-     */
-    Alignment getAlignment ()
-        throws ErrorMsg;
-
     /** 
      * getAlignmentPosition
      */

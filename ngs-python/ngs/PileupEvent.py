@@ -49,11 +49,6 @@ class PileupEvent(Refcount):
     def getAlignmentId(self):
         return getNGSString(self, NGS.lib_manager.PY_NGS_PileupEventGetAlignmentId)
 
-    def getAlignment(self):
-        ret = Alignment()
-        ret.ref = getNGSValue(self, NGS.lib_manager.PY_NGS_PileupEventGetAlignment, c_void_p)
-        return ret
-
     def getAlignmentPosition(self):
         return getNGSValue(self, NGS.lib_manager.PY_NGS_PileupEventGetAlignmentPosition, c_int64)
 

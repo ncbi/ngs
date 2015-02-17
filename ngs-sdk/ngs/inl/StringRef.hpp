@@ -28,7 +28,7 @@
 #define _inl_ngs_stringref_
 
 #ifndef _hpp_ngs_stringref_
-#include <ngs/c++/StringRef.hpp>
+#include <ngs/StringRef.hpp>
 #endif
 
 #ifndef _hpp_ngs_itf_stringitf_

@@ -28,7 +28,7 @@
 #define _inl_ngs_pileup_event_iterator_
 
 #ifndef _hpp_ngs_pileup_event_iterator_
-#include <ngs/c++/PileupEventIterator.hpp>
+#include <ngs/PileupEventIterator.hpp>
 #endif
 
 #ifndef _hpp_ngs_itf_pileup_eventitf_

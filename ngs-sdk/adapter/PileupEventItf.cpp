@@ -74,22 +74,6 @@ namespace ngs_adapt
         return 0;
     }
 
-    NGS_Alignment_v1 * CC PileupEventItf :: get_alignment ( const NGS_PileupEvent_v1 * iself, NGS_ErrBlock_v1 * err )
-    {
-        const PileupEventItf * self = Self ( iself );
-        try
-        {
-            AlignmentItf * val = self -> getAlignment ();
-            return val -> Cast ();
-        }
-        catch ( ... )
-        {
-            ErrBlockHandleException ( err );
-        }
-
-        return 0;
-    }
-
     int64_t CC PileupEventItf :: get_align_pos ( const NGS_PileupEvent_v1 * iself, NGS_ErrBlock_v1 * err )
     {
         const PileupEventItf * self = Self ( iself );
@@ -281,7 +265,6 @@ namespace ngs_adapt
 
         get_map_qual,
         get_align_id,
-        get_alignment,
         get_align_pos,
         get_first_align_pos,
         get_last_align_pos,

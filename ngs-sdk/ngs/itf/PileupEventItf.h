@@ -38,7 +38,6 @@ extern "C" {
 /*--------------------------------------------------------------------------
  * forwards
  */
-struct NGS_Alignment_v1;
 
 
 /*--------------------------------------------------------------------------
@@ -57,7 +56,6 @@ struct NGS_PileupEvent_v1_vt
 
     int32_t ( CC * get_map_qual ) ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
     NGS_String_v1 * ( CC * get_align_id ) ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
-    struct NGS_Alignment_v1 * ( CC * get_alignment ) ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
     int64_t ( CC * get_align_pos ) ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
     int64_t ( CC * get_first_align_pos ) ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
     int64_t ( CC * get_last_align_pos ) ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );

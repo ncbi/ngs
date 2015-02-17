@@ -28,7 +28,7 @@
 #define _inl_ngs_pileup_event_
 
 #ifndef _hpp_ngs_pileup_event_
-#include <ngs/c++/PileupEvent.hpp>
+#include <ngs/PileupEvent.hpp>
 #endif
 
 #ifndef _hpp_ngs_itf_pileup_eventitf_
@@ -51,11 +51,6 @@ namespace ngs
     StringRef PileupEvent :: getAlignmentId () const
         throw ( ErrorMsg )
     { return StringRef ( self -> getAlignmentId () ); }
-
-    inline
-    Alignment PileupEvent :: getAlignment () const
-        throw ( ErrorMsg )
-    { return Alignment ( ( AlignmentRef ) self -> getAlignment () ); }
 
     inline
     int64_t PileupEvent :: getAlignmentPosition () const

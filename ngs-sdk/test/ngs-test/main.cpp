@@ -646,9 +646,11 @@ TEST_BEGIN_PILEUPEVENT ( PileupEvent_getAlignmentId )
     Assert ( "pileupEventAlignId" == evt.getAlignmentId().toString() );
 TEST_END
 
+#if 0
 TEST_BEGIN_PILEUPEVENT ( PileupEvent_getAlignment )
     ngs::Alignment al = evt.getAlignment();
 TEST_END
+#endif
 
 TEST_BEGIN_PILEUPEVENT ( PileupEvent_getAlignmentPosition )
     Assert ( 5678 == evt.getAlignmentPosition() );
@@ -702,7 +704,7 @@ void TestPileupEvent ()
 
     PileupEvent_getMappingQuality ();
     PileupEvent_getAlignmentId ();
-    PileupEvent_getAlignment ();
+    //PileupEvent_getAlignment ();
     PileupEvent_getAlignmentPosition ();
     PileupEvent_getFirstAlignmentPosition ();
     PileupEvent_getLastAlignmentPosition ();

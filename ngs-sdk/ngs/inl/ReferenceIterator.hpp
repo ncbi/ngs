@@ -28,7 +28,7 @@
 #define _inl_ngs_reference_iterator_
 
 #ifndef _hpp_ngs_reference_iterator_
-#include <ngs/c++/ReferenceIterator.hpp>
+#include <ngs/ReferenceIterator.hpp>
 #endif
 
 #ifndef _hpp_ngs_itf_referenceitf_

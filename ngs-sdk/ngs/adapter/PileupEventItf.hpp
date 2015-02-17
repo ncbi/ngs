@@ -42,7 +42,6 @@ namespace ngs_adapt
      * forwards
      */
     class StringItf;
-    class AlignmentItf;
 
     /*----------------------------------------------------------------------
      * PileupEventItf
@@ -53,7 +52,6 @@ namespace ngs_adapt
 
         virtual int32_t getMappingQuality () const = 0;
         virtual StringItf * getAlignmentId () const = 0;
-        virtual AlignmentItf * getAlignment () const = 0;
         virtual int64_t getAlignmentPosition () const = 0;
         virtual int64_t getFirstAlignmentPosition () const = 0;
         virtual int64_t getLastAlignmentPosition () const = 0;
@@ -76,7 +74,6 @@ namespace ngs_adapt
 
         static int32_t CC get_map_qual ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
         static NGS_String_v1 * CC get_align_id ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
-        static NGS_Alignment_v1 * CC get_alignment ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
         static int64_t CC get_align_pos ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
         static int64_t CC get_first_align_pos ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
         static int64_t CC get_last_align_pos ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );

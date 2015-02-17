@@ -25,14 +25,6 @@ JNIEXPORT jstring JNICALL Java_ngs_itf_PileupEventItf_GetAlignmentId
 
 /*
  * Class:     ngs_itf_PileupEventItf
- * Method:    GetAlignment
- * Signature: (J)J
- */
-JNIEXPORT jlong JNICALL Java_ngs_itf_PileupEventItf_GetAlignment
-  (JNIEnv *, jobject, jlong);
-
-/*
- * Class:     ngs_itf_PileupEventItf
  * Method:    GetAlignmentPosition
  * Signature: (J)J
  */

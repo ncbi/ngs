@@ -28,7 +28,7 @@
 #define _inl_ngs_pileup_iterator_
 
 #ifndef _hpp_ngs_pileup_iterator_
-#include <ngs/c++/PileupIterator.hpp>
+#include <ngs/PileupIterator.hpp>
 #endif
 
 #ifndef _hpp_ngs_itf_pileupitf_

@@ -27,8 +27,12 @@
 #ifndef _hpp_ngs_pileup_event_
 #define _hpp_ngs_pileup_event_
 
-#ifndef _hpp_ngs_alignment_
-#include <ngs/Alignment.hpp>
+#ifndef _hpp_ngs_error_msg_
+#include <ngs/ErrorMsg.hpp>
+#endif
+
+#ifndef _hpp_ngs_stringref_
+#include <ngs/StringRef.hpp>
 #endif
 
 #include <stdint.h>
@@ -70,11 +74,6 @@ namespace ngs
          *  unique within ReadCollection
          */
         StringRef getAlignmentId () const
-            throw ( ErrorMsg );
-
-        /* getAlignment
-         */
-        Alignment getAlignment () const
             throw ( ErrorMsg );
 
         /* getAlignmentPosition

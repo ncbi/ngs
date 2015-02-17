@@ -28,7 +28,7 @@
 #define _inl_ngs_fragment_
 
 #ifndef _hpp_ngs_fragment_
-#include <ngs/c++/Fragment.hpp>
+#include <ngs/Fragment.hpp>
 #endif
 
 #ifndef _hpp_ngs_itf_fragmentitf_

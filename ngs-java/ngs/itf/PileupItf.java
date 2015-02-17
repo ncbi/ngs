@@ -73,23 +73,6 @@ class PileupItf
         return this . GetAlignmentId ( self );
     }
 
-    /* getAlignment
-     */
-    public Alignment getAlignment ()
-        throws ErrorMsg
-    {
-        long ref = this . GetAlignment ( self );
-        try
-        {
-            return new AlignmentItf ( ref );
-        }
-        catch ( Exception x )
-        {
-            this . release ( ref );
-            throw new ErrorMsg ( x . toString () );
-        }
-    }
-
     /* getAlignmentPosition
      */
     public long getAlignmentPosition ()
@@ -298,8 +281,6 @@ class PileupItf
     private native int GetMappingQuality ( long self )
         throws ErrorMsg;
     private native String GetAlignmentId ( long self )
-        throws ErrorMsg;
-    private native long GetAlignment ( long self )
         throws ErrorMsg;
     private native long GetAlignmentPosition ( long self )
         throws ErrorMsg;
