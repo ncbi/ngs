@@ -28,13 +28,12 @@ from ctypes import c_void_p, c_uint32, c_int64
 from . import NGS
 
 from .String import getNGSString, getNGSValue
-from .Refcount import Refcount
 
 from .PileupEventIterator import PileupEventIterator
 
 # Represents a slice through a stack of Alignments at a given position on the Reference
 
-class Pileup(Refcount):
+class Pileup(PileupEventIterator):
 
     # ----------------------------------------------------------------------
     # Reference
