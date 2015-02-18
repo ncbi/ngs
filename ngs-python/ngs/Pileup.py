@@ -24,7 +24,7 @@
 # 
 # 
 
-from ctypes import c_void_p, c_uint32, c_int64
+from ctypes import c_void_p, c_char, c_uint32, c_int64
 from . import NGS
 
 from .String import getNGSString, getNGSValue
@@ -48,7 +48,7 @@ class Pileup(PileupEventIterator):
         """
         :return: base at current Reference position
         """
-        return getNGSValue(self, NGS.lib_manager.PY_NGS_PileupGetReferenceBase, c_int64)
+        return getNGSValue(self, NGS.lib_manager.PY_NGS_PileupGetReferenceBase, c_char)
 
     # ----------------------------------------------------------------------
     # details of this pileup row
