@@ -47,12 +47,12 @@ def run(acc, refName, start, stop):
                     qual = ""
                     base = ""
                 
-                    print ("{}\t{}\t{}\t{}".format(
+                    line = "{}\t{}\t{}\t{}".format(
                         it.getReferenceSpec(),
                         it.getReferencePosition()+1,
                         it.getReferenceBase(),
                         it.getPileupDepth(),
-                        ))
+                        )
                     while it.nextPileupEvent():
                         e = it.getEventType()
                         if (e & PileupEvent.alignment_start ) != 0:
@@ -93,7 +93,7 @@ def run(acc, refName, start, stop):
                         qual = qual + it.getAlignmentQuality()
                         
                     i += 1
-                    print ("\t{}\t{}".format(base, qual))
+                    print ("{}\t{}\t{}".format(line, base, qual))
                 print ("Read {} pileups for {}".format(i, run_name))
 
 if len(sys.argv) != 5:
