@@ -128,7 +128,7 @@ public class PileupTest
     {
         if ( args.length != 4 )
         {
-            System.out.print ( "Usage: AlignSliceTest accession reference start stop\n" );
+            System.out.print ( "Usage: PileupTest accession reference start stop\n" );
         }
         else try
         {
