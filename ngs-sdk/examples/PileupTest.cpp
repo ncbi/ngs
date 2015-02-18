@@ -28,8 +28,8 @@
 #include <ngs/ErrorMsg.hpp>
 #include <ngs/ReadCollection.hpp>
 #include <ngs/Reference.hpp>
-#include <ngs/AlignmentIterator.hpp>
 #include <ngs/Alignment.hpp>
+#include <ngs/PileupIterator.hpp>
 
 #include <math.h>
 #include <stdio.h>
@@ -96,24 +96,35 @@ public:
                         sprintf(buf,"%d%.*s",c,c,ibases.data());
                     base += buf;
                 }
-                switch(e&3)
+                if ( ( e & PileupEvent::alignment_minus_strand ) != 0 )
                 {
-                 case PileupEvent::deletion:
-                    if(e & PileupEvent::alignment_minus_strand)
-                         base += '<';
-                    else base += '>';
-                    break;
-                 case PileupEvent::match:
-                    if(e & PileupEvent::alignment_minus_strand)
-                           base += ',';
-                    else   base += '.';
-                    break;
-                 case PileupEvent::mismatch:
-                    if(e & PileupEvent::alignment_minus_strand)
-                         base += tolower(it.getAlignmentBase ());
-                    else
-                         base += it.getAlignmentBase ();
-                    break;
+                    switch ( e & 7 )
+                    {
+                    case PileupEvent::deletion:
+                        base += '<';
+                        break;
+                    case PileupEvent::match:
+                        base += ',';
+                        break;
+                    case PileupEvent::mismatch:
+                        base += tolower(it.getAlignmentBase ());
+                        break;
+                    }
+                }
+                else
+                {
+                    switch ( e & 7 )
+                    {
+                    case PileupEvent::deletion:
+                        base += '>';
+                        break;
+                    case PileupEvent::match:
+                        base += '.';
+                        break;
+                    case PileupEvent::mismatch:
+                        base += toupper(it.getAlignmentBase ());
+                        break;
+                    }
                 }
                 if(e & PileupEvent::alignment_stop)
                 {

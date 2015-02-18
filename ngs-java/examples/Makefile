@@ -36,6 +36,7 @@ clean:
 .PHONY: default std $(TARGETS)
 
 NGS_EXAMPLES = \
+	PileupTest \
 	AlignTest \
 	AlignSliceTest \
 	FragTest \
