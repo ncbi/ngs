@@ -56,7 +56,7 @@ PileupEventItf * Event ( size_t jself )
  * Method:    GetMappingQuality
  * Signature: (J)I
  */
-JNIEXPORT jint JNICALL Java_ngs_itf_PileupEventItf_GetMappingQuality
+JNIEXPORT jint JNICALL Java_ngs_itf_PileupItf_GetMappingQuality
     ( JNIEnv * jenv, jobject jthis, jlong jself )
 {
     try
@@ -84,7 +84,7 @@ JNIEXPORT jint JNICALL Java_ngs_itf_PileupEventItf_GetMappingQuality
  * Method:    GetAlignmentId
  * Signature: (J)Ljava/lang/String;
  */
-JNIEXPORT jstring JNICALL Java_ngs_itf_PileupEventItf_GetAlignmentId
+JNIEXPORT jstring JNICALL Java_ngs_itf_PileupItf_GetAlignmentId
     ( JNIEnv * jenv, jobject jthis, jlong jself )
 {
     try
@@ -113,7 +113,7 @@ JNIEXPORT jstring JNICALL Java_ngs_itf_PileupEventItf_GetAlignmentId
  * Method:    GetAlignmentPosition
  * Signature: (J)J
  */
-JNIEXPORT jlong JNICALL Java_ngs_itf_PileupEventItf_GetAlignmentPosition
+JNIEXPORT jlong JNICALL Java_ngs_itf_PileupItf_GetAlignmentPosition
     ( JNIEnv * jenv, jobject jthis, jlong jself )
 {
     try
@@ -141,7 +141,7 @@ JNIEXPORT jlong JNICALL Java_ngs_itf_PileupEventItf_GetAlignmentPosition
  * Method:    GetFirstAlignmentPosition
  * Signature: (J)J
  */
-JNIEXPORT jlong JNICALL Java_ngs_itf_PileupEventItf_GetFirstAlignmentPosition
+JNIEXPORT jlong JNICALL Java_ngs_itf_PileupItf_GetFirstAlignmentPosition
     ( JNIEnv * jenv, jobject jthis, jlong jself )
 {
     try
@@ -169,7 +169,7 @@ JNIEXPORT jlong JNICALL Java_ngs_itf_PileupEventItf_GetFirstAlignmentPosition
  * Method:    GetLastAlignmentPosition
  * Signature: (J)J
  */
-JNIEXPORT jlong JNICALL Java_ngs_itf_PileupEventItf_GetLastAlignmentPosition
+JNIEXPORT jlong JNICALL Java_ngs_itf_PileupItf_GetLastAlignmentPosition
     ( JNIEnv * jenv, jobject jthis, jlong jself )
 {
     try
@@ -197,7 +197,7 @@ JNIEXPORT jlong JNICALL Java_ngs_itf_PileupEventItf_GetLastAlignmentPosition
  * Method:    GetEventType
  * Signature: (J)I
  */
-JNIEXPORT jint JNICALL Java_ngs_itf_PileupEventItf_GetEventType
+JNIEXPORT jint JNICALL Java_ngs_itf_PileupItf_GetEventType
     ( JNIEnv * jenv, jobject jthis, jlong jself )
 {
     try
@@ -225,7 +225,7 @@ JNIEXPORT jint JNICALL Java_ngs_itf_PileupEventItf_GetEventType
  * Method:    GetAlignmentBase
  * Signature: (J)C
  */
-JNIEXPORT jchar JNICALL Java_ngs_itf_PileupEventItf_GetAlignmentBase
+JNIEXPORT jchar JNICALL Java_ngs_itf_PileupItf_GetAlignmentBase
     ( JNIEnv * jenv, jobject jthis, jlong jself )
 {
     try
@@ -253,7 +253,7 @@ JNIEXPORT jchar JNICALL Java_ngs_itf_PileupEventItf_GetAlignmentBase
  * Method:    GetAlignmentQuality
  * Signature: (J)C
  */
-JNIEXPORT jchar JNICALL Java_ngs_itf_PileupEventItf_GetAlignmentQuality
+JNIEXPORT jchar JNICALL Java_ngs_itf_PileupItf_GetAlignmentQuality
     ( JNIEnv * jenv, jobject jthis, jlong jself )
 {
     try
@@ -281,7 +281,7 @@ JNIEXPORT jchar JNICALL Java_ngs_itf_PileupEventItf_GetAlignmentQuality
  * Method:    GetInsertionBases
  * Signature: (J)Ljava/lang/String;
  */
-JNIEXPORT jstring JNICALL Java_ngs_itf_PileupEventItf_GetInsertionBases
+JNIEXPORT jstring JNICALL Java_ngs_itf_PileupItf_GetInsertionBases
     ( JNIEnv * jenv, jobject jthis, jlong jself )
 {
     try
@@ -310,7 +310,7 @@ JNIEXPORT jstring JNICALL Java_ngs_itf_PileupEventItf_GetInsertionBases
  * Method:    GetInsertionQualities
  * Signature: (J)Ljava/lang/String;
  */
-JNIEXPORT jstring JNICALL Java_ngs_itf_PileupEventItf_GetInsertionQualities
+JNIEXPORT jstring JNICALL Java_ngs_itf_PileupItf_GetInsertionQualities
     ( JNIEnv * jenv, jobject jthis, jlong jself )
 {
     try
@@ -339,7 +339,7 @@ JNIEXPORT jstring JNICALL Java_ngs_itf_PileupEventItf_GetInsertionQualities
  * Method:    GetEventRepeatCount
  * Signature: (J)I
  */
-JNIEXPORT jint JNICALL Java_ngs_itf_PileupEventItf_GetEventRepeatCount
+JNIEXPORT jint JNICALL Java_ngs_itf_PileupItf_GetEventRepeatCount
     ( JNIEnv * jenv, jobject jthis, jlong jself )
 {
     try
@@ -367,7 +367,7 @@ JNIEXPORT jint JNICALL Java_ngs_itf_PileupEventItf_GetEventRepeatCount
  * Method:    GetEventIndelType
  * Signature: (J)I
  */
-JNIEXPORT jint JNICALL Java_ngs_itf_PileupEventItf_GetEventIndelType
+JNIEXPORT jint JNICALL Java_ngs_itf_PileupItf_GetEventIndelType
     ( JNIEnv * jenv, jobject jthis, jlong jself )
 {
     try
@@ -391,11 +391,11 @@ JNIEXPORT jint JNICALL Java_ngs_itf_PileupEventItf_GetEventIndelType
 }
 
 /*
- * Class:     ngs_itf_PileupEventIteratorItf
+ * Class:     ngs_itf_PileupItf
  * Method:    NextPileupEvent
  * Signature: (J)Z
  */
-JNIEXPORT jboolean JNICALL Java_ngs_itf_PileupEventIteratorItf_NextPileupEvent
+JNIEXPORT jboolean JNICALL Java_ngs_itf_PileupItf_NextPileupEvent
     ( JNIEnv * jenv, jobject jthis, jlong jself )
 {
     try
@@ -498,6 +498,34 @@ JNIEXPORT jlong JNICALL Java_ngs_itf_PileupItf_GetReferencePosition
     try
     {
         return ( jlong ) Self ( jself ) -> getReferencePosition ();
+    }
+    catch ( ErrorMsg & x )
+    {
+        ErrorMsgThrow ( jenv, xt_error_msg, x . what () );
+    }
+    catch ( std :: exception & x )
+    {
+        ErrorMsgThrow ( jenv, xt_runtime, x . what () );
+    }
+    catch ( ... )
+    {
+        JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
+    }
+
+    return 0;
+}
+
+/*
+ * Class:     ngs_itf_PileupItf
+ * Method:    GetReferenceBase
+ * Signature: (J)C
+ */
+JNIEXPORT jchar JNICALL Java_ngs_itf_PileupItf_GetReferenceBase
+    ( JNIEnv * jenv, jobject jthis, jlong jself )
+{
+    try
+    {
+        return ( jchar ) Self ( jself ) -> getReferenceBase ();
     }
     catch ( ErrorMsg & x )
     {
