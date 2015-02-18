@@ -22,8 +22,10 @@
 #
 # ===========================================================================
 
-
 default: std
+
+CC = cc
+CXX = c++
 
 # ensure definition of paths, namely
 # NCBI_VDB_LIBDIR and NGS_LIBDIR
@@ -69,14 +71,14 @@ FRAG_TEST_OBJ = \
     FragTest.o
 
 FragTest: $(FRAG_TEST_OBJ)
-	g++ -o $@ $^ $(TEST_LIBS)
+	$(CXX) -o $@ $^ $(TEST_LIBS)
 
 # RefTest ###################
 REF_TEST_OBJ = \
     RefTest.o
 
 RefTest: $(REF_TEST_OBJ)
-	g++ -o $@ $^ $(TEST_LIBS)
+	$(CXX) -o $@ $^ $(TEST_LIBS)
 
 # AlignTest #################
 #  access alignments
@@ -84,7 +86,7 @@ ALIGN_TEST_OBJ = \
     AlignTest.o
 
 AlignTest: $(ALIGN_TEST_OBJ)
-	g++ -o $@ $^ $(TEST_LIBS)
+	$(CXX) -o $@ $^ $(TEST_LIBS)
 
 # AlignSliceTest
 #  slice a ReadCollection and output alignments
@@ -92,7 +94,7 @@ ALIGNSLICE_TEST_OBJ = \
     AlignSliceTest.o
 
 AlignSliceTest: $(ALIGNSLICE_TEST_OBJ)
-	g++ -o $@ $^ $(TEST_LIBS)
+	$(CXX) -o $@ $^ $(TEST_LIBS)
 
 
 # PileupTest
@@ -101,7 +103,7 @@ PILEUP_TEST_OBJ = \
     PileupTest.o
 
 PileupTest: $(PILEUP_TEST_OBJ)
-	g++ -o $@ $^ $(TEST_LIBS)
+	$(CXX) -o $@ $^ $(TEST_LIBS)
 
 # FastqTableDump
 #  produce fastq-like table
@@ -109,7 +111,7 @@ FASTQ_TABLE_DUMP_OBJ = \
     FastqTableDump.o
 
 FastqTableDump: $(FASTQ_TABLE_DUMP_OBJ)
-	g++ -o $@ $^ $(TEST_LIBS)
+	$(CXX) -o $@ $^ $(TEST_LIBS)
 
 # ===========================================================================
 #
