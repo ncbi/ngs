@@ -28,6 +28,7 @@ package gov.nih.nlm.ncbi.ngs;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -45,28 +46,28 @@ class HttpManager
             String request)
         throws HttpException
     {
-        String result = "";
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
 
         Logger.fine(spec + "?" + request + "...");
         
         InputStream is = getPostInputStream(spec, request);
-
-        InputStreamReader isr = new java.io.InputStreamReader(is);
-
-        BufferedReader in = new BufferedReader(isr);
-
+        byte[] buffer = new byte[1024];
+        int l = 0;
         try {
-            String inputLine;
-            while ((inputLine = in.readLine()) != null)  {
-                result += inputLine;
+            while ((l = is.read(buffer)) != -1) {
+                result.write(buffer, 0, l);
             }
-
-            in.close();
+            is.close();
         } catch (IOException e) {
             throw new HttpException(-3);
         }
 
-        return result;
+        try {
+            return result.toString("UTF-8");
+        } catch (java.io.UnsupportedEncodingException e) {
+            System.err.println(e);
+            throw new HttpException(-4);
+        }
     }
 
 
