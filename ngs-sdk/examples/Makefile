@@ -24,8 +24,12 @@
 
 default: std
 
-CC = cc
-CXX = c++
+ifeq (Darwin,$(shell uname -s))
+CFLAGS += -mmacosx-version-min=10.6
+endif
+
+CC = cc $(CFLAGS)
+CXX = c++ $(CFLAGS)
 
 # ensure definition of paths, namely
 # NCBI_VDB_LIBDIR and NGS_LIBDIR
