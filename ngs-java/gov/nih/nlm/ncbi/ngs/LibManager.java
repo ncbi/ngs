@@ -356,6 +356,8 @@ or pathname not found and its directory is not writable */
 
 
     private boolean downloadKfg(String libpath) {
+        Logger.finest("configuration download is disabled");
+/*
         File l = new File(libpath);
         String d = l.getParent();
         if (d == null) {
@@ -427,6 +429,7 @@ or pathname not found and its directory is not writable */
             }
         }
         Logger.finest("cannot create '" + fk + "'");
+*/
         return true;
     }
 
