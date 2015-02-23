@@ -69,3 +69,29 @@ JNIEXPORT jboolean JNICALL Java_ngs_itf_PileupEventIteratorItf_NextPileupEvent
     return false;
 }
 
+
+/*
+ * Class:     ngs_itf_PileupEventIteratorItf
+ * Method:    ResetPileupEvent
+ * Signature: (J)V
+ */
+JNIEXPORT void JNICALL Java_ngs_itf_PileupEventIteratorItf_ResetPileupEvent
+    ( JNIEnv * jenv, jobject jthis, jlong jself )
+{
+    try
+    {
+        Self ( jself ) -> resetPileupEvent ();
+    }
+    catch ( ErrorMsg & x )
+    {
+        ErrorMsgThrow ( jenv, xt_error_msg, x . what () );
+    }
+    catch ( std :: exception & x )
+    {
+        ErrorMsgThrow ( jenv, xt_runtime, x . what () );
+    }
+    catch ( ... )
+    {
+        JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
+    }
+}

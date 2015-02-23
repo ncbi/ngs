@@ -31,8 +31,6 @@
 #include <ngs/adapter/StringItf.hpp>
 #include <ngs/adapter/PileupItf.hpp>
 
-#include "PileupEventItf.hpp"
-
 namespace ngs_test_engine
 {
 
@@ -47,6 +45,93 @@ namespace ngs_test_engine
     {
     public:
 
+        // PileupEventItf
+    
+        virtual int32_t getMappingQuality () const 
+        {
+            return 98;
+        }
+
+        virtual ngs_adapt::StringItf * getAlignmentId () const
+        {
+            static std::string alId = "pileupEventAlignId";
+            return new ngs_adapt::StringItf ( alId.c_str(), alId.size() );
+        }
+
+        virtual ngs_adapt::AlignmentItf * getAlignment () const
+        {
+            return new ngs_test_engine::AlignmentItf();
+        }
+
+        virtual int64_t getAlignmentPosition () const
+        {
+            return 5678;
+        }
+
+        virtual int64_t getFirstAlignmentPosition () const
+        {
+            return 90123;
+        }
+
+        virtual int64_t getLastAlignmentPosition () const
+        {
+            return 45678;
+        }
+
+        virtual uint32_t getEventType () const
+        {
+            return 1;
+        }
+
+        virtual char getAlignmentBase () const
+        {
+            return 'A';
+        }
+
+        virtual char getAlignmentQuality () const
+        {
+            return 'q';
+        }
+
+        virtual ngs_adapt::StringItf * getInsertionBases () const
+        {
+            static std::string bases = "AC";
+            return new ngs_adapt::StringItf ( bases.c_str(), bases.size() );
+        }
+
+        virtual ngs_adapt::StringItf * getInsertionQualities () const
+        {
+            static std::string quals = "#$";
+            return new ngs_adapt::StringItf ( quals.c_str(), quals.size() );
+        }
+
+        virtual uint32_t getEventRepeatCount () const
+        {
+            return 45;
+        }
+
+
+        virtual uint32_t getEventIndelType () const
+        {
+            return ( uint32_t ) ngs::PileupEvent::intron_minus;
+        }
+
+        virtual bool nextPileupEvent ()
+        {
+            switch ( evtIterateFor )
+            {
+            case -1:    throw ngs_adapt::ErrorMsg ( "invalid iterator access" );
+            case 0:     return false;
+            default:    --evtIterateFor; return true;
+            }
+        }
+
+        virtual void resetPileupEvent ()
+        {
+            evtIterateFor = 7;
+        }
+
+        // PileupItf
         virtual ngs_adapt::StringItf * getReferenceSpec () const
         {
             static std::string spec = "pileupRefSpec";
@@ -58,9 +143,9 @@ namespace ngs_test_engine
             return 12345;
         }
 
-        virtual ngs_adapt::PileupEventItf * getPileupEvents () const 
+        virtual char getReferenceBase () const 
         { 
-            return new ngs_test_engine::PileupEventItf(7);
+            return 'G';
         }
 
         virtual uint32_t getPileupDepth () const 
@@ -74,13 +159,17 @@ namespace ngs_test_engine
             {
             case -1:    throw ngs_adapt::ErrorMsg ( "invalid iterator access" );
             case 0:     return false;
-            default:    --iterateFor; return true;
+            default:
+                resetPileupEvent ();
+                --iterateFor;
+                return true;
             }
         }
 
 	public:
-		PileupItf ( unsigned int p_iterateFor ) 
+		PileupItf ( unsigned int p_iterateFor )
         : iterateFor( p_iterateFor )
+        , evtIterateFor( 0 )
         { 
             ++instanceCount;
         }
@@ -92,7 +181,7 @@ namespace ngs_test_engine
 
         static   unsigned int instanceCount;
 
-        unsigned int iterateFor;
+        int iterateFor, evtIterateFor;
     };
 
 } // namespace ngs_test_engine

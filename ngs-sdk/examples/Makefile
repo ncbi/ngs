@@ -35,6 +35,7 @@ TARGETS =         \
     AlignSliceTest \
     RefTest \
     PileupTest \
+    FastqTableDump 
 
 # This rule triggers detection of the libraries and headers
 # in addition to building the examples
@@ -95,11 +96,19 @@ AlignSliceTest: $(ALIGNSLICE_TEST_OBJ)
 
 
 # PileupTest
-#  slice a ReadCollection and output alignments
+#  slice a ReadCollection and produce pileups
 PILEUP_TEST_OBJ = \
     PileupTest.o
 
 PileupTest: $(PILEUP_TEST_OBJ)
+	g++ -o $@ $^ $(TEST_LIBS)
+
+# FastqTableDump
+#  produce fastq-like table
+FASTQ_TABLE_DUMP_OBJ = \
+    FastqTableDump.o
+
+FastqTableDump: $(FASTQ_TABLE_DUMP_OBJ)
 	g++ -o $@ $^ $(TEST_LIBS)
 
 # ===========================================================================

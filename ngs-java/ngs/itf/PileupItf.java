@@ -28,7 +28,9 @@ package ngs.itf;
 
 import ngs.ErrorMsg;
 import ngs.Pileup;
+import ngs.PileupEvent;
 import ngs.PileupEventIterator;
+import ngs.Alignment;
 
 
 /*==========================================================================
@@ -40,6 +42,166 @@ class PileupItf
     extends Refcount
     implements Pileup
 {
+
+    /*************************
+     * PileupEvent Interface *
+     *************************/
+
+    /*----------------------------------------------------------------------
+     * Reference
+     */
+
+    /* getMappingQuality
+     */
+    public int getMappingQuality ()
+        throws ErrorMsg
+    {
+        return this . GetMappingQuality ( self );
+    }
+
+
+    /*----------------------------------------------------------------------
+     * Alignment
+     */
+
+    /* getAlignmentId
+     *  unique within ReadCollection
+     */
+    public String getAlignmentId ()
+        throws ErrorMsg
+    {
+        return this . GetAlignmentId ( self );
+    }
+
+    /* getAlignmentPosition
+     */
+    public long getAlignmentPosition ()
+        throws ErrorMsg
+    {
+        return this . GetAlignmentPosition ( self );
+    }
+
+    /* getFirstAlignmentPosition
+     *  returns the position of this Alignment's first event
+     *  in Reference coordinates
+     */
+    public long getFirstAlignmentPosition ()
+        throws ErrorMsg
+    {
+        return this . GetFirstAlignmentPosition ( self );
+    }
+
+    /* getLastAlignmentPosition
+     *  returns the position of this Alignment's last event
+     *  in INCLUSIVE Reference coordinates
+     */
+    public long getLastAlignmentPosition ()
+        throws ErrorMsg
+    {
+        return this . GetLastAlignmentPosition ( self );
+    }
+
+
+    /*----------------------------------------------------------------------
+     * event details
+     */
+
+    /* getEventType
+     *  the type of event being represented
+     */
+    public int getEventType ()
+        throws ErrorMsg
+    {
+        return this . GetEventType ( self );
+    }
+
+    /* getAlignmentBase
+     *  retrieves base aligned at current Reference position
+     *  throws exception if event is an insertion or deletion
+     */
+    public char getAlignmentBase ()
+        throws ErrorMsg
+    {
+        return this . GetAlignmentBase ( self );
+    }
+
+    /* getAlignmentQuality
+     *  retrieves base aligned at current Reference position
+     *  throws exception if event is an insertion or deletion
+     */
+    public char getAlignmentQuality ()
+        throws ErrorMsg
+    {
+        return this . GetAlignmentQuality ( self );
+    }
+
+
+    /* getInsertionBases
+     *  returns bases corresponding to insertion event
+     */
+    public String getInsertionBases ()
+        throws ErrorMsg
+    {
+        return this . GetInsertionBases ( self );
+    }
+
+    /* getInsertionQualities
+     *  returns qualities corresponding to insertion event
+     */
+    public String getInsertionQualities ()
+        throws ErrorMsg
+    {
+        return this . GetInsertionQualities ( self );
+    }
+
+    /* getEventRepeatCount
+     *  returns the number of times this event repeats
+     *  i.e. the distance to the first reference position
+     *  yielding a different event for this alignment.
+     */
+    public int getEventRepeatCount ()
+        throws ErrorMsg
+    {
+        return this . GetEventRepeatCount ( self );
+    }
+
+
+    /* getEventIndelType
+     *  returns detail about the type of indel
+     *  when event type is an insertion or deletion
+     */
+    public int getEventIndelType ()
+        throws ErrorMsg
+    {
+        return this . GetEventIndelType ( self );
+    }
+
+    /*********************************
+     * PileupEventIterator Interface *
+     *********************************/
+
+    /* nextPileup
+     *  advance to first Pileup on initial invocation
+     *  advance to next Pileup subsequently
+     *  returns false if no more Pileups are available.
+     *  throws exception if more Pileups should be available,
+     *  but could not be accessed.
+     */
+    public boolean nextPileupEvent ()
+        throws ErrorMsg
+    {
+        return this . NextPileupEvent ( self );
+    }
+
+    /* resetPileupEvent
+     *  resets to initial iterator state
+     *  the next call to "nextPileupEvent" will advance to first event
+     */
+    public void resetPileupEvent ()
+        throws ErrorMsg
+    {
+        this . ResetPileupEvent ( self );
+    }
 
     /********************
      * Pileup Interface *
@@ -65,26 +227,12 @@ class PileupItf
         return this . GetReferencePosition ( self );
     }
 
-
-    /*----------------------------------------------------------------------
-     * PileupEvent
+    /* getReferenceBase
      */
-
-    /* getPileupEvents
-     */
-    public PileupEventIterator getPileupEvents ()
+    public char getReferenceBase ()
         throws ErrorMsg
     {
-        long ref = this . GetPileupEvents ( self );
-        try
-        {
-            return new PileupEventIteratorItf ( ref );
-        }
-        catch ( Exception x )
-        {
-            this . release ( ref );
-            throw new ErrorMsg ( x . toString () );
-        }
+        return this . GetReferenceBase ( self );
     }
 
 
@@ -130,11 +278,39 @@ class PileupItf
     }
 
     // native interface
+    private native int GetMappingQuality ( long self )
+        throws ErrorMsg;
+    private native String GetAlignmentId ( long self )
+        throws ErrorMsg;
+    private native long GetAlignmentPosition ( long self )
+        throws ErrorMsg;
+    private native long GetFirstAlignmentPosition ( long self )
+        throws ErrorMsg;
+    private native long GetLastAlignmentPosition ( long self )
+        throws ErrorMsg;
+    private native int GetEventType ( long self )
+        throws ErrorMsg;
+    private native char GetAlignmentBase ( long self )
+        throws ErrorMsg;
+    private native char GetAlignmentQuality ( long self )
+        throws ErrorMsg;
+    private native String GetInsertionBases ( long self )
+        throws ErrorMsg;
+    private native String GetInsertionQualities ( long self )
+        throws ErrorMsg;
+    private native int GetEventRepeatCount ( long self )
+        throws ErrorMsg;
+    private native int GetEventIndelType ( long self )
+        throws ErrorMsg;
+    private native boolean NextPileupEvent ( long self )
+        throws ErrorMsg;
+    private native void ResetPileupEvent ( long self )
+        throws ErrorMsg;
     private native String GetReferenceSpec ( long self )
         throws ErrorMsg;
     private native long GetReferencePosition ( long self )
         throws ErrorMsg;
-    private native long GetPileupEvents ( long self )
+    private native char GetReferenceBase ( long self )
         throws ErrorMsg;
     private native int GetPileupDepth ( long self )
         throws ErrorMsg;

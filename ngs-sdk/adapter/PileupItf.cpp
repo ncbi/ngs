@@ -39,7 +39,7 @@ namespace ngs_adapt
      */
 
     PileupItf :: PileupItf ()
-        : Refcount < PileupItf, NGS_Pileup_v1 > ( & ivt . dad )
+        : PileupEventItf ( & ivt . dad )
     {
     }
 
@@ -74,13 +74,12 @@ namespace ngs_adapt
         return 0;
     }
 
-    NGS_PileupEvent_v1 * CC PileupItf :: get_pileup_events ( const NGS_Pileup_v1 * iself, NGS_ErrBlock_v1 * err )
+    char CC PileupItf :: get_ref_base ( const NGS_Pileup_v1 * iself, NGS_ErrBlock_v1 * err )
     {
         const PileupItf * self = Self ( iself );
         try
         {
-            PileupEventItf * val = self -> getPileupEvents ();
-            return val -> Cast ();
+            return self -> getReferenceBase ();
         }
         catch ( ... )
         {
@@ -126,12 +125,12 @@ namespace ngs_adapt
             "ngs_adapt::PileupItf",
             "NGS_Pileup_v1",
             0,
-            & OpaqueRefcount :: ivt . dad
+            & PileupEventItf :: ivt . dad
         },
 
         get_ref_spec,
         get_ref_pos,
-        get_pileup_events,
+        get_ref_base,
         get_pileup_depth,
         next
     };

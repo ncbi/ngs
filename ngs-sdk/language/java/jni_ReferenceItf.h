@@ -97,11 +97,27 @@ JNIEXPORT jlong JNICALL Java_ngs_itf_ReferenceItf_GetPileups
 
 /*
  * Class:     ngs_itf_ReferenceItf
+ * Method:    GetFilteredPileups
+ * Signature: (JIII)J
+ */
+JNIEXPORT jlong JNICALL Java_ngs_itf_ReferenceItf_GetFilteredPileups
+  (JNIEnv *, jobject, jlong, jint, jint, jint);
+
+/*
+ * Class:     ngs_itf_ReferenceItf
  * Method:    GetPileupSlice
  * Signature: (JJJI)J
  */
 JNIEXPORT jlong JNICALL Java_ngs_itf_ReferenceItf_GetPileupSlice
   (JNIEnv *, jobject, jlong, jlong, jlong, jint);
+
+/*
+ * Class:     ngs_itf_ReferenceItf
+ * Method:    GetFilteredPileupSlice
+ * Signature: (JJJIII)J
+ */
+JNIEXPORT jlong JNICALL Java_ngs_itf_ReferenceItf_GetFilteredPileupSlice
+  (JNIEnv *, jobject, jlong, jlong, jlong, jint, jint, jint);
 
 #ifdef __cplusplus
 }

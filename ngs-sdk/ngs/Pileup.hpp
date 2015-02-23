@@ -37,7 +37,7 @@ namespace ngs
     /*----------------------------------------------------------------------
      * forwards and typedefs
      */
-    typedef class PileupItf * PileupRef;
+    typedef PileupEventRef PileupRef;
     
 
     /*======================================================================
@@ -45,7 +45,7 @@ namespace ngs
      *  represents a slice through a stack of Alignments
      *  at a given position on the Reference
      */
-    class Pileup
+    class Pileup : public PileupEventIterator
     {
     public:
 
@@ -63,14 +63,10 @@ namespace ngs
         int64_t getReferencePosition () const
             throw ( ErrorMsg );
 
-
-        /*------------------------------------------------------------------
-         * PileupEvent
+        /* getReferenceBase
+         *  retrieves base at current Reference position
          */
-
-        /* getPileupEvents
-         */
-        PileupEventIterator getPileupEvents () const
+        char getReferenceBase () const
             throw ( ErrorMsg );
 
 
@@ -101,10 +97,6 @@ namespace ngs
 
         ~ Pileup ()
             throw ();
-
-    protected:
-
-        PileupRef self;
     };
 
 } // namespace ngs

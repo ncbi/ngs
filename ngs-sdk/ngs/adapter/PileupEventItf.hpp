@@ -42,7 +42,6 @@ namespace ngs_adapt
      * forwards
      */
     class StringItf;
-    class AlignmentItf;
 
     /*----------------------------------------------------------------------
      * PileupEventItf
@@ -51,11 +50,8 @@ namespace ngs_adapt
     {
     public:
 
-        virtual StringItf * getReferenceSpec () const = 0;
-        virtual int64_t getReferencePosition () const = 0;
         virtual int32_t getMappingQuality () const = 0;
         virtual StringItf * getAlignmentId () const = 0;
-        virtual AlignmentItf * getAlignment () const = 0;
         virtual int64_t getAlignmentPosition () const = 0;
         virtual int64_t getFirstAlignmentPosition () const = 0;
         virtual int64_t getLastAlignmentPosition () const = 0;
@@ -67,19 +63,17 @@ namespace ngs_adapt
         virtual uint32_t getEventRepeatCount () const = 0;
         virtual uint32_t getEventIndelType () const = 0;
         virtual bool nextPileupEvent () = 0;
+        virtual void resetPileupEvent () = 0;
 
     protected:
 
-        PileupEventItf ();
+        PileupEventItf ( const NGS_VTable * vt );
         static struct NGS_PileupEvent_v1_vt ivt;
 
     private:
 
-        static NGS_String_v1 * CC get_ref_spec ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
-        static int64_t CC get_ref_pos ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
         static int32_t CC get_map_qual ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
         static NGS_String_v1 * CC get_align_id ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
-        static NGS_Alignment_v1 * CC get_alignment ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
         static int64_t CC get_align_pos ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
         static int64_t CC get_first_align_pos ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
         static int64_t CC get_last_align_pos ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
@@ -91,6 +85,7 @@ namespace ngs_adapt
         static uint32_t CC get_rpt_count ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
         static uint32_t CC get_indel_type ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
         static bool CC next ( NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
+        static void CC reset ( NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
     };
 
 } // namespace ngs_adapt

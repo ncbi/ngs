@@ -32,11 +32,8 @@ extern "C" {
 
 #include "py_ngs_defs.h"
 
-PY_RES_TYPE PY_NGS_PileupEventGetReferenceSpec ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_PileupEventGetReferencePosition ( void* pRef, int64_t* pRet, void** ppNGSStrError );
 PY_RES_TYPE PY_NGS_PileupEventGetMappingQuality ( void* pRef, int32_t* pRet, void** ppNGSStrError );
 PY_RES_TYPE PY_NGS_PileupEventGetAlignmentId ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_PileupEventGetAlignment ( void* pRef, void** pRet, void** ppNGSStrError );
 PY_RES_TYPE PY_NGS_PileupEventGetAlignmentPosition ( void* pRef, int64_t* pRet, void** ppNGSStrError );
 PY_RES_TYPE PY_NGS_PileupEventGetFirstAlignmentPosition ( void* pRef, int64_t* pRet, void** ppNGSStrError );
 PY_RES_TYPE PY_NGS_PileupEventGetLastAlignmentPosition ( void* pRef, int64_t* pRet, void** ppNGSStrError );

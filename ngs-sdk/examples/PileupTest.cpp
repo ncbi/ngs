@@ -28,10 +28,11 @@
 #include <ngs/ErrorMsg.hpp>
 #include <ngs/ReadCollection.hpp>
 #include <ngs/Reference.hpp>
-#include <ngs/AlignmentIterator.hpp>
 #include <ngs/Alignment.hpp>
+#include <ngs/PileupIterator.hpp>
 
 #include <math.h>
+#include <stdio.h>
 #include <iostream>
 
 using namespace ngs;
@@ -53,14 +54,87 @@ public:
 
         // start iterator on requested range
         long count = stop - start + 1;
-        PileupIterator it = ref.getPileupSlice ( start, count);
+        PileupIterator it = ref.getPileupSlice ( start-1 /*0-based*/, count);
 
         long i;
         for ( i = 0; it . nextPileup (); ++ i )
         {
+            String qual;
+            String base;
             cout         << it.getReferenceSpec ()
-                 << '\t' << it.getReferencePosition ()
-                 << '\t' << it.getPileupDepth ()
+                 << '\t' << ( it.getReferencePosition () + 1 )
+                 << '\t' << it.getReferenceBase () 
+                 << '\t' << it.getPileupDepth ();
+            while(it.nextPileupEvent())
+            {
+                PileupEvent::PileupEventType e = it.getEventType ();
+
+                //cout << e <<'\n';
+
+                if(e & PileupEvent::alignment_start)
+                {
+                    base += '^';
+                    base += (char) (it.getMappingQuality() + 33 );
+                }
+                if(e & PileupEvent::insertion)
+                {
+                    base += '+';
+                    StringRef ibases= it.getInsertionBases();
+                    int c = ibases.size();
+                    char buf[64];
+                    if(e & PileupEvent::alignment_minus_strand)
+                    {
+                        char *b = buf + sprintf(buf,"%d",c);
+                        const char *s = ibases.data();
+                        for(int i=0; i<c;i++,b++,s++)
+                        {
+                            *b=tolower(*s);
+                        }
+                        *b='\0';
+                    }
+                    else 
+                        sprintf(buf,"%d%.*s",c,c,ibases.data());
+                    base += buf;
+                }
+                if ( ( e & PileupEvent::alignment_minus_strand ) != 0 )
+                {
+                    switch ( e & 7 )
+                    {
+                    case PileupEvent::deletion:
+                        base += '<';
+                        break;
+                    case PileupEvent::match:
+                        base += ',';
+                        break;
+                    case PileupEvent::mismatch:
+                        base += tolower(it.getAlignmentBase ());
+                        break;
+                    }
+                }
+                else
+                {
+                    switch ( e & 7 )
+                    {
+                    case PileupEvent::deletion:
+                        base += '>';
+                        break;
+                    case PileupEvent::match:
+                        base += '.';
+                        break;
+                    case PileupEvent::mismatch:
+                        base += toupper(it.getAlignmentBase ());
+                        break;
+                    }
+                }
+                if(e & PileupEvent::alignment_stop)
+                {
+                    base += '$';
+                }
+
+                qual += it.getAlignmentQuality ();
+            }
+            cout << '\t' + base
+                 << '\t' + qual
                  << '\n';
         }
 

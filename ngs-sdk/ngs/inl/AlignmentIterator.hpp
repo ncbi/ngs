@@ -28,7 +28,7 @@
 #define _inl_ngs_alignment_iterator_
 
 #ifndef _inl_ngs_alignment_
-#include <ngs/c++/AlignmentIterator.hpp>
+#include <ngs/AlignmentIterator.hpp>
 #endif
 
 #ifndef _hpp_ngs_itf_alignmentitf_

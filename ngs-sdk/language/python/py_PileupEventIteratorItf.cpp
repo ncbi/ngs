@@ -30,3 +30,28 @@
 #include <ngs/itf/PileupEventItf.hpp>
 
 GEN_PY_ITERATOR_NEXT ( PileupEvent )
+
+PY_RES_TYPE PY_NGS_PileupEventIteratorReset ( void* pRef, int* pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR;
+    try
+    {
+        CheckedCast< ngs::PileupEventItf* >(pRef) -> resetPileupEvent();
+        assert(pRet != NULL);
+        *pRet = (int)1; // the result is always true for python
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+    return ret;
+}

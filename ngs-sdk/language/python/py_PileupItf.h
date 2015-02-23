@@ -34,7 +34,7 @@ extern "C" {
 
 PY_RES_TYPE PY_NGS_PileupGetReferenceSpec     ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
 PY_RES_TYPE PY_NGS_PileupGetReferencePosition ( void* pRef, int64_t* pRet, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_PileupGetPileupEvents      ( void* pRef, void** ppRet, void** ppNGSStrError );
+PY_RES_TYPE PY_NGS_PileupGetReferenceBase     ( void* pRef, char* pRet, void** ppNGSStrError );
 PY_RES_TYPE PY_NGS_PileupGetPileupDepth       ( void* pRef, uint32_t* pRet, void** ppNGSStrError );
 
 #ifdef __cplusplus

@@ -42,4 +42,11 @@ public interface PileupEventIterator
      */
     boolean nextPileupEvent ()
         throws ErrorMsg;
+
+    /**
+     *  resets to initial iterator state
+     *  the next call to "nextPileupEvent" will advance to first event
+     */
+    void resetPileupEvent ()
+        throws ErrorMsg;
 }

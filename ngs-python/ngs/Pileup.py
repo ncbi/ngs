@@ -24,17 +24,16 @@
 # 
 # 
 
-from ctypes import c_void_p, c_uint32, c_int64
+from ctypes import c_void_p, c_char, c_uint32, c_int64
 from . import NGS
 
 from .String import getNGSString, getNGSValue
-from .Refcount import Refcount
 
 from .PileupEventIterator import PileupEventIterator
 
 # Represents a slice through a stack of Alignments at a given position on the Reference
 
-class Pileup(Refcount):
+class Pileup(PileupEventIterator):
 
     # ----------------------------------------------------------------------
     # Reference
@@ -45,13 +44,11 @@ class Pileup(Refcount):
     def getReferencePosition(self):
         return getNGSValue(self, NGS.lib_manager.PY_NGS_PileupGetReferencePosition, c_int64)
 
-    # ----------------------------------------------------------------------
-    # PileupEvent        
-        
-    def getPileupEvents(self):
-        ret = PileupEventIterator()
-        ret.ref = getNGSValue(self, NGS.lib_manager.PY_NGS_PileupGetPileupEvents, c_void_p)
-        return ret
+    def getReferenceBase(self):
+        """
+        :return: base at current Reference position
+        """
+        return getNGSValue(self, NGS.lib_manager.PY_NGS_PileupGetReferenceBase, c_char)
 
     # ----------------------------------------------------------------------
     # details of this pileup row

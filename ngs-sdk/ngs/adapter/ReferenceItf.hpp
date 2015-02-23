@@ -62,7 +62,9 @@ namespace ngs_adapt
         virtual AlignmentItf * getAlignments ( bool wants_primary, bool wants_secondary ) const = 0;
         virtual AlignmentItf * getAlignmentSlice ( int64_t start, uint64_t length, bool wants_primary, bool wants_secondary ) const = 0;
         virtual PileupItf * getPileups ( bool wants_primary, bool wants_secondary ) const = 0;
+        virtual PileupItf * getFilteredPileups ( uint32_t flags, int32_t map_qual ) const = 0;
         virtual PileupItf * getPileupSlice ( int64_t start, uint64_t length, bool wants_primary, bool wants_secondary ) const = 0;
+        virtual PileupItf * getFilteredPileupSlice ( int64_t start, uint64_t length, uint32_t flags, int32_t map_qual ) const = 0;
         virtual bool nextReference () = 0;
 
     protected:
@@ -88,8 +90,12 @@ namespace ngs_adapt
             int64_t start, uint64_t length, bool wants_primary, bool wants_secondary );
         static NGS_Pileup_v1 * CC get_pileups ( const NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err,
             bool wants_primary, bool wants_secondary );
+        static NGS_Pileup_v1 * CC get_filtered_pileups ( const NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err,
+            uint32_t flags, int32_t map_qual );
         static NGS_Pileup_v1 * CC get_pileup_slice ( const NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err,
             int64_t start, uint64_t length, bool wants_primary, bool wants_secondary );
+        static NGS_Pileup_v1 * CC get_filtered_pileup_slice ( const NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err,
+            int64_t start, uint64_t length, uint32_t flags, int32_t map_qual );
         static bool CC next ( NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err );
 
     };

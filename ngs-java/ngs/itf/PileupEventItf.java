@@ -50,22 +50,6 @@ class PileupEventItf
      * Reference
      */
 
-    /* getReferenceSpec
-     */
-    public String getReferenceSpec ()
-        throws ErrorMsg
-    {
-        return this . GetReferenceSpec ( self );
-    }
-
-    /* getReferencePosition
-     */
-    public long getReferencePosition ()
-        throws ErrorMsg
-    {
-        return this . GetReferencePosition ( self );
-    }
-
     /* getMappingQuality
      */
     public int getMappingQuality ()
@@ -86,23 +70,6 @@ class PileupEventItf
         throws ErrorMsg
     {
         return this . GetAlignmentId ( self );
-    }
-
-    /* getAlignment
-     */
-    public Alignment getAlignment ()
-        throws ErrorMsg
-    {
-        long ref = this . GetAlignment ( self );
-        try
-        {
-            return new AlignmentItf ( ref );
-        }
-        catch ( Exception x )
-        {
-            this . release ( ref );
-            throw new ErrorMsg ( x . toString () );
-        }
     }
 
     /* getAlignmentPosition
@@ -235,15 +202,9 @@ class PileupEventItf
     }
 
     // native interface
-    private native String GetReferenceSpec ( long self )
-        throws ErrorMsg;
-    private native long GetReferencePosition ( long self )
-        throws ErrorMsg;
     private native int GetMappingQuality ( long self )
         throws ErrorMsg;
     private native String GetAlignmentId ( long self )
-        throws ErrorMsg;
-    private native long GetAlignment ( long self )
         throws ErrorMsg;
     private native long GetAlignmentPosition ( long self )
         throws ErrorMsg;

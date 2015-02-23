@@ -38,7 +38,6 @@ extern "C" {
 /*--------------------------------------------------------------------------
  * forwards
  */
-struct NGS_Alignment_v1;
 
 
 /*--------------------------------------------------------------------------
@@ -55,11 +54,8 @@ struct NGS_PileupEvent_v1_vt
 {
     NGS_VTable dad;
 
-    NGS_String_v1 * ( CC * get_ref_spec ) ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
-    int64_t ( CC * get_ref_pos ) ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
     int32_t ( CC * get_map_qual ) ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
     NGS_String_v1 * ( CC * get_align_id ) ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
-    struct NGS_Alignment_v1 * ( CC * get_alignment ) ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
     int64_t ( CC * get_align_pos ) ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
     int64_t ( CC * get_first_align_pos ) ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
     int64_t ( CC * get_last_align_pos ) ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
@@ -71,6 +67,7 @@ struct NGS_PileupEvent_v1_vt
     uint32_t ( CC * get_rpt_count ) ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
     uint32_t ( CC * get_indel_type ) ( const NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
     bool ( CC * next ) ( NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
+    void ( CC * reset ) ( NGS_PileupEvent_v1 * self, NGS_ErrBlock_v1 * err );
 };
 
 

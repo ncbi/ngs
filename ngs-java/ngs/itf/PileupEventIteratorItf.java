@@ -59,6 +59,16 @@ class PileupEventIteratorItf
         return this . NextPileupEvent ( self );
     }
 
+    /* resetPileupEvent
+     *  resets to initial iterator state
+     *  the next call to "nextPileupEvent" will advance to first event
+     */
+    public void resetPileupEvent ()
+        throws ErrorMsg
+    {
+        this . ResetPileupEvent ( self );
+    }
+
 
     /*****************************************
      * PileupEventIteratorItf Implementation *
@@ -88,5 +98,7 @@ class PileupEventIteratorItf
 
     // native interface
     private native boolean NextPileupEvent ( long self )
+        throws ErrorMsg;
+    private native void ResetPileupEvent ( long self )
         throws ErrorMsg;
 }

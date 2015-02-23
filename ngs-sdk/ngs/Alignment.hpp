@@ -115,6 +115,17 @@ namespace ngs
          * details of this alignment
          */
 
+        /* AlignmentFilter
+         *  values should be or'd together to produce filter bits
+         */
+        enum AlignmentFilter
+        {
+            passFailed = 1,       // reads rejected due to platform/vendor quality criteria
+            passDuplicates = 2,   // either a PCR or optical duplicate
+            minMapQuality = 4,    // pass alignments with mappingQuality >= param
+            maxMapQuality = 8     // pass alignments with mappingQuality <= param
+        };
+
         /* AlignmentCategory
          */
         enum AlignmentCategory

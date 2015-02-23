@@ -33,7 +33,6 @@
 #include "ReadItf.hpp"
 #include "StatisticsItf.hpp"
 #include "PileupItf.hpp"
-#include "PileupEventItf.hpp"
 
   unsigned int ngs_test_engine::ReadCollectionItf::instanceCount = 0;
   unsigned int ngs_test_engine::ReadGroupItf::instanceCount = 0;
@@ -42,7 +41,6 @@
   unsigned int ngs_test_engine::ReadItf::instanceCount = 0;
   unsigned int ngs_test_engine::StatisticsItf::instanceCount = 0;
   unsigned int ngs_test_engine::PileupItf::instanceCount = 0;
-  unsigned int ngs_test_engine::PileupEventItf::instanceCount = 0;
 
 namespace ngs_test_engine
 {

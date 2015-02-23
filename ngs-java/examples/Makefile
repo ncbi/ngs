@@ -36,10 +36,12 @@ clean:
 .PHONY: default std $(TARGETS)
 
 NGS_EXAMPLES = \
+	PileupTest \
 	AlignTest \
 	AlignSliceTest \
 	FragTest \
 	RefTest \
+	ReadGroupTest \
 
 NGS_EXAMPLES_PATH = \
 	$(addprefix examples/,$(addsuffix .java,$(NGS_EXAMPLES)))

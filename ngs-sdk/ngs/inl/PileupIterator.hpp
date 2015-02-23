@@ -28,7 +28,7 @@
 #define _inl_ngs_pileup_iterator_
 
 #ifndef _hpp_ngs_pileup_iterator_
-#include <ngs/c++/PileupIterator.hpp>
+#include <ngs/PileupIterator.hpp>
 #endif
 
 #ifndef _hpp_ngs_itf_pileupitf_
@@ -37,6 +37,11 @@
 
 namespace ngs
 {
+
+    // the "self" member is typed as PileupEventRef
+    // but is used here as an PileupRef
+#define self reinterpret_cast < PileupItf * > ( self )
+
     /*----------------------------------------------------------------------
      * PileupIterator
      */
@@ -45,6 +50,8 @@ namespace ngs
     bool PileupIterator :: nextPileup ()
         throw ( ErrorMsg )
     { return self -> nextPileup (); }
+
+#undef self
 
 
 } // namespace ngs

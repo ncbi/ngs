@@ -33,6 +33,7 @@ extern "C" {
 #include "py_ngs_defs.h"
 
 PY_RES_TYPE PY_NGS_PileupEventIteratorNext(void* pRef, int* pRet, void** ppNGSStrError);
+PY_RES_TYPE PY_NGS_PileupEventIteratorReset(void* pRef, int* pRet, void** ppNGSStrError);
 
 #ifdef __cplusplus
 }

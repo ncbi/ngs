@@ -76,9 +76,13 @@ namespace ngs
             throw ( ErrorMsg );
         PileupItf * getPileups ( uint32_t categories ) const
             throw ( ErrorMsg );
+        PileupItf * getFilteredPileups ( uint32_t categories, uint32_t filters, int32_t mappingQuality ) const
+            throw ( ErrorMsg );
         PileupItf * getPileupSlice ( int64_t start, uint64_t length ) const
             throw ( ErrorMsg );
         PileupItf * getPileupSlice ( int64_t start, uint64_t length, uint32_t categories ) const
+            throw ( ErrorMsg );
+        PileupItf * getFilteredPileupSlice ( int64_t start, uint64_t length, uint32_t categories, uint32_t filters, int32_t mappingQuality ) const
             throw ( ErrorMsg );
         bool nextReference ()
             throw ( ErrorMsg );

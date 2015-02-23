@@ -9,6 +9,118 @@ extern "C" {
 #endif
 /*
  * Class:     ngs_itf_PileupItf
+ * Method:    GetMappingQuality
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_ngs_itf_PileupItf_GetMappingQuality
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     ngs_itf_PileupItf
+ * Method:    GetAlignmentId
+ * Signature: (J)Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_ngs_itf_PileupItf_GetAlignmentId
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     ngs_itf_PileupItf
+ * Method:    GetAlignmentPosition
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_ngs_itf_PileupItf_GetAlignmentPosition
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     ngs_itf_PileupItf
+ * Method:    GetFirstAlignmentPosition
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_ngs_itf_PileupItf_GetFirstAlignmentPosition
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     ngs_itf_PileupItf
+ * Method:    GetLastAlignmentPosition
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_ngs_itf_PileupItf_GetLastAlignmentPosition
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     ngs_itf_PileupItf
+ * Method:    GetEventType
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_ngs_itf_PileupItf_GetEventType
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     ngs_itf_PileupItf
+ * Method:    GetAlignmentBase
+ * Signature: (J)C
+ */
+JNIEXPORT jchar JNICALL Java_ngs_itf_PileupItf_GetAlignmentBase
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     ngs_itf_PileupItf
+ * Method:    GetAlignmentQuality
+ * Signature: (J)C
+ */
+JNIEXPORT jchar JNICALL Java_ngs_itf_PileupItf_GetAlignmentQuality
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     ngs_itf_PileupItf
+ * Method:    GetInsertionBases
+ * Signature: (J)Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_ngs_itf_PileupItf_GetInsertionBases
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     ngs_itf_PileupItf
+ * Method:    GetInsertionQualities
+ * Signature: (J)Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_ngs_itf_PileupItf_GetInsertionQualities
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     ngs_itf_PileupItf
+ * Method:    GetEventRepeatCount
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_ngs_itf_PileupItf_GetEventRepeatCount
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     ngs_itf_PileupItf
+ * Method:    GetEventIndelType
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_ngs_itf_PileupItf_GetEventIndelType
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     ngs_itf_PileupItf
+ * Method:    NextPileupEvent
+ * Signature: (J)Z
+ */
+JNIEXPORT jboolean JNICALL Java_ngs_itf_PileupItf_NextPileupEvent
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     ngs_itf_PileupItf
+ * Method:    ResetPileupEvent
+ * Signature: (J)V
+ */
+JNIEXPORT void JNICALL Java_ngs_itf_PileupItf_ResetPileupEvent
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     ngs_itf_PileupItf
  * Method:    GetReferenceSpec
  * Signature: (J)Ljava/lang/String;
  */
@@ -25,10 +137,10 @@ JNIEXPORT jlong JNICALL Java_ngs_itf_PileupItf_GetReferencePosition
 
 /*
  * Class:     ngs_itf_PileupItf
- * Method:    GetPileupEvents
- * Signature: (J)J
+ * Method:    GetReferenceBase
+ * Signature: (J)C
  */
-JNIEXPORT jlong JNICALL Java_ngs_itf_PileupItf_GetPileupEvents
+JNIEXPORT jchar JNICALL Java_ngs_itf_PileupItf_GetReferenceBase
   (JNIEnv *, jobject, jlong);
 
 /*

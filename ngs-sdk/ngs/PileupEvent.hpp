@@ -27,8 +27,12 @@
 #ifndef _hpp_ngs_pileup_event_
 #define _hpp_ngs_pileup_event_
 
-#ifndef _hpp_ngs_alignment_
-#include <ngs/Alignment.hpp>
+#ifndef _hpp_ngs_error_msg_
+#include <ngs/ErrorMsg.hpp>
+#endif
+
+#ifndef _hpp_ngs_stringref_
+#include <ngs/StringRef.hpp>
 #endif
 
 #include <stdint.h>
@@ -56,16 +60,6 @@ namespace ngs
          * Reference
          */
 
-        /* getReferenceSpec
-         */
-        String getReferenceSpec () const
-            throw ( ErrorMsg );
-
-        /* getReferencePosition
-         */
-        int64_t getReferencePosition () const
-            throw ( ErrorMsg );
-
         /* getMappingQuality
          */
         int getMappingQuality () const
@@ -80,11 +74,6 @@ namespace ngs
          *  unique within ReadCollection
          */
         StringRef getAlignmentId () const
-            throw ( ErrorMsg );
-
-        /* getAlignment
-         */
-        Alignment getAlignment () const
             throw ( ErrorMsg );
 
         /* getAlignmentPosition
@@ -125,16 +114,21 @@ namespace ngs
             // space ( so no insertion event can be directly represented ),
             // but it can occur before a match or mismatch event.
             // insertion is represented as a bit
-            insertion                 = 0x10,
+            insertion                 = 0x08,
 
             // insertions into the reference
             insertion_before_match    = insertion | match,
             insertion_before_mismatch = insertion | mismatch,
+
+            // simultaneous insertion and deletion,
+            // a.k.a. a replacement
+            insertion_before_deletion = insertion | deletion,
+            replacement               = insertion_before_deletion,
             
             // additional modifier bits - may be added to any event above
             alignment_start           = 0x80,
             alignment_stop            = 0x40,
-            alignment_minus_strand    = 0x20,
+            alignment_minus_strand    = 0x20
         };
 
         /* getEventType
@@ -154,7 +148,7 @@ namespace ngs
          *
          *  an insertion cannot be represented in reference coordinate
          *  space ( so no insertion event can be directly represented ),
-         *  but it can occur before a match or mismatch event.
+         *  but it can occur before a match, mismatch or deletion event.
          *  insertion is represented as a modifier bit. If this bit
          *  is set, then the event was preceded by an insertion.
          *  The inserted bases and qualities can be retrieved by

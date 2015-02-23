@@ -37,8 +37,8 @@ namespace ngs
     /*----------------------------------------------------------------------
      * metadata
      */
-    extern ItfTok NGS_Refcount_v1_tok;
-    ItfTok NGS_Pileup_v1_tok ( "NGS_Pileup_v1", NGS_Refcount_v1_tok );
+    extern ItfTok NGS_PileupEvent_v1_tok;
+    ItfTok NGS_Pileup_v1_tok ( "NGS_Pileup_v1", NGS_PileupEvent_v1_tok );
 
 
     /*----------------------------------------------------------------------
@@ -99,7 +99,7 @@ namespace ngs
         return ret;
     }
 
-    PileupEventItf * PileupItf :: getPileupEvents () const
+    char PileupItf :: getReferenceBase () const
         throw ( ErrorMsg )
     {
         // the object is really from C
@@ -110,13 +110,13 @@ namespace ngs
 
         // call through C vtable
         ErrBlock err;
-        assert ( vt -> get_pileup_events != 0 );
-        NGS_PileupEvent_v1 * ret  = ( * vt -> get_pileup_events ) ( self, & err );
+        assert ( vt -> get_ref_base != 0 );
+        char ret  = ( * vt -> get_ref_base ) ( self, & err );
 
         // check for errors
         err . Check ();
 
-        return PileupEventItf :: Cast ( ret );
+        return ret;
     }
 
     uint32_t PileupItf :: getPileupDepth () const

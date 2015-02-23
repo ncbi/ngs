@@ -40,7 +40,6 @@ namespace ngs
      * forwards
      */
     class StringItf;
-    class AlignmentItf;
 
     /*----------------------------------------------------------------------
      * PileupEventItf
@@ -49,15 +48,9 @@ namespace ngs
     {
     public:
 
-        StringItf * getReferenceSpec () const
-            throw ( ErrorMsg );
-        int64_t getReferencePosition () const
-            throw ( ErrorMsg );
         int32_t getMappingQuality () const
             throw ( ErrorMsg );
         StringItf * getAlignmentId () const
-            throw ( ErrorMsg );
-        AlignmentItf * getAlignment () const
             throw ( ErrorMsg );
         int64_t getAlignmentPosition () const
             throw ( ErrorMsg );
@@ -80,6 +73,8 @@ namespace ngs
         uint32_t getEventIndelType () const
             throw ( ErrorMsg );
         bool nextPileupEvent ()
+            throw ( ErrorMsg );
+        void resetPileupEvent ()
             throw ( ErrorMsg );
 
     };

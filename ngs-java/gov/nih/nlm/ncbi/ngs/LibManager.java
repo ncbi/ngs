@@ -26,9 +26,10 @@
 
 package gov.nih.nlm.ncbi.ngs;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 
 /** This class is responsible for JNI dynamic library load
@@ -159,7 +160,7 @@ class LibManager implements FileCreator
                 FileOutputStream s = null;
                 try {
                     s = new FileOutputStream(pathname);
-                } catch (java.io.FileNotFoundException e) {
+                } catch (FileNotFoundException e) {
 /* e.message = pathname (Permission denied):
 could be because pathname is not writable
 or pathname not found and its directory is not writable */
@@ -329,8 +330,7 @@ or pathname not found and its directory is not writable */
 
     /** Fetches the library from NCBI and writes it to where it can be found by
         LibManager.loadLibrary() */
-    private boolean download( String libname )
-    {
+    private boolean downloadLib(String libname) {
         String request = "cmd=lib&version=1.0&libname=" + libname;
 
         request += "&jar_vers=" + Manager.version();
@@ -354,6 +354,120 @@ or pathname not found and its directory is not writable */
         return false;
     }
 
+
+    private boolean downloadKfg(String libpath) {
+        Logger.finest("configuration download is disabled");
+/*
+        File l = new File(libpath);
+        String d = l.getParent();
+        if (d == null) {
+            Logger.finest("cannot get parent path of " + libpath);
+            return true;
+        }
+        String n = d + File.separatorChar + "ncbi";
+        File fn = new File(n);
+        if (fn.exists()) {
+            if (fn.isDirectory()) {
+                Logger.finest("configuration directory '" + n + "' exists");
+            } else {
+                Logger.finest("'" + n + "' is not a directory");
+                return true;
+            }
+        } else {
+            Logger.finest("configuration directory '" + n + "' does not exist");
+            try {
+                if (!fn.mkdir()) {
+                    Logger.finest("cannot mkdir '" + n + "'");
+                    return true;
+                }
+            } catch (SecurityException e) {
+                Logger.finest(e.toString());
+                return true;
+            }
+        }
+        try {
+            fn.setExecutable(true, true);
+        } catch (SecurityException e) {
+            Logger.finest(e.toString());
+        }
+        try {
+            fn.setReadable(true, true);
+        } catch (SecurityException e) {
+            Logger.finest(e.toString());
+        }
+        try {
+            fn.setWritable(true, true);
+        } catch (SecurityException e) {
+            Logger.finest(e.toString());
+        }
+        String k = n + File.separatorChar + "default.kfg";
+        File fk = new File(k);
+        if (fk.exists()) {
+            Logger.finest("'" + fk + "' exists");
+            return true;
+        }
+        String request = "cmd=lib&libname=kfg";
+        for (int i = 0; i < SRATOOLKIT_CGI.length; ++i) {
+            try {
+                String f = HttpManager.post(SRATOOLKIT_CGI[i], request);
+                try {
+                    FileOutputStream out = new FileOutputStream(fk);
+                    try {
+                        out.write(f.getBytes());
+                        out.close();
+                    } catch (java.io.IOException e) {
+                        Logger.finest(e.toString());
+                        continue;
+                    }
+                    Logger.finest("created '" + fk + "'");
+                    return true;
+                } catch (FileNotFoundException e) {
+                    Logger.finest(e.toString());
+                }
+            } catch (HttpException e) {
+                Logger.finest(e.toString());
+            }
+        }
+        Logger.finest("cannot create '" + fk + "'");
+*/
+        return true;
+    }
+
+
+    /** Downloads the library and default configuration from NCBI.
+        Save them where it can be found by LibManager.loadLibrary() */
+    private boolean download(String libname) {
+        int i = -1;
+        if (knownLibPath != null) {
+            i = 0;
+            while(knownLibPath[i] != null) {
+                ++i;
+            }
+            --i;
+        }
+
+        if (!downloadLib(libname)) {
+            return false;
+        }
+
+        if (knownLibPath == null || knownLibPath.length < 1) {
+            Logger.finest("cannot find downloaded library path: "
+                + "skipping configuration download");
+            return true;
+        }
+        int j = 0;
+        while(knownLibPath[j] != null) {
+            ++j;
+        }
+        --j;
+        if (i != j - 1) {
+            Logger.finest("cannot find downloaded library path[]: "
+                + "skipping configuration download");
+            return true;
+        }
+
+        return downloadKfg(knownLibPath[i + 1]);
+    }
 
     /** Tries to load the library by searching it using location array.
         If JUST_DO_REGULAR_JAVA_SYSTEM_LOAD_LIBRARY = true

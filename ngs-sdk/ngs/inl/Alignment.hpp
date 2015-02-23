@@ -28,7 +28,7 @@
 #define _inl_ngs_alignment_
 
 #ifndef _hpp_ngs_alignment_
-#include <ngs/c++/Alignment.hpp>
+#include <ngs/Alignment.hpp>
 #endif
 
 #ifndef _hpp_ngs_itf_alignmentitf_

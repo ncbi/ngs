@@ -35,7 +35,420 @@
 using namespace ngs;
 
 static
-PileupItf * Self ( size_t jself )
+jlong Cast ( PileupEventItf * obj )
+{
+    return ( jlong ) ( size_t ) obj;
+}
+
+static
+PileupEventItf * Event ( size_t jself )
+{
+    if ( jself == 0 )
+        throw ErrorMsg ( "NULL self parameter" );
+
+    return ( PileupEventItf* ) jself;
+}
+
+#define Self( jself ) Event ( jself )
+
+/*
+ * Class:     ngs_itf_PileupEventItf
+ * Method:    GetMappingQuality
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_ngs_itf_PileupItf_GetMappingQuality
+    ( JNIEnv * jenv, jobject jthis, jlong jself )
+{
+    try
+    {
+        return ( jint ) Self ( jself ) -> getMappingQuality ();
+    }
+    catch ( ErrorMsg & x )
+    {
+        ErrorMsgThrow ( jenv, xt_error_msg, x . what () );
+    }
+    catch ( std :: exception & x )
+    {
+        ErrorMsgThrow ( jenv, xt_runtime, x . what () );
+    }
+    catch ( ... )
+    {
+        JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
+    }
+
+    return 0;
+}
+
+/*
+ * Class:     ngs_itf_PileupEventItf
+ * Method:    GetAlignmentId
+ * Signature: (J)Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_ngs_itf_PileupItf_GetAlignmentId
+    ( JNIEnv * jenv, jobject jthis, jlong jself )
+{
+    try
+    {
+        StringItf * new_ref = Self ( jself ) -> getAlignmentId ();
+        return StringItfConvertToJString ( new_ref, jenv );
+    }
+    catch ( ErrorMsg & x )
+    {
+        ErrorMsgThrow ( jenv, xt_error_msg, x . what () );
+    }
+    catch ( std :: exception & x )
+    {
+        ErrorMsgThrow ( jenv, xt_runtime, x . what () );
+    }
+    catch ( ... )
+    {
+        JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
+    }
+
+    return 0;
+}
+
+/*
+ * Class:     ngs_itf_PileupEventItf
+ * Method:    GetAlignmentPosition
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_ngs_itf_PileupItf_GetAlignmentPosition
+    ( JNIEnv * jenv, jobject jthis, jlong jself )
+{
+    try
+    {
+        return ( jlong ) Self ( jself ) -> getAlignmentPosition ();
+    }
+    catch ( ErrorMsg & x )
+    {
+        ErrorMsgThrow ( jenv, xt_error_msg, x . what () );
+    }
+    catch ( std :: exception & x )
+    {
+        ErrorMsgThrow ( jenv, xt_runtime, x . what () );
+    }
+    catch ( ... )
+    {
+        JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
+    }
+
+    return 0;
+}
+
+/*
+ * Class:     ngs_itf_PileupEventItf
+ * Method:    GetFirstAlignmentPosition
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_ngs_itf_PileupItf_GetFirstAlignmentPosition
+    ( JNIEnv * jenv, jobject jthis, jlong jself )
+{
+    try
+    {
+        return ( jlong ) Self ( jself ) -> getFirstAlignmentPosition ();
+    }
+    catch ( ErrorMsg & x )
+    {
+        ErrorMsgThrow ( jenv, xt_error_msg, x . what () );
+    }
+    catch ( std :: exception & x )
+    {
+        ErrorMsgThrow ( jenv, xt_runtime, x . what () );
+    }
+    catch ( ... )
+    {
+        JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
+    }
+
+    return 0;
+}
+
+/*
+ * Class:     ngs_itf_PileupEventItf
+ * Method:    GetLastAlignmentPosition
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_ngs_itf_PileupItf_GetLastAlignmentPosition
+    ( JNIEnv * jenv, jobject jthis, jlong jself )
+{
+    try
+    {
+        return ( jlong ) Self ( jself ) -> getLastAlignmentPosition ();
+    }
+    catch ( ErrorMsg & x )
+    {
+        ErrorMsgThrow ( jenv, xt_error_msg, x . what () );
+    }
+    catch ( std :: exception & x )
+    {
+        ErrorMsgThrow ( jenv, xt_runtime, x . what () );
+    }
+    catch ( ... )
+    {
+        JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
+    }
+
+    return 0;
+}
+
+/*
+ * Class:     ngs_itf_PileupEventItf
+ * Method:    GetEventType
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_ngs_itf_PileupItf_GetEventType
+    ( JNIEnv * jenv, jobject jthis, jlong jself )
+{
+    try
+    {
+        return ( jint ) Self ( jself ) -> getEventType ();
+    }
+    catch ( ErrorMsg & x )
+    {
+        ErrorMsgThrow ( jenv, xt_error_msg, x . what () );
+    }
+    catch ( std :: exception & x )
+    {
+        ErrorMsgThrow ( jenv, xt_runtime, x . what () );
+    }
+    catch ( ... )
+    {
+        JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
+    }
+
+    return 0;
+}
+
+/*
+ * Class:     ngs_itf_PileupEventItf
+ * Method:    GetAlignmentBase
+ * Signature: (J)C
+ */
+JNIEXPORT jchar JNICALL Java_ngs_itf_PileupItf_GetAlignmentBase
+    ( JNIEnv * jenv, jobject jthis, jlong jself )
+{
+    try
+    {
+        return ( jchar ) Self ( jself ) -> getAlignmentBase ();
+    }
+    catch ( ErrorMsg & x )
+    {
+        ErrorMsgThrow ( jenv, xt_error_msg, x . what () );
+    }
+    catch ( std :: exception & x )
+    {
+        ErrorMsgThrow ( jenv, xt_runtime, x . what () );
+    }
+    catch ( ... )
+    {
+        JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
+    }
+
+    return 0;
+}
+
+/*
+ * Class:     ngs_itf_PileupEventItf
+ * Method:    GetAlignmentQuality
+ * Signature: (J)C
+ */
+JNIEXPORT jchar JNICALL Java_ngs_itf_PileupItf_GetAlignmentQuality
+    ( JNIEnv * jenv, jobject jthis, jlong jself )
+{
+    try
+    {
+        return ( jchar ) Self ( jself ) -> getAlignmentQuality ();
+    }
+    catch ( ErrorMsg & x )
+    {
+        ErrorMsgThrow ( jenv, xt_error_msg, x . what () );
+    }
+    catch ( std :: exception & x )
+    {
+        ErrorMsgThrow ( jenv, xt_runtime, x . what () );
+    }
+    catch ( ... )
+    {
+        JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
+    }
+
+    return 0;
+}
+
+/*
+ * Class:     ngs_itf_PileupEventItf
+ * Method:    GetInsertionBases
+ * Signature: (J)Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_ngs_itf_PileupItf_GetInsertionBases
+    ( JNIEnv * jenv, jobject jthis, jlong jself )
+{
+    try
+    {
+        StringItf * new_ref = Self ( jself ) -> getInsertionBases ();
+        return StringItfConvertToJString ( new_ref, jenv );
+    }
+    catch ( ErrorMsg & x )
+    {
+        ErrorMsgThrow ( jenv, xt_error_msg, x . what () );
+    }
+    catch ( std :: exception & x )
+    {
+        ErrorMsgThrow ( jenv, xt_runtime, x . what () );
+    }
+    catch ( ... )
+    {
+        JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
+    }
+
+    return 0;
+}
+
+/*
+ * Class:     ngs_itf_PileupEventItf
+ * Method:    GetInsertionQualities
+ * Signature: (J)Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_ngs_itf_PileupItf_GetInsertionQualities
+    ( JNIEnv * jenv, jobject jthis, jlong jself )
+{
+    try
+    {
+        StringItf * new_ref = Self ( jself ) -> getInsertionQualities ();
+        return StringItfConvertToJString ( new_ref, jenv );
+    }
+    catch ( ErrorMsg & x )
+    {
+        ErrorMsgThrow ( jenv, xt_error_msg, x . what () );
+    }
+    catch ( std :: exception & x )
+    {
+        ErrorMsgThrow ( jenv, xt_runtime, x . what () );
+    }
+    catch ( ... )
+    {
+        JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
+    }
+
+    return 0;
+}
+
+/*
+ * Class:     ngs_itf_PileupEventItf
+ * Method:    GetEventRepeatCount
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_ngs_itf_PileupItf_GetEventRepeatCount
+    ( JNIEnv * jenv, jobject jthis, jlong jself )
+{
+    try
+    {
+        return ( jint ) Self ( jself ) -> getEventRepeatCount ();
+    }
+    catch ( ErrorMsg & x )
+    {
+        ErrorMsgThrow ( jenv, xt_error_msg, x . what () );
+    }
+    catch ( std :: exception & x )
+    {
+        ErrorMsgThrow ( jenv, xt_runtime, x . what () );
+    }
+    catch ( ... )
+    {
+        JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
+    }
+
+    return 0;
+}
+
+/*
+ * Class:     ngs_itf_PileupEventItf
+ * Method:    GetEventIndelType
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_ngs_itf_PileupItf_GetEventIndelType
+    ( JNIEnv * jenv, jobject jthis, jlong jself )
+{
+    try
+    {
+        return ( jint ) Self ( jself ) -> getEventIndelType ();
+    }
+    catch ( ErrorMsg & x )
+    {
+        ErrorMsgThrow ( jenv, xt_error_msg, x . what () );
+    }
+    catch ( std :: exception & x )
+    {
+        ErrorMsgThrow ( jenv, xt_runtime, x . what () );
+    }
+    catch ( ... )
+    {
+        JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
+    }
+
+    return 0;
+}
+
+/*
+ * Class:     ngs_itf_PileupItf
+ * Method:    NextPileupEvent
+ * Signature: (J)Z
+ */
+JNIEXPORT jboolean JNICALL Java_ngs_itf_PileupItf_NextPileupEvent
+    ( JNIEnv * jenv, jobject jthis, jlong jself )
+{
+    try
+    {
+        return ( jboolean ) Self ( jself ) -> nextPileupEvent ();
+    }
+    catch ( ErrorMsg & x )
+    {
+        ErrorMsgThrow ( jenv, xt_error_msg, x . what () );
+    }
+    catch ( std :: exception & x )
+    {
+        ErrorMsgThrow ( jenv, xt_runtime, x . what () );
+    }
+    catch ( ... )
+    {
+        JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
+    }
+
+    return false;
+}
+
+
+/*
+ * Class:     ngs_itf_PileupEventIteratorItf
+ * Method:    ResetPileupEvent
+ * Signature: (J)V
+ */
+JNIEXPORT void JNICALL Java_ngs_itf_PileupEventIteratorItf_ResetPileupEvent
+    ( JNIEnv * jenv, jobject jthis, jlong jself )
+{
+    try
+    {
+        Self ( jself ) -> resetPileupEvent ();
+    }
+    catch ( ErrorMsg & x )
+    {
+        ErrorMsgThrow ( jenv, xt_error_msg, x . what () );
+    }
+    catch ( std :: exception & x )
+    {
+        ErrorMsgThrow ( jenv, xt_runtime, x . what () );
+    }
+    catch ( ... )
+    {
+        JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
+    }
+}
+
+#undef Self
+
+static
+PileupItf * Pile ( size_t jself )
 {
     if ( jself == 0 )
         throw ErrorMsg ( "NULL self parameter" );
@@ -43,11 +456,7 @@ PileupItf * Self ( size_t jself )
     return ( PileupItf* ) jself;
 }
 
-static
-jlong Cast ( PileupEventItf * obj )
-{
-    return ( jlong ) ( size_t ) obj;
-}
+#define Self( jself ) Pile ( jself )
 
 /*
  * Class:     ngs_itf_PileupItf
@@ -108,16 +517,15 @@ JNIEXPORT jlong JNICALL Java_ngs_itf_PileupItf_GetReferencePosition
 
 /*
  * Class:     ngs_itf_PileupItf
- * Method:    GetPileupEvents
- * Signature: (J)J
+ * Method:    GetReferenceBase
+ * Signature: (J)C
  */
-JNIEXPORT jlong JNICALL Java_ngs_itf_PileupItf_GetPileupEvents
+JNIEXPORT jchar JNICALL Java_ngs_itf_PileupItf_GetReferenceBase
     ( JNIEnv * jenv, jobject jthis, jlong jself )
 {
     try
     {
-        PileupEventItf * new_ref = Self ( jself ) -> getPileupEvents ();
-        return Cast ( new_ref );
+        return ( jchar ) Self ( jself ) -> getReferenceBase ();
     }
     catch ( ErrorMsg & x )
     {
@@ -162,3 +570,6 @@ JNIEXPORT jint JNICALL Java_ngs_itf_PileupItf_GetPileupDepth
 
     return 0;
 }
+
+#undef Self
+

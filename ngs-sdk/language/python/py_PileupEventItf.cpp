@@ -29,11 +29,8 @@
 
 #include <ngs/itf/PileupEventItf.hpp>
 
-GEN_PY_FUNC_GET_STRING                  ( PileupEvent, ReferenceSpec )
-GEN_PY_FUNC_GET                         ( PileupEvent, ReferencePosition,      int64_t )
 GEN_PY_FUNC_GET                         ( PileupEvent, MappingQuality,         int32_t )
 GEN_PY_FUNC_GET_STRING                  ( PileupEvent, AlignmentId )
-GEN_PY_FUNC_GET                         ( PileupEvent, Alignment,              ngs::AlignmentItf* )
 GEN_PY_FUNC_GET                         ( PileupEvent, AlignmentPosition,      int64_t )
 GEN_PY_FUNC_GET                         ( PileupEvent, FirstAlignmentPosition, int64_t )
 GEN_PY_FUNC_GET                         ( PileupEvent, LastAlignmentPosition,  int64_t )

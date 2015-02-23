@@ -112,7 +112,7 @@ namespace ngs
     };
 
     // support for C++ ostream
-       :: std :: ostream & operator << ( :: std :: ostream & s, const StringRef & str );
+    :: std :: ostream & operator << ( :: std :: ostream & s, const StringRef & str );
 
 } // namespace ngs
 

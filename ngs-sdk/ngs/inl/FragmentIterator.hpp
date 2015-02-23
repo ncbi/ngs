@@ -28,7 +28,7 @@
 #define _inl_ngs_fragment_iterator_
 
 #ifndef _hpp_ngs_fragment_iterator_
-#include <ngs/c++/FragmentIterator.hpp>
+#include <ngs/FragmentIterator.hpp>
 #endif
 
 #ifndef _hpp_ngs_itf_fragmentitf_
