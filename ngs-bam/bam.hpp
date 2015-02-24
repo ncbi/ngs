@@ -23,17 +23,24 @@
  * ===========================================================================
  */
 
+#define USE_STDIO 1
+
 #include <stdint.h>
 #include <string.h>
 
 #include <stdexcept>
 #include <vector>
 #include <map>
-#include <fstream>
 #include <algorithm>
 #include <iterator>
 
 #include <zlib.h>
+
+#if USE_STDIO
+#include <cstdio>
+#else
+#include <fstream>
+#endif
 
 #define BAM_BLK_MAX (64u * 1024u)
 #define IO_BLK_SIZE (1024u * 1024u)
@@ -422,14 +429,18 @@ public:
 };
 
 class BAMFile : public BAMRecordSource {
+#if USE_STDIO
+    FILE *file;
+#else
     std::ifstream file;
+#endif
     std::vector<HeaderRefInfo> references;
     std::map<std::string, unsigned> referencesByName;
     std::string headerText;
 
-    std::ifstream::pos_type first_bpos;
-    std::ifstream::pos_type bpos;   /* file position of bambuffer */
-    std::ifstream::pos_type cpos;   /* file position of iobuffer  */
+    size_t first_bpos;
+    size_t bpos;                    /* file position of bambuffer */
+    size_t cpos;                    /* file position of iobuffer  */
     z_stream zs;
 
     unsigned first_bam_cur;
@@ -453,8 +464,8 @@ class BAMFile : public BAMRecordSource {
 
 public:
     BAMFile(std::string const &filepath);
-
-    void Seek(std::ifstream::pos_type const &new_bpos, unsigned new_bam_cur);
+    ~BAMFile();
+    void Seek(size_t const new_bpos, unsigned new_bam_cur);
     void Rewind() {
         Seek(first_bpos, first_bam_cur);
     }
@@ -495,7 +506,7 @@ class BAMFileSlice : public BAMRecordSource {
     void Seek(void)
     {
         BAMFilePosType const pos = *cur++;
-        std::ifstream::pos_type const fpos = pos.fpos();
+        size_t const fpos = pos.fpos();
         uint16_t const bpos = pos.bpos();
 
         parent->Seek(fpos, bpos);
