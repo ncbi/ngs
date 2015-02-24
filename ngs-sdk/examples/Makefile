@@ -29,7 +29,7 @@ CFLAGS += -mmacosx-version-min=10.6
 endif
 
 CC = cc $(CFLAGS)
-CXX = c++ $(CFLAGS)
+CXX = c++ $(CPPFLAGS)
 
 # ensure definition of paths, namely
 # NCBI_VDB_LIBDIR and NGS_LIBDIR
@@ -62,43 +62,46 @@ clean:
 TEST_LIBS =              \
     -L$(NCBI_VDB_LIBDIR) \
     -L$(NGS_LIBDIR)      \
+	-L$(NGS_BAM_LIBDIR)  \
     -lncbi-ngs-c++       \
     -lngs-c++            \
     -lncbi-vdb-static    \
+	-lngs-bam-c++        \
+	-lngs-adapt-c++      \
     -lpthread            \
     -ldl                 \
     -lm
 
 # FragTest
 #  access read fragments
-FRAG_TEST_OBJ = \
-    FragTest.o
+FRAG_TEST_SRC = \
+    FragTest.cpp
 
-FragTest: $(FRAG_TEST_OBJ)
-	$(CXX) -o $@ $^ $(TEST_LIBS)
+FragTest: $(FRAG_TEST_SRC)
+	$(CXX) -g -o $@ $^ $(TEST_LIBS)
 
 # RefTest ###################
-REF_TEST_OBJ = \
-    RefTest.o
+REF_TEST_SRC = \
+    RefTest.cpp
 
-RefTest: $(REF_TEST_OBJ)
-	$(CXX) -o $@ $^ $(TEST_LIBS)
+RefTest: $(REF_TEST_SRC)
+	$(CXX) -g -o $@ $^ $(TEST_LIBS)
 
 # AlignTest #################
 #  access alignments
-ALIGN_TEST_OBJ = \
-    AlignTest.o
+ALIGN_TEST_SRC = \
+    AlignTest.cpp
 
-AlignTest: $(ALIGN_TEST_OBJ)
-	$(CXX) -o $@ $^ $(TEST_LIBS)
+AlignTest: $(ALIGN_TEST_SRC)
+	$(CXX) -g -o $@ $^ $(TEST_LIBS)
 
 # AlignSliceTest
 #  slice a ReadCollection and output alignments
-ALIGNSLICE_TEST_OBJ = \
-    AlignSliceTest.o
+ALIGNSLICE_TEST_SRC = \
+    AlignSliceTest.cpp
 
-AlignSliceTest: $(ALIGNSLICE_TEST_OBJ)
-	$(CXX) -o $@ $^ $(TEST_LIBS)
+AlignSliceTest: $(ALIGNSLICE_TEST_SRC)
+	$(CXX) -g -o $@ $^ $(TEST_LIBS)
 
 
 # PileupTest
