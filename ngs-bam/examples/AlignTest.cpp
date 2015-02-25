@@ -42,44 +42,40 @@ class AlignTest
 public:
     static AlignmentIterator getIterator(ReadCollection &collection, int splitNum, int splitNo) {
         if (splitNum > 1) {
-            long const MAX_ROW = collection.getAlignmentCount ();
-            double const chunk = ( double ) MAX_ROW / splitNum;
-            long const first = ( long ) round ( chunk * ( splitNo-1 ) );
-            
-            long next_first = ( long ) round ( chunk * ( splitNo ) );
-            if ( next_first > MAX_ROW )
-                next_first = MAX_ROW;
-            
-            //start iterator on reads
-            long const count = next_first - first;
-            
-            return collection.getAlignmentRange ( first+1, count, Alignment::primaryAlignment );
+            long const MAX_ROW = collection.getAlignmentCount();
+            long const chunk = ceil((double)MAX_ROW / splitNum);
+            long const first = chunk * (splitNo - 1);
+            long const count = (first + chunk <= MAX_ROW) ? chunk : (MAX_ROW - first);
+
+            return collection.getAlignmentRange(first + 1, count, Alignment::primaryAlignment);
         }
         return collection.getAlignments(Alignment::primaryAlignment);
     }
     static void run(ReadCollection &collection, int splitNum, int splitNo)
     {
-        String const run_name = collection.getName ();
+        long count = 0;
+        string const run_name = collection.getName();
         AlignmentIterator it = getIterator(collection, splitNum, splitNo);
         
-        long i;
-        for ( i = 0; it.nextAlignment (); ++ i )
-        {
+        while (it.nextAlignment()) {
+            ++count;
+#if 1
             cout         << it.getReadId ()
                  << '\t' << it.getReferenceSpec ()
                  << '\t' << it.getAlignmentPosition ()
                  << '\t' << it.getShortCigar ( false )  // unclipped
                  << '\t' << it.getFragmentBases ()
                  << '\n';
+#endif
         }
         
-        cerr << "Read " <<  i <<  " alignments for " <<  run_name << '\n';
+        cerr << "Read " <<  count <<  " alignments for " <<  run_name << '\n';
     }
     static ReadCollection openReadCollection(String const &name) {
-        auto const length = name.length();
+        size_t const length = name.length();
         
         if (length > 4) {
-            String const ext = name.substr(length - 4);
+            string const ext = name.substr(length - 4);
             
             if (ext == ".bam") {
                 return NGS_BAM::openReadCollection(name);
