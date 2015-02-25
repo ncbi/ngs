@@ -42,7 +42,10 @@ class ReadCollection : public ngs_adapt::ReadCollectionItf
     BAMFile file;
     std::string const path;         /* path used to open the BAM file       */
 public:
-    ReadCollection(std::string const &filepath) : path(filepath), file(filepath) {};
+    ReadCollection(std::string const &filepath)
+    : path(filepath)
+    , file(filepath)
+    {};
     
     ngs_adapt::StringItf *getName() const;
     ngs_adapt::ReadGroupItf *getReadGroups() const;
