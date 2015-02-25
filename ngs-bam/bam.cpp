@@ -317,8 +317,8 @@ void BAMFile::DumpSAM(std::ostream &oss, BAMRecord const &rec) const
 }
 
 unsigned BAMFile::FillBuffer(int const n) {
-    char *const dst = (char *)(iobuffer + (n == 1 ? sizeof(iobuffer) / 2 : 0));
-    size_t const nwant = n == 1 ? sizeof(iobuffer) / 2 : sizeof(iobuffer);
+    size_t const nwant = n * IO_BLK_SIZE;
+    char *const dst = (char *)(iobuffer + 2 * IO_BLK_SIZE - nwant);
 #if USE_STDIO
     size_t const nread = feof(file) ? 0 : fread(dst, 1, nwant, file);
 #else
@@ -363,9 +363,12 @@ void BAMFile::ReadZlib(void) {
         
         zs.total_out = total_out;
         zs.total_in  = total_in;
+
+#if 0
+        std::cerr << std::dec << "total_in: " << total_in << "; avail_in: " << zs.avail_in << "; IO_BLK_SIZE: " << IO_BLK_SIZE << std::endl;
+#endif
         
-        if (   zs.next_in >= &iobuffer[sizeof(iobuffer)/2]
-               && zs.next_in + zs.avail_in == &iobuffer[sizeof(iobuffer)])
+        if (total_in >= IO_BLK_SIZE && total_in + zs.avail_in == 2 * IO_BLK_SIZE)
         {
             memcpy(iobuffer, &iobuffer[sizeof(iobuffer)/2], sizeof(iobuffer)/2);
             cpos += sizeof(iobuffer)/2;
@@ -437,7 +440,9 @@ void BAMFile::Seek(size_t const new_bpos, unsigned const new_bam_cur) {
     unsigned const c_offset = new_bpos % IO_BLK_SIZE;
     size_t const new_cpos = new_bpos - c_offset;
     
+#if 0
     std::cerr << "seek to " << std::hex << new_bpos << "|" << new_bam_cur << std::endl;
+#endif
     
 #if USE_STDIO
     if (fseek(file, new_cpos, SEEK_SET))
