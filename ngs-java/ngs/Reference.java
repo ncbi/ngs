@@ -114,6 +114,22 @@ public interface Reference
      */
 
     /** 
+     * Count all Alignments within the Reference
+     * @return 0 if there are no aligned Reads, &gt; 0 otherwise
+     * @throws ErrorMsg upon an error accessing data
+     */
+    long getAlignmentCount ()
+        throws ErrorMsg;
+/**
+     * Count selected Alignments within the Reference
+     * @param categories is a bitfield of AlignmentCategory
+     * @return count of all alignments
+     * @see ngs.Alignment Alignment interface for definitions of AlignmentCategory
+     */
+    long getAlignmentCount ( int categories )
+        throws ErrorMsg;
+
+    /** 
      * getAlignment
      * @return an individual Alignment
      * @throws ErrorMsg if Alignment does not exist or is not part of this Reference
