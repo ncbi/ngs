@@ -83,6 +83,16 @@ namespace ngs
     { return StringRef ( self -> getReferenceChunk ( offset, length ) ); }
 
     inline
+    uint64_t Reference :: getAlignmentCount () const
+        throw ( ErrorMsg )
+    { return self -> getAlignmentCount (); }
+
+    inline
+    uint64_t Reference :: getAlignmentCount ( Alignment :: AlignmentCategory categories ) const
+        throw ( ErrorMsg )
+    { return self -> getAlignmentCount ( ( uint32_t ) categories ); }
+
+    inline
     Alignment Reference :: getAlignment ( const String & alignmentId ) const
         throw ( ErrorMsg )
     { return Alignment ( ( AlignmentRef ) self -> getAlignment ( alignmentId . c_str () ) ); }
