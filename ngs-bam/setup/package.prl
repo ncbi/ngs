@@ -6,12 +6,13 @@ sub PACKAGE_NAME { 'NGS-BAM' }
 sub PACKAGE_NAMW { 'NGS_BAM' }
 sub DEPENDS      {}
 sub CONFIG_OUT   { '.' }
-sub PKG { ( LNG   => 'C',
-            OUT   => 'ncbi-outdir',
-            LOCOUT=> '../../../OUTDIR',
-            PATH  => '/usr/local/ngs/ngs-bam',
-            UPATH =>      '$HOME/ngs/ngs-bam',
-            NOMODPATH => 1,
+sub PKG { ( LNG       => 'C',
+            OUT       => 'ncbi-outdir',
+            LOCOUT    => '../../../OUTDIR',
+            PATH      => '/usr/local/ngs/ngs-bam',
+            UPATH     =>      '$HOME/ngs/ngs-bam',
+#           EXAMP     => '1',
+            NOMODPATH =>  1,
       ) }
 sub REQ { (
            { name       => 'ngs-sdk',
