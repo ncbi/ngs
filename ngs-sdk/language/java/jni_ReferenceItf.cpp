@@ -232,6 +232,34 @@ JNIEXPORT jstring JNICALL Java_ngs_itf_ReferenceItf_GetReferenceChunk
 
 /*
  * Class:     ngs_itf_ReferenceItf
+ * Method:    GetAlignmentCount
+ * Signature: (JI)J
+ */
+JNIEXPORT jlong JNICALL Java_ngs_itf_ReferenceItf_GetAlignmentCount
+    ( JNIEnv * jenv, jobject jthis, jlong jself, jint categories )
+{
+    try
+    {
+        return Self ( jself ) -> getAlignmentCount ( categories );
+    }
+    catch ( ErrorMsg & x )
+    {
+        ErrorMsgThrow ( jenv, xt_error_msg, x . what () );
+    }
+    catch ( std :: exception & x )
+    {
+        ErrorMsgThrow ( jenv, xt_runtime, x . what () );
+    }
+    catch ( ... )
+    {
+        JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
+    }
+
+    return 0;
+}
+
+/*
+ * Class:     ngs_itf_ReferenceItf
  * Method:    GetAlignment
  * Signature: (JLjava/lang/String;)J
  */
