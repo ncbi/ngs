@@ -129,6 +129,20 @@ class ReferenceItf
      * ALIGNMENTS
      */
 
+    /* getAlignmentCount
+     */
+    public long getAlignmentCount ()
+        throws ErrorMsg
+    {
+        return this . GetAlignmentCount ( self, Alignment . all );
+    }
+
+    public long getAlignmentCount ( int categories )
+        throws ErrorMsg
+    {
+        return this . GetAlignmentCount ( self, categories );
+    }
+
     /* getAlignment
      *  returns an individual Alignment
      *  throws ErrorMsg if Alignment does not exist
@@ -169,23 +183,6 @@ class ReferenceItf
             this . release ( ref );
             throw new ErrorMsg ( x . toString () );
         }
-    }
-
-
-    /* getAlignmentCount
-     *  returns count of all alignments
-     *  "categories" provides a means of filtering by AlignmentCategory
-     */
-    public long getAlignmentCount ()
-        throws ErrorMsg
-    {
-        return this . GetAlignmentCount ( self, Alignment . all );
-    }
-
-    public long getAlignmentCount ( int categories )
-        throws ErrorMsg
-    {
-        return this . GetAlignmentCount ( self, categories );
     }
 
     /* getAlignmentSlice
@@ -332,11 +329,11 @@ class ReferenceItf
         throws ErrorMsg;
     private native String GetReferenceChunk ( long self, long offset, long length )
         throws ErrorMsg;
+    private native long GetAlignmentCount ( long self, int categories )
+        throws ErrorMsg;
     private native long GetAlignment ( long self, String alignmentId )
         throws ErrorMsg;
     private native long GetAlignments ( long self, int categories )
-        throws ErrorMsg;
-    private native long GetAlignmentCount ( long self, int categories )
         throws ErrorMsg;
     private native long GetAlignmentSlice ( long self, long offset, long length, int categories )
         throws ErrorMsg;
