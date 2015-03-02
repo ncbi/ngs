@@ -58,6 +58,7 @@ namespace ngs_adapt
         virtual uint64_t getLength () const = 0;
         virtual StringItf * getReferenceBases ( uint64_t offset, uint64_t length ) const = 0;
         virtual StringItf * getReferenceChunk ( uint64_t offset, uint64_t length ) const = 0;
+        virtual uint64_t getAlignmentCount ( bool wants_primary, bool wants_secondary ) const = 0;
         virtual AlignmentItf * getAlignment ( const char * alignmentId ) const = 0;
         virtual AlignmentItf * getAlignments ( bool wants_primary, bool wants_secondary ) const = 0;
         virtual AlignmentItf * getAlignmentSlice ( int64_t start, uint64_t length, bool wants_primary, bool wants_secondary ) const = 0;
@@ -82,6 +83,8 @@ namespace ngs_adapt
             uint64_t offset, uint64_t length );
         static NGS_String_v1 * CC get_ref_chunk ( const NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err,
             uint64_t offset, uint64_t length );
+        static uint64_t CC get_alignment_count ( const NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err,
+            bool wants_primary, bool wants_secondary );
         static NGS_Alignment_v1 * CC get_alignment ( const NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err,
             const char * alignmentId );
         static NGS_Alignment_v1 * CC get_alignments ( const NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err,
