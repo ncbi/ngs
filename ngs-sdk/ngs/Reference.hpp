@@ -106,6 +106,15 @@ namespace ngs
          * ALIGNMENTS
          */
 
+        /* getAlignmentCount
+         *  returns count of all alignments
+         *  "categories" provides a means of filtering by AlignmentCategory
+         */
+        uint64_t getAlignmentCount () const
+            throw ( ErrorMsg );
+        uint64_t getAlignmentCount ( Alignment :: AlignmentCategory categories ) const
+            throw ( ErrorMsg );
+
         /* getAlignment
          *  returns an individual Alignment
          *  throws ErrorMsg if Alignment does not exist
