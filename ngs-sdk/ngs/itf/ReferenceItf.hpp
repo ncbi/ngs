@@ -46,7 +46,7 @@ namespace ngs
     /*----------------------------------------------------------------------
      * Reference
      */
-    class    ReferenceItf : public Refcount < ReferenceItf, NGS_Reference_v1 >
+    class ReferenceItf : public Refcount < ReferenceItf, NGS_Reference_v1 >
     {
     public:
 
@@ -65,6 +65,10 @@ namespace ngs
         StringItf * getReferenceChunk ( uint64_t offset ) const
             throw ( ErrorMsg );
         StringItf * getReferenceChunk ( uint64_t offset, uint64_t length ) const
+            throw ( ErrorMsg );
+        uint64_t getAlignmentCount () const
+            throw ( ErrorMsg );
+        uint64_t getAlignmentCount ( uint32_t categories ) const
             throw ( ErrorMsg );
         AlignmentItf * getAlignment ( const char * alignmentId ) const
             throw ( ErrorMsg );
