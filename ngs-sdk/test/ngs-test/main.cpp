@@ -196,6 +196,11 @@ TEST_BEGIN_REFERENCE ( Reference_getReferenceChunk )
     Assert ( "AG" == chunk );
 TEST_END
 
+TEST_BEGIN_REFERENCE ( Reference_getAlignmentCount )
+    uint64_t count = refs.getAlignmentCount ( ngs::Alignment::all );
+    Assert ( 19 == count );
+TEST_END
+
 TEST_BEGIN_REFERENCE( Reference_getAlignment )
     ngs::Alignment al = refs.getAlignment ("alignment" );
 TEST_END
