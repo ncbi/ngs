@@ -57,6 +57,14 @@ JNIEXPORT jstring JNICALL Java_ngs_itf_ReferenceItf_GetReferenceChunk
 
 /*
  * Class:     ngs_itf_ReferenceItf
+ * Method:    GetAlignmentCount
+ * Signature: (JI)J
+ */
+JNIEXPORT jlong JNICALL Java_ngs_itf_ReferenceItf_GetAlignmentCount
+  (JNIEnv *, jobject, jlong, jint);
+
+/*
+ * Class:     ngs_itf_ReferenceItf
  * Method:    GetAlignment
  * Signature: (JLjava/lang/String;)J
  */
@@ -69,14 +77,6 @@ JNIEXPORT jlong JNICALL Java_ngs_itf_ReferenceItf_GetAlignment
  * Signature: (JI)J
  */
 JNIEXPORT jlong JNICALL Java_ngs_itf_ReferenceItf_GetAlignments
-  (JNIEnv *, jobject, jlong, jint);
-
-/*
- * Class:     ngs_itf_ReferenceItf
- * Method:    GetAlignmentCount
- * Signature: (JI)J
- */
-JNIEXPORT jlong JNICALL Java_ngs_itf_ReferenceItf_GetAlignmentCount
   (JNIEnv *, jobject, jlong, jint);
 
 /*
