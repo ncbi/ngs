@@ -11,6 +11,6 @@ sub PKG { ( LNG   => 'C',
             LOCOUT=> '../../../OUTDIR',
             PATH  => '/usr/local/ngs/ngs-sdk',
             UPATH =>      '$HOME/ngs/ngs-sdk',
-            EXAMP => '1' ) }
+            EXAMP => '1', ) }
 sub REQ {}
 1
