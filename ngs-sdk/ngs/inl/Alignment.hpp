@@ -133,6 +133,11 @@ namespace ngs
     { return StringRef ( self -> getLongCigar ( clipped ) ); }
 
     inline
+    char Alignment :: getRNAOrientation () const
+        throw ( ErrorMsg )
+    { return self -> getRNAOrientation (); }
+    
+    inline
     bool Alignment :: hasMate () const
         throw ()
     { return self -> hasMate (); }
