@@ -1163,8 +1163,8 @@ sub status {
     println "javadir: $OPT{'javadir'}" if ($OPT{'javadir'});
     println "pythondir: $OPT{'pythondir'}" if ($OPT{'pythondir'});
 
-    println "CC = $CC";
-    println "CPP = $CPP";
+    println "CC = $CC"   if ($CC );
+    println "CPP = $CPP" if ($CPP);
     println "LDFLAGS = $LDFLAGS" if ($LDFLAGS);
 
     $CONFIGURED =~ s/\t/ /g;
