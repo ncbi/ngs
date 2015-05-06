@@ -42,7 +42,10 @@ class ReadCollection : public ngs_adapt::ReadCollectionItf
     BAMFile file;
     std::string const path;         /* path used to open the BAM file       */
 public:
-    ReadCollection(std::string const &filepath) : path(filepath), file(filepath) {};
+    ReadCollection(std::string const &filepath)
+    : path(filepath)
+    , file(filepath)
+    {};
     
     ngs_adapt::StringItf *getName() const;
     ngs_adapt::ReadGroupItf *getReadGroups() const;
@@ -332,6 +335,9 @@ public:
         throw std::runtime_error("not available");
     }
     ngs_adapt::StringItf *getReferenceChunk(uint64_t const offset, uint64_t const length) const {
+        throw std::runtime_error("not available");
+    }
+    uint64_t getAlignmentCount ( bool wants_primary, bool wants_secondary ) const {
         throw std::runtime_error("not available");
     }
     ngs_adapt::AlignmentItf *getAlignment(char const id[]) const {

@@ -194,6 +194,45 @@ namespace ngs
         return StringItf :: Cast ( ret );
     }
 
+
+    uint64_t ReferenceItf :: getAlignmentCount () const
+        throw ( ErrorMsg )
+    {
+        return this -> getAlignmentCount ( Alignment :: all );
+    }
+
+
+    uint64_t ReferenceItf :: getAlignmentCount ( uint32_t categories ) const
+        throw ( ErrorMsg )
+    {
+        // the object is really from C
+        const NGS_Reference_v1 * self = Test ();
+
+        // cast vtable to our level
+        const NGS_Reference_v1_vt * vt = Access ( self -> vt );
+
+        // test for v1.2
+        if ( vt -> dad . minor_version < 2 )
+            throw ErrorMsg ( "the Reference interface provided by this NGS engine is too old to support this message" );
+
+        // test for bad categories
+        // this should not be possible in C++, but it is possible from other bindings
+        if ( categories == 0 )
+            categories = Alignment :: primaryAlignment;
+
+        // call through C vtable
+        ErrBlock err;
+        assert ( vt -> get_align_count != 0 );
+        bool wants_primary      = ( categories & Alignment :: primaryAlignment ) != 0;
+        bool wants_secondary    = ( categories & Alignment :: secondaryAlignment ) != 0;
+        uint64_t ret  = ( * vt -> get_align_count ) ( self, & err, wants_primary, wants_secondary );
+
+        // check for errors
+        err . Check ();
+
+        return ret;
+    }
+
     AlignmentItf * ReferenceItf :: getAlignment ( const char * alignmentId ) const
         throw ( ErrorMsg )
     {
@@ -240,6 +279,7 @@ namespace ngs
 
         return AlignmentItf :: Cast ( ret );
     }
+
 
     AlignmentItf * ReferenceItf :: getAlignmentSlice ( int64_t start, uint64_t length ) const
         throw ( ErrorMsg )

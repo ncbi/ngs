@@ -24,6 +24,7 @@
  */
 
 #include <iostream>
+#include <fstream>
 #include "bam.hpp"
 
 #define MAX_INDEX_SEQ_LEN ((1u << 29) - 1)
@@ -316,13 +317,16 @@ void BAMFile::DumpSAM(std::ostream &oss, BAMRecord const &rec) const
 }
 
 unsigned BAMFile::FillBuffer(int const n) {
-    char *const dst = (char *)(iobuffer + (n == 1 ? sizeof(iobuffer) / 2 : 0));
-    size_t const nwant = n == 1 ? sizeof(iobuffer) / 2 : sizeof(iobuffer);
+    size_t const nwant = n * IO_BLK_SIZE;
+    char *const dst = (char *)(iobuffer + 2 * IO_BLK_SIZE - nwant);
+#if USE_STDIO
+    size_t const nread = feof(file) ? 0 : fread(dst, 1, nwant, file);
+#else
     size_t const nread = file.eof() ? 0 : file.read(dst, nwant).gcount();
     
     if (nread == 0 && !file.eof())
         throw std::runtime_error("read failed");
-    
+#endif
     return (unsigned)nread;
 }
 
@@ -334,14 +338,18 @@ void BAMFile::ReadZlib(void) {
     
     if (zs.avail_in == 0) {
     FILL_BUFFER:
+#if USE_STDIO
+        cpos = ftell(file);
+#else
         cpos = file.tellg();
+#endif
         zs.avail_in = FillBuffer(2);
         zs.next_in  = iobuffer;
         if (zs.avail_in == 0) /* EOF */
             return;
     }
     
-    bpos = cpos + (std::ifstream::pos_type)(zs.next_in - iobuffer);
+    bpos = cpos + (zs.next_in - iobuffer);
     int const zrc = inflate(&zs, Z_FINISH);
     
     if (zrc == Z_STREAM_END) {
@@ -355,9 +363,12 @@ void BAMFile::ReadZlib(void) {
         
         zs.total_out = total_out;
         zs.total_in  = total_in;
+
+#if 0
+        std::cerr << std::dec << "total_in: " << total_in << "; avail_in: " << zs.avail_in << "; IO_BLK_SIZE: " << IO_BLK_SIZE << std::endl;
+#endif
         
-        if (   zs.next_in >= &iobuffer[sizeof(iobuffer)/2]
-               && zs.next_in + zs.avail_in == &iobuffer[sizeof(iobuffer)])
+        if (total_in >= IO_BLK_SIZE && total_in + zs.avail_in == 2 * IO_BLK_SIZE)
         {
             memcpy(iobuffer, &iobuffer[sizeof(iobuffer)/2], sizeof(iobuffer)/2);
             cpos += sizeof(iobuffer)/2;
@@ -425,14 +436,22 @@ size_t BAMFile::SkipN(size_t N) {
     return n;
 }
 
-void BAMFile::Seek(std::ifstream::pos_type const &new_bpos, unsigned const new_bam_cur) {
+void BAMFile::Seek(size_t const new_bpos, unsigned const new_bam_cur) {
     unsigned const c_offset = new_bpos % IO_BLK_SIZE;
-    std::ifstream::pos_type const new_cpos = new_bpos - std::ifstream::pos_type(c_offset);
-
-    std::cerr << "seek to " << std::hex << new_bpos << "|" << new_bam_cur << std::endl;
+    size_t const new_cpos = new_bpos - c_offset;
     
+#if 0
+    std::cerr << "seek to " << std::hex << new_bpos << "|" << new_bam_cur << std::endl;
+#endif
+    
+#if USE_STDIO
+    if (fseek(file, new_cpos, SEEK_SET))
+        throw std::runtime_error("position is invalid");
+    cpos = ftell(file);
+#else
     file.seekg(new_cpos);
     cpos = file.tellg();
+#endif
     zs.avail_in = FillBuffer(2);
     if (zs.avail_in > c_offset) {
         zs.avail_in -= c_offset;
@@ -597,14 +616,25 @@ BAMFile::BAMFile(std::string const &filepath)
 {
     InflateInit();
     
+#if USE_STDIO
+    file = fopen(filepath.c_str(), "rb");
+    if (file == NULL)
+        throw std::runtime_error(std::string("The file '")+filepath+"' could not be opened");
+#else
     file.open(filepath.c_str(), std::ifstream::in | std::ifstream::binary);
     if (!file.is_open())
         throw std::runtime_error(std::string("The file '")+filepath+"' could not be opened");
-    
+#endif
+
     ReadHeader();
-    first_bpos = cpos + (std::ifstream::pos_type)(zs.next_in - iobuffer);
+    first_bpos = cpos + (zs.next_in - iobuffer);
     first_bam_cur = bam_cur;
     LoadIndex(filepath);
+}
+
+BAMFile::~BAMFile()
+{
+    inflateEnd(&zs);
 }
 
 BAMRecord const *BAMFile::Read()

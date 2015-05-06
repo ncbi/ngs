@@ -82,6 +82,11 @@ namespace ngs_test_engine
             return new ngs_adapt :: StringItf ( bases.c_str(), bases.size() ); 
         }
 
+        virtual uint64_t getAlignmentCount ( bool wants_primary, bool wants_secondary ) const
+        {
+            return ( 13 * wants_primary ) + ( 6 * wants_secondary );
+        }
+
         virtual ngs_adapt :: AlignmentItf * getAlignment ( const char * alignmentId ) const
         {
             return new ngs_test_engine::AlignmentItf ( alignmentId ); 

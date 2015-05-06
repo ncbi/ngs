@@ -85,6 +85,9 @@ struct NGS_Reference_v1_vt
     /* v1.1 interface */
     struct NGS_Pileup_v1 * ( CC * get_filtered_pileups ) ( const NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err, uint32_t flags, int32_t map_qual );
     struct NGS_Pileup_v1 * ( CC * get_filtered_pileup_slice ) ( const NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err, int64_t start, uint64_t length, uint32_t flags, int32_t map_qual );
+
+    /* 1.2 interface */
+    uint64_t ( CC * get_align_count ) ( const NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err, bool wants_primary, bool wants_secondary );
 };
 
 
