@@ -25,11 +25,11 @@
 default: std
 
 ifeq (Darwin,$(shell uname -s))
-CFLAGS += -mmacosx-version-min=10.6
+MFLAGS += -mmacosx-version-min=10.6
 endif
 
-CC = cc $(CFLAGS)
-CXX = c++ $(CPPFLAGS)
+CC = cc $(MFLAGS) $(CFLAGS)
+CXX = c++ $(MFLAGS) $(CPPFLAGS)
 
 # ensure definition of paths, namely
 # NCBI_VDB_LIBDIR and NGS_LIBDIR
