@@ -62,12 +62,11 @@ clean:
 TEST_LIBS =              \
     -L$(NCBI_VDB_LIBDIR) \
     -L$(NGS_LIBDIR)      \
-	-L$(NGS_BAM_LIBDIR)  \
     -lncbi-ngs-c++       \
     -lngs-c++            \
+    -lncbi-ngs-c++       \
     -lncbi-vdb-static    \
-	-lngs-bam-c++        \
-	-lngs-adapt-c++      \
+    -lngs-adapt-c++      \
     -lpthread            \
     -ldl                 \
     -lm
@@ -107,18 +106,18 @@ AlignSliceTest: $(ALIGNSLICE_TEST_SRC)
 # PileupTest
 #  slice a ReadCollection and produce pileups
 PILEUP_TEST_OBJ = \
-    PileupTest.o
+    PileupTest.cpp
 
 PileupTest: $(PILEUP_TEST_OBJ)
-	$(CXX) -o $@ $^ $(TEST_LIBS)
+	$(CXX) -g -o $@ $^ $(TEST_LIBS)
 
 # FastqTableDump
 #  produce fastq-like table
 FASTQ_TABLE_DUMP_OBJ = \
-    FastqTableDump.o
+    FastqTableDump.cpp
 
 FastqTableDump: $(FASTQ_TABLE_DUMP_OBJ)
-	$(CXX) -o $@ $^ $(TEST_LIBS)
+	$(CXX) -g -o $@ $^ $(TEST_LIBS)
 
 # ===========================================================================
 #
