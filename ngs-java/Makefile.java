@@ -92,9 +92,9 @@ $(INST_JARDIR)/ngs-java.jar.$(VERSION): $(LIBDIR)/ngs-java.jar
 	@ echo -n "installing '$(@F)'... "
 	@ if cp $^ $@ && chmod 644 $@;                                                    \
 	  then                                                                            \
-	      rm -f $(subst $(VERSION),$(MAJVERS),$@) $(subst jar.$(VERSION),jar,$@);     \
-	      ln -s $(@F) $(subst $(VERSION),$(MAJVERS),$@);                              \
-	      ln -s $(subst $(VERSION),$(MAJVERS),$(@F)) $(subst jar.$(VERSION),jar,$@) ; \
+	      rm -f $(patsubst %$(VERSION),%$(MAJVERS),$@) $(patsubst %jar.$(VERSION),%jar,$@);     \
+	      ln -s $(@F) $(patsubst %$(VERSION),%$(MAJVERS),$@);                              \
+	      ln -s $(patsubst %$(VERSION),%$(MAJVERS),$(@F)) $(patsubst %jar.$(VERSION),%jar,$@) ; \
 	      echo success;                                                               \
 	  else                                                                            \
 	      echo failure;                                                               \
