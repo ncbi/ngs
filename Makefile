@@ -38,9 +38,14 @@ SUBDIRS_CLN = \
 SUBDIRS_INST = \
 	$(addsuffix _inst,$(SUBDIRS))
 
+SUBDIRS_TST = \
+	$(addsuffix _test,$(SUBDIRS))
+
 subdirs: $(SUBDIRS)
 
 clean: $(SUBDIRS_CLN)
+
+test: $(SUBDIRS_TST)
 
 install: $(SUBDIRS_INST)
 
@@ -52,5 +57,8 @@ $(SUBDIRS_CLN):
 
 $(SUBDIRS_INST):
 	@ $(MAKE) -C $(subst _inst,,$@) install
+
+$(SUBDIRS_TST):
+	@ $(MAKE) -C $(subst _test,,$@) test
 
 .PHONY: $(SUBDIRS) $(SUBDIRS_CLN) $(SUBDIRS_INST)
