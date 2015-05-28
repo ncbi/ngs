@@ -58,7 +58,7 @@ public class ReadGroupTest
     {
         if ( args.length != 1 )
         {
-                System.out.print("Usage: RefTest accession\n");
+                System.out.print("Usage: ReadGroupTest accession\n");
         }
         else try
         {
