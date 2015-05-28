@@ -37,7 +37,7 @@
     <ItemDefinitionGroup>
         <ClCompile>
             <PreprocessorDefinitions>_LIBRARY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-        </ClCompile>
+            <AdditionalIncludeDirectories>..\language\java;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>        </ClCompile>
         <Link>
             <NoEntryPoint>false</NoEntryPoint>
         </Link>
@@ -81,6 +81,25 @@
         <ClCompile Include="..\language\c++\ReferenceIterator.cpp" />
         <ClCompile Include="..\language\c++\Statistics.cpp" />
         <ClCompile Include="..\language\c++\StringRef.cpp" />
+        <ClCompile Include="..\language\java\jni_AlignmentIteratorItf.cpp" />
+        <ClCompile Include="..\language\java\jni_AlignmentItf.cpp" />
+        <ClCompile Include="..\language\java\jni_ErrorMsg.cpp" />
+        <ClCompile Include="..\language\java\jni_FragmentItf.cpp" />
+        <ClCompile Include="..\language\java\jni_PileupEventIteratorItf.cpp" />
+        <ClCompile Include="..\language\java\jni_PileupEventItf.cpp" />
+        <ClCompile Include="..\language\java\jni_PileupIteratorItf.cpp" />
+        <ClCompile Include="..\language\java\jni_PileupItf.cpp" />
+        <ClCompile Include="..\language\java\jni_ReadCollectionItf.cpp" />
+        <ClCompile Include="..\language\java\jni_ReadGroupIteratorItf.cpp" />
+        <ClCompile Include="..\language\java\jni_ReadGroupItf.cpp" />
+        <ClCompile Include="..\language\java\jni_ReadIteratorItf.cpp" />
+        <ClCompile Include="..\language\java\jni_ReadItf.cpp" />
+        <ClCompile Include="..\language\java\jni_Refcount.cpp" />
+        <ClCompile Include="..\language\java\jni_ReferenceIteratorItf.cpp" />
+        <ClCompile Include="..\language\java\jni_ReferenceItf.cpp" />
+        <ClCompile Include="..\language\java\jni_StatisticsItf.cpp" />
+        <ClCompile Include="..\language\java\jni_String.cpp" />
+        
     </ItemGroup>
   
 </Project>

@@ -1,0 +1,55 @@
+<project>
+
+    <!-- This file is currently for use on Windows; Linux/Mac builds are run via gmake -->
+    <property environment="env"/>
+    <property name="vdb.dir"   value="${env.USERPROFILE}\win\cl\x64\Debug\bin" />
+    <property name="build.dir" value="${env.USERPROFILE}\ncbi-outdir\ngs-java" />
+    
+    <property name="classes.dir" value="${build.dir}\cls" />
+
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="api">
+        <mkdir dir="${classes.dir}"/>
+        <javac includeantruntime="false" srcdir="ngs" destdir="${classes.dir}"/>
+    </target>
+    <target name="ncbi" depends="api">
+        <mkdir dir="${classes.dir}"/>
+        <javac includeantruntime="false" srcdir="gov" destdir="${classes.dir}"/>
+    </target>
+    <target name="examples" depends="ncbi">
+        <mkdir dir="${classes.dir}"/>
+        <javac includeantruntime="false" srcdir="examples\examples" includes="FragTest.java" destdir="${classes.dir}"/>
+    </target>
+
+    <target name="jar" depends="ncbi">
+        <mkdir dir="${build.dir}\jar"/>
+        <jar destfile="${build.dir}\jar\ngs-java.jar" >
+            <fileset dir="${classes.dir}" includes="ngs\**" />
+            <fileset dir="${classes.dir}" includes="gov\**" />
+        </jar>
+    </target>
+    <target name="examples-jar" depends="examples">
+        <mkdir dir="${build.dir}\jar"/>
+        <jar destfile="${build.dir}\jar\ngs-examples.jar" basedir="${classes.dir}" includes="examples\**">
+        </jar>
+    </target>
+
+    <target name="run" depends="jar,examples-jar">
+        <java classname="examples.FragTest" fork="true" failonerror="true" >
+            <classpath>
+                <pathelement location="${build.dir}\jar\ngs-examples.jar" />
+                <pathelement location="${build.dir}\jar\ngs-java.jar" />
+            </classpath>
+            <sysproperty key="java.library.path" path="${vdb.dir}" />
+            <sysproperty key="vdb.System.loadLibrary" value="1" />
+            <sysproperty key="vdb.log" value="FINEST" />
+            <arg value="ERR225922" />
+            <arg value="10000" />
+            <arg value="2" />
+        </java>
+    </target>
+
+</project>

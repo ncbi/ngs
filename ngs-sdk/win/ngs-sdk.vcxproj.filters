@@ -7,6 +7,9 @@
     <Filter Include="ngs-bind-c++ sources">
       <UniqueIdentifier>{514f37fa-57ab-43fb-b59c-fa261430dfde}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ngs-bind-java sources">
+      <UniqueIdentifier>{577b60af-a77c-4f5e-b720-42439623c791}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\language\c++\Alignment.cpp">
@@ -101,6 +104,60 @@
     </ClCompile>
     <ClCompile Include="..\dispatch\StringItf.cpp">
       <Filter>ngs-disp-sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\language\java\jni_AlignmentIteratorItf.cpp">
+      <Filter>ngs-bind-java sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\language\java\jni_String.cpp">
+      <Filter>ngs-bind-java sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\language\java\jni_AlignmentItf.cpp">
+      <Filter>ngs-bind-java sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\language\java\jni_ErrorMsg.cpp">
+      <Filter>ngs-bind-java sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\language\java\jni_FragmentItf.cpp">
+      <Filter>ngs-bind-java sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\language\java\jni_PileupEventIteratorItf.cpp">
+      <Filter>ngs-bind-java sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\language\java\jni_PileupEventItf.cpp">
+      <Filter>ngs-bind-java sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\language\java\jni_PileupIteratorItf.cpp">
+      <Filter>ngs-bind-java sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\language\java\jni_PileupItf.cpp">
+      <Filter>ngs-bind-java sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\language\java\jni_ReadCollectionItf.cpp">
+      <Filter>ngs-bind-java sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\language\java\jni_ReadGroupIteratorItf.cpp">
+      <Filter>ngs-bind-java sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\language\java\jni_ReadGroupItf.cpp">
+      <Filter>ngs-bind-java sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\language\java\jni_ReadIteratorItf.cpp">
+      <Filter>ngs-bind-java sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\language\java\jni_ReadItf.cpp">
+      <Filter>ngs-bind-java sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\language\java\jni_Refcount.cpp">
+      <Filter>ngs-bind-java sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\language\java\jni_ReferenceIteratorItf.cpp">
+      <Filter>ngs-bind-java sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\language\java\jni_ReferenceItf.cpp">
+      <Filter>ngs-bind-java sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\language\java\jni_StatisticsItf.cpp">
+      <Filter>ngs-bind-java sources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
