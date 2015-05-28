@@ -22,6 +22,11 @@
     <target name="examples" depends="ncbi">
         <mkdir dir="${classes.dir}"/>
         <javac includeantruntime="false" srcdir="examples\examples" includes="FragTest.java" destdir="${classes.dir}"/>
+        <javac includeantruntime="false" srcdir="examples\examples" includes="AlignTest.java" destdir="${classes.dir}"/>
+        <javac includeantruntime="false" srcdir="examples\examples" includes="AlignSliceTest.java" destdir="${classes.dir}"/>
+        <javac includeantruntime="false" srcdir="examples\examples" includes="PileupTest.java" destdir="${classes.dir}"/>
+        <javac includeantruntime="false" srcdir="examples\examples" includes="ReadGroupTest.java" destdir="${classes.dir}"/>
+        <javac includeantruntime="false" srcdir="examples\examples" includes="RefTest.java" destdir="${classes.dir}"/>
     </target>
 
     <target name="jar" depends="ncbi">
@@ -33,23 +38,68 @@
     </target>
     <target name="examples-jar" depends="examples">
         <mkdir dir="${build.dir}\jar"/>
-        <jar destfile="${build.dir}\jar\ngs-examples.jar" basedir="${classes.dir}" includes="examples\**">
-        </jar>
+        <jar destfile="${build.dir}\jar\ngs-examples.jar" basedir="${classes.dir}" includes="examples\**" />
     </target>
-
+    
+    
+    <macrodef name="run-example">
+        <attribute name="class" />
+        <element name="args" optional="yes" />
+        <sequential>
+            <java classname="examples.@{class}" fork="true" failonerror="true" >
+                <classpath>
+                    <pathelement location="${build.dir}\jar\ngs-examples.jar" />
+                    <pathelement location="${build.dir}\jar\ngs-java.jar" />
+                </classpath>
+                <sysproperty key="java.library.path" path="${vdb.dir}" />
+                <sysproperty key="vdb.System.loadLibrary" value="1" />
+                <sysproperty key="vdb.log" value="FINEST" />
+                <args />
+            </java>
+        </sequential>
+    </macrodef>
+    
     <target name="run" depends="jar,examples-jar">
-        <java classname="examples.FragTest" fork="true" failonerror="true" >
-            <classpath>
-                <pathelement location="${build.dir}\jar\ngs-examples.jar" />
-                <pathelement location="${build.dir}\jar\ngs-java.jar" />
-            </classpath>
-            <sysproperty key="java.library.path" path="${vdb.dir}" />
-            <sysproperty key="vdb.System.loadLibrary" value="1" />
-            <sysproperty key="vdb.log" value="FINEST" />
-            <arg value="ERR225922" />
-            <arg value="10000" />
-            <arg value="2" />
-        </java>
+        <run-example class="FragTest">
+            <args>
+                <arg value="ERR225922" />
+                <arg value="10000" />
+                <arg value="2" />
+            </args>
+        </run-example>
+        <run-example class="AlignTest">
+            <args>
+                <arg value="ERR225922" />
+                <arg value="10000" />
+                <arg value="2" />
+            </args>
+        </run-example>
+        <run-example class="AlignSliceTest">
+            <args>
+                <arg value="SRR1121656" />
+                <arg value="1" />
+                <arg value="1" />
+                <arg value="9999" />
+            </args>
+        </run-example>
+        <run-example class="PileupTest">
+            <args>
+                <arg value="SRR1121656" />
+                <arg value="1" />
+                <arg value="9999" />
+                <arg value="10003" />
+            </args>
+        </run-example>
+        <run-example class="ReadGroupTest">
+            <args>
+                <arg value="SRR1121656" />
+            </args>
+        </run-example>
+        <run-example class="RefTest">
+            <args>
+                <arg value="SRR1121656" />
+            </args>
+        </run-example>
     </target>
 
 </project>
