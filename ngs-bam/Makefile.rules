@@ -58,7 +58,7 @@ install: Makefile.config $(SUBTARGS_INST)
 
 # rule to run tests
 test runtests: Makefile.config default
-	@ $(MAKE) -C test runtests
+#	@ $(MAKE) -C test runtests
 
 # rule to run configuration
 Makefile.config: Makefile.config.$(shell perl $(TOP)/setup/os-arch.perl) setup/konfigure.perl
