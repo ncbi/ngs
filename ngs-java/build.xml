@@ -2,7 +2,8 @@
 
     <!-- This file is currently for use on Windows; Linux/Mac builds are run via gmake -->
     <property environment="env"/>
-    <property name="vdb.dir"   value="${env.USERPROFILE}\win\cl\x64\Debug\bin" />
+    <property name="vdb.build"   value="Debug" />
+    <property name="vdb.dir"   value="${env.USERPROFILE}\win\cl\x64\${vdb.build}\bin" />
     <property name="build.dir" value="${env.USERPROFILE}\ncbi-outdir\ngs-java" />
     
     <property name="classes.dir" value="${build.dir}\cls" />
