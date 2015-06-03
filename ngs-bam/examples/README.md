@@ -1,6 +1,6 @@
-Please run
+Before trying to build these examples, please run
 ```
 make
 make install
 ```
-in `ncbi-vdb` and `ngs` before trying to build these examples.
+in `ncbi-vdb` and `ngs` and follow their directions to set the appropriate environment variables.
