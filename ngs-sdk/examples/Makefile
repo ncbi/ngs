@@ -124,13 +124,22 @@ FastqTableDump: $(FASTQ_TABLE_DUMP_OBJ)
 # example runs
 
 run_frag:  FragTest
-	./$^ ERR225922 1 1
+	./$^ ERR225922 10000 2
 
 run_align: AlignTest
-	./$^ ERR225922 1 1
+	./$^ ERR225922 10000 2
 
 run_align_slice: AlignSliceTest
-	./$^ SRR1121656 1 10000 20000
+	./$^ SRR1121656 1 1 9999
 
+run_pileup_test: PileupTest
+	./$^ SRR1121656 1 9999 10003
 
-.PHONY: run_align run_align_slice run_frag
+run_ref_test: RefTest
+	./$^ SRR1121656
+    
+ALL_TESTS = run_frag run_align run_align_slice run_pileup_test run_ref_test    
+    
+run_all: $(ALL_TESTS)
+    
+.PHONY: $(ALL_TESTS)
