@@ -55,29 +55,48 @@ NGS-JavaTest.jar: $(NGS_EXAMPLES_PATH)
 # example runs
 
 JAVAFLAGS = -classpath $(CLASSPATH) 
-#JAVAFLAGS += -Dvdb.System.loadLibrary=1
+
+# Expect libngs-sdk.so and libncbi-vdb.so somewhere inside $LD_LIBRARY_PATH;
+#   if the libraries are not found, error out.
+# Comment out to rely on "smart load" instead (may download libraries from NCBI):
+JAVAFLAGS += -Djava.library.path=$(LD_LIBRARY_PATH) -Dvdb.System.loadLibrary=1
+
+# uncomment to see detailed log"
 #JAVAFLAGS += -Dvdb.log=FINEST
 
 run_frag: NGS-JavaTest.jar
-	java $(JAVAFLAGS) examples.FragTest ERR225922 10000 2 
+	java $(JAVAFLAGS) examples.FragTest ERR225922 10000 2  $(REDIRECT)
 
 run_align: NGS-JavaTest.jar
-	java $(JAVAFLAGS) examples.AlignTest ERR225922 10000 2
+	java $(JAVAFLAGS) examples.AlignTest ERR225922 10000 2 $(REDIRECT)
 
 run_align_slice: NGS-JavaTest.jar
-	java $(JAVAFLAGS) examples.AlignSliceTest SRR1121656 1 1 9999
+	java $(JAVAFLAGS) examples.AlignSliceTest SRR1121656 1 1 9999 $(REDIRECT)
 
 run_pileup: NGS-JavaTest.jar
-	java $(JAVAFLAGS) examples.PileupTest SRR1121656 1 9999 10003
+	java $(JAVAFLAGS) examples.PileupTest SRR1121656 1 9999 10003 $(REDIRECT)
 
 run_ref: NGS-JavaTest.jar
-	java $(JAVAFLAGS) examples.RefTest SRR1121656
+	java $(JAVAFLAGS) examples.RefTest SRR1121656 $(REDIRECT)
     
 run_read_group: NGS-JavaTest.jar
-	java $(JAVAFLAGS) examples.ReadGroupTest SRR1121656
+	java $(JAVAFLAGS) examples.ReadGroupTest SRR1121656 $(REDIRECT)
     
 ALL_TESTS = run_frag run_align run_align_slice run_pileup run_ref run_read_group
     
 run_all: $(ALL_TESTS)
-    
+
 .PHONY: $(ALL_TESTS)
+
+# ===========================================================================
+#
+# expected results for auto-testing
+#
+update_expected: 
+	rm -f expected.txt; $(MAKE) run_all REDIRECT=">>expected.txt"
+
+run_and_diff: 
+	rm -f actual.txt; $(MAKE) run_all REDIRECT=">>actual.txt"
+	diff expected.txt actual.txt && rm actual.txt && echo NGS C++ examples work as expected
+
+.PHONY: update_expected run_and_diff

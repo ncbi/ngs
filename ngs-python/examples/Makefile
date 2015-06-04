@@ -55,22 +55,35 @@ NGS_EXAMPLES = \
 # example runs
 
 run_frag: 
-	python FragTest$(PYTHON_VERS).py ERR225922 10000 2 
+	python FragTest$(PYTHON_VERS).py ERR225922 10000 2 $(REDIRECT)
 
 run_align: 
-	python AlignTest$(PYTHON_VERS).py ERR225922 10000 2 
+	python AlignTest$(PYTHON_VERS).py ERR225922 10000 2 $(REDIRECT)
 
 run_align_slice: 
-	python AlignSliceTest$(PYTHON_VERS).py SRR1121656 1 1 9999
+	python AlignSliceTest$(PYTHON_VERS).py SRR1121656 1 1 9999 $(REDIRECT)
 
 run_pileup:
-	python PileupTest$(PYTHON_VERS).py SRR1121656 1 9999 10003
+	python PileupTest$(PYTHON_VERS).py SRR1121656 1 9999 10003 $(REDIRECT)
 
 run_ref:
-	python RefTest$(PYTHON_VERS).py SRR1121656
+	python RefTest$(PYTHON_VERS).py SRR1121656 $(REDIRECT)
     
 ALL_TESTS = run_frag run_align run_align_slice run_pileup run_ref
     
 run_all: $(ALL_TESTS)
     
 .PHONY: run_align run_align_slice run_frag
+
+# ===========================================================================
+#
+# expected results for auto-testing
+#
+update_expected: 
+	rm -f expected.txt; $(MAKE) run_all REDIRECT=">>expected.txt"
+
+run_and_diff: 
+	rm -f actual.txt; $(MAKE) run_all REDIRECT=">>actual.txt"
+	diff expected.txt actual.txt && rm actual.txt && echo NGS C++ examples work as expected
+
+.PHONY: update_expected run_and_diff
