@@ -124,22 +124,35 @@ FastqTableDump: $(FASTQ_TABLE_DUMP_OBJ)
 # example runs
 
 run_frag:  FragTest
-	./$^ ERR225922 10000 2
+	./$^ ERR225922 10000 2 $(REDIRECT)
 
 run_align: AlignTest
-	./$^ ERR225922 10000 2
+	./$^ ERR225922 10000 2 $(REDIRECT)
 
 run_align_slice: AlignSliceTest
-	./$^ SRR1121656 1 1 9999
+	./$^ SRR1121656 1 1 9999 $(REDIRECT)
 
 run_pileup: PileupTest
-	./$^ SRR1121656 1 9999 10003
+	./$^ SRR1121656 1 9999 10003 $(REDIRECT)
 
 run_ref: RefTest
-	./$^ SRR1121656
+	./$^ SRR1121656 $(REDIRECT)
     
 ALL_TESTS = run_frag run_align run_align_slice run_pileup run_ref
     
 run_all: $(ALL_TESTS)
-    
+
 .PHONY: $(ALL_TESTS)
+
+# ===========================================================================
+#
+# expected results for auto-testing
+#
+update_expected: 
+	rm -f expected.txt; $(MAKE) run_all REDIRECT=">>expected.txt"
+
+run_and_diff: 
+	rm -f actual.txt; $(MAKE) run_all REDIRECT=">>actual.txt"
+	diff expected.txt actual.txt && rm actual.txt
+    
+.PHONY: update_expected run_and_diff
