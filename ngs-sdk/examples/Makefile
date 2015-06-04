@@ -132,13 +132,13 @@ run_align: AlignTest
 run_align_slice: AlignSliceTest
 	./$^ SRR1121656 1 1 9999
 
-run_pileup_test: PileupTest
+run_pileup: PileupTest
 	./$^ SRR1121656 1 9999 10003
 
-run_ref_test: RefTest
+run_ref: RefTest
 	./$^ SRR1121656
     
-ALL_TESTS = run_frag run_align run_align_slice run_pileup_test run_ref_test    
+ALL_TESTS = run_frag run_align run_align_slice run_pileup run_ref
     
 run_all: $(ALL_TESTS)
     
