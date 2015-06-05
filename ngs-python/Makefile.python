@@ -49,6 +49,21 @@ copyexamples:
 #-------------------------------------------------------------------------------
 # install
 # 
+ifeq (mac, $(OS))
+$(INST_PYTHONDIR):
+	@ mkdir -p $@
+
+install: $(TARGETS) $(INST_PYTHONDIR)
+ifeq (0, $(shell id -u))
+	@ echo "Installing ngs-python package..."
+	@ python setup.py install
+ 
+else
+	@ echo "Installing ngs-python package..."
+	@ python setup.py install --user
+endif
+endif
+
 ifeq (linux, $(OS))
 
 #fake root for debugging
