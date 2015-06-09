@@ -49,12 +49,16 @@ SUBDIRS_INST = \
 	$(addsuffix _inst,$(SUBDIRS))
 
 $(SUBDIRS_INST): Makefile.config
-	@ $(MAKE) -s -C $(subst _inst,,$@) install
+	@ echo "Checking make status of ngs-java/$(subst _inst,,$@)..."
+	@ $(MAKE) -s --no-print-directory -C $(subst _inst,,$@) install
 
 SUBTARGS_INST = \
 	$(addsuffix _inst,$(SUBTARGS))
 
 install: Makefile.config $(SUBTARGS_INST)
+
+uninstall: Makefile.config
+	@ $(MAKE) -s --no-print-directory -f Makefile.java $@
 
 # rule to run tests
 test runtests: Makefile.config

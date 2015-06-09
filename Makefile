@@ -56,7 +56,7 @@ $(SUBDIRS_CLN):
 	@ $(MAKE) -C $(subst _cln,,$@) clean
 
 $(SUBDIRS_INST):
-	@ $(MAKE) -C $(subst _inst,,$@) install
+	@ $(MAKE) -s --no-print-directory -C $(subst _inst,,$@) install
 
 $(SUBDIRS_TST):
 	@ $(MAKE) -C $(subst _test,,$@) test

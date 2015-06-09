@@ -49,12 +49,16 @@ SUBDIRS_INST = \
 	$(addsuffix _inst,$(SUBDIRS))
 
 $(SUBDIRS_INST): Makefile.config
-	@ $(MAKE) -C $(subst _inst,,$@) install
+	@ echo "Checking make status of ngs-sdk/$(subst _inst,,$@)..."
+	@ $(MAKE) -s --no-print-directory -C $(subst _inst,,$@)
 
 SUBTARGS_INST = \
 	$(addsuffix _inst,$(SUBTARGS))
 
 install: Makefile.config $(SUBTARGS_INST)
+
+uninstall: Makefile.config
+	@ $(MAKE) -s --no-print-directory -f Makefile.install $@
 
 # rule to run tests
 test runtests: Makefile.config default

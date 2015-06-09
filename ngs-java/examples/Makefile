@@ -47,14 +47,14 @@ NGS_EXAMPLES_PATH = \
 	$(addprefix examples/,$(addsuffix .java,$(NGS_EXAMPLES)))
 
 NGS-JavaTest.jar: $(NGS_EXAMPLES_PATH)
-	javac $^ -d . -classpath $(CLASSPATH)
+	javac $^ -d . 
 	( jar cf $@ `find examples -name "*.class"`; chmod -x,o-w $@ ) || ( rm -f $@ && false )
 
 # ===========================================================================
 #
 # example runs
 
-JAVAFLAGS = -classpath $(CLASSPATH) 
+JAVAFLAGS = -classpath .
 
 # Expect libngs-sdk.so and libncbi-vdb.so somewhere inside $LD_LIBRARY_PATH;
 #   if the libraries are not found, error out.

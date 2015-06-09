@@ -56,11 +56,11 @@ $(INST_PYTHONDIR):
 install: $(TARGETS) $(INST_PYTHONDIR)
 ifeq (0, $(shell id -u))
 	@ echo "Installing ngs-python package..."
-	@ python setup.py install
+	@ python setup.py -q install
  
 else
 	@ echo "Installing ngs-python package..."
-	@ python setup.py install --user
+	@ python setup.py -q install --user
 endif
 endif
 
@@ -78,11 +78,11 @@ $(INST_PYTHONDIR):
 install: $(TARGETS) $(INST_PYTHONDIR) copyexamples
 ifeq (0, $(shell id -u))
 	@ echo "Installing ngs package..."
-	@ python setup.py install
+	@ python setup.py -q install
    
 else
 	@ echo "Installing ngs package..."
-	@ python setup.py install --user
+	@ python setup.py -q install --user
 endif
 
 ifneq (, $(NGS_LIBDIR))

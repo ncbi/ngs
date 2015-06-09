@@ -42,7 +42,9 @@ LIB_TARGET = $(INST_LIBDIR)$(BITS)
 LIBRARIES_WITH_PREFIX = \
 	$(addprefix $(LIB_TARGET)/$(LPFX),$(LIBRARIES_TO_INSTALL))
 
-copylibs: $(LIB_TARGET) $(LIBRARIES_WITH_PREFIX)
+copylibs: $(LIB_TARGET) 
+	@ echo "Installing libraries to $(LIB_TARGET)"
+	@ $(MAKE) -f Makefile.install $(LIBRARIES_WITH_PREFIX)
 
 copyincludes:
 	@ echo "Installing includes to $(INST_INCDIR)"
@@ -51,8 +53,8 @@ copyincludes:
 
 copyexamples:
 	@ echo "Installing examples to $(INST_SHAREDIR)"
-	@ mkdir -p $(INST_SHAREDIR)
-	@ cp -r $(TOP)/examples $(INST_SHAREDIR)/
+	@ mkdir -p $(INST_SHAREDIR)/examples
+	@ $(MAKE) -C $(TOP)/examples install INST_TARGET=$(INST_SHAREDIR)/examples
 
 #fake root for debugging
 #uncomment this line and change the test for root ( see under install: ) to succeed:
@@ -102,5 +104,17 @@ else
 	@ echo "      ld -L\$$NGS_LIBDIR -lngs-sdk ..."
 endif
 
-.PHONY: install copylibs copyincludes copyexamples
+TO_UNINSTALL = $(LIB_TARGET)/libngs-* $(INST_INCDIR)/ngs $(INST_SHAREDIR)/examples
+TO_UNINSTALL_AS_ROOT = $(INST_INCDIR)/ngs $(INCLUDE_SYMLINK) $(PROFILE_FILE).*
+
+uninstall:
+	@ echo "Uninstalling $(TO_UNINSTALL) ..."
+	@ rm -rf $(TO_UNINSTALL)
+ifeq (true, $(LINUX_ROOT))
+	@ echo "Uninstalling $(TO_UNINSTALL_AS_ROOT) ..."
+	@ rm -rf $(TO_UNINSTALL_AS_ROOT)
+endif
+	@ echo "done."
+
+.PHONY: install copylibs copyincludes copyexamples uninstall
 

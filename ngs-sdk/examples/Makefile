@@ -35,12 +35,12 @@ CXX = c++ $(MFLAGS) $(CPPFLAGS)
 # NCBI_VDB_LIBDIR and NGS_LIBDIR
 include $(CURDIR)/Makefile.config
 
-TARGETS =         \
-    FragTest      \
-    AlignTest     \
-    AlignSliceTest \
-    RefTest \
-    PileupTest \
+TARGETS =           \
+    FragTest        \
+    AlignTest       \
+    AlignSliceTest  \
+    RefTest         \
+    PileupTest      \
     FastqTableDump 
 
 # This rule triggers detection of the libraries and headers
@@ -121,6 +121,13 @@ FastqTableDump: $(FASTQ_TABLE_DUMP_OBJ)
 
 # ===========================================================================
 #
+# installation
+#
+install: 
+	@ cp *.cpp Makefile Makefile.config $(INST_TARGET)
+
+# ===========================================================================
+#
 # example runs
 
 run_frag:  FragTest
@@ -155,4 +162,4 @@ run_and_diff:
 	rm -f actual.txt; $(MAKE) run_all REDIRECT=">>actual.txt"
 	diff expected.txt actual.txt && rm actual.txt && echo NGS C++ examples work as expected
 
-.PHONY: update_expected run_and_diff
+.PHONY: update_expected run_and_diff install

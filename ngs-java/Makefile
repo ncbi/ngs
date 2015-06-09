@@ -41,4 +41,6 @@ java_cln: Makefile.config
 	@ $(MAKE) -f Makefile.java clean
 
 java_inst: Makefile.config
-	@ $(MAKE) -f Makefile.java install
+	@ echo "Checking make status of jars..."
+	@ $(MAKE) -s --no-print-directory -f Makefile.java
+	@ $(MAKE) -s --no-print-directory -f Makefile.java install
