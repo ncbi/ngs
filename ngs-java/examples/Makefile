@@ -54,7 +54,7 @@ NGS-JavaTest.jar: $(NGS_EXAMPLES_PATH)
 #
 # example runs
 
-JAVAFLAGS = -classpath .
+JAVAFLAGS = -classpath $(CLASSPATH):.
 
 # Expect libngs-sdk.so and libncbi-vdb.so somewhere inside $LD_LIBRARY_PATH;
 #   if the libraries are not found, error out.
@@ -83,7 +83,7 @@ run_read_group: NGS-JavaTest.jar
 	java $(JAVAFLAGS) examples.ReadGroupTest SRR1121656 $(REDIRECT)
     
 ALL_TESTS = run_frag run_align run_align_slice run_pileup run_ref run_read_group
-    
+
 run_all: $(ALL_TESTS)
 
 .PHONY: $(ALL_TESTS)
