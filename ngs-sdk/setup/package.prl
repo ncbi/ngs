@@ -1,6 +1,6 @@
 ################################################################################
 sub PACKAGE      { 'ngs-sdk' }
-sub VERSION      { '1.1.2' }
+sub VERSION      { '1.1.3' }
 sub PACKAGE_TYPE { 'L' }
 sub PACKAGE_NAME { 'NGS-SDK' }
 sub PACKAGE_NAMW { 'NGS' }
