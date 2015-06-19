@@ -37,7 +37,8 @@
     <ItemDefinitionGroup>
         <ClCompile>
             <PreprocessorDefinitions>_LIBRARY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-            <AdditionalIncludeDirectories>..\language\java;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>        </ClCompile>
+            <AdditionalIncludeDirectories>..\language\java;..\language\python;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+        </ClCompile>
         <Link>
             <NoEntryPoint>false</NoEntryPoint>
         </Link>
@@ -99,7 +100,26 @@
         <ClCompile Include="..\language\java\jni_ReferenceItf.cpp" />
         <ClCompile Include="..\language\java\jni_StatisticsItf.cpp" />
         <ClCompile Include="..\language\java\jni_String.cpp" />
-        
+        <ClCompile Include="..\language\python\py_AlignmentIteratorItf.cpp" />
+        <ClCompile Include="..\language\python\py_AlignmentItf.cpp" />
+        <ClCompile Include="..\language\python\py_ErrorMsg.cpp" />
+        <ClCompile Include="..\language\python\py_ErrorMsg.hpp" />
+        <ClCompile Include="..\language\python\py_FragmentIteratorItf.cpp" />
+        <ClCompile Include="..\language\python\py_FragmentItf.cpp" />
+        <ClCompile Include="..\language\python\py_PileupEventIteratorItf.cpp" />
+        <ClCompile Include="..\language\python\py_PileupEventItf.cpp" />
+        <ClCompile Include="..\language\python\py_PileupIteratorItf.cpp" />
+        <ClCompile Include="..\language\python\py_PileupItf.cpp" />
+        <ClCompile Include="..\language\python\py_ReadCollectionItf.cpp" />
+        <ClCompile Include="..\language\python\py_ReadGroupIteratorItf.cpp" />
+        <ClCompile Include="..\language\python\py_ReadGroupItf.cpp" />
+        <ClCompile Include="..\language\python\py_ReadIteratorItf.cpp" />
+        <ClCompile Include="..\language\python\py_ReadItf.cpp" />
+        <ClCompile Include="..\language\python\py_Refcount.cpp" />
+        <ClCompile Include="..\language\python\py_ReferenceIteratorItf.cpp" />
+        <ClCompile Include="..\language\python\py_ReferenceItf.cpp" />
+        <ClCompile Include="..\language\python\py_StatisticsItf.cpp" />
+        <ClCompile Include="..\language\python\py_StringItf.cpp" />
     </ItemGroup>
   
 </Project>
