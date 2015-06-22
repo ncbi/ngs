@@ -95,14 +95,14 @@ $(INST_JARDIR)/ngs-java.jar.$(VERSION): $(LIBDIR)/ngs-java.jar
 	      rm -f $(patsubst %$(VERSION),%$(MAJVERS),$@) $(patsubst %jar.$(VERSION),%jar,$@);     \
 	      ln -s $(@F) $(patsubst %$(VERSION),%$(MAJVERS),$@);                              \
 	      ln -s $(patsubst %$(VERSION),%$(MAJVERS),$(@F)) $(patsubst %jar.$(VERSION),%jar,$@) ; \
-	      echo success;                                                               \
+	      echo;                                                               \
 	  else                                                                            \
 	      echo failure;                                                               \
 	      false;                                                                      \
 	  fi
 
 copyexamples:
-	@ echo "Installing examples to $(INST_SHAREDIR)/examples-java"
+	@ echo "Installing examples to $(INST_SHAREDIR)/examples-java..."
 	@ mkdir -p $(INST_SHAREDIR)/examples-java
 	@ cp $(TOP)/examples/Makefile $(INST_SHAREDIR)/examples-java
 	@ cp -r $(TOP)/examples/examples $(INST_SHAREDIR)/examples-java
@@ -111,11 +111,24 @@ copydocs:
 	@ echo "Copying html docs to $(DOC_TARGET)..."
 	@ mkdir -p $(DOC_TARGET)
 	@ cp -r $(LIBDIR)/javadoc/* $(DOC_TARGET)
+    
+
+TO_UNINSTALL = $(INST_JARDIR)/ngs-java.jar* $(DOC_TARGET) $(INST_SHAREDIR)/examples-java
+TO_UNINSTALL_AS_ROOT = $(PROFILE_FILE).sh $(PROFILE_FILE).csh 
+
+uninstall:
+	@ echo "Uninstalling $(TO_UNINSTALL) ..."
+	@ rm -rf $(TO_UNINSTALL)
+ifeq (true, $(LINUX_ROOT))
+	@ echo "Uninstalling $(TO_UNINSTALL_AS_ROOT) ..."
+	@ rm -rf $(TO_UNINSTALL_AS_ROOT)
+endif
+	@ echo "done."
 
 clean:
 	rm -rf $(LIBDIR)/ngs-* $(CLSDIR)
 
-.PHONY: default all std clean install copyexamples copydocs $(TARGETS)
+.PHONY: default all std clean install uninstall copyexamples copydocs $(TARGETS)
 
 #-------------------------------------------------------------------------------
 # JAVA NGS
@@ -256,6 +269,7 @@ endif
 # javadoc
 #
 javadoc:
-	javadoc -quiet -notimestamp $(CLSPATH) -sourcepath . gov.nih.nlm.ncbi.ngs ngs -d $(LIBDIR)/javadoc
+	@ echo "Generating javadocs..."
+	@ javadoc -quiet -notimestamp $(CLSPATH) -sourcepath . gov.nih.nlm.ncbi.ngs ngs -d $(LIBDIR)/javadoc
 
 .PHONY: javadoc

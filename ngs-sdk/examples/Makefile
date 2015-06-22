@@ -35,19 +35,19 @@ CXX = c++ $(MFLAGS) $(CPPFLAGS)
 # NCBI_VDB_LIBDIR and NGS_LIBDIR
 include $(CURDIR)/Makefile.config
 
-TARGETS =         \
-    FragTest      \
-    AlignTest     \
-    AlignSliceTest \
-    RefTest \
-    PileupTest \
+TARGETS =           \
+    FragTest        \
+    AlignTest       \
+    AlignSliceTest  \
+    RefTest         \
+    PileupTest      \
     FastqTableDump 
 
 # This rule triggers detection of the libraries and headers
 # in addition to building the examples
-std: $(NCBI_VDB_LIBDIR)/libncbi-vdb-static.a ncbi-headers \
-	 $(NGS_LIBDIR)/libngs-c++.a ngs-headers \
-	 $(TARGETS)
+std: $(TARGETS)
+     
+$(TARGETS): $(NCBI_VDB_LIBDIR)/libncbi-vdb-static.a ncbi-headers $(NGS_LIBDIR)/libngs-c++.a ngs-headers
 
 clean:
 	rm -f $(TARGETS) *.o
@@ -77,14 +77,14 @@ FRAG_TEST_SRC = \
     FragTest.cpp
 
 FragTest: $(FRAG_TEST_SRC)
-	$(CXX) -g -o $@ $^ $(TEST_LIBS)
+	$(CXX) -g -o $@ $(FRAG_TEST_SRC) $(TEST_LIBS)
 
 # RefTest ###################
 REF_TEST_SRC = \
     RefTest.cpp
 
 RefTest: $(REF_TEST_SRC)
-	$(CXX) -g -o $@ $^ $(TEST_LIBS)
+	$(CXX) -g -o $@ $(REF_TEST_SRC) $(TEST_LIBS)
 
 # AlignTest #################
 #  access alignments
@@ -92,7 +92,7 @@ ALIGN_TEST_SRC = \
     AlignTest.cpp
 
 AlignTest: $(ALIGN_TEST_SRC)
-	$(CXX) -g -o $@ $^ $(TEST_LIBS)
+	$(CXX) -g -o $@ $(ALIGN_TEST_SRC) $(TEST_LIBS)
 
 # AlignSliceTest
 #  slice a ReadCollection and output alignments
@@ -100,7 +100,7 @@ ALIGNSLICE_TEST_SRC = \
     AlignSliceTest.cpp
 
 AlignSliceTest: $(ALIGNSLICE_TEST_SRC)
-	$(CXX) -g -o $@ $^ $(TEST_LIBS)
+	$(CXX) -g -o $@ $(ALIGNSLICE_TEST_SRC) $(TEST_LIBS)
 
 
 # PileupTest
@@ -109,7 +109,7 @@ PILEUP_TEST_OBJ = \
     PileupTest.cpp
 
 PileupTest: $(PILEUP_TEST_OBJ)
-	$(CXX) -g -o $@ $^ $(TEST_LIBS)
+	$(CXX) -g -o $@ $(PILEUP_TEST_OBJ) $(TEST_LIBS)
 
 # FastqTableDump
 #  produce fastq-like table
@@ -117,20 +117,51 @@ FASTQ_TABLE_DUMP_OBJ = \
     FastqTableDump.cpp
 
 FastqTableDump: $(FASTQ_TABLE_DUMP_OBJ)
-	$(CXX) -g -o $@ $^ $(TEST_LIBS)
+	$(CXX) -g -o $@ $(FASTQ_TABLE_DUMP_OBJ) $(TEST_LIBS)
+
+# ===========================================================================
+#
+# installation
+#
+install: 
+	@ cp *.cpp Makefile Makefile.config $(INST_TARGET)
 
 # ===========================================================================
 #
 # example runs
 
 run_frag:  FragTest
-	./$^ ERR225922 1 1
+	./$^ ERR225922 10000 2 $(REDIRECT)
 
 run_align: AlignTest
-	./$^ ERR225922 1 1
+	./$^ ERR225922 10000 2 $(REDIRECT)
 
 run_align_slice: AlignSliceTest
-	./$^ SRR1121656 1 10000 20000
+	./$^ SRR1121656 1 1 9999 $(REDIRECT)
 
+run_pileup: PileupTest
+	./$^ SRR1121656 1 9999 10003 $(REDIRECT)
 
-.PHONY: run_align run_align_slice run_frag
+run_ref: RefTest
+	./$^ SRR1121656 $(REDIRECT)
+    
+ALL_TESTS = run_frag run_align run_align_slice run_pileup run_ref
+    
+run_all: $(ALL_TESTS)
+
+.PHONY: $(ALL_TESTS)
+
+# ===========================================================================
+#
+# expected results for auto-testing
+#
+update_expected: 
+	rm -f expected.txt
+	$(MAKE) run_all REDIRECT=">>expected.txt"
+
+run_and_diff: 
+	rm -f actual.txt
+	$(MAKE) run_all REDIRECT=">>actual.txt"
+	@ diff expected.txt actual.txt && rm actual.txt && echo "NGS C++ examples work as expected"
+
+.PHONY: update_expected run_and_diff install

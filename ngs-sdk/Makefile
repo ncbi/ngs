@@ -43,6 +43,7 @@ sdk-libs: Makefile.config
 sdk-libs_cln: Makefile.config
 	@ $(MAKE) -f Makefile.libs clean
 
-sdk-libs_inst: Makefile.config
-	@ $(MAKE) -s -f Makefile.libs
-	@ $(MAKE) -f Makefile.install install
+sdk-libs_inst: Makefile.config 
+	@ echo "Checking make status of object libraries..."
+	@ $(MAKE) -s --no-print-directory sdk-libs
+	@ $(MAKE) -s --no-print-directory -f Makefile.install install

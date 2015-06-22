@@ -34,7 +34,7 @@ include $(CURDIR)/Makefile.rules
 
 # rules for making python code
 install: Makefile.config
-	@ $(MAKE) -f Makefile.python install
+	@ $(MAKE) -s --no-print-directory -f Makefile.python install
 
 dummy:
 	@ echo "make complete for python"
