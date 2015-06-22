@@ -61,7 +61,4 @@ $(SUBDIRS_INST):
 $(SUBDIRS_TST):
 	@ $(MAKE) -C $(subst _test,,$@) test
 
-$(SUBDIRS_TST):
-	@ $(MAKE) -C $(subst _test,,$@) test
-
 .PHONY: $(SUBDIRS) $(SUBDIRS_CLN) $(SUBDIRS_INST)
