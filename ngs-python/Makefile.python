@@ -43,7 +43,7 @@ clean:
 copyexamples:
 	@ echo "Installing examples to $(INST_SHAREDIR)/examples-python"
 	@ mkdir -p $(INST_SHAREDIR)/examples-python
-	@ cp $(TOP)/examples/*.py $(TOP)/examples/Makefile $(INST_SHAREDIR)/examples-python
+	@ cp $(TOP)/examples/*.py $(INST_SHAREDIR)/examples-python
 
 
 #-------------------------------------------------------------------------------
