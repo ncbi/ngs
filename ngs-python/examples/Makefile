@@ -53,6 +53,8 @@ NGS_EXAMPLES = \
 # ===========================================================================
 #
 # example runs
+#
+# NOTE: Expect libngs-sdk.so and libncbi-vdb.so somewhere inside $LD_LIBRARY_PATH
 
 run_frag: 
 	python FragTest$(PYTHON_VERS).py ERR225922 10000 2 $(REDIRECT)
@@ -84,6 +86,6 @@ update_expected:
 
 run_and_diff: 
 	rm -f actual.txt; $(MAKE) run_all REDIRECT=">>actual.txt"
-	diff expected.txt actual.txt && rm actual.txt && echo NGS C++ examples work as expected
+	diff expected.txt actual.txt && rm actual.txt && echo NGS Python examples work as expected
 
 .PHONY: update_expected run_and_diff
