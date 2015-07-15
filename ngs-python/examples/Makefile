@@ -84,6 +84,6 @@ update_expected:
 
 run_and_diff: 
 	rm -f actual.txt; $(MAKE) run_all REDIRECT=">>actual.txt"
-	diff expected.txt actual.txt && rm actual.txt && echo NGS C++ examples work as expected
+	diff expected.txt actual.txt && rm actual.txt && echo NGS Python examples work as expected
 
 .PHONY: update_expected run_and_diff
