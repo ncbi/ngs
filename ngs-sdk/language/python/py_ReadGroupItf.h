@@ -32,14 +32,14 @@ extern "C" {
 
 #include "py_ngs_defs.h"
 
-PY_RES_TYPE PY_NGS_ReadGroupGetName       ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReadGroupGetName       ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
 
 #if READ_GROUP_SUPPORTS_READS
-    PY_RES_TYPE PY_NGS_ReadGroupGetRead   ( void* pRef, char const* readId, void** pRet, void** ppNGSStrError );
-    PY_RES_TYPE PY_NGS_ReadGroupGetReads  ( void* pRef, uint32_t categories, void** pRet, void** ppNGSStrError );
+    LIB_EXPORT PY_RES_TYPE PY_NGS_ReadGroupGetRead   ( void* pRef, char const* readId, void** pRet, void** ppNGSStrError );
+    LIB_EXPORT PY_RES_TYPE PY_NGS_ReadGroupGetReads  ( void* pRef, uint32_t categories, void** pRet, void** ppNGSStrError );
 #endif
 
-PY_RES_TYPE PY_NGS_ReadGroupGetStatistics ( void* pRef, void** pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReadGroupGetStatistics ( void* pRef, void** pRet, void** ppNGSStrError );
 
 #ifdef __cplusplus
 }

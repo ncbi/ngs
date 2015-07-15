@@ -32,9 +32,9 @@ extern "C" {
 
 #include "py_ngs_defs.h"
 
-PY_RES_TYPE PY_NGS_RefcountRelease   ( void* pRef, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_RefcountDuplicate ( void* pRef, void** pRet, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_RawStringRelease  ( void* pRef, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_RefcountRelease   ( void* pRef, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_RefcountDuplicate ( void* pRef, void** pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_RawStringRelease  ( void* pRef, void** ppNGSStrError );
 
 #ifdef __cplusplus
 }

@@ -34,6 +34,7 @@
 #define PY_RES_ERROR  1
 
 #include <stdint.h>
+#define LIB_EXPORT __declspec(dllexport)
 
 #endif
 
