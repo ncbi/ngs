@@ -50,7 +50,10 @@ def os_bits(machine=machine()):
     return machine2bits.get(machine, None)
 
 def lib_filename(lib_name):
-    return "lib"+lib_name+LibManager.get_lib_extension()
+    if platform.system() == "Windows":
+        return lib_name+LibManager.get_lib_extension()
+    else:
+        return "lib"+lib_name+LibManager.get_lib_extension()
     
 def load_saved_library(lib_name):
     """search library in different possible locations
