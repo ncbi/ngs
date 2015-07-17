@@ -6,9 +6,12 @@
     <property name="vdb.platform"   value="x64" />
     
     <property name="vdb.dir"   value="${env.USERPROFILE}\win\cl\${vdb.platform}\${vdb.build}\bin" />
+	
+    <!-- Set this to full path to Python if not in PATH already -->
+    <property name="python.exe"     value="python" />
     
     <target name="install">
-        <exec executable="python" failonerror="true" >
+        <exec executable="${python.exe}" failonerror="true" >
             <arg value="setup.py" />
             <arg value="install" />
             <arg value="--user" />
@@ -19,7 +22,7 @@
         <attribute name="class" />
         <element name="args" optional="yes" />
         <sequential>
-            <exec executable="python" failonerror="true">
+            <exec executable="${python.exe}" failonerror="true">
                 <env key="PATH" value="${vdb.dir};${env.PATH}"/>
                 <arg value="examples/@{class}.py"/>
                 <args />
