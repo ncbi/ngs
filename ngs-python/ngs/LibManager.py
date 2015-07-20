@@ -36,18 +36,10 @@ else:
 from .ErrorMsg import check_res_embedded
 from . import ErrorMsg
 
-def machine():
-    """Return type of machine."""
-    if os.name == 'nt' and sys.version_info[:2] < (2,7):
-        return os.environ.get("PROCESSOR_ARCHITEW6432", 
-               os.environ.get('PROCESSOR_ARCHITECTURE', ''))
-    else:
-        return platform.machine()
-
-def os_bits(machine=machine()):
-    """Return bitness of operating system, or None if unknown."""
-    machine2bits = {'AMD64': 64, 'x86_64': 64, 'i386': 32, 'x86': 32}
-    return machine2bits.get(machine, None)
+def process_bits():
+    """Return bitness of the running python process, or None if unknown."""
+    architecture2bits = {'64bit': 64, '32bit': 32}
+    return architecture2bits.get(platform.architecture()[0], None)
 
 def lib_filename(lib_name):
     if platform.system() == "Windows":
@@ -101,7 +93,7 @@ def load_updated_library(lib_name):
             'cmd':     'lib',
             'libname': lib_name,
             'os_name': LibManager.get_post_os_name_param(),
-            'bits':    str(os_bits())
+            'bits':    str(process_bits())
         })
         resp = urlopen(url=LibManager.URL_NCBI_SRATOOLKIT, data=params.encode())
         if resp.code != 200:
@@ -145,7 +137,7 @@ class LibManager:
     @staticmethod
     def get_directories_to_find_dll():
         return (
-            os.path.join(os.path.expanduser('~'), ".ncbi", "lib"+str(os_bits())),
+            os.path.join(os.path.expanduser('~'), ".ncbi", "lib"+str(process_bits())),
             "",
             ".",
             tempfile.gettempdir(),
