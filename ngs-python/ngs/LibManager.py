@@ -34,7 +34,7 @@ else:
     from urllib2 import urlopen
 
 from .ErrorMsg import check_res_embedded
-from . import ErrorMsg
+from .ErrorMsg import ErrorMsg
 
 def process_bits():
     """Return bitness of the running python process, or None if unknown."""
@@ -116,6 +116,17 @@ def load_updated_library(lib_name):
     elif not file_saved[0]:
         raise ErrorMsg("Failed to save file " + file_saved[1])
 
+def load_library(lib_name):
+    do_download = os.environ.get("NGS_PY_DOWNLOAD_LIBRARY", "1")
+    if do_download.lower() in ("1", "yes", "true"):
+        library = load_saved_library(lib_name) or load_updated_library(lib_name)
+    else:
+        library = load_saved_library(lib_name)
+    
+    if not library:
+        raise ErrorMsg("Failed to load library " + lib_name + " (NGS_PY_DOWNLOAD_LIBRARY=" + do_download + ")")
+    else:
+        return library
     
 class LibManager:
     c_lib_engine = None
@@ -168,8 +179,8 @@ class LibManager:
         libname_engine = "ncbi-vdb"
         libname_sdk = "ngs-sdk"
 
-        self.c_lib_engine = load_saved_library(libname_engine) or load_updated_library(libname_engine)
-        self.c_lib_sdk = load_saved_library(libname_sdk) or load_updated_library(libname_sdk)
+        self.c_lib_engine = load_library(libname_engine)
+        self.c_lib_sdk = load_library(libname_sdk)
         
         ##############  ngs-engine imports below  ####################
         
