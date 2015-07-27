@@ -118,13 +118,16 @@ def load_updated_library(lib_name):
 
 def load_library(lib_name):
     do_download = os.environ.get("NGS_PY_DOWNLOAD_LIBRARY", "1")
-    if do_download.lower() in ("1", "yes", "true"):
+    if do_download.lower() in ("1", "yes", "true", "on"):
         library = load_saved_library(lib_name) or load_updated_library(lib_name)
     else:
         library = load_saved_library(lib_name)
     
     if not library:
-        raise ErrorMsg("Failed to load library " + lib_name + " (NGS_PY_DOWNLOAD_LIBRARY=" + do_download + ")")
+        raise ErrorMsg("Failed to load library " +
+            lib_name +
+            " (NGS_PY_DOWNLOAD_LIBRARY=" + do_download + ", "
+            + "NGS_PY_LIBRARY_PATH=" + os.environ.get("NGS_PY_LIBRARY_PATH", "<not set>") + ")")
     else:
         return library
     
@@ -147,12 +150,16 @@ class LibManager:
     
     @staticmethod
     def get_directories_to_find_dll():
-        return (
-            os.path.join(os.path.expanduser('~'), ".ncbi", "lib"+str(process_bits())),
-            "",
-            ".",
-            tempfile.gettempdir(),
-        )
+        env_path = os.environ.get("NGS_PY_LIBRARY_PATH", None)
+        if env_path is None:
+            return (
+                os.path.join(os.path.expanduser('~'), ".ncbi", "lib"+str(process_bits())),
+                "",
+                ".",
+                tempfile.gettempdir(),
+            )
+        else:
+            return ( env_path, )
     
     @staticmethod
     def get_post_os_name_param():
