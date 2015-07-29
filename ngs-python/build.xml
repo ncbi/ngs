@@ -23,7 +23,8 @@
         <element name="args" optional="yes" />
         <sequential>
             <exec executable="${python.exe}" failonerror="true">
-                <env key="PATH" value="${vdb.dir};${env.PATH}"/>
+                <env key="NGS_PY_LIBRARY_PATH" value="${vdb.dir}"/>
+                <env key="NGS_PY_DOWNLOAD_LIBRARY" value="0"/>
                 <arg value="examples/@{class}.py"/>
                 <args />
             </exec>
