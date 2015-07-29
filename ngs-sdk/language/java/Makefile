@@ -64,6 +64,7 @@ BIND_SRC =      	       \
 	ReadItf                \
 	FragmentItf            \
 	StatisticsItf          \
+	Package                \
 	String                 \
 	Refcount               \
 	ErrorMsg

@@ -57,12 +57,12 @@ DISP_SRC =            \
 	ReadItf           \
 	FragmentItf       \
 	StatisticsItf     \
+    PackageItf        \
 	StringItf         \
 	Refcount          \
 	VTable            \
 	ErrBlock          \
-	ErrorMsg          \
-    VTable
+	ErrorMsg
 
 # core dispatcher object files
 DISP_OBJ = \

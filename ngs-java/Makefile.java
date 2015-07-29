@@ -153,7 +153,8 @@ NGS_SRC =                  \
 	PileupIterator         \
 	Reference              \
 	ReferenceIterator      \
-	ReadCollection
+	ReadCollection         \
+	Package
 
 NGS_SRC_PATH = \
 	$(addprefix $(SRCDIR)/ngs/,$(addsuffix .java,$(NGS_SRC)))
@@ -237,6 +238,9 @@ ifdef JNIPATH
 
 ngs-jni: $(JNIPATH) $(JNIPATH)/headers-generated
 
+JNI_SRC =                  \
+	Package
+
 JNI_ITF =                  \
 	ReadCollectionItf      \
 	ReadGroupItf           \
@@ -256,11 +260,13 @@ JNI_ITF =                  \
 	Refcount
 
 JNI_CLASSES =                        \
+	$(addprefix ngs.,$(JNI_SRC))     \
 	$(addprefix ngs.itf.,$(JNI_ITF))
 
 $(JNIPATH)/headers-generated: $(MAKEFILE) $(LIBDIR)/ngs-java.jar
 	cd $(JNIPATH); $(JAVAH) -classpath $(CLSDIR) $(JNI_CLASSES)
 	@ cd $(JNIPATH); echo 'for f in ngs_itf_*.h; do mv $$f jni_$${f#ngs_itf_}; done' | bash
+	@ cd $(JNIPATH); echo 'for f in ngs_*.h; do mv $$f jni_$${f#ngs_}; done' | bash
 	@ touch $@
 
 endif
