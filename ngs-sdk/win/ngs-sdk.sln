@@ -30,6 +30,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HeaderFiles", "HeaderFiles"
 		..\ngs\ReadIterator.hpp = ..\ngs\ReadIterator.hpp
 		..\ngs\Reference.hpp = ..\ngs\Reference.hpp
 		..\ngs\ReferenceIterator.hpp = ..\ngs\ReferenceIterator.hpp
+		..\ngs\ReferenceSequence.hpp = ..\ngs\ReferenceSequence.hpp
 		..\ngs\Statistics.hpp = ..\ngs\Statistics.hpp
 		..\ngs\StringRef.hpp = ..\ngs\StringRef.hpp
 	EndProjectSection
@@ -51,6 +52,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "inl", "inl", "{D3CE4594-588
 		..\ngs\inl\ReadIterator.hpp = ..\ngs\inl\ReadIterator.hpp
 		..\ngs\inl\Reference.hpp = ..\ngs\inl\Reference.hpp
 		..\ngs\inl\ReferenceIterator.hpp = ..\ngs\inl\ReferenceIterator.hpp
+		..\ngs\inl\ReferenceSequence.hpp = ..\ngs\inl\ReferenceSequence.hpp
 		..\ngs\inl\Statistics.hpp = ..\ngs\inl\Statistics.hpp
 		..\ngs\inl\StringRef.hpp = ..\ngs\inl\StringRef.hpp
 	EndProjectSection

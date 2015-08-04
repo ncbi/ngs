@@ -77,6 +77,12 @@
     <ClInclude Include="..\ngs\itf\ReferenceItf.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\ngs\itf\ReferenceSequenceItf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ngs\itf\ReferenceSequenceItf.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\ngs\itf\StatisticsItf.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -131,6 +137,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\dispatch\ReferenceItf.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dispatch\ReferenceSequenceItf.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\dispatch\StatisticsItf.cpp">

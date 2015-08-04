@@ -45,6 +45,7 @@
         <ClCompile Include="..\language\c++\ReadIterator.cpp" />
         <ClCompile Include="..\language\c++\Reference.cpp" />
         <ClCompile Include="..\language\c++\ReferenceIterator.cpp" />
+        <ClCompile Include="..\language\c++\ReferenceSequence.cpp" />
         <ClCompile Include="..\language\c++\Statistics.cpp" />
         <ClCompile Include="..\language\c++\StringRef.cpp" />
     </ItemGroup>

@@ -60,6 +60,9 @@
     <ClCompile Include="..\language\c++\ReferenceIterator.cpp">
       <Filter>ngs-bind-c++ sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\language\c++\ReferenceSequence.cpp">
+      <Filter>ngs-bind-c++ sources</Filter>
+    </ClCompile>
     <ClCompile Include="..\language\c++\Statistics.cpp">
       <Filter>ngs-bind-c++ sources</Filter>
     </ClCompile>
@@ -100,6 +103,9 @@
       <Filter>ngs-disp-sources</Filter>
     </ClCompile>
     <ClCompile Include="..\dispatch\ReferenceItf.cpp">
+      <Filter>ngs-disp-sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dispatch\ReferenceSequenceItf.cpp">
       <Filter>ngs-disp-sources</Filter>
     </ClCompile>
     <ClCompile Include="..\dispatch\StatisticsItf.cpp">

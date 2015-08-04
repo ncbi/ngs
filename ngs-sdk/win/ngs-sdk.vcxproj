@@ -62,6 +62,7 @@
         <ClCompile Include="..\dispatch\ReadItf.cpp" />
         <ClCompile Include="..\dispatch\Refcount.cpp" />
         <ClCompile Include="..\dispatch\ReferenceItf.cpp" />
+        <ClCompile Include="..\dispatch\ReferenceSequenceItf.cpp" />
         <ClCompile Include="..\dispatch\StatisticsItf.cpp" />
         <ClCompile Include="..\dispatch\StringItf.cpp" />
         <ClCompile Include="..\dispatch\VTable.cpp" />
@@ -80,6 +81,7 @@
         <ClCompile Include="..\language\c++\ReadIterator.cpp" />
         <ClCompile Include="..\language\c++\Reference.cpp" />
         <ClCompile Include="..\language\c++\ReferenceIterator.cpp" />
+        <ClCompile Include="..\language\c++\ReferenceSequence.cpp" />
         <ClCompile Include="..\language\c++\Statistics.cpp" />
         <ClCompile Include="..\language\c++\StringRef.cpp" />
         <ClCompile Include="..\language\java\jni_AlignmentIteratorItf.cpp" />

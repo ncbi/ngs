@@ -53,6 +53,7 @@ ngs-bind-c++: $(ILIBDIR) $(OBJDIR) $(ILIBDIR)/$(LPFX)ngs-bind-c++.$(LIBX)
 
 BIND_SRC =              \
     ReadCollection      \
+	ReferenceSequence   \
     ReferenceIterator   \
     Reference           \
     PileupIterator      \

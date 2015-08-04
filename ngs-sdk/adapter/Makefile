@@ -46,19 +46,20 @@ clean:
 
 ngs-adapt-c++: $(LIBDIR) $(OBJDIR) $(LIBDIR)/$(LPFX)ngs-adapt-c++.$(LIBX)
 
-ADAPT_SRC =           \
-	ReadCollectionItf \
-	PileupItf         \
-	PileupEventItf    \
-	ReferenceItf      \
-	AlignmentItf      \
-	ReadGroupItf      \
-	ReadItf           \
-	FragmentItf       \
-	StatisticsItf     \
-	StringItf         \
-	Refcount          \
-	ErrorMsg          \
+ADAPT_SRC =              \
+	ReadCollectionItf    \
+	PileupItf            \
+	PileupEventItf       \
+	ReferenceItf         \
+	ReferenceSequenceItf \
+	AlignmentItf         \
+	ReadGroupItf         \
+	ReadItf              \
+	FragmentItf          \
+	StatisticsItf        \
+	StringItf            \
+	Refcount             \
+	ErrorMsg             \
 	ErrBlock
 
 ADAPT_OBJ = \

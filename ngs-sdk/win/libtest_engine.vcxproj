@@ -35,6 +35,7 @@
     <ClInclude Include="..\test\test_engine\ReadGroupItf.hpp" />
     <ClInclude Include="..\test\test_engine\ReadItf.hpp" />
     <ClInclude Include="..\test\test_engine\ReferenceItf.hpp" />
+    <ClInclude Include="..\test\test_engine\ReferenceSequenceItf.hpp" />
     <ClInclude Include="..\test\test_engine\StatisticsItf.hpp" />
     <ClInclude Include="..\test\test_engine\test_engine.hpp" />
   </ItemGroup>
