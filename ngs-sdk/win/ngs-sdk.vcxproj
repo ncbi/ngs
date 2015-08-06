@@ -105,7 +105,6 @@
         <ClCompile Include="..\language\python\py_AlignmentIteratorItf.cpp" />
         <ClCompile Include="..\language\python\py_AlignmentItf.cpp" />
         <ClCompile Include="..\language\python\py_ErrorMsg.cpp" />
-        <ClCompile Include="..\language\python\py_ErrorMsg.hpp" />
         <ClCompile Include="..\language\python\py_FragmentIteratorItf.cpp" />
         <ClCompile Include="..\language\python\py_FragmentItf.cpp" />
         <ClCompile Include="..\language\python\py_PileupEventIteratorItf.cpp" />
