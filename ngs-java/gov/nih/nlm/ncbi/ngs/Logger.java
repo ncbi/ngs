@@ -31,10 +31,13 @@ package gov.nih.nlm.ncbi.ngs;
 class Logger {
 
     enum Level {
-        WARNING(0), // WARNING is a message level indicating a potential problem
-        FINE(1),    // FINE is a message level providing tracing information
-        FINER(2),   // FINER indicates a fairly detailed tracing message
-        FINEST(3);  // FINEST indicates a highly detailed tracing message
+        OFF    (0), // OFF that can be used to turn off logging
+        WARNING(1), // WARNING is a message level indicating a potential problem
+        INFO   (2), // INFO is a message level for informational messages.
+        FINE   (3), // FINE is a message level providing tracing information
+        FINER  (4), // FINER indicates a fairly detailed tracing message
+        FINEST (5); // FINEST indicates a highly detailed tracing message
+
         private Level(int id) { this.id = id; }
         private int id() { return id; }
         private final int id;
@@ -44,8 +47,14 @@ class Logger {
         It could be changed by setting "vdb.log" java system property */
     private Logger() {
         String s = System.getProperty("vdb.log");
-        if (s == null) {
+        if (s == null || s.equals("WARNING")) {
             level = Level.WARNING;
+        } else if (s.equals("OFF")) {
+            level = Level.OFF;
+        } else if (s.equals("INFO")) {
+            level = Level.INFO;
+        } else if (s.equals("FINE")) {
+            level = Level.FINE;
         } else if (s.equals("FINER")) {
             level = Level.FINER;
         } else if (s.equals("FINEST")) {
@@ -55,9 +64,30 @@ class Logger {
         }
     }
 
-    static void fine  (String msg) { logger.log(msg, Level.FINE  ); }
-    static void finer (String msg) { logger.log(msg, Level.FINER ); }
-    static void finest(String msg) { logger.log(msg, Level.FINEST); }
+    static void warning(String msg) { logger.log(msg, Level.WARNING); }
+    static void info   (String msg) { logger.log(msg, Level.INFO   ); }
+    static void fine   (String msg) { logger.log(msg, Level.FINE   ); }
+    static void finer  (String msg) { logger.log(msg, Level.FINER  ); }
+    static void finest (String msg) { logger.log(msg, Level.FINEST ); }
+
+    static void fine   (Throwable e) { fine  (e.toString()); }
+    static void finest (Throwable e) { finest(e.toString()); }
+
+    static void finest (String[] msgs) {
+        if (msgs == null) {
+            return;
+        }
+        String msg = null;
+        for (String s : msgs) {
+            if (msg == null) {
+                msg = "";
+            } else {
+                msg += " ";
+            }
+            msg += s;
+        }
+        finest(msg);
+    }
 
     static Level getLevel() { return logger.level; }
     static void setLevel(Level newLevel) { logger.level = newLevel; }
