@@ -27,6 +27,8 @@
 #include <ngs/itf/PackageItf.hpp>
 #include <ngs/itf/StringItf.hpp>
 
+#include "version.h" // NGS_SDK_VERSION
+
 namespace ngs
 {
 
@@ -37,8 +39,7 @@ namespace ngs
     String PackageItf :: getPackageVersion ()
         throw ( ErrorMsg )
     {
-#pragma message "get package here"
-        return String ( "1.2.3" );
+        return String ( NGS_SDK_VERSION );
     }
 
 } // namespace ngs
