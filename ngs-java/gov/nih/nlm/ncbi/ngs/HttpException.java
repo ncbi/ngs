@@ -28,7 +28,7 @@ package gov.nih.nlm.ncbi.ngs;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class HttpException extends Throwable {
+class HttpException extends Exception {
     HttpException(int responseCode)
     {
         this.responseCode = responseCode;
