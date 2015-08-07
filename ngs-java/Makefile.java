@@ -196,7 +196,8 @@ NCBI_SRC =                 \
 	LibManager             \
 	LibPathIterator        \
 	Manager                \
-	NGS
+	NGS                    \
+	Version                \
 
 NCBI_SRC_PATH = \
 	$(addprefix $(SRCDIR)/gov/nih/nlm/ncbi/ngs/,$(addsuffix .java,$(NCBI_SRC)))
