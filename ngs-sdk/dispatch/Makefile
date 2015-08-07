@@ -47,7 +47,7 @@ clean:
 ngs-disp: $(ILIBDIR) $(OBJDIR) $(ILIBDIR)/$(LPFX)ngs-disp.$(LIBX)
 
 # core dispatcher sources
-DISP_SRC =               \
+DISP_SRC =                   \
 	ReadCollectionItf    \
 	ReferenceItf         \
 	ReferenceSequenceItf \
@@ -58,7 +58,7 @@ DISP_SRC =               \
 	ReadItf              \
 	FragmentItf          \
 	StatisticsItf        \
-    PackageItf           \
+	PackageItf           \
 	StringItf            \
 	Refcount             \
 	VTable               \
