@@ -189,7 +189,7 @@ public interface Reference
     /** 
      * getPileups
      * @return an iterator of contained Pileups
-     * @param categories is a bitfield of AlignmentCategory	 
+     * @param categories is a bitfield of AlignmentCategory
      * @throws ErrorMsg if no Iterator can be created	 
      */
     PileupIterator getPileups ( int categories )
@@ -198,6 +198,7 @@ public interface Reference
     /** 
      * getFilteredPileups
      * Filtered according to criteria in parameters
+     * @param categories is a bitfield of AlignmentCategory	 
      * @param filters is a set of filter bits defined in Alignment
      * @param mappingQuality is a cutoff to be used according to bits in "filter"
      * @return an iterator of contained Pileups
