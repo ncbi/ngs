@@ -46,6 +46,7 @@ public interface PileupEventIterator
     /**
      *  resets to initial iterator state
      *  the next call to "nextPileupEvent" will advance to first event
+     * @throws ErrorMsg if more PileupEvents should be available, but could not be accessed.	 
      */
     void resetPileupEvent ()
         throws ErrorMsg;
