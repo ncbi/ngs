@@ -38,6 +38,8 @@ public interface Read
 
     /**
      * getReadId
+     * @return the ID-String of the Read
+     * @throws ErrorMsg upon an error accessing data	 
      */
     String getReadId ()
         throws ErrorMsg;
@@ -50,6 +52,7 @@ public interface Read
     /**
      * getNumFragments
      * @return the number of biological Fragments contained in the read
+     * @throws ErrorMsg upon an error accessing data
      */
     int getNumFragments ()
         throws ErrorMsg;
@@ -70,18 +73,24 @@ public interface Read
 
     /**
      * getReadCategory
+     * @return the category of the read
+     * @throws ErrorMsg upon an error accessing data
      */
     int getReadCategory ()
         throws ErrorMsg;
 
     /**
      * getReadGroup
+     * @return the read-group of the read
+     * @throws ErrorMsg upon an error accessing data
      */
     String getReadGroup ()
         throws ErrorMsg;
 
     /**
      * getReadName
+     * @return the name of thethe read
+     * @throws ErrorMsg upon an error accessing data
      */
     String getReadName ()
         throws ErrorMsg;
@@ -90,6 +99,7 @@ public interface Read
     /** 
      * getReadBases
      * @return sequence bases
+     * @throws ErrorMsg upon an error accessing data
      */
     String getReadBases ()
         throws ErrorMsg;
@@ -98,6 +108,8 @@ public interface Read
      * getReadBases
      * @param offset is zero-based and non-negative
      * @return sequence bases
+     * @throws ErrorMsg upon an error accessing data
+	 * @throws IndexOutOfBoundsException if offset is invalid
      */
     String getReadBases ( long offset )
         throws ErrorMsg, IndexOutOfBoundsException;
@@ -107,6 +119,8 @@ public interface Read
      * @param offset is zero-based and non-negative
      * @param length must be &ge; 0
      * @return sequence bases
+     * @throws ErrorMsg upon an error accessing data
+	 * @throws IndexOutOfBoundsException if offset/length are invalid
      */
     String getReadBases ( long offset, long length )
         throws ErrorMsg, IndexOutOfBoundsException;
@@ -115,6 +129,7 @@ public interface Read
     /**
      * getReadQualities
      * @return phred quality values using ASCII offset of 33
+     * @throws ErrorMsg upon an error accessing data	 
      */
     String getReadQualities ()
         throws ErrorMsg;
@@ -123,6 +138,8 @@ public interface Read
      * getReadQualities
      * @param offset is zero-based and non-negative
      * @return phred quality values using ASCII offset of 33
+     * @throws ErrorMsg upon an error accessing data
+	 * @throws IndexOutOfBoundsException if offset is invalid
      */
     String getReadQualities ( long offset )
         throws ErrorMsg, IndexOutOfBoundsException;
@@ -132,6 +149,8 @@ public interface Read
      * @param offset is zero-based and non-negative
      * @param length must be &ge; 0
      * @return phred quality values using ASCII offset of 33
+     * @throws ErrorMsg upon an error accessing data
+	 * @throws IndexOutOfBoundsException if offset/length are invalid
      */
     String getReadQualities ( long offset, long length )
         throws ErrorMsg, IndexOutOfBoundsException;

@@ -146,7 +146,7 @@ public interface ReadCollection
      * Select Alignments by AlignmentCategory.
      * @param categories is a bitfield of AlignmentCategory	 
      * @return an iterator of all Alignments from specified categories
-     * @throws ErrorMsg upon an error accessing data	 
+     * @throws ErrorMsg upon an error accessing data
      */
     AlignmentIterator getAlignments ( int categories )
         throws ErrorMsg;
