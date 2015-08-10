@@ -177,6 +177,7 @@ public interface Alignment
     /** 
      * getSoftClip
      * @return the position of the clipping
+     * @param edge which edge
      * @throws ErrorMsg if the property cannot be retrieved
      */
     int getSoftClip ( int edge )
@@ -226,7 +227,6 @@ public interface Alignment
     /** 
      * hasMate
      * @return if the alignment has a mate
-     * @throws ErrorMsg if the property cannot be retrieved
      */
     boolean hasMate ();
         
