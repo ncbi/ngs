@@ -35,6 +35,7 @@ public class Package
     
     /** 
      * @return package version as a 1..3 part string
+     * @throws ErrorMsg upon an error accessing data
      */
     public static String getPackageVersion ()
         throws ErrorMsg
