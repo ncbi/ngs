@@ -40,6 +40,8 @@ public interface PileupEvent
 
     /** 
      * getMappingQuality
+     * @return the mapping quality
+     * @throws ErrorMsg upon an error accessing data
      */
     int getMappingQuality ()
         throws ErrorMsg;
@@ -52,12 +54,15 @@ public interface PileupEvent
     /**
      * getAlignmentId
      * @return unique AlignmentId within ReadCollection
+     * @throws ErrorMsg upon an error accessing data
      */
     String getAlignmentId ()
         throws ErrorMsg;
 
     /** 
      * getAlignmentPosition
+     * @return Position of the alignment in Reference coordinates
+     * @throws ErrorMsg upon an error accessing data
      */
     long getAlignmentPosition ()
         throws ErrorMsg;
@@ -65,6 +70,7 @@ public interface PileupEvent
     /**
      * getFirstAlignmentPosition
      * @return the position of this Alignment's first event in Reference coordinates
+     * @throws ErrorMsg upon an error accessing data
      */
     long getFirstAlignmentPosition ()
         throws ErrorMsg;
@@ -72,6 +78,7 @@ public interface PileupEvent
     /**
      * getLastAlignmentPosition
      * @return the position of this Alignment's last event in INCLUSIVE Reference coordinates
+     * @throws ErrorMsg upon an error accessing data
      */
     long getLastAlignmentPosition ()
         throws ErrorMsg;
@@ -113,6 +120,7 @@ public interface PileupEvent
     /**
      * getEventType
      * @return the type of event being represented
+     * @throws ErrorMsg upon an error accessing data
      */
     int getEventType ()
         throws ErrorMsg;
@@ -137,6 +145,7 @@ public interface PileupEvent
     /**
      * getInsertionBases
      * @return bases corresponding to insertion event
+     * @throws ErrorMsg upon an error accessing data
      */
     String getInsertionBases ()
         throws ErrorMsg;
@@ -144,6 +153,7 @@ public interface PileupEvent
     /** 
      * getInsertionQualities
      * @return qualities corresponding to insertion event
+     * @throws ErrorMsg upon an error accessing data
      */
     String getInsertionQualities ()
         throws ErrorMsg;
@@ -151,6 +161,7 @@ public interface PileupEvent
     /**
      * getEventRepeatCount
      * @return the number of times this event repeats, i.e. the distance to the first reference position yielding a different event type for this alignment
+     * @throws ErrorMsg upon an error accessing data
      */
     int getEventRepeatCount ()
         throws ErrorMsg;
@@ -182,6 +193,7 @@ public interface PileupEvent
     /**
      * getEventIndelType
      * @return detail about the type of indel when event type is an insertion or deletion
+     * @throws ErrorMsg upon an error accessing data
      */
     int getEventIndelType ()
         throws ErrorMsg;
