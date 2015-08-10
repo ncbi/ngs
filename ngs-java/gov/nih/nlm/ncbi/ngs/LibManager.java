@@ -24,12 +24,21 @@
 *
 */
 
+
 package gov.nih.nlm.ncbi.ngs;
 
+
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /** This class is responsible for JNI dynamic library load
@@ -43,20 +52,18 @@ class LibManager implements FileCreator
     private static boolean JUST_DO_REGULAR_JAVA_SYSTEM_LOAD_LIBRARY = false;
 
 
-    private static final String[] SRATOOLKIT_CGI =
-    {
-        "http://trace.ncbi.nlm.nih.gov/Traces/sratoolkit/sratoolkit.cgi"
-    };
-
-
     /** Possible location to search for library to load.
         The order of enum elements defines library location search order. */
     enum Location
     {
-/* KNOWN_PATH should be the first entry here
+/*KNOWN_PATH should be the first entry here
    if you want it to be loaded right after download.
    Otherwise the manager will try to the search previous location entries first.
-   May be you want it to test something (e.g. a bad library file). */
+   May be you want it to test something (e.g. a bad library file).
+  And LATEST_PATH should be before KNOWN_PATH: it makes sure
+   you will first download the latest version from NCBI if it was released */
+        LATEST_PATH,   /* path to the latest version of the library:
+                                  found in the system or downloaded from NCBI */
         KNOWN_PATH,    // from config or file downloaded from NCBI
         NCBI_HOME,     // ~/.ncbi/lib64|32
         LIBPATH,       // iterate "java.library.path" - extended LD_LIBRARY_PATH
@@ -67,17 +74,65 @@ class LibManager implements FileCreator
     }
 
 
+    private class SratoolkitCgis {
+        private SratoolkitCgis() {
+            String path = LibPathIterator.ncbiHome();
+            if (path != null) {
+                path +=
+                    LibPathIterator.fileSeparator() + "LibManager.properties";
+                try {
+                    FileInputStream inStream = new FileInputStream(path);
+
+                    Properties properties = new Properties();
+                    properties.load(inStream);
+
+                    spec = properties.getProperty("/servers/sratookit-cgi");
+
+                    inStream.close();
+
+                    Logger.warning("Use " + spec + " from " + path);
+                } catch (java.io.IOException e) {}
+            }
+
+            if (spec == null) {
+              spec =
+               "http://trace.ncbi.nlm.nih.gov/Traces/sratoolkit/sratoolkit.cgi";
+            }
+            done = false;
+        }
+
+        private String nextSpec() {
+            if (!done) {
+                done = true;
+                return spec;
+            } else {
+                return null;
+            }
+        }
+
+        private String spec;
+        private boolean done;
+    }
+
+
 //TODO check out of space condition
 
 
     LibManager ()
     {
-        this ( null );
+        this ( null, null );
     }
 
 
-    private LibManager ( Location locations [] )
+    LibManager ( String libs [] )
     {
+        this ( null, libs );
+    }
+
+    private LibManager ( Location locations [], String libs [] )
+    {
+        latestLibPaths = new HashMap<String, String>();
+
 //      if (locations == null) locations = getLocationProperty ();
 
         if (locations != null)
@@ -96,6 +151,92 @@ class LibManager implements FileCreator
             //System.err.println ( "Deleting all JNI libraries..." );
             //LibPathIterator.deleteLibraries(this, libname);
         }
+
+        if (JUST_DO_REGULAR_JAVA_SYSTEM_LOAD_LIBRARY || libs == null) {
+            return;
+        }
+
+        /* make sure we have the latest version of ngs-sdk & ncbi-vdb dll-s */
+        for (String lib : libs) {
+            launchLibCheck(lib);
+        }
+    }
+
+    private boolean tryJava(String[] cmdarray) {
+        try {
+            Process p = Runtime.getRuntime().exec(cmdarray[0] + " -?");
+            if (p.waitFor() == 0) {
+                return true;
+            }
+        } catch (Exception e) {}
+        return false;
+    }
+
+    private String addProperty(String key) {
+        String property = System.getProperty(key);
+        if (property != null) {
+            return "-D" + key + "=" + property + "";
+        } else {
+            return "";
+        }
+    }
+
+    private void launchLibCheck(String libname) {
+        String[] cmdarray = new String[5];
+        int i = 0;
+        String property = System.getProperty("java.home");
+        if (property != null) {
+            cmdarray[i] = property + LibPathIterator.fileSeparator()
+                   + "bin" + LibPathIterator.fileSeparator() + "java";
+            if (!tryJava(cmdarray)) {
+                cmdarray[i] = null;
+            }
+        }
+        if (cmdarray[i] == null) {
+            cmdarray[i] = "java";
+            if (!tryJava(cmdarray)) {
+                return;
+            }
+        }
+
+        cmdarray[++i] = addProperty("java.library.path");
+        cmdarray[++i] = addProperty("vdb.log"); 
+        cmdarray[++i] = "gov.nih.nlm.ncbi.ngs.LibManager";
+        cmdarray[++i] = libname;
+        Logger.info(">>> RUNNING CHILD ...");
+        try {
+            Logger.finest(cmdarray);
+            Process p = Runtime.getRuntime().exec(cmdarray);
+            BufferedReader bri =
+                 new BufferedReader(new InputStreamReader(p.getInputStream()));
+            BufferedReader bre =
+                new BufferedReader(new InputStreamReader(p.getErrorStream()));
+            String line = null;
+            while ((line = bre.readLine()) != null)
+            {   System.err.println(line); }
+            bre.close();
+            while ((line = bri.readLine()) != null) {
+                String found = null;
+                Pattern pattern =  Pattern.compile
+                    ("^LibManager: libname='(.*)' filename='(.*)'$");
+                Matcher matcher = pattern.matcher(line);
+                while (matcher.find()) {
+                    found = matcher.group(1);
+                    if (!libname.equals(found)) {
+                        continue;
+                    }
+                    String filename = matcher.group(2);
+                    latestLibPaths.put(libname, filename);
+                    break;
+                }
+                if (found == null) {
+                    System.out.println(line);
+                }
+            }
+            bri.close();
+            p.waitFor();
+        } catch (Exception e) { Logger.finest(e); }
+        Logger.info("<<< Done CHILD");
     }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -129,6 +270,7 @@ class LibManager implements FileCreator
         and using libname to generate the file name */
     public BufferedOutputStream create ( String libname )
     {
+        createdFileName = null;
         for (int i = 0; i < 2; ++i) {
             Location location = null;
             boolean model = true;
@@ -156,6 +298,14 @@ class LibManager implements FileCreator
                 } catch (SecurityException e) {
                     System.err.println
                         (pathname + " : cannot getAbsolutePath " + e);
+                    continue;
+                }
+                if (file.exists()) {
+                    String dathname = pathname + ".bak";
+                    File dest = new File(dathname);
+                    Logger.fine("Trying to rename " + pathname
+                        + " to " + dathname + " ...");
+                    file.renameTo(dest);
                 }
                 FileOutputStream s = null;
                 try {
@@ -169,6 +319,7 @@ or pathname not found and its directory is not writable */
                 }
 
                 updateKnownLibPath(pathname);
+                createdFileName = pathname;
 
                 Logger.fine("Opened " + pathname);
                 return new BufferedOutputStream(s, HttpManager.BUF_SZ);
@@ -177,13 +328,15 @@ or pathname not found and its directory is not writable */
         return null;
     }
 
+    public void done(boolean success)
+    {   if (!success) { createdFileName = null; } }
 
     /** Loads the system library by finding it by iterating the location array.
         Try to download it from NCBI if not found. */
     boolean loadLibrary( String libname )
     {
         Logger.fine("Loading " + libname + " library...");
-        if (load(libname)) {
+        if (load(libname) != null) {
             Logger.fine("Loaded " + libname + " library");
             return true;
         }
@@ -200,10 +353,10 @@ or pathname not found and its directory is not writable */
         if (download( libname )) {
             System.err.println("Downloaded " + libname + " from NCBI");
             Logger.fine("Loading " + libname + " library...");
-            boolean b = load(libname);
-            Logger.fine(b ? "Loaded " : "Failed to load "
+            String path = load(libname);
+            Logger.fine(path == null ? "Loaded " : "Failed to load "
                 + libname + " library");
-            return b;
+            return path != null;
         }
         else {
             System.err.println("Failed to download " + libname + " from NCBI");
@@ -223,11 +376,11 @@ or pathname not found and its directory is not writable */
         return mapLibraryName(libname, true);
     }
 
-    static String[] mapLibraryName(String libname, boolean model)
+    static String[] mapLibraryName(String libname, boolean withDataModel)
     {
         String m = libname;
-        if (model) {
-            m = libnameWithModel(libname);
+        if (withDataModel) {
+            m = libnameWithDataModel(libname);
         }
         String name = System.getProperty("os.name");
         int dup = 1;
@@ -251,7 +404,7 @@ or pathname not found and its directory is not writable */
     }
 
 
-    static Bit DetectJVM()
+    static Bits DetectJVM()
     {
         final String keys [] = {
             "sun.arch.data.model",
@@ -264,15 +417,15 @@ or pathname not found and its directory is not writable */
             if (property != null) {
                 int errCode = (property.indexOf("64") >= 0) ? 64 : 32;
                 Logger.fine(errCode + "-bit JVM");
-                return errCode == 64 ? Bit.b64 : Bit.b32;
+                return errCode == 64 ? Bits.b64 : Bits.b32;
             }
         }
         Logger.fine("Unknown-bit JVM");
-        return Bit.bUNKNOWN;
+        return Bits.bUNKNOWN;
     }
 
 
-    static String getEnv()
+    static String osProperties()
         throws Exception
     {
         String request = "os_name=";
@@ -303,8 +456,8 @@ or pathname not found and its directory is not writable */
         return request;
     }
 
-
-    private static String libnameWithModel(String libname)
+    /** Add 32- or 64-bit data model suffix */
+    private static String libnameWithDataModel(String libname)
     {
         String m = null;
         switch (DetectJVM()) {
@@ -321,7 +474,7 @@ or pathname not found and its directory is not writable */
         return m;
     }
 
-    enum Bit {
+    enum Bits {
         b32,
         b64,
         bUNKNOWN,
@@ -330,28 +483,31 @@ or pathname not found and its directory is not writable */
 
     /** Fetches the library from NCBI and writes it to where it can be found by
         LibManager.loadLibrary() */
-    private boolean downloadLib(String libname) {
+    private String downloadLib(String libname) {
         String request = "cmd=lib&version=1.0&libname=" + libname;
 
-        request += "&jar_vers=" + Manager.version();
-
         try {
-            request += "&" + getEnv();
+            request += "&" + osProperties();
         } catch (Exception e) {
             System.err.println("Cannot download library: " + e.getMessage());
-            return false;
+            return null;
         }
 
-        for (int i = 0; i < SRATOOLKIT_CGI.length; ++i) {
-            int code
-                = HttpManager.post(SRATOOLKIT_CGI[i], request, this, libname);
+        for (SratoolkitCgis cgis = new SratoolkitCgis(); ; ) {
+            String spec = cgis.nextSpec();
+            if (spec == null) {
+                break;
+            }
+            int code = HttpManager.post(spec, request, this, libname);
             if (code == 200) {
-                return true;
+                String r = createdFileName;
+                createdFileName = null;
+                return r;
             } else {
                 System.err.println("Cannot download library: " + code);
             }
         }
-        return false;
+        return null;
     }
 
 
@@ -381,24 +537,24 @@ or pathname not found and its directory is not writable */
                     return true;
                 }
             } catch (SecurityException e) {
-                Logger.finest(e.toString());
+                Logger.finest(e);
                 return true;
             }
         }
         try {
             fn.setExecutable(true, true);
         } catch (SecurityException e) {
-            Logger.finest(e.toString());
+            Logger.finest(e);
         }
         try {
             fn.setReadable(true, true);
         } catch (SecurityException e) {
-            Logger.finest(e.toString());
+            Logger.finest(e);
         }
         try {
             fn.setWritable(true, true);
         } catch (SecurityException e) {
-            Logger.finest(e.toString());
+            Logger.finest(e);
         }
         String k = n + File.separatorChar + "default.kfg";
         File fk = new File(k);
@@ -407,25 +563,29 @@ or pathname not found and its directory is not writable */
             return true;
         }
         String request = "cmd=lib&libname=kfg";
-        for (int i = 0; i < SRATOOLKIT_CGI.length; ++i) {
+        for (SratoolkitCgis cgis = new SratoolkitCgis(); ; ) {
+            String spec = cgis.nextSpec();
+            if (spec == null) {
+                break;
+            }
             try {
-                String f = HttpManager.post(SRATOOLKIT_CGI[i], request);
+                String f = HttpManager.post(spec, request);
                 try {
                     FileOutputStream out = new FileOutputStream(fk);
                     try {
                         out.write(f.getBytes());
                         out.close();
                     } catch (java.io.IOException e) {
-                        Logger.finest(e.toString());
+                        Logger.finest(e);
                         continue;
                     }
                     Logger.finest("created '" + fk + "'");
                     return true;
                 } catch (FileNotFoundException e) {
-                    Logger.finest(e.toString());
+                    Logger.finest(e);
                 }
             } catch (HttpException e) {
-                Logger.finest(e.toString());
+                Logger.finest(e);
             }
         }
         Logger.finest("cannot create '" + fk + "'");
@@ -446,7 +606,7 @@ or pathname not found and its directory is not writable */
             --i;
         }
 
-        if (!downloadLib(libname)) {
+        if (downloadLib(libname) == null) {
             return false;
         }
 
@@ -469,10 +629,20 @@ or pathname not found and its directory is not writable */
         return downloadKfg(knownLibPath[i + 1]);
     }
 
+    private static boolean prepareToLoad(String filename) {
+        File file = new File(filename);
+        if (file.exists()) {
+            return true;
+        } else {
+            Logger.fine(filename + " does not exist");
+            return false;
+        }
+    }
+
     /** Tries to load the library by searching it using location array.
         If JUST_DO_REGULAR_JAVA_SYSTEM_LOAD_LIBRARY = true
         then just call plain System.LoadLibrary(libname) */
-    private boolean load(String libname)
+    private String load(String libname)
     {
         for (Location l : location) {
             if (JUST_DO_REGULAR_JAVA_SYSTEM_LOAD_LIBRARY) {
@@ -491,29 +661,66 @@ or pathname not found and its directory is not writable */
                 try {
                     System.loadLibrary(libname);
                     Logger.fine("Loaded library " + libname);
-                    return true;
+                    return libname;
                 } catch (UnsatisfiedLinkError e) {
                     Logger.fine("cannot load library: " + e);
                 } catch (Throwable e) {
                     System.err.println("Cannot load library: " + e);
                 }
                 if (JUST_DO_REGULAR_JAVA_SYSTEM_LOAD_LIBRARY) {
-                    return false;
+                    return null;
                 }
-                String libnameWithModel = libnameWithModel(libname);
-                if (libnameWithModel != null) {
+                String libnameWithDataModel = libnameWithDataModel(libname);
+                if (libnameWithDataModel != null) {
                     try {
-                        System.loadLibrary(libnameWithModel);
-                        Logger.fine("Loaded library " + libnameWithModel);
-                        return true;
+                        System.loadLibrary(libnameWithDataModel);
+                        Logger.fine("Loaded library " + libnameWithDataModel);
+                        return
+                            "System.loadLibrary(" + libnameWithDataModel + ")";
                     } catch (UnsatisfiedLinkError e) {
                         Logger.fine("cannot load library: " + e);
                     } catch (Throwable e) {
                         System.err.println("Cannot load library: " + e);
                     }
                 }
-            }
-            else {
+            } else if (l == Location.LATEST_PATH) {
+                if (latestLibPaths == null) {
+                    continue;
+                }
+                String filename = latestLibPaths.get(libname);
+                if (filename == null) {
+                    continue;
+                }
+                if (filename.equals(libname)) {
+                    Logger.finest("java.library.path = "
+                        + System.getProperty("java.library.path"));
+                    Logger.fine(l + ": System.loadLibrary(" + libname + ")...");
+                    Logger.finest("System.mapLibraryName(" + libname + ") = "
+                        + System.mapLibraryName(libname));
+                    try {
+                        System.loadLibrary(libname);
+                        Logger.fine("Loaded library " + libname);
+                        return libname;
+                    } catch (UnsatisfiedLinkError e) {
+                        Logger.fine("cannot load library: " + e);
+                    } catch (Throwable e) {
+                        System.err.println("Cannot load library: " + e);
+                    }
+                } else {
+                    if (prepareToLoad(filename)) {
+                        Logger.fine("System.load(" + filename + ")...");
+                        try {
+                            System.load(filename);
+                            Logger.fine("Loaded library " + filename);
+                            return filename;
+                        } catch (UnsatisfiedLinkError e) {
+                            Logger.fine("error: " + e);
+                        } catch (Throwable e) {
+                            System.err.println("Cannot load library: " + e);
+                        }
+                    }
+                }
+            } else {
                 String name[] = null;
                 if (l == Location.KNOWN_PATH) {
                     if (knownLibPath == null) {
@@ -544,21 +751,23 @@ or pathname not found and its directory is not writable */
                         break;
                     }
 
-                    Logger.fine("System.load(" + filename + ")...");
-                    try {
-                        System.load(filename);
-                        Logger.fine("Loaded library " + libname);
-                        return true;
-                    } catch (UnsatisfiedLinkError e) {
-                        Logger.fine("error: " + e);
-                    } catch (Throwable e) {
-                        System.err.println("Cannot load library: " + e);
+                    if (prepareToLoad(filename)) {
+                        Logger.fine("System.load(" + filename + ")...");
+                        try {
+                            System.load(filename);
+                            Logger.fine("Loaded library " + filename);
+                            return filename;
+                        } catch (UnsatisfiedLinkError e) {
+                            Logger.fine("error: " + e);
+                        } catch (Throwable e) {
+                            System.err.println("Cannot load library: " + e);
+                        }
                     }
                 }
             }
         }
 
-        return false;
+        return null;
     }
 
 
@@ -626,7 +835,84 @@ or pathname not found and its directory is not writable */
 
     private String[] knownLibPath; // location where library was downloaded to
 
-    private Location location[];
+    private Location[] location;
+
+    /** locations where the latest libraries were found */
+    private HashMap<String, String> latestLibPaths;
+
+    private String createdFileName;
+
+    private String checkLib(String libname) {
+        Logger.finest("> Checking the version of " + libname + " library...");
+
+        Logger.finest(">> Checking the latest version of "
+            + libname + " library...");
+        String request = "cmd=vers&libname=" + libname;
+        String latest = null;
+        for (SratoolkitCgis cgis = new SratoolkitCgis(); ; ) {
+            String spec = cgis.nextSpec();
+            if (spec == null) {
+                break;
+            }
+            try {
+                latest = HttpManager.post(spec, request);
+                latest = latest.trim();
+                Logger.info
+                    ("The latest version of " + libname + " = " + latest);
+                break;
+            } catch (HttpException e) {
+                Logger.finest(e);
+            }
+        }
+
+        Logger.finest(">> Checking the current version of "
+            + libname + " library...");
+        String path = load(libname);
+        boolean download = false;
+        String current = null;
+        try {
+            if (libname.equals("ncbi-vdb")) {
+                current = Manager.getPackageVersion();
+            } else if (libname.equals("ngs-sdk")) {
+                current = ngs.Package.getPackageVersion();
+            } else {
+                Logger.warning("It is not known how to check "
+                    + "the version of " + libname + " library");
+                return null;
+            }
+        } catch (ngs.ErrorMsg e) {
+            Logger.finest(e);
+        } catch (UnsatisfiedLinkError e) {
+            Logger.finest(e);
+        }
+        Logger.info("The current version of " + libname + " = " + current);
+
+        if (new Version(current).compareTo(new Version(latest)) < 0) {
+            Logger.info("Will download " + libname + " library");
+            path = downloadLib(libname);
+        } else {
+            Logger.info("Will not download " + libname + " library");
+        }
+
+        Logger.finest
+            ("< ...Done checking the version of " + libname + " library");
+
+        return path;
+    }
+
+    public static void main(String[] args) {
+        LibManager l = new LibManager();
+        for (int i = 0; i < args.length; i++) {
+            String libname = args[i];
+            String path = l.checkLib(libname);
+            if (path != null) {
+                System.out.println("LibManager: libname='"
+                    + libname + "' filename='" + path + "'");
+            }
+        }
+    }/*-Djava.library.path
+       -Dvdb.log
+off if JUST_DO_REGULAR_JAVA_SYSTEM_LOAD_LIBRARY       */
 
 /* TODO save location where library was found
 (try to use load instead of loadLibrary even for LIBPATH);

@@ -64,11 +64,16 @@ class Manager
                 set LibManager.JUST_DO_REGULAR_JAVA_SYSTEM_LOAD_LIBRARY to true
                 or set vdb.System.loadLibrary java system property. */
 
-            LibManager m = new LibManager ();
-            if ( ! m . loadLibrary ( "ngs-sdk" ) )
-                throw new ExceptionInInitializerError ( "Cannot load ngs-sdk library" );
-            if ( ! m . loadLibrary ( "ncbi-vdb" ) )
-                throw new ExceptionInInitializerError ( "Cannot load ncbi-vdb library" );
+            String ngs_sdk  = "ngs-sdk";
+            String ncbi_vdb = "ncbi-vdb";
+
+            LibManager m = new LibManager( new String[] { ngs_sdk, ncbi_vdb } );
+            if ( ! m . loadLibrary ( ngs_sdk ) )
+                throw new ExceptionInInitializerError
+                    ( "Cannot load " + ngs_sdk + " library" );
+            if ( ! m . loadLibrary ( ncbi_vdb ) )
+                throw new ExceptionInInitializerError
+                    ( "Cannot load " + ncbi_vdb + " library" );
 
             // try to initialize the NCBI library
             String err = Initialize ();
@@ -98,7 +103,7 @@ class Manager
     }
 
     /** ncbi-vdb version */
-    static String version() {
+    static String getPackageVersion() {
         try {
             return Version();
         } catch (Throwable e) {

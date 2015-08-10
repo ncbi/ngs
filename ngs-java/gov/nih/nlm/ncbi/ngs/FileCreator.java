@@ -31,4 +31,6 @@ interface FileCreator {
 
     /** Creates a stream */
     java.io.BufferedOutputStream create( String name );
+
+    void done( boolean success );
 }
