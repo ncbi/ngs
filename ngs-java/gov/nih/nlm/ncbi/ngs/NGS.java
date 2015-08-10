@@ -41,6 +41,7 @@ public class NGS
      * Create an object representing a named collection of reads
      *
      * @param spec may be a path to an object or may be an id, accession, or URL
+     * @return the requested read-collection
      * @throws ErrorMsg if object cannot be located
      * @throws ErrorMsg if object cannot be converted to a ReadCollection
      * @throws ErrorMsg if an error occurs during construction
