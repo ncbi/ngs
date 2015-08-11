@@ -38,6 +38,7 @@
         <ClInclude Include="..\ngs\itf\ErrorMsg.hpp" />
         <ClInclude Include="..\ngs\itf\FragmentItf.h" />
         <ClInclude Include="..\ngs\itf\FragmentItf.hpp" />
+        <ClInclude Include="..\ngs\itf\PackageItf.hpp" />
         <ClInclude Include="..\ngs\itf\PileupEventItf.h" />
         <ClInclude Include="..\ngs\itf\PileupEventItf.hpp" />
         <ClInclude Include="..\ngs\itf\PileupItf.h" />
@@ -66,6 +67,7 @@
         <ClCompile Include="..\dispatch\ErrBlock.cpp" />
         <ClCompile Include="..\dispatch\ErrorMsg.cpp" />
         <ClCompile Include="..\dispatch\FragmentItf.cpp" />
+        <ClCompile Include="..\dispatch\PackageItf.cpp" />
         <ClCompile Include="..\dispatch\PileupEventItf.cpp" />
         <ClCompile Include="..\dispatch\PileupItf.cpp" />
         <ClCompile Include="..\dispatch\ReadCollectionItf.cpp" />

@@ -55,6 +55,7 @@
         <ClCompile Include="..\dispatch\ErrBlock.cpp" />
         <ClCompile Include="..\dispatch\ErrorMsg.cpp" />
         <ClCompile Include="..\dispatch\FragmentItf.cpp" />
+        <ClCompile Include="..\dispatch\PackageItf.cpp" />
         <ClCompile Include="..\dispatch\PileupEventItf.cpp" />
         <ClCompile Include="..\dispatch\PileupItf.cpp" />
         <ClCompile Include="..\dispatch\ReadCollectionItf.cpp" />
@@ -88,6 +89,7 @@
         <ClCompile Include="..\language\java\jni_AlignmentItf.cpp" />
         <ClCompile Include="..\language\java\jni_ErrorMsg.cpp" />
         <ClCompile Include="..\language\java\jni_FragmentItf.cpp" />
+        <ClCompile Include="..\language\java\jni_PackageItf.cpp" />
         <ClCompile Include="..\language\java\jni_PileupEventIteratorItf.cpp" />
         <ClCompile Include="..\language\java\jni_PileupEventItf.cpp" />
         <ClCompile Include="..\language\java\jni_PileupIteratorItf.cpp" />

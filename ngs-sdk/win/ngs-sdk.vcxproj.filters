@@ -84,6 +84,9 @@
     <ClCompile Include="..\dispatch\FragmentItf.cpp">
       <Filter>ngs-disp-sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\dispatch\PackageItf.cpp">
+      <Filter>ngs-disp-sources</Filter>
+    </ClCompile>
     <ClCompile Include="..\dispatch\PileupEventItf.cpp">
       <Filter>ngs-disp-sources</Filter>
     </ClCompile>
@@ -127,6 +130,9 @@
       <Filter>ngs-bind-java sources</Filter>
     </ClCompile>
     <ClCompile Include="..\language\java\jni_FragmentItf.cpp">
+      <Filter>ngs-bind-java sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\language\java\jni_PackageItf.cpp">
       <Filter>ngs-bind-java sources</Filter>
     </ClCompile>
     <ClCompile Include="..\language\java\jni_PileupEventIteratorItf.cpp">
