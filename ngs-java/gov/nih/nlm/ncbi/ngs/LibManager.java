@@ -173,7 +173,7 @@ class LibManager implements FileCreator
     }
 
 
-////////////////////////////////////////////////////////////////////////////////
+//////////////////////////// FileCreator interface /////////////////////////////
 
 
     /** Creates a file by finding directory by iterating the location array
@@ -256,9 +256,6 @@ or pathname not found and its directory is not writable */
     }
 
 
-////////////////////////////////////////////////////////////////////////////////
-
-
     public void done(boolean success)
     {   if (!success) { createdFileName = null; } }
 
@@ -306,7 +303,7 @@ or pathname not found and its directory is not writable */
     }
 
 
-////////////////////////////////////////////////////////////////////////////////
+//////////////////////////// static package methods ////////////////////////////
 
 
     static String[] mapLibraryName(String libname)
@@ -396,7 +393,7 @@ or pathname not found and its directory is not writable */
     }
 
 
-////////////////////////////////////////////////////////////////////////////////
+//////////////////////////// static private methods ////////////////////////////
 
 
     /** Add 32- or 64-bit data model suffix */
@@ -627,6 +624,9 @@ or pathname not found and its directory is not writable */
     }
 
 
+////////////////////////////////////////////////////////////////////////////////
+
+
     /** Downloads the library and default configuration from NCBI.
         Save them where it can be found by LibManager.loadLibrary() */
     private boolean download(String libname) {
@@ -693,6 +693,7 @@ or pathname not found and its directory is not writable */
     }
 
 
+    /** Fetches the configuration from NCBI */
     private boolean downloadKfg(String libpath) {
         Logger.finest("configuration download is disabled");
 /*
@@ -776,6 +777,12 @@ or pathname not found and its directory is not writable */
     }
 
 
+////////////////////////////////////////////////////////////////////////////////
+
+
+    /** Check the version of local dll,
+        compare it with the latest available;
+        download the latest if it is more recent */
     private String checkLib(String libname) {
         Logger.finest("> Checking the version of " + libname + " library...");
 
@@ -835,6 +842,8 @@ or pathname not found and its directory is not writable */
     }
 
 
+    /** Execute a process to check the version of dll,
+        and download it if it is out of date */
     private void launchLibCheck(String libname) {
         String[] cmdarray = new String[5];
         int i = 0;
@@ -894,6 +903,7 @@ or pathname not found and its directory is not writable */
     }
 
 
+    /** Make sure we can execute java */
     private boolean tryJava(String[] cmdarray) {
         try {
             Process p = Runtime.getRuntime().exec(cmdarray[0] + " -?");
@@ -905,6 +915,7 @@ or pathname not found and its directory is not writable */
     }
 
 
+    /** Create java property option */
     private String addProperty(String key) {
         String property = System.getProperty(key);
         if (property != null) {
@@ -915,19 +926,23 @@ or pathname not found and its directory is not writable */
     }
 
 
+    /** Add the pathname to knownLibPath array */
     private void updateKnownLibPath(String pathname) {
         int l = 9;
+
         if (knownLibPath == null) {
             knownLibPath = new String[l];
         } else {
             l = knownLibPath.length;
         }
+
         int i = 0;
         for (i = 0; i < l; ++i) {
             if (knownLibPath[i] == null) {
                 break;
             }
         }
+
         if (i >= l) {
             String tmp[] = knownLibPath;
             l *= 2;
@@ -936,6 +951,7 @@ or pathname not found and its directory is not writable */
                 knownLibPath[i] = tmp[i];
             }
         }
+
         knownLibPath[i] = pathname;
     }
 
@@ -945,15 +961,23 @@ or pathname not found and its directory is not writable */
 
     private String[] knownLibPath; // location where library was downloaded to
 
+    /** Possible location to search for library to load.
+        The order of elements defines library location search order. */
     private Location[] location;
 
-    /** locations where the latest libraries were found */
+    /** Locations where the latest libraries were found */
     private HashMap<String, String> latestLibPaths;
 
+    /** Is updated by FileCreator methods called by HttpManager */
     private String createdFileName;
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
+
+    /** Call checkLib for every argument to the version of local dll,
+        compare it with the latest available
+        and download the latest if it is more recent */
     public static void main(String[] args) {
         LibManager l = new LibManager();
         for (int i = 0; i < args.length; i++) {
@@ -964,11 +988,15 @@ or pathname not found and its directory is not writable */
                     + libname + "' filename='" + path + "'");
             }
         }
-    }/*-Djava.library.path
-       -Dvdb.log
-off if JUST_DO_REGULAR_JAVA_SYSTEM_LOAD_LIBRARY       */
+    }
 
-/* TODO save location where library was found
+
+/*******************************************************************************
+-Djava.library.path
+-Dvdb.log
+off if JUST_DO_REGULAR_JAVA_SYSTEM_LOAD_LIBRARY
+
+TODO save location where library was found
 (try to use load instead of loadLibrary even for LIBPATH);
 add which() method to return this location(?);
 try to load the library if LibManager.loadLibrary() was never called.
@@ -978,5 +1006,6 @@ What if loadLibrary() is called several times? load()
       http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/Level.html
 -Dlog=0   1
 -Dlog=OFF SEVERE/FATAL
--Dlog=O   S/F   */
+-Dlog=O   S/F
+*******************************************************************************/
 }
