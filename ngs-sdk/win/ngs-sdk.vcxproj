@@ -89,7 +89,7 @@
         <ClCompile Include="..\language\java\jni_AlignmentItf.cpp" />
         <ClCompile Include="..\language\java\jni_ErrorMsg.cpp" />
         <ClCompile Include="..\language\java\jni_FragmentItf.cpp" />
-        <ClCompile Include="..\language\java\jni_PackageItf.cpp" />
+        <ClCompile Include="..\language\java\jni_Package.cpp" />
         <ClCompile Include="..\language\java\jni_PileupEventIteratorItf.cpp" />
         <ClCompile Include="..\language\java\jni_PileupEventItf.cpp" />
         <ClCompile Include="..\language\java\jni_PileupIteratorItf.cpp" />
