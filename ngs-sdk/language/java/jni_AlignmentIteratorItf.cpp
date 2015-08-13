@@ -53,7 +53,7 @@ JNIEXPORT jboolean JNICALL Java_ngs_itf_AlignmentIteratorItf_NextAlignment
 {
     try
     {
-        return ( jboolean ) Self ( jself ) -> nextAlignment ();
+        return ( jboolean ) Self ( (size_t) jself ) -> nextAlignment ();
     }
     catch ( ErrorMsg & x )
     {
