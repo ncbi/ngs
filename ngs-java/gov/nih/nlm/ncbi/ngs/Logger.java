@@ -64,11 +64,11 @@ class Logger {
         }
     }
 
-    static void warning(String msg) { logger.log(msg, Level.WARNING); }
-    static void info   (String msg) { logger.log(msg, Level.INFO   ); }
-    static void fine   (String msg) { logger.log(msg, Level.FINE   ); }
-    static void finer  (String msg) { logger.log(msg, Level.FINER  ); }
-    static void finest (String msg) { logger.log(msg, Level.FINEST ); }
+    static void warning(String msg) { log(Level.WARNING, msg); }
+    static void info   (String msg) { log(Level.INFO   , msg); }
+    static void fine   (String msg) { log(Level.FINE   , msg); }
+    static void finer  (String msg) { log(Level.FINER  , msg); }
+    static void finest (String msg) { log(Level.FINEST , msg); }
 
     static void fine   (Throwable e) { fine  (e.toString()); }
     static void finest (Throwable e) { finest(e.toString()); }
@@ -89,10 +89,12 @@ class Logger {
         finest(msg);
     }
 
+    static void log(Level level, String msg) { logger.go(level, msg); }
+
     static Level getLevel() { return logger.level; }
     static void setLevel(Level newLevel) { logger.level = newLevel; }
 
-    private void log(String msg, Level level) {
+    private void go(Level level, String msg) {
         if (this.level.id() < level.id()) {
             return;
         }
