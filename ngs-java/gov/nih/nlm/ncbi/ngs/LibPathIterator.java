@@ -67,7 +67,8 @@ class LibPathIterator {
         String filename[],
         boolean parents)
     {
-        Logger.finer("\nCreating LibPathIterator(" + toString(filename) + ", "
+//      Logger.finer("\n");
+        Logger.finer("Creating LibPathIterator(" + toString(filename) + ", "
             + location + ")...");
 
         if (mgr == null && location == null) {
@@ -175,13 +176,13 @@ class LibPathIterator {
 
         while (true) {
             ++iLocation;
-            Logger.finer("LibPathIterator.reset() " + iLocation);
+            Logger.finest("LibPathIterator.reset() " + iLocation);
             if (location == null) {
                 if (iLocation >= mgr.locations().length) {
                     return false; // iterated over all locations
                 }
                 crnLocation = mgr.locations()[iLocation];
-                Logger.finer("LibPathIterator.reset(" + crnLocation + ")");
+                Logger.finest("LibPathIterator.reset(" + crnLocation + ")");
             } else if (iLocation > 1) {
                 return false; /* A single location was requested;
                                  already processed it: break this loop */
