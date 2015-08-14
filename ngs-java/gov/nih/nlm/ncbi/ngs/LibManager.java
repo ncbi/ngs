@@ -316,7 +316,7 @@ class LibManager implements FileCreator
 
         if (System.getProperty("vdb.System.loadLibrary") != null)
         {
-            Logger.warning ( "Smart DLL search was turned off" );
+            Logger.warning ( "Smart DLL search was disabled" );
             JUST_DO_REGULAR_JAVA_SYSTEM_LOAD_LIBRARY = true;
         }
 
@@ -383,6 +383,8 @@ class LibManager implements FileCreator
                     {
                         String name = System.getProperty("os.name");
                         if (name != null && name.startsWith("Win")) {
+                     /*    On Windows delete the file we are going to rename to.
+                           Otherwise renaming will fail. */
                             if (dest.exists()) {
                                 Logger.fine
                                     ("Trying to remove " + dathname + " ...");
