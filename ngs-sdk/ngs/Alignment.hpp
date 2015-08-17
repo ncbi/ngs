@@ -105,7 +105,7 @@ namespace ngs
         StringRef getClippedFragmentQualities () const
             throw ( ErrorMsg );
 
-        /* getAlignedpedFragmentBases
+        /* getAlignedFragmentBases
          *  return fragment bases in their aligned orientation
          */
         StringRef getAlignedFragmentBases () const
