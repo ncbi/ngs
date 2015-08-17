@@ -38,6 +38,11 @@ import ngs.itf.ReadCollectionItf;
 class Manager
 {
 
+    void setAppVersionString ( String app_version )
+    {
+        SetAppVersionString ( app_version );
+    }
+
     ReadCollection openReadCollection ( String spec )
         throws ErrorMsg
     {
@@ -103,10 +108,14 @@ class Manager
     }
 
     /** ncbi-vdb version */
-    static String getPackageVersion() {
-        try {
-            return Version();
-        } catch (Throwable e) {
+    static String getPackageVersion()
+    {
+        try
+        {
+            return Version ();
+        }
+        catch ( Throwable e )
+        {
             return "";
         }
     }
@@ -114,6 +123,7 @@ class Manager
 
     private native static String Initialize ();
     private native static void Shutdown ();
+    private native static void SetAppVersionString ( String app_version );
     private native static long OpenReadCollection ( String spec )
         throws ErrorMsg;
     private native static void release ( long ref );

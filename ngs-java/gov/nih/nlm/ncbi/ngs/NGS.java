@@ -38,6 +38,16 @@ public class NGS
 {
 
     /**
+     * Updates User-Agent header in HTTP communications
+     *
+     * @param app_version gives app name and version, e.g. "pileup-stats.1.0.0"
+     */
+    static public void setAppVersionString ( String app_version )
+    {
+        mgr . setAppVersionString ( app_version );
+    }
+
+    /**
      * Create an object representing a named collection of reads
      *
      * @param spec may be a path to an object or may be an id, accession, or URL
