@@ -51,6 +51,7 @@ $(TARGETS): $(NCBI_VDB_LIBDIR)/libncbi-vdb-static.a ncbi-headers $(NGS_LIBDIR)/l
 
 clean:
 	rm -f $(TARGETS) *.o
+	rm -rf *.dSYM
 
 .PHONY: default std $(TARGETS)
 
