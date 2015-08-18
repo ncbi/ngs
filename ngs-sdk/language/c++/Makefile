@@ -51,7 +51,7 @@ clean:
 #
 ngs-bind-c++: $(ILIBDIR) $(OBJDIR) $(ILIBDIR)/$(LPFX)ngs-bind-c++.$(LIBX)
 
-BIND_SRC =                  \
+BIND_SRC =              \
 	ReadCollection      \
 	ReferenceSequence   \
 	ReferenceIterator   \
