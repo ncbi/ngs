@@ -321,7 +321,7 @@ class LibManager:
 
         self.bind_sdk("PY_NGS_ReferenceIteratorNext",           [c_void_p, POINTER(c_int), POINTER(c_void_p)])
         
-        # Reference
+        # ReferenceSequence
         
         self.bind_sdk("PY_NGS_ReferenceSequenceGetCanonicalName",  [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_ReferenceSequenceGetIsCircular",     [c_void_p, POINTER(c_int), POINTER(c_void_p)])
