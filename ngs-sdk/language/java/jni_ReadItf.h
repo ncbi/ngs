@@ -33,6 +33,14 @@ JNIEXPORT jstring JNICALL Java_ngs_itf_ReadItf_GetFragmentQualities
 
 /*
  * Class:     ngs_itf_ReadItf
+ * Method:    IsAligned
+ * Signature: (J)Z
+ */
+JNIEXPORT jboolean JNICALL Java_ngs_itf_ReadItf_IsAligned
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     ngs_itf_ReadItf
  * Method:    NextFragment
  * Signature: (J)Z
  */

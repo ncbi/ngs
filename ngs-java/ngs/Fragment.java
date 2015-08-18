@@ -103,4 +103,12 @@ public interface Fragment
      */
     String getFragmentQualities ( long offset, long length )
         throws ErrorMsg, IndexOutOfBoundsException;
+
+    /**
+     * check to see if Fragment has alignment data (requires interface 1.1)
+     * @return true if Fragment is aligned
+     * @throws ErrorMsg if object is invalid or implementation too old
+     */
+    boolean isAligned ()
+        throws ErrorMsg;
 }

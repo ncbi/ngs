@@ -118,6 +118,12 @@ class ReadItf
         return this . GetFragmentQualities ( self, offset, length );
     }
 
+    public boolean isAligned ()
+        throws ErrorMsg
+    {
+        return this . IsAligned ( self );
+    }
+
     /******************************
      * FragmentIterator Interface *
      ******************************/
@@ -282,6 +288,8 @@ class ReadItf
     private native String GetFragmentBases ( long self, long offset, long length )
         throws ErrorMsg;
     private native String GetFragmentQualities ( long self, long offset, long length )
+        throws ErrorMsg;
+    private native boolean IsAligned ( long self )
         throws ErrorMsg;
     private native boolean NextFragment ( long self )
         throws ErrorMsg;

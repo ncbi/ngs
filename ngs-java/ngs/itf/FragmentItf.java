@@ -121,6 +121,12 @@ class FragmentItf
         return this . GetFragmentQualities ( self, offset, length );
     }
 
+    public boolean isAligned ()
+        throws ErrorMsg
+    {
+        return this . IsAligned ( self );
+    }
+
 
     /******************************
      * FragmentItf Implementation *
@@ -154,5 +160,7 @@ class FragmentItf
     private native String GetFragmentBases ( long self, long offset, long length )
         throws ErrorMsg;
     private native String GetFragmentQualities ( long self, long offset, long length )
+        throws ErrorMsg;
+    private native boolean IsAligned ( long self )
         throws ErrorMsg;
 }

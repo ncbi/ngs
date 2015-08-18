@@ -136,6 +136,34 @@ JNIEXPORT jstring JNICALL Java_ngs_itf_ReadItf_GetFragmentQualities
 
 /*
  * Class:     ngs_itf_ReadItf
+ * Method:    IsAligned
+ * Signature: (J)Z
+ */
+JNIEXPORT jboolean JNICALL Java_ngs_itf_ReadItf_IsAligned
+    ( JNIEnv * jenv, jobject jthis, jlong jself )
+{
+    try
+    {
+        return ( jboolean ) Self ( jself ) -> isAligned ();
+    }
+    catch ( ErrorMsg & x )
+    {
+        ErrorMsgThrow ( jenv, xt_error_msg, x . what () );
+    }
+    catch ( std :: exception & x )
+    {
+        ErrorMsgThrow ( jenv, xt_runtime, x . what () );
+    }
+    catch ( ... )
+    {
+        JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
+    }
+
+    return false;
+}
+
+/*
+ * Class:     ngs_itf_ReadItf
  * Method:    NextFragment
  * Signature: (J)Z
  */

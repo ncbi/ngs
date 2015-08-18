@@ -117,6 +117,12 @@ class AlignmentItf
         return this . GetFragmentQualities ( self, offset, length );
     }
 
+    public boolean isAligned ()
+        throws ErrorMsg
+    {
+        return true;
+    }
+
     /***********************
      * Alignment Interface *
      ***********************/
