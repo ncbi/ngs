@@ -49,10 +49,14 @@ struct NGS_Fragment_v1_vt
 {
     NGS_VTable dad;
 
+    /* 1.0 */
     NGS_String_v1 * ( CC * get_id ) ( const NGS_Fragment_v1 * self, NGS_ErrBlock_v1 * err );
     NGS_String_v1 * ( CC * get_bases ) ( const NGS_Fragment_v1 * self, NGS_ErrBlock_v1 * err, uint64_t offset, uint64_t length );
     NGS_String_v1 * ( CC * get_quals ) ( const NGS_Fragment_v1 * self, NGS_ErrBlock_v1 * err, uint64_t offset, uint64_t length );
     bool ( CC * next ) ( NGS_Fragment_v1 * self, NGS_ErrBlock_v1 * err );
+
+    /* 1.1 */
+    bool ( CC * is_aligned ) ( const NGS_Fragment_v1 * self, NGS_ErrBlock_v1 * err );
 };
 
 

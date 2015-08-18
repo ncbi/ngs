@@ -90,6 +90,13 @@ namespace ngs
         StringRef getFragmentQualities ( uint64_t offset, uint64_t length ) const
             throw ( ErrorMsg );
 
+
+        /* isAligned
+         *  returns true if fragment has alignment data
+         */
+        bool isAligned () const
+            throw ( ErrorMsg );
+
     public:
 
         // C++ support

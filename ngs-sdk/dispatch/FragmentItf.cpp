@@ -161,4 +161,28 @@ namespace ngs
         return ret;
     }
 
+    bool FragmentItf :: isAligned () const
+        throw ( ErrorMsg )
+    {
+        // the object is really from C
+        const NGS_Fragment_v1 * self = Test ();
+
+        // cast vtable to our level
+        const NGS_Fragment_v1_vt * vt = Access ( self -> vt );
+
+        // test for v1.1
+        if ( vt -> dad . minor_version < 1 )
+            throw ErrorMsg ( "the Fragment interface provided by this NGS engine is too old to support this message" );
+
+        // call through C vtable
+        ErrBlock err;
+        assert ( vt -> is_aligned != 0 );
+        bool ret = ( * vt -> is_aligned ) ( self, & err );
+
+        // check for errors
+        err . Check ();
+
+        return ret;
+    }
+
 } // namespace ngs
