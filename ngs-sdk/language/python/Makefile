@@ -65,6 +65,7 @@ BIND_SRC =                  \
 	ReadIteratorItf         \
 	ReferenceItf            \
 	ReferenceIteratorItf    \
+	ReferenceSequenceItf	\
 	StatisticsItf           \
 	Refcount                \
 	StringItf

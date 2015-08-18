@@ -36,10 +36,10 @@ extern "C" {
 }
 #endif
 
-//#include <string>
 #include <string.h>
 
 #include <assert.h>
+#include <stdint.h>
 
 #include <ngs/itf/ErrorMsg.hpp>
 

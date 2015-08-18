@@ -171,6 +171,9 @@
     <ClCompile Include="..\language\java\jni_ReferenceItf.cpp">
       <Filter>ngs-bind-java sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\language\java\jni_ReferenceSequenceItf.cpp">
+      <Filter>ngs-bind-java sources</Filter>
+    </ClCompile>
     <ClCompile Include="..\language\java\jni_StatisticsItf.cpp">
       <Filter>ngs-bind-java sources</Filter>
     </ClCompile>
@@ -192,6 +195,7 @@
     <ClCompile Include="..\language\python\py_Refcount.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
     <ClCompile Include="..\language\python\py_ReferenceIteratorItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
     <ClCompile Include="..\language\python\py_ReferenceItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
+    <ClCompile Include="..\language\python\py_ReferenceSequenceItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
     <ClCompile Include="..\language\python\py_StatisticsItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
     <ClCompile Include="..\language\python\py_StringItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
   </ItemGroup>

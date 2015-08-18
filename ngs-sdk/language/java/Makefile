@@ -52,6 +52,7 @@ BIND_SRC =      	       \
 	ReadCollectionItf      \
 	ReferenceIteratorItf   \
 	ReferenceItf           \
+	ReferenceSequenceItf   \
 	PileupIteratorItf      \
 	PileupItf              \
 	PileupEventIteratorItf \

@@ -102,6 +102,7 @@
         <ClCompile Include="..\language\java\jni_Refcount.cpp" />
         <ClCompile Include="..\language\java\jni_ReferenceIteratorItf.cpp" />
         <ClCompile Include="..\language\java\jni_ReferenceItf.cpp" />
+        <ClCompile Include="..\language\java\jni_ReferenceSequenceItf.cpp" />
         <ClCompile Include="..\language\java\jni_StatisticsItf.cpp" />
         <ClCompile Include="..\language\java\jni_String.cpp" />
         <ClCompile Include="..\language\python\py_AlignmentIteratorItf.cpp" />
@@ -121,6 +122,7 @@
         <ClCompile Include="..\language\python\py_Refcount.cpp" />
         <ClCompile Include="..\language\python\py_ReferenceIteratorItf.cpp" />
         <ClCompile Include="..\language\python\py_ReferenceItf.cpp" />
+        <ClCompile Include="..\language\python\py_ReferenceSequenceItf.cpp" />
         <ClCompile Include="..\language\python\py_StatisticsItf.cpp" />
         <ClCompile Include="..\language\python\py_StringItf.cpp" />
     </ItemGroup>

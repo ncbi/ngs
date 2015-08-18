@@ -321,6 +321,14 @@ class LibManager:
 
         self.bind_sdk("PY_NGS_ReferenceIteratorNext",           [c_void_p, POINTER(c_int), POINTER(c_void_p)])
         
+        # Reference
+        
+        self.bind_sdk("PY_NGS_ReferenceSequenceGetCanonicalName",  [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceSequenceGetIsCircular",     [c_void_p, POINTER(c_int), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceSequenceGetLength",         [c_void_p, POINTER(c_uint64), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceSequenceGetReferenceBases", [c_void_p, c_uint64, c_uint64, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceSequenceGetReferenceChunk", [c_void_p, c_uint64, c_uint64, POINTER(c_void_p), POINTER(c_void_p)])
+
         # Statistics
         
         self.bind_sdk("PY_NGS_StatisticsGetValueType", [c_void_p, c_char_p, POINTER(c_uint32), POINTER(c_void_p)])
