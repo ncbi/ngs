@@ -27,6 +27,7 @@
 from ctypes import byref, c_int, c_uint64, create_string_buffer
 from . import NGS
 from .Refcount import Refcount
+from .ErrorMsg import ErrorMsg
 from .String import NGS_RawString, NGS_String, getNGSString, getNGSValue
 
 # Represents a reference sequence standalone object
