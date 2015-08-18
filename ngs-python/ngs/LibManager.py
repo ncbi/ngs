@@ -192,6 +192,7 @@ class LibManager:
         ##############  ngs-engine imports below  ####################
         
         self._bind(self.c_lib_engine, "PY_NGS_Engine_ReadCollectionMake", [c_char_p, POINTER(c_void_p), POINTER(c_char), c_size_t], None)
+        self._bind(self.c_lib_engine, "PY_NGS_Engine_ReferenceSequenceMake", [c_char_p, POINTER(c_void_p), POINTER(c_char), c_size_t], None)
         # self._bind(self.c_lib_engine, "PY_NGS_Engine_RefcountRelease", [c_void_p, POINTER(c_void_p)], None)
         # self._bind(self.c_lib_engine, "PY_NGS_Engine_StringData", [c_void_p, POINTER(c_char_p)], None)
         # self._bind(self.c_lib_engine, "PY_NGS_Engine_StringSize", [c_void_p, POINTER(c_size_t)], None)

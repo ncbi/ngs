@@ -40,4 +40,11 @@ class NGS:
         from .ReadCollection import openReadCollection  # entry point - adding name to ngs package global namespace
         return openReadCollection(spec)
 
+    @staticmethod
+    def openReferenceSequence(spec):
+        NGS.lib_manager.initialize_ngs_bindings()
+    
+        from .ReferenceSequence import openReferenceSequence  # entry point - adding name to ngs package global namespace
+        return openReferenceSequence(spec)
+
 

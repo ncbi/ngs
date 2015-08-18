@@ -24,7 +24,7 @@
 # 
 # 
 
-from ctypes import byref, c_int, c_uint64
+from ctypes import byref, c_int, c_uint64, create_string_buffer
 from . import NGS
 from .Refcount import Refcount
 from .String import NGS_RawString, NGS_String, getNGSString, getNGSValue
@@ -81,3 +81,23 @@ class ReferenceSequence(Refcount):
                 ngs_str_ret.close()
         finally:
             ngs_str_err.close()
+
+def openReferenceSequence(spec):
+    """Create an object representing a named reference
+     
+     :param: spec may be a path to an object or may be an id, accession, or URL
+     
+     :throws: ErrorMsg if object cannot be located
+     :throws: ErrorMsg if object cannot be converted to a ReferenceSequence
+     :throws: ErrorMsg if an error occurs during construction
+    """
+
+    ret = ReferenceSequence()
+    ERROR_BUFFER_SIZE = 4096
+    str_err = create_string_buffer(ERROR_BUFFER_SIZE)
+    from . import PY_RES_OK
+    res = NGS.lib_manager.PY_NGS_Engine_ReferenceSequenceMake(spec.encode(), byref(ret.ref), str_err, len(str_err))
+    if res != PY_RES_OK:
+        raise ErrorMsg(str_err.value)
+        
+    return ret
