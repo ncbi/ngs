@@ -29,6 +29,8 @@ package gov.nih.nlm.ncbi.ngs;
 import ngs.ErrorMsg;
 import ngs.ReadCollection;
 import ngs.itf.ReadCollectionItf;
+import ngs.ReferenceSequence;
+import ngs.itf.ReferenceSequenceItf;
 
 
 /*==========================================================================
@@ -50,6 +52,21 @@ class Manager
         try
         {
             return new ReadCollectionItf ( ref );
+        }
+        catch ( Exception x )
+        {
+            this . release ( ref );
+            throw new ErrorMsg ( x . toString () );
+        }
+    }
+
+    ReferenceSequence openReferenceSequence ( String spec )
+        throws ErrorMsg
+    {
+        long ref = this . OpenReferenceSequence ( spec );
+        try
+        {
+            return new ReferenceSequenceItf ( ref );
         }
         catch ( Exception x )
         {
@@ -125,6 +142,8 @@ class Manager
     private native static void Shutdown ();
     private native static void SetAppVersionString ( String app_version );
     private native static long OpenReadCollection ( String spec )
+        throws ErrorMsg;
+    private native static long OpenReferenceSequence ( String spec )
         throws ErrorMsg;
     private native static void release ( long ref );
 }

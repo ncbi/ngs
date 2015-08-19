@@ -28,6 +28,7 @@ package gov.nih.nlm.ncbi.ngs;
 
 import ngs.ErrorMsg;
 import ngs.ReadCollection;
+import ngs.ReferenceSequence;
 
 
 /*==========================================================================
@@ -60,6 +61,21 @@ public class NGS
         throws ErrorMsg
     {
         return mgr . openReadCollection ( spec );
+    }
+
+    /**
+     * Create an object representing a named reference sequence
+     *
+     * @param spec may be a path to an object or may be an id, accession, or URL
+     * @return the requested reference
+     * @throws ErrorMsg if object cannot be located
+     * @throws ErrorMsg if object cannot be converted to a ReadCollection
+     * @throws ErrorMsg if an error occurs during construction
+     */
+    static public ReferenceSequence openReferenceSequence ( String spec )
+        throws ErrorMsg
+    {
+        return mgr . openReferenceSequence ( spec );
     }
 
     private static Manager mgr = new Manager ();
