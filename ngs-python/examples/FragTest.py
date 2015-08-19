@@ -49,10 +49,13 @@ def run(acc, splitNum, splitNo):
         with run.getReadRange(first+1, next_first-first, Read.all) as it:
             i = 0
             while it.nextRead():
+                i += 1
                 print (it.getReadId())
                 # iterate through fragments
                 while it.nextFragment():
-                    print ("\t{}".format(it.getFragmentBases()))
+                    bases = it.getFragmentBases()
+                    if bases:
+                        print ("\t{} - {}".format(bases, "aligned" if it.isAligned() else "unaligned"))
                 print ("\n")
             print ("Read {} spots for {}".format(i,  run_name))
 

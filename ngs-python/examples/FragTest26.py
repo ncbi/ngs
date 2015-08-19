@@ -49,10 +49,13 @@ def run(acc, splitNum, splitNo): # this function doesn't release NGS objects how
     it = run.getReadRange(first+1, next_first-first, Read.all)
     i = 0
     while it.nextRead():
+        i += 1
         print (it.getReadId())
         # iterate through fragments
         while it.nextFragment():
-            print ("\t" + it.getFragmentBases())
+            bases = it.getFragmentBases()
+            if bases:
+                print ("\t" + bases + " - " + ("aligned" if it.isAligned() else "unaligned"))
         print ("\n")
     print ("Read {} spots for {}".format(i,  run_name))
 
