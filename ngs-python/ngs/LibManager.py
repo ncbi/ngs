@@ -186,8 +186,12 @@ class LibManager:
         libname_engine = "ncbi-vdb"
         libname_sdk = "ngs-sdk"
 
+        print ("DEBUG: staring initialize_ngs_bindings")
+        
         self.c_lib_engine = load_library(libname_engine)
         self.c_lib_sdk = load_library(libname_sdk)
+        
+        print ("DEBUG: libraries has been loaded")
         
         ##############  ngs-engine imports below  ####################
         
@@ -199,12 +203,17 @@ class LibManager:
         
         ##############  ngs-sdk imports below  ####################
 
+        print ("DEBUG: ncbi-vdb functions has been imported")
+        
         # Common
         
         self._bind(self.c_lib_sdk, "PY_NGS_StringGetData",    [c_void_p, POINTER(c_char_p)], None)
         self._bind(self.c_lib_sdk, "PY_NGS_StringGetSize",    [c_void_p, POINTER(c_size_t)], None)
         self._bind(self.c_lib_sdk, "PY_NGS_RawStringRelease", [c_void_p, POINTER(c_void_p)], None)
+        
+        print ("DEBUG: before RefcountRelease")
         self._bind(self.c_lib_sdk, "PY_NGS_RefcountRelease",  [c_void_p, POINTER(c_void_p)], None)
+        print ("DEBUG: after RefcountRelease: LibManager.dir()=" + str(dir(self)))
         
         # ReadCollection
 
