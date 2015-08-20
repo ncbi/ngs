@@ -49,11 +49,12 @@ def run(acc, splitNum, splitNo):
         with run.getAlignmentRange(first+1, next_first-first, Alignment.primaryAlignment) as it:
             i = 0
             while it.nextAlignment():
-                print ("{}\t{}\t{}\t{}\t{}".format(it.getReadId(),
+                print ("{}\t{}\t{}\t{}\t{}\t{}".format(it.getReadId(),
                     it.getReferenceSpec(),
                     it.getAlignmentPosition(),
                     it.getShortCigar(False),
                     it.getFragmentBases(),
+                    ("aligned" if it.isAligned() else "unaligned"),
                 ))
                 i += 1
             print ("Read {} alignments for {}".format(i, run_name))

@@ -54,7 +54,8 @@ def run(acc, splitNum, splitNo): # this function doesn't release NGS objects how
             it.getReferenceSpec() + "\t" +
             str(it.getAlignmentPosition()) + "\t" +
             it.getShortCigar(False) + "\t" +
-            it.getFragmentBases()
+            it.getFragmentBases() + "\t" +
+            ("aligned" if it.isAligned() else "unaligned")
         )
         i += 1
     print ("Read {} alignments for {}".format(i, run_name))
