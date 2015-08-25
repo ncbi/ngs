@@ -78,6 +78,11 @@ public class NGS
         return mgr . openReferenceSequence ( spec );
     }
 
+    static public boolean isSupported () throws ErrorMsg
+    {
+        return mgr . isValid ();
+    }
+
     private static Manager mgr = new Manager ();
 
 }

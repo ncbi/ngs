@@ -42,12 +42,20 @@ class Manager
 
     void setAppVersionString ( String app_version )
     {
+        if ( invalid != null ) {
+            throw invalid;
+        }
+
         SetAppVersionString ( app_version );
     }
 
     ReadCollection openReadCollection ( String spec )
         throws ErrorMsg
     {
+        if ( invalid != null ) {
+            throw invalid;
+        }
+
         long ref = this . OpenReadCollection ( spec );
         try
         {
@@ -63,6 +71,10 @@ class Manager
     ReferenceSequence openReferenceSequence ( String spec )
         throws ErrorMsg
     {
+        if ( invalid != null ) {
+            throw invalid;
+        }
+
         long ref = this . OpenReferenceSequence ( spec );
         try
         {
@@ -76,7 +88,6 @@ class Manager
     }
 
     Manager ()
-        throws ExceptionInInitializerError
     {
         try
         {
@@ -116,11 +127,11 @@ class Manager
         }
         catch ( ExceptionInInitializerError x )
         {
-            throw x;
+            invalid = x;
         }
         catch ( Throwable x )
         {
-            throw new ExceptionInInitializerError ( x );
+            invalid = new ExceptionInInitializerError ( x );
         }
     }
 
@@ -136,8 +147,10 @@ class Manager
             return "";
         }
     }
-    private native static String Version ();
 
+    boolean isValid () { return invalid == null; }
+
+    private native static String Version ();
     private native static String Initialize ();
     private native static void Shutdown ();
     private native static void SetAppVersionString ( String app_version );
@@ -146,4 +159,6 @@ class Manager
     private native static long OpenReferenceSequence ( String spec )
         throws ErrorMsg;
     private native static void release ( long ref );
+
+    ExceptionInInitializerError invalid;
 }
