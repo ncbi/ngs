@@ -41,7 +41,7 @@ public class NGS
 {
 
     /**
-     * check to see if NGS SDK is supported by current environment
+     * Check to see if NGS SDK is supported by current environment
      * @return true if NGS SDK is supported
      */
     static public boolean isSupported ()
@@ -93,6 +93,12 @@ public class NGS
     }
 
 
+    /**
+     * Check to see if spec string represents an SRA archive
+     *
+     * @param spec may be a path to an object or may be an id, accession, or URL
+     * @return true spec represents an SRA archive
+     */
     static public boolean isValid ( String spec )
     {
         return mgr . isValid ( spec );
@@ -120,7 +126,9 @@ public class NGS
         test( "SRR00000", false);
         test( "SRR000000", false);
         test( "SRR000001", true); // table
+        test("http://sra-download.ncbi.nlm.nih.gov/srapub/SRR000001", true);
         test( "SRR499924", true); // db
+        test("http://sra-download.ncbi.nlm.nih.gov/srapub/SRR499924", true);
         test("SRR9000000", false);
         test("ERR000000", false);
         test("ERR000002", true);
