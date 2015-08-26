@@ -24,7 +24,9 @@
 *
 */
 
+
 package gov.nih.nlm.ncbi.ngs;
+
 
 import ngs.ErrorMsg;
 import ngs.ReadCollection;
@@ -49,6 +51,7 @@ class Manager
         SetAppVersionString ( app_version );
     }
 
+
     ReadCollection openReadCollection ( String spec )
         throws ErrorMsg
     {
@@ -68,6 +71,7 @@ class Manager
         }
     }
 
+
     ReferenceSequence openReferenceSequence ( String spec )
         throws ErrorMsg
     {
@@ -86,6 +90,7 @@ class Manager
             throw new ErrorMsg ( x . toString () );
         }
     }
+
 
     Manager ()
     {
@@ -135,6 +140,7 @@ class Manager
         }
     }
 
+
     /** ncbi-vdb version */
     static String getPackageVersion()
     {
@@ -148,7 +154,19 @@ class Manager
         }
     }
 
-    boolean isValid () { return invalid == null; }
+
+    boolean isValid ( String spec )
+    {
+        if ( spec == null ) {
+            throw new NullPointerException();
+        }
+
+        return IsValid ( spec );
+    }
+
+
+    boolean isSupported () { return invalid == null; }
+
 
     private native static String Version ();
     private native static String Initialize ();
@@ -158,7 +176,10 @@ class Manager
         throws ErrorMsg;
     private native static long OpenReferenceSequence ( String spec )
         throws ErrorMsg;
+    private native static boolean IsValid ( String spec );
     private native static void release ( long ref );
 
+
     ExceptionInInitializerError invalid;
+
 }

@@ -24,7 +24,9 @@
 *
 */
 
+
 package gov.nih.nlm.ncbi.ngs;
+
 
 import ngs.ErrorMsg;
 import ngs.ReadCollection;
@@ -39,6 +41,16 @@ public class NGS
 {
 
     /**
+     * check to see if NGS SDK is supported by current environment
+     * @return true if NGS SDK is supported
+     */
+    static public boolean isSupported ()
+    {
+        return mgr . isSupported ();
+    }
+
+
+    /**
      * Updates User-Agent header in HTTP communications
      *
      * @param app_version gives app name and version, e.g. "pileup-stats.1.0.0"
@@ -47,6 +59,7 @@ public class NGS
     {
         mgr . setAppVersionString ( app_version );
     }
+
 
     /**
      * Create an object representing a named collection of reads
@@ -63,6 +76,7 @@ public class NGS
         return mgr . openReadCollection ( spec );
     }
 
+
     /**
      * Create an object representing a named reference sequence
      *
@@ -78,11 +92,49 @@ public class NGS
         return mgr . openReferenceSequence ( spec );
     }
 
-    static public boolean isSupported () throws ErrorMsg
+
+    static public boolean isValid ( String spec )
     {
-        return mgr . isValid ();
+        return mgr . isValid ( spec );
     }
 
+
     private static Manager mgr = new Manager ();
+
+
+    private static void test(String s, boolean expected) {
+        if (isValid(s) != expected) {
+            System.err.println("isValid(" + s + ") = " + ! expected);
+            System.exit(1);
+        }
+    }
+
+
+    public static void main(String[] args) {
+        String h = System.getenv("HOME") + "/A/";
+        try {
+            isValid(null);
+            System.exit(1);
+        } catch (NullPointerException e) {}
+        test( ""        , false);
+        test( "SRR00000", false);
+        test( "SRR000000", false);
+        test( "SRR000001", true); // table
+        test( "SRR499924", true); // db
+        test("SRR9000000", false);
+        test("ERR000000", false);
+        test("ERR000002", true);
+        test("ERR900000", false);
+        test("DRR000000", false);
+        test("DRR000003", true);
+        test("DRR900000", false);
+        test(h + "notExisting", false);
+        test(h + "empty"      , false);
+        test(h + "text"       , false);
+        test(h + "SRR053325.f", true); // tbl; file
+        test(h + "SRR053325"  , true); // tbl; dir
+        test(h + "SRR600096.f", true); // db; file
+        test(h + "SRR600096"  , true); // db; dir
+    }
 
 }
