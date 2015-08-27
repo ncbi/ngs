@@ -44,9 +44,7 @@ class Manager
 
     void setAppVersionString ( String app_version )
     {
-        if ( invalid != null ) {
-            throw invalid;
-        }
+        checkSelf();
 
         SetAppVersionString ( app_version );
     }
@@ -55,9 +53,7 @@ class Manager
     ReadCollection openReadCollection ( String spec )
         throws ErrorMsg
     {
-        if ( invalid != null ) {
-            throw invalid;
-        }
+        checkSelf();
 
         long ref = this . OpenReadCollection ( spec );
         try
@@ -75,9 +71,7 @@ class Manager
     ReferenceSequence openReferenceSequence ( String spec )
         throws ErrorMsg
     {
-        if ( invalid != null ) {
-            throw invalid;
-        }
+        checkSelf();
 
         long ref = this . OpenReferenceSequence ( spec );
         try
@@ -144,6 +138,8 @@ class Manager
     /** ncbi-vdb version */
     static String getPackageVersion()
     {
+        // Do not check self. Return an empty string then.
+
         try
         {
             return Version ();
@@ -157,15 +153,19 @@ class Manager
 
     boolean isValid ( String spec )
     {
-        if ( spec == null ) {
-            throw new NullPointerException();
-        }
+        checkSelf();
 
         return IsValid ( spec );
     }
 
 
     boolean isSupported () { return invalid == null; }
+
+
+    private void checkSelf() {
+        if (spec == null)
+            throw new NullPointerException();
+    }
 
 
     private native static String Version ();
