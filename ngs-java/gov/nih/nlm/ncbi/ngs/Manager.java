@@ -153,6 +153,9 @@ class Manager
 
     boolean isValid ( String spec )
     {
+        if (spec == null)
+            throw new NullPointerException();
+
         checkSelf();
 
         return IsValid ( spec );
@@ -163,8 +166,8 @@ class Manager
 
 
     private void checkSelf() {
-        if (spec == null)
-            throw new NullPointerException();
+        if ( invalid != null )
+            throw invalid;
     }
 
 
