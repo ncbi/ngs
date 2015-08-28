@@ -110,8 +110,10 @@ public class NGS
 
     private static void test(String s, boolean expected) {
         if (isValid(s) != expected) {
-            System.err.println("isValid(" + s + ") = " + ! expected);
+            System.err.println("ERRRRRRROR isValid(" + s + ") = " + ! expected);
             System.exit(1);
+        } else if (false) {
+            System.err.println("isValid(" + s + ") = " + expected);
         }
     }
 
@@ -143,6 +145,9 @@ public class NGS
         test(h + "SRR053325"  , true); // tbl; dir
         test(h + "SRR600096.f", true); // db; file
         test(h + "SRR600096"  , true); // db; dir
+        test("http://w.gov/", false); // bad host
+        test("http://www.nih.gov/", false); // exists
+        test("http://sra-download.ncbi.nlm.nih.gov/srapub/", false); // ! exists
     }
 
 }
