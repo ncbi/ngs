@@ -45,6 +45,28 @@ namespace ngs
 
 
     /*----------------------------------------------------------------------
+     * create NGS_ReferenceAlignFlags from Alignment bits
+     */
+    static uint32_t make_flags ( uint32_t categories, uint32_t filters )
+    {
+        static bool tested_bits;
+        if ( ! tested_bits )
+        {
+            assert ( ( int ) Alignment :: primaryAlignment == ( int ) NGS_ReferenceAlignFlags_wants_primary );
+            assert ( ( int ) Alignment :: secondaryAlignment == ( int ) NGS_ReferenceAlignFlags_wants_secondary );
+            assert ( ( int ) Alignment :: passFailed << 2 == ( int ) NGS_ReferenceAlignFlags_pass_bad );
+            assert ( ( int ) Alignment :: passDuplicates << 2 == ( int ) NGS_ReferenceAlignFlags_pass_dups );
+            assert ( ( int ) Alignment :: minMapQuality << 2 == ( int ) NGS_ReferenceAlignFlags_min_map_qual );
+            assert ( ( int ) Alignment :: maxMapQuality << 2 == ( int ) NGS_ReferenceAlignFlags_max_map_qual );
+            assert ( ( int ) Alignment :: noWraparound << 2 == ( int ) NGS_ReferenceAlignFlags_no_wraparound );
+            assert ( ( int ) Alignment :: startWithinSlice << 2 == ( int ) NGS_ReferenceAlignFlags_start_within_window );
+            tested_bits = true;
+        }
+        return ( categories & 0x03 ) | ( filters << 2 );
+    }
+
+
+    /*----------------------------------------------------------------------
      * access vtable
      */
     static inline
@@ -314,6 +336,41 @@ namespace ngs
         return AlignmentItf :: Cast ( ret );
     }
 
+    AlignmentItf * ReferenceItf :: getFilteredAlignmentSlice ( int64_t start, uint64_t length, uint32_t categories, uint32_t filters, int32_t mappingQuality ) const
+        throw ( ErrorMsg )
+    {
+        // the object is really from C
+        const NGS_Reference_v1 * self = Test ();
+
+        // test for conflicting filters
+        const uint32_t conflictingMapQuality = Alignment :: minMapQuality | Alignment :: maxMapQuality;
+        if ( ( filters & conflictingMapQuality ) == conflictingMapQuality )
+            throw ErrorMsg ( "mapping quality can only be used as a minimum or maximum value, not both" );
+
+        // cast vtable to our level
+        const NGS_Reference_v1_vt * vt = Access ( self -> vt );
+
+        // test for bad categories
+        // this should not be possible in C++, but it is possible from other bindings
+        if ( categories == 0 )
+            categories = Alignment :: primaryAlignment;
+
+        // test for v1.3
+        if ( vt -> dad . minor_version < 3 )
+            throw ErrorMsg ( "the Reference interface provided by this NGS engine is too old to support this message" );
+
+        // call through C vtable
+        ErrBlock err;
+        assert ( vt -> get_filtered_align_slice != 0 );
+        uint32_t flags = make_flags ( categories, filters );
+        NGS_Alignment_v1 * ret  = ( * vt -> get_filtered_align_slice ) ( self, & err, start, length, flags, mappingQuality );
+
+        // check for errors
+        err . Check ();
+
+        return AlignmentItf :: Cast ( ret );
+    }
+
     PileupItf * ReferenceItf :: getPileups ( uint32_t categories ) const
         throw ( ErrorMsg )
     {
@@ -339,22 +396,6 @@ namespace ngs
         err . Check ();
 
         return PileupItf :: Cast ( ret );
-    }
-
-    static uint32_t make_flags ( uint32_t categories, uint32_t filters )
-    {
-        static bool tested_bits;
-        if ( ! tested_bits )
-        {
-            assert ( ( int ) Alignment :: primaryAlignment == ( int ) NGS_ReferenceAlignFlags_wants_primary );
-            assert ( ( int ) Alignment :: secondaryAlignment == ( int ) NGS_ReferenceAlignFlags_wants_secondary );
-            assert ( ( int ) Alignment :: passFailed << 2 == ( int ) NGS_ReferenceAlignFlags_pass_bad );
-            assert ( ( int ) Alignment :: passDuplicates << 2 == ( int ) NGS_ReferenceAlignFlags_pass_dups );
-            assert ( ( int ) Alignment :: minMapQuality << 2 == ( int ) NGS_ReferenceAlignFlags_min_map_qual );
-            assert ( ( int ) Alignment :: maxMapQuality << 2 == ( int ) NGS_ReferenceAlignFlags_max_map_qual );
-            tested_bits = true;
-        }
-        return ( categories & 0x03 ) | ( filters << 2 );
     }
 
     PileupItf * ReferenceItf :: getFilteredPileups ( uint32_t categories, uint32_t filters, int32_t mappingQuality ) const
