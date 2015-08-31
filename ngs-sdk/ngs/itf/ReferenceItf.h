@@ -49,7 +49,8 @@ enum NGS_ReferenceAlignFlags
     NGS_ReferenceAlignFlags_pass_dups           = 0x08,
     NGS_ReferenceAlignFlags_min_map_qual        = 0x10,
     NGS_ReferenceAlignFlags_max_map_qual        = 0x20,
-    NGS_ReferenceAlignFlags_wants_wraparound    = 0x40
+    NGS_ReferenceAlignFlags_no_wraparound       = 0x40,
+    NGS_ReferenceAlignFlags_start_within_window = 0x80
 };
 
 
