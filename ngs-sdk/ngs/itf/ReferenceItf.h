@@ -43,12 +43,13 @@ struct NGS_Alignment_v1;
 
 enum NGS_ReferenceAlignFlags
 {
-    NGS_ReferenceAlignFlags_wants_primary   = 0x01,
-    NGS_ReferenceAlignFlags_wants_secondary = 0x02,
-    NGS_ReferenceAlignFlags_pass_bad        = 0x04,
-    NGS_ReferenceAlignFlags_pass_dups       = 0x08,
-    NGS_ReferenceAlignFlags_min_map_qual    = 0x10,
-    NGS_ReferenceAlignFlags_max_map_qual    = 0x20
+    NGS_ReferenceAlignFlags_wants_primary       = 0x01,
+    NGS_ReferenceAlignFlags_wants_secondary     = 0x02,
+    NGS_ReferenceAlignFlags_pass_bad            = 0x04,
+    NGS_ReferenceAlignFlags_pass_dups           = 0x08,
+    NGS_ReferenceAlignFlags_min_map_qual        = 0x10,
+    NGS_ReferenceAlignFlags_max_map_qual        = 0x20,
+    NGS_ReferenceAlignFlags_wants_wraparound    = 0x40
 };
 
 
@@ -88,6 +89,9 @@ struct NGS_Reference_v1_vt
 
     /* 1.2 interface */
     uint64_t ( CC * get_align_count ) ( const NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err, bool wants_primary, bool wants_secondary );
+    
+    /* 1.3 interface */
+    struct NGS_Alignment_v1 * ( CC * get_alignments_with_flags ) ( const NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err, enum NGS_ReferenceAlignFlags flags );
 };
 
 
