@@ -41,6 +41,8 @@ class Alignment(Fragment):
     passDuplicates      = 2
     minMapQuality       = 4
     maxMapQuality       = 8
+    noWraparound        = 16
+    startWithinSlice    = 32
 
     # AlignmentCategory constants
     primaryAlignment    = 1

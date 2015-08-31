@@ -32,19 +32,20 @@ extern "C" {
 
 #include "py_ngs_defs.h"
 
-LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetCommonName          ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
-LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetCanonicalName       ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
-LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetIsCircular          ( void* pRef, int* pRet, void** ppNGSStrError );
-LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetLength              ( void* pRef, uint64_t* pRet, void** ppNGSStrError );
-LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetReferenceBases      ( void* pRef, uint64_t offset, uint64_t length, void** ppNGSStringBuf, void** ppNGSStrError );
-LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetReferenceChunk      ( void* pRef, uint64_t offset, uint64_t length, void** ppNGSStringBuf, void** ppNGSStrError );
-LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetAlignment           ( void* pRef, char const* alignmentId, void** pRet, void** ppNGSStrError );
-LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetAlignments          ( void* pRef, uint32_t categories, void** pRet, void** ppNGSStrError );
-LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetAlignmentSlice      ( void* pRef, int64_t start, uint64_t length, uint32_t categories, void** pRet, void** ppNGSStrError );
-LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetPileups             ( void* pRef, uint32_t categories, void** pRet, void** ppNGSStrError );
-LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetFilteredPileups     ( void* pRef, uint32_t categories, uint32_t filters, int32_t map_qual, void** pRet, void** ppNGSStrError );
-LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetPileupSlice         ( void* pRef, int64_t start, uint64_t length, uint32_t categories, void** pRet, void** ppNGSStrError );
-LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetFilteredPileupSlice ( void* pRef, int64_t start, uint64_t length, uint32_t categories, uint32_t filters, int32_t map_qual, void** pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetCommonName              ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetCanonicalName           ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetIsCircular              ( void* pRef, int* pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetLength                  ( void* pRef, uint64_t* pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetReferenceBases          ( void* pRef, uint64_t offset, uint64_t length, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetReferenceChunk          ( void* pRef, uint64_t offset, uint64_t length, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetAlignment               ( void* pRef, char const* alignmentId, void** pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetAlignments              ( void* pRef, uint32_t categories, void** pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetAlignmentSlice          ( void* pRef, int64_t start, uint64_t length, uint32_t categories, void** pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetFilteredAlignmentsSlice ( void* pRef, int64_t start, uint64_t length, uint32_t categories, uint32_t filters, int32_t map_qual, void** pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetPileups                 ( void* pRef, uint32_t categories, void** pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetFilteredPileups         ( void* pRef, uint32_t categories, uint32_t filters, int32_t map_qual, void** pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetPileupSlice             ( void* pRef, int64_t start, uint64_t length, uint32_t categories, void** pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetFilteredPileupSlice     ( void* pRef, int64_t start, uint64_t length, uint32_t categories, uint32_t filters, int32_t map_qual, void** pRet, void** ppNGSStrError );
 
 #ifdef __cplusplus
 }
