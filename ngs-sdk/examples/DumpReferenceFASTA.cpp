@@ -25,7 +25,6 @@
 */
 
 #include <ncbi-vdb/NGS.hpp>
-#include <ngs-bam/ngs-bam.hpp>
 #include <ngs/ErrorMsg.hpp>
 #include <ngs/ReadCollection.hpp>
 #include <ngs/ReadIterator.hpp>
@@ -38,74 +37,80 @@
 using namespace ngs;
 using namespace std;
 
-class FragTest
+class DumpReferenceFASTA
 {
 public:
 
-    static void run_common ( ReadCollection & run, int splitNum, int splitNo )
+    static void process ( const Reference & ref )
     {
+        uint64_t len = ref . getLength ();
 
-        String run_name = run.getName ();
+        size_t line = 0;
 
-        ReadIterator it = run.getReads ( Read::all );
+        cout << '>' << ref . getCanonicalName () << '\n';
 
-        long i;
-        for ( i = 0; it.nextRead (); ++ i )
+        try
         {
-            cout << it.getReadId();
-
-            //iterate through fragments
-            while ( it.nextFragment () )
-                cout << '\t' <<  it.getFragmentBases ();
-
-            cout << '\n';
-        }
-
-        cerr << "Read " << i << " spots for " << run_name << '\n';
-    }
-
-    static void run_csra ( String acc, int splitNum, int splitNo )
-    {
-        // open requested accession using SRA implementation of the API
-        ReadCollection run = ncbi::NGS::openReadCollection ( acc );
-        run_common ( run, splitNum, splitNo );
-    }
-
-    static void run_bam ( String acc, int splitNum, int splitNo )
-    {
-        // open requested accession using example BAM implementation of the API
-        ReadCollection run = NGS_BAM::openReadCollection ( acc );
-        run_common ( run, splitNum, splitNo );
-    }
-
-    static void run ( String acc, int splitNum, int splitNo )
-    {
-        size_t dot = acc . find_last_of ( '.' );
-        if ( dot != string :: npos )
-        {
-            String extension = acc . substr ( dot );
-            if ( extension == ".bam" || extension == ".BAM" )
+            for ( uint64_t offset = 0; offset < len; offset += 5000 )
             {
-                run_bam ( acc, splitNum, splitNo );
-                return;
+                StringRef chunk = ref . getReferenceChunk ( offset, 5000 );
+                size_t chunk_len = chunk . size ();
+                for ( size_t chunk_idx = 0; chunk_idx < chunk_len; )
+                {
+                    StringRef chunk_line = chunk . substr ( chunk_idx, 70 - line );
+                    line += chunk_line . size ();
+                    chunk_idx += chunk_line . size ();
+
+                    cout << chunk_line;
+                    if ( line >= 70 )
+                    {
+                        cout << '\n';
+                        line = 0;
+                    }
+                }
             }
         }
-
-        run_csra ( acc, splitNum, splitNo );
+        catch ( ErrorMsg x )
+        {
+        }
     }
 
+    static void run ( const String & acc, const String & reference )
+    {
+
+        // open requested accession using SRA implementation of the API
+        ReadCollection run = ncbi::NGS::openReadCollection ( acc );
+        Reference ref = run . getReference ( reference );
+        process ( ref );
+    }
+
+    static void run ( const String & acc )
+    {
+
+        // open requested accession using SRA implementation of the API
+        ReadCollection run = ncbi::NGS::openReadCollection ( acc );
+        ReferenceIterator refs = run . getReferences ();
+        while ( refs . nextReference () )
+        {
+            process ( refs );
+            cout << '\n';
+        }
+    }
 };
 
 int main (int argc, char const *argv[])
 {
-    if ( argc != 4 )
+    if ( argc < 2 )
     {
-        cerr << "Usage: FragTest accession NumChunks ChunkNo\n";
+        cerr << "Usage: DumpReferenceFASTA accession [ reference ]\n";
     }
     else try
     {
-        ncbi::NGS::setAppVersionString ( "FragTest.1.1.0" );
-        FragTest::run ( argv[1], atoi ( argv[2] ), atoi ( argv[3] ) );
+        ncbi::NGS::setAppVersionString ( "DumpReferenceFASTA.1.0.0" );
+        if ( argc == 3 )
+            DumpReferenceFASTA::run ( argv[1], argv[2] );
+        else
+            DumpReferenceFASTA::run ( argv[1] );
         return 0;
     }
     catch ( ErrorMsg & x )

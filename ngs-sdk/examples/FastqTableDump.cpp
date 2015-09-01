@@ -80,6 +80,7 @@ int main (int argc, char const *argv[])
     }
     else try
     {
+        ncbi::NGS::setAppVersionString ( "FastqTableDump.1.1.0" );
         FastqTableDump::run ( argv[1]) ;
         return 0;
     }

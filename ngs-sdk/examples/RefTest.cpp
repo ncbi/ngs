@@ -31,10 +31,12 @@ using namespace ngs;
 using namespace std;
 
 
-class RunTest
+class RefTest
 {
 public:
-    static void run ( const String &acc ) {
+
+    static void run ( const String &acc )
+    {
         // open requested accession using SRA implementation of the API
         ReadCollection run ( ncbi::NGS::openReadCollection ( acc ) );
 
@@ -59,20 +61,26 @@ public:
 
 int main ( int argc, char const *argv[] )
 {
-    if ( argc != 2 ) {
+    if ( argc != 2 )
+    {
         cerr << "Usage: RefTest accession\n";
         return 10;
     }
-    else try {
-        RunTest::run ( argv[1] );
+    else try
+    {
+        ncbi::NGS::setAppVersionString ( "RefTest.1.1.0" );
+        RefTest::run ( argv[1] );
         return 0;
     }
-    catch ( ErrorMsg & x ) {
+    catch ( ErrorMsg & x )
+    {
         cerr <<  x.toString () << '\n';
     }
-    catch ( exception & x ) {
+    catch ( exception & x )
+    {
         cerr <<  x.what () << '\n';
-    } catch ( ... )
+    }
+    catch ( ... )
     {
         cerr <<  "unknown exception\n";
     }

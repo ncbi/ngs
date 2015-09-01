@@ -150,6 +150,7 @@ int main ( int argc, char const *argv[] )
     }
     else try
     {
+        ncbi::NGS::setAppVersionString ( "PileupTest.1.1.0" );
         PileupTest::run ( argv[1], argv[2], atoi ( argv[3] ), atoi ( argv[4] ) );
         return 0;
     }
