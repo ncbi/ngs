@@ -41,7 +41,7 @@ LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetReferenceChunk          ( void* pRef, 
 LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetAlignment               ( void* pRef, char const* alignmentId, void** pRet, void** ppNGSStrError );
 LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetAlignments              ( void* pRef, uint32_t categories, void** pRet, void** ppNGSStrError );
 LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetAlignmentSlice          ( void* pRef, int64_t start, uint64_t length, uint32_t categories, void** pRet, void** ppNGSStrError );
-LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetFilteredAlignmentsSlice ( void* pRef, int64_t start, uint64_t length, uint32_t categories, uint32_t filters, int32_t map_qual, void** pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetFilteredAlignmentSlice  ( void* pRef, int64_t start, uint64_t length, uint32_t categories, uint32_t filters, int32_t map_qual, void** pRet, void** ppNGSStrError );
 LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetPileups                 ( void* pRef, uint32_t categories, void** pRet, void** ppNGSStrError );
 LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetFilteredPileups         ( void* pRef, uint32_t categories, uint32_t filters, int32_t map_qual, void** pRet, void** ppNGSStrError );
 LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetPileupSlice             ( void* pRef, int64_t start, uint64_t length, uint32_t categories, void** pRet, void** ppNGSStrError );
