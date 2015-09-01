@@ -49,7 +49,7 @@ clean:
 
 #-----------------------------------------------------------------------
 # C++ client library that provides API to any engine
-ngs-c++: $(LIBDIR) $(LIBDIR)/$(LPFX)ngs-c++.$(LIBX)
+ngs-c++: $(LIBDIR) $(LIBDIR)/$(LPFX)ngs-c++-static.$(LIBX)
 
 ifeq (,$(MAKE_MANIFEST))
 MAKE_MANIFEST = ( cd $@; $(ARX) $^; $(ARLS) $^ | sed -e '/__\.SYMDEF/d' -e 's/^\(..*\)$$/$(subst /,\/,$@)\/\1/' > $@/manifest )
@@ -73,6 +73,10 @@ $(LIBDIR)/$(LPFX)ngs-c++.$(MAJVERS_LIBX): $(LIBDIR)/$(LPFX)ngs-c++.$(VERSION_LIB
 	ln -s $(notdir $^) $@
 
 $(LIBDIR)/$(LPFX)ngs-c++.$(LIBX): $(LIBDIR)/$(LPFX)ngs-c++.$(MAJVERS_LIBX)
+	rm -f $@
+	ln -s $(notdir $^) $@
+
+$(LIBDIR)/$(LPFX)ngs-c++-static.$(LIBX): $(LIBDIR)/$(LPFX)ngs-c++.$(LIBX)
 	rm -f $@
 	ln -s $(notdir $^) $@
 

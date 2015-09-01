@@ -44,7 +44,8 @@ clean:
 
 .PHONY: default all std $(TARGETS)
 
-ngs-adapt-c++: $(LIBDIR) $(OBJDIR) $(LIBDIR)/$(LPFX)ngs-adapt-c++.$(LIBX)
+ngs-adapt-c++: \
+	$(LIBDIR) $(OBJDIR) $(LIBDIR)/$(LPFX)ngs-adapt-c++-static.$(LIBX)
 
 ADAPT_SRC =              \
 	ReadCollectionItf    \
@@ -73,5 +74,9 @@ $(LIBDIR)/$(LPFX)ngs-adapt-c++.$(MAJVERS_LIBX): $(LIBDIR)/$(LPFX)ngs-adapt-c++.$
 	ln -s $(notdir $^) $@
 
 $(LIBDIR)/$(LPFX)ngs-adapt-c++.$(LIBX): $(LIBDIR)/$(LPFX)ngs-adapt-c++.$(MAJVERS_LIBX)
+	rm -f $@
+	ln -s $(notdir $^) $@  
+
+$(LIBDIR)/$(LPFX)ngs-adapt-c++-static.$(LIBX): $(LIBDIR)/$(LPFX)ngs-adapt-c++.$(LIBX)
 	rm -f $@
 	ln -s $(notdir $^) $@  
