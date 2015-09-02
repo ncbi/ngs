@@ -26,6 +26,8 @@
 
 #import os
 
+from ctypes import c_char_p, c_int, byref, create_string_buffer, string_at
+
 from .LibManager import LibManager # TODO probably, LibManager should not be the part of ngs package and be specific to engine
 
 PY_RES_OK    = 0
@@ -33,6 +35,45 @@ PY_RES_OK    = 0
 class NGS:
     lib_manager = LibManager()
 
+    @staticmethod
+    def setAppVersionString(app_version):
+        NGS.lib_manager.initialize_ngs_bindings()
+        
+        ERROR_BUFFER_SIZE = 4096
+        str_err = create_string_buffer(ERROR_BUFFER_SIZE)
+        res = NGS.lib_manager.PY_NGS_Engine_SetAppVersionString(app_version.encode(), str_err, len(str_err))
+        if res != PY_RES_OK:
+            raise ErrorMsg(str_err.value)
+            
+    @staticmethod
+    def getVersion():
+        from .String import NGS_RawString
+        NGS.lib_manager.initialize_ngs_bindings()
+
+        ret = c_char_p()
+        ERROR_BUFFER_SIZE = 4096
+        str_err = create_string_buffer(ERROR_BUFFER_SIZE)
+        res = NGS.lib_manager.PY_NGS_Engine_GetVersion(byref(ret), str_err, len(str_err))
+        if res != PY_RES_OK:
+            raise ErrorMsg(str_err.value)
+        
+        return string_at(ret.value).decode()
+
+    @staticmethod
+    def isValid(spec):
+        from .String import NGS_RawString
+        NGS.lib_manager.initialize_ngs_bindings()
+        
+        ret = c_int()
+        ERROR_BUFFER_SIZE = 4096
+        str_err = create_string_buffer(ERROR_BUFFER_SIZE)
+        res = NGS.lib_manager.PY_NGS_Engine_IsValid(spec.encode(), byref(ret), str_err, len(str_err))
+        if res != PY_RES_OK:
+            raise ErrorMsg(str_err.value)
+        
+        return bool(ret.value)
+
+            
     @staticmethod
     def openReadCollection(spec):
         NGS.lib_manager.initialize_ngs_bindings()
@@ -46,5 +87,3 @@ class NGS:
     
         from .ReferenceSequence import openReferenceSequence  # entry point - adding name to ngs package global namespace
         return openReferenceSequence(spec)
-
-
