@@ -126,10 +126,12 @@ public interface Alignment
     /* AlignmentFilter
      *  values should be or'd together to produce filter bits
      */
-    static int passFailed = 1;       // reads rejected due to platform/vendor quality criteria
-    static int passDuplicates = 2;   // either a PCR or optical duplicate
-    static int minMapQuality = 4;    // pass alignments with mappingQuality >= param
-    static int maxMapQuality = 8;    // pass alignments with mappingQuality <= param
+    static int passFailed = 1;         // reads rejected due to platform/vendor quality criteria
+    static int passDuplicates = 2;     // either a PCR or optical duplicate
+    static int minMapQuality = 4;      // pass alignments with mappingQuality >= param
+    static int maxMapQuality = 8;      // pass alignments with mappingQuality <= param
+    static int noWraparound = 16;      // do not include leading wrapped around alignments to circular references
+    static int startWithinSlice = 32;  // change slice intersection criteria so that start pos is within slice
 
     /* AlignmentCategory
      */

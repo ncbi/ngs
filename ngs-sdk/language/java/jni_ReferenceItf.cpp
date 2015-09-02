@@ -329,7 +329,7 @@ JNIEXPORT jlong JNICALL Java_ngs_itf_ReferenceItf_GetAlignments
 /*
  * Class:     ngs_itf_ReferenceItf
  * Method:    GetAlignmentSlice
- * Signature: (JIJJ)J
+ * Signature: (JJJI)J
  */
 JNIEXPORT jlong JNICALL Java_ngs_itf_ReferenceItf_GetAlignmentSlice
     ( JNIEnv * jenv, jobject jthis, jlong jself, jlong offset, jlong length, jint categories )
@@ -352,6 +352,35 @@ JNIEXPORT jlong JNICALL Java_ngs_itf_ReferenceItf_GetAlignmentSlice
         JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
     }
 
+    return 0;
+}
+
+/*
+ * Class:     ngs_itf_ReferenceItf
+ * Method:    GetFilteredAlignmentSlice
+ * Signature: (JJJIII)J
+ */
+JNIEXPORT jlong JNICALL Java_ngs_itf_ReferenceItf_GetFilteredAlignmentSlice
+( JNIEnv * jenv, jobject jthis, jlong jself, jlong offset, jlong length, jint categories, jint filters, jint mappingQuality )
+{
+    try
+    {
+        AlignmentItf * new_ref = Self ( jself ) -> getFilteredAlignmentSlice ( offset, length, categories, filters, mappingQuality );
+        return Cast ( new_ref );
+    }
+    catch ( ErrorMsg & x )
+    {
+        ErrorMsgThrow ( jenv, xt_error_msg, x . what () );
+    }
+    catch ( std :: exception & x )
+    {
+        ErrorMsgThrow ( jenv, xt_runtime, x . what () );
+    }
+    catch ( ... )
+    {
+        JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
+    }
+    
     return 0;
 }
 

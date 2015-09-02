@@ -180,6 +180,21 @@ public interface Reference
      */
     AlignmentIterator getAlignmentSlice ( long start, long length, int categories )
         throws ErrorMsg;
+    
+    /** 
+     * getFilteredAlignmentSlice
+     * Behaves like "getAlignmentSlice" except that supported filters are applied to selection
+     * @param start is a signed 0-based offset from the start of the Reference
+     * @param length is the length of the slice.
+     * @param categories provides a means of filtering by AlignmentCategory
+     * @param filters is a set of filter bits defined in Alignment
+     * @param mappingQuality is a cutoff to be used according to bits in "filter"
+     * @return an iterator across a range of Alignments
+     * @throws ErrorMsg if no Iterator can be created
+     *
+     */
+    AlignmentIterator getFilteredAlignmentSlice ( long start, long length, int categories, int filters, int mappingQuality )
+        throws ErrorMsg;
 
 
     /*----------------------------------------------------------------------

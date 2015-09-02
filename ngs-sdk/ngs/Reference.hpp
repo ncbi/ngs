@@ -145,6 +145,16 @@ namespace ngs
         AlignmentIterator getAlignmentSlice ( int64_t start, uint64_t length, Alignment :: AlignmentCategory categories ) const
             throw ( ErrorMsg );
 
+        /* getFilteredAlignmentSlice
+         *  returns a filtered iterator across a slice of the Reference
+         *  behaves like "getAlignmentSlice" except that supported filters are applied to selection
+         *  "filters" is a set of filter bits defined in Alignment
+         *  "mappingQuality" is a cutoff to be used according to bits in "filters"
+         */
+        AlignmentIterator getFilteredAlignmentSlice ( int64_t start, uint64_t length, Alignment :: AlignmentCategory categories,
+                Alignment :: AlignmentFilter filters, int32_t mappingQuality ) const
+            throw ( ErrorMsg );
+
 
         /*------------------------------------------------------------------
          * PILEUP
@@ -183,7 +193,7 @@ namespace ngs
          *  creates a PileupIterator on a slice (window) of reference
          *  filtered according to criteria in parameters
          *  "filters" is a set of filter bits defined in Alignment
-         *  "mappingQuality" is a cutoff to be used according to bits in "filter"
+         *  "mappingQuality" is a cutoff to be used according to bits in "filters"
          */
         PileupIterator getFilteredPileupSlice ( int64_t start, uint64_t length, Alignment :: AlignmentCategory categories,
                 Alignment :: AlignmentFilter filters, int32_t mappingQuality ) const

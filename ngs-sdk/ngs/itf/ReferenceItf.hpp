@@ -78,6 +78,8 @@ namespace ngs
             throw ( ErrorMsg );
         AlignmentItf * getAlignmentSlice ( int64_t start, uint64_t length, uint32_t categories ) const
             throw ( ErrorMsg );
+        AlignmentItf * getFilteredAlignmentSlice ( int64_t start, uint64_t length, uint32_t categories, uint32_t filters, int32_t mappingQuality ) const
+            throw ( ErrorMsg );
         PileupItf * getPileups ( uint32_t categories ) const
             throw ( ErrorMsg );
         PileupItf * getFilteredPileups ( uint32_t categories, uint32_t filters, int32_t mappingQuality ) const

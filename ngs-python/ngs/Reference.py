@@ -137,6 +137,24 @@ class Reference(Refcount):
             ngs_str_err.close()
         
         return ret
+    
+    def getFilteredAlignmentSlice(self, start, length, categories, filters, mappingQuality):
+        """Behaves like "getAlignmentSlice" except that supported filters are applied to selection
+        :param: start is a signed 0-based offset from the start of the Reference
+        :param: length is the length of the slice.
+        :param: categories provides a means of filtering by AlignmentCategory
+        :param: filters is a set of filter bits defined in Alignment
+        :param: mappingQuality is a cutoff to be used according to bits in "filter"
+        :returns: an iterator across a range of Alignments
+        """
+        ret = AlignmentIterator()
+        ngs_str_err = NGS_RawString()
+        try:
+            res = NGS.lib_manager.PY_NGS_ReferenceGetFilteredAlignmentSlice(self.ref, start, length, categories, filters, mappingQuality, byref(ret.ref), byref(ngs_str_err.ref))
+        finally:
+            ngs_str_err.close()
+
+        return ret
 
     # ----------------------------------------------------------------------
     # PILEUP
@@ -188,6 +206,8 @@ class Reference(Refcount):
         :param: start is the signed starting position on reference
         :param: length is the unsigned number of bases in the window
         :param: categories provides a means of filtering by AlignmentCategory
+        :param: filters is a set of filter bits defined in Alignment
+        :param: mappingQuality is a cutoff to be used according to bits in "filter"
         :returns: an iterator of contained Pileups
         """
         ret = PileupIterator()

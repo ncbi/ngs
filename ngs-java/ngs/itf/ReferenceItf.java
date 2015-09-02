@@ -210,6 +210,27 @@ class ReferenceItf
             throw new ErrorMsg ( x . toString () );
         }
     }
+    
+    /* getFilteredAlignmentSlice
+     *  returns a filtered iterator across a slice of the Reference
+     *  behaves like "getAlignmentSlice" except that supported filters are applied to selection
+     *  "filters" is a set of filter bits defined in Alignment
+     *  "mappingQuality" is a cutoff to be used according to bits in "filters"
+     */
+    public AlignmentIterator getFilteredAlignmentSlice ( long offset, long length, int categories, int filters, int mappingQuality )
+        throws ErrorMsg
+    {
+        long ref = this . GetFilteredAlignmentSlice ( self, offset, length, categories, filters, mappingQuality );
+        try
+        {
+            return new AlignmentIteratorItf ( ref );
+        }
+        catch ( Exception x )
+        {
+            this . release ( ref );
+            throw new ErrorMsg ( x . toString () );
+        }
+    }
 
 
     /*----------------------------------------------------------------------
@@ -336,6 +357,8 @@ class ReferenceItf
     private native long GetAlignments ( long self, int categories )
         throws ErrorMsg;
     private native long GetAlignmentSlice ( long self, long offset, long length, int categories )
+        throws ErrorMsg;
+    private native long GetFilteredAlignmentSlice ( long self, long offset, long length, int categories, int filters, int mappingQuality )
         throws ErrorMsg;
     private native long GetPileups ( long self, int categories )
         throws ErrorMsg;
