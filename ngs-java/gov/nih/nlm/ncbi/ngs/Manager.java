@@ -165,7 +165,8 @@ class Manager
     boolean isSupported () { return invalid == null; }
 
 
-    private void checkSelf() {
+    private void checkSelf()
+    {
         if ( invalid != null )
             throw invalid;
     }
