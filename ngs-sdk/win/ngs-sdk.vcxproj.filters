@@ -183,6 +183,7 @@
     <ClCompile Include="..\language\python\py_ErrorMsg.hpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
     <ClCompile Include="..\language\python\py_FragmentIteratorItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
     <ClCompile Include="..\language\python\py_FragmentItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
+    <ClCompile Include="..\language\python\py_PackageItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
     <ClCompile Include="..\language\python\py_PileupEventIteratorItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
     <ClCompile Include="..\language\python\py_PileupEventItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
     <ClCompile Include="..\language\python\py_PileupIteratorItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>

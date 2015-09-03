@@ -54,6 +54,7 @@ BIND_SRC =                  \
 	ErrorMsg                \
 	FragmentItf             \
 	FragmentIteratorItf     \
+	PackageItf				\
 	PileupEventItf          \
 	PileupEventIteratorItf  \
 	PileupItf               \

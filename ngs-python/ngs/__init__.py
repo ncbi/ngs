@@ -46,18 +46,25 @@ class NGS:
             raise ErrorMsg(str_err.value)
             
     @staticmethod
-    def getPackageVersion():
+    def getVersion():
         from .String import NGS_RawString
         NGS.lib_manager.initialize_ngs_bindings()
 
         ret = c_char_p()
         ERROR_BUFFER_SIZE = 4096
         str_err = create_string_buffer(ERROR_BUFFER_SIZE)
-        res = NGS.lib_manager.PY_NGS_Engine_GetPackageVersion(byref(ret), str_err, len(str_err))
+        res = NGS.lib_manager.PY_NGS_Engine_GetVersion(byref(ret), str_err, len(str_err))
         if res != PY_RES_OK:
             raise ErrorMsg(str_err.value)
         
         return string_at(ret.value).decode()
+
+    @staticmethod
+    def getPackageVersion():
+        from .String import NGS_RawString
+        from .Package import Package
+        
+        return Package.getPackageVersion()
 
     @staticmethod
     def isValid(spec):
