@@ -29,8 +29,6 @@
 
 #include <ngs/itf/PackageItf.hpp>
 
-#include <stdio.h>
-
 PY_RES_TYPE PY_NGS_PackageGetPackageVersion ( void** ppNGSRawStringBuf, void** ppNGSStrError )
 {
     PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
