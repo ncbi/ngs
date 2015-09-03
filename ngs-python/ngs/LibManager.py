@@ -195,7 +195,7 @@ class LibManager:
         self._bind(self.c_lib_engine, "PY_NGS_Engine_ReferenceSequenceMake", [c_char_p, POINTER(c_void_p), POINTER(c_char), c_size_t], None)
 
         self._bind(self.c_lib_engine, "PY_NGS_Engine_SetAppVersionString",   [c_char_p, POINTER(c_char), c_size_t], None)
-        self._bind(self.c_lib_engine, "PY_NGS_Engine_GetVersion",            [POINTER(c_char_p), POINTER(c_char), c_size_t], None)
+        self._bind(self.c_lib_engine, "PY_NGS_Engine_GetPackageVersion",     [POINTER(c_char_p), POINTER(c_char), c_size_t], None)
         self._bind(self.c_lib_engine, "PY_NGS_Engine_IsValid",               [c_char_p, POINTER(c_int), POINTER(c_char), c_size_t], None)
 
         # self._bind(self.c_lib_engine, "PY_NGS_Engine_RefcountRelease", [c_void_p, POINTER(c_void_p)], None)

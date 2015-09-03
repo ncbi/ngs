@@ -46,14 +46,14 @@ class NGS:
             raise ErrorMsg(str_err.value)
             
     @staticmethod
-    def getVersion():
+    def getPackageVersion():
         from .String import NGS_RawString
         NGS.lib_manager.initialize_ngs_bindings()
 
         ret = c_char_p()
         ERROR_BUFFER_SIZE = 4096
         str_err = create_string_buffer(ERROR_BUFFER_SIZE)
-        res = NGS.lib_manager.PY_NGS_Engine_GetVersion(byref(ret), str_err, len(str_err))
+        res = NGS.lib_manager.PY_NGS_Engine_GetPackageVersion(byref(ret), str_err, len(str_err))
         if res != PY_RES_OK:
             raise ErrorMsg(str_err.value)
         
