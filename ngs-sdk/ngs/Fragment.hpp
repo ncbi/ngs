@@ -91,6 +91,13 @@ namespace ngs
             throw ( ErrorMsg );
 
 
+        /* isPaired
+         *  returns true if fragment has a mate
+         */
+        bool isPaired () const
+            throw ( ErrorMsg );
+
+
         /* isAligned
          *  returns true if fragment has alignment data
          */

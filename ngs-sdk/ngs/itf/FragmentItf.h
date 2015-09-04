@@ -56,6 +56,7 @@ struct NGS_Fragment_v1_vt
     bool ( CC * next ) ( NGS_Fragment_v1 * self, NGS_ErrBlock_v1 * err );
 
     /* 1.1 */
+    bool ( CC * is_paired ) ( const NGS_Fragment_v1 * self, NGS_ErrBlock_v1 * err );
     bool ( CC * is_aligned ) ( const NGS_Fragment_v1 * self, NGS_ErrBlock_v1 * err );
 };
 

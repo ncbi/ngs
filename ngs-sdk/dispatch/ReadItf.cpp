@@ -97,6 +97,30 @@ namespace ngs
         return ret;
     }
 
+    bool ReadItf :: fragmentIsAligned ( uint32_t fragIdx ) const
+        throw ( ErrorMsg )
+    {
+        // the object is really from C
+        const NGS_Read_v1 * self = Test ();
+
+        // cast vtable to our level
+        const NGS_Read_v1_vt * vt = Access ( self -> vt );
+
+        // test for v1.1
+        if ( vt -> dad . minor_version < 1 )
+            throw ErrorMsg ( "the Read interface provided by this NGS engine is too old to support this message" );
+
+        // call through C vtable
+        ErrBlock err;
+        assert ( vt -> frag_is_aligned != 0 );
+        bool ret  = ( * vt -> frag_is_aligned ) ( self, & err, fragIdx );
+
+        // check for errors
+        err . Check ();
+
+        return ret;
+    }
+
     uint32_t ReadItf :: getReadCategory () const
         throw ( ErrorMsg )
     {

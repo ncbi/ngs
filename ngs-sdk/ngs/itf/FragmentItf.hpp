@@ -64,6 +64,8 @@ namespace ngs
             throw ( ErrorMsg );
         bool nextFragment ()
             throw ( ErrorMsg );
+        bool isPaired () const
+            throw ( ErrorMsg );
         bool isAligned () const
             throw ( ErrorMsg );
     };

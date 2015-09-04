@@ -58,6 +58,9 @@ struct NGS_Read_v1_vt
     NGS_String_v1 * ( CC * get_quals ) ( const NGS_Read_v1 * self, NGS_ErrBlock_v1 * err, uint64_t offset, uint64_t length );
     bool ( CC * next ) ( NGS_Read_v1 * self, NGS_ErrBlock_v1 * err );
 
+    /* 1.1 */
+    bool ( CC * frag_is_aligned ) ( const NGS_Read_v1 * self, NGS_ErrBlock_v1 * err, uint32_t fragIdx );
+
 };
 
 

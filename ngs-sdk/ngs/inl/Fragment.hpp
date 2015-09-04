@@ -79,6 +79,11 @@ namespace ngs
     { return StringRef ( self -> getFragmentQualities ( offset, length ) ); }
 
     inline
+    bool Fragment :: isPaired () const
+        throw ( ErrorMsg )
+    { return self -> isPaired (); }
+
+    inline
     bool Fragment :: isAligned () const
         throw ( ErrorMsg )
     { return self -> isAligned (); }
