@@ -121,6 +121,12 @@ class FragmentItf
         return this . GetFragmentQualities ( self, offset, length );
     }
 
+    public boolean isPaired()
+        throws ErrorMsg
+    {
+        return this . IsPaired ( self );
+    }
+    
     public boolean isAligned ()
         throws ErrorMsg
     {
@@ -160,6 +166,8 @@ class FragmentItf
     private native String GetFragmentBases ( long self, long offset, long length )
         throws ErrorMsg;
     private native String GetFragmentQualities ( long self, long offset, long length )
+        throws ErrorMsg;
+    private native boolean IsPaired ( long self )
         throws ErrorMsg;
     private native boolean IsAligned ( long self )
         throws ErrorMsg;

@@ -24,7 +24,7 @@
 # 
 # 
 
-from ctypes import byref, c_uint32
+from ctypes import byref, c_uint32, c_int32
 from . import NGS
 
 from .String import NGS_String, NGS_RawString, getNGSString, getNGSValue
@@ -49,6 +49,20 @@ class Read(FragmentIterator):
     
     def getNumFragments(self):
         return getNGSValue(self, NGS.lib_manager.PY_NGS_ReadGetNumFragments, c_uint32)
+    
+    def fragmentIsAligned(self, fragIdx):
+        """
+        :param: fragIdx is zero-based and non-negative fragment index
+        :returns: true if a fragment is aligned
+        """
+        ret = c_int32()
+        ngs_str_err = NGS_RawString()
+        try:
+            res = NGS.lib_manager.PY_NGS_ReadFragmentIsAligned(self.ref, fragIdx, byref(ret), byref(ngs_str_err.ref))
+        finally:
+            ngs_str_err.close()
+        
+        return bool(ret.value)
 
     # ----------------------------------------------------------------------
     # read details        

@@ -105,6 +105,15 @@ public interface Fragment
         throws ErrorMsg, IndexOutOfBoundsException;
 
     /**
+     * isPaired
+     * @return true if fragment has a mate
+     * @throws ErrorMsg upon an error accessing data
+     */
+    boolean isPaired ()
+        throws ErrorMsg;
+
+    
+    /**
      * check to see if Fragment has alignment data (requires interface 1.1)
      * @return true if Fragment is aligned
      * @throws ErrorMsg if object is invalid or implementation too old

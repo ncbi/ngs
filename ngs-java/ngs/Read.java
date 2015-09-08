@@ -56,6 +56,15 @@ public interface Read
      */
     int getNumFragments ()
         throws ErrorMsg;
+    
+    /**
+     * fragmentIsAligned
+     * @param fragIdx is a zero-based and non-negative fragment index
+     * @return true if a fragment is aligned
+     * @throws ErrorMsg upon an error accessing data
+     */
+    boolean fragmentIsAligned ( int fragIdx )
+        throws ErrorMsg;
 
 
     /*----------------------------------------------------------------------

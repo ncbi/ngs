@@ -260,6 +260,7 @@ class LibManager:
         self.bind_sdk("PY_NGS_FragmentGetFragmentId",        [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_FragmentGetFragmentBases",     [c_void_p, c_uint64, c_uint64, POINTER(c_void_p), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_FragmentGetFragmentQualities", [c_void_p, c_uint64, c_uint64, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_FragmentIsPaired",             [c_void_p, POINTER(c_int), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_FragmentIsAligned",            [c_void_p, POINTER(c_int), POINTER(c_void_p)])
 
         self.bind_sdk("PY_NGS_FragmentIteratorNext",         [c_void_p, POINTER(c_int), POINTER(c_void_p)])
@@ -307,6 +308,7 @@ class LibManager:
         
         self.bind_sdk("PY_NGS_ReadGetReadId",        [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_ReadGetNumFragments",  [c_void_p, POINTER(c_uint32), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReadFragmentIsAligned",[c_void_p, c_uint32, POINTER(c_int32), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_ReadGetReadCategory",  [c_void_p, POINTER(c_uint32), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_ReadGetReadGroup",     [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_ReadGetReadName",      [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])

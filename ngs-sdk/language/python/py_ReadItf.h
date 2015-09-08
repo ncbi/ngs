@@ -40,6 +40,7 @@ LIB_EXPORT PY_RES_TYPE PY_NGS_ReadNextFragment         ( void* pRef, int* pRet, 
 
 LIB_EXPORT PY_RES_TYPE PY_NGS_ReadGetReadId        ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
 LIB_EXPORT PY_RES_TYPE PY_NGS_ReadGetNumFragments  ( void* pRef, uint32_t* pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReadFragmentIsAligned( void* pRef, uint32_t fragIdx, int32_t* pRet, void** ppNGSStrError);
 LIB_EXPORT PY_RES_TYPE PY_NGS_ReadGetReadCategory  ( void* pRef, uint32_t* pRet, void** ppNGSStrError );
 LIB_EXPORT PY_RES_TYPE PY_NGS_ReadGetReadGroup     ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
 LIB_EXPORT PY_RES_TYPE PY_NGS_ReadGetReadName      ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );

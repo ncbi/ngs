@@ -71,5 +71,8 @@ class Fragment(Refcount):
         finally:
             ngs_str_err.close()
 
+    def isPaired(self):
+        return bool(getNGSValue(self, NGS.lib_manager.PY_NGS_FragmentIsPaired, c_int))
+
     def isAligned(self):
         return bool(getNGSValue(self, NGS.lib_manager.PY_NGS_FragmentIsAligned, c_int))

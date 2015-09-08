@@ -118,6 +118,12 @@ class ReadItf
         return this . GetFragmentQualities ( self, offset, length );
     }
 
+    public boolean isPaired ()
+        throws ErrorMsg
+    {
+        return this . IsPaired ( self );
+    }
+    
     public boolean isAligned ()
         throws ErrorMsg
     {
@@ -159,6 +165,12 @@ class ReadItf
         throws ErrorMsg
     {
         return this . GetNumFragments ( self );
+    }
+    
+    public boolean fragmentIsAligned ( int fragIdx )
+        throws ErrorMsg
+    {
+        return this . FragmentIsAligned ( self, fragIdx );
     }
 
 
@@ -289,6 +301,8 @@ class ReadItf
         throws ErrorMsg;
     private native String GetFragmentQualities ( long self, long offset, long length )
         throws ErrorMsg;
+    private native boolean IsPaired ( long self )
+        throws ErrorMsg;
     private native boolean IsAligned ( long self )
         throws ErrorMsg;
     private native boolean NextFragment ( long self )
@@ -296,6 +310,8 @@ class ReadItf
     private native String GetReadId ( long self )
         throws ErrorMsg;
     private native int GetNumFragments ( long self )
+        throws ErrorMsg;
+    private native boolean FragmentIsAligned ( long self, int fragIdx )
         throws ErrorMsg;
     private native int GetReadCategory ( long self )
         throws ErrorMsg;

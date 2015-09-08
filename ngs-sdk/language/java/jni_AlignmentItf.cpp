@@ -134,6 +134,34 @@ JNIEXPORT jstring JNICALL Java_ngs_itf_AlignmentItf_GetFragmentQualities
     return 0;
 }
 
+/*
+ * Class:     ngs_itf_AlignmentItf
+ * Method:    IsPaired
+ * Signature: (J)Z
+ */
+JNIEXPORT jboolean JNICALL Java_ngs_itf_AlignmentItf_IsPaired
+    (JNIEnv * jenv, jobject jthis, jlong jself)
+{
+    try
+    {
+        return ( jboolean ) Self ( jself ) -> isPaired ();
+    }
+    catch ( ErrorMsg & x )
+    {
+        ErrorMsgThrow ( jenv, xt_error_msg, x . what () );
+    }
+    catch ( std :: exception & x )
+    {
+        ErrorMsgThrow ( jenv, xt_runtime, x . what () );
+    }
+    catch ( ... )
+    {
+        JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
+    }
+    
+    return 0;
+}
+
 #undef Self
 
 static
