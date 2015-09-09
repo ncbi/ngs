@@ -38,6 +38,7 @@
         <ClInclude Include="..\ngs\itf\ErrorMsg.hpp" />
         <ClInclude Include="..\ngs\itf\FragmentItf.h" />
         <ClInclude Include="..\ngs\itf\FragmentItf.hpp" />
+        <ClInclude Include="..\ngs\itf\PackageItf.hpp" />
         <ClInclude Include="..\ngs\itf\PileupEventItf.h" />
         <ClInclude Include="..\ngs\itf\PileupEventItf.hpp" />
         <ClInclude Include="..\ngs\itf\PileupItf.h" />
@@ -52,6 +53,8 @@
         <ClInclude Include="..\ngs\itf\Refcount.hpp" />
         <ClInclude Include="..\ngs\itf\ReferenceItf.h" />
         <ClInclude Include="..\ngs\itf\ReferenceItf.hpp" />
+        <ClInclude Include="..\ngs\itf\ReferenceSequenceItf.h" />
+        <ClInclude Include="..\ngs\itf\ReferenceSequenceItf.hpp" />
         <ClInclude Include="..\ngs\itf\StatisticsItf.h" />
         <ClInclude Include="..\ngs\itf\StatisticsItf.hpp" />
         <ClInclude Include="..\ngs\itf\StringItf.h" />
@@ -64,6 +67,7 @@
         <ClCompile Include="..\dispatch\ErrBlock.cpp" />
         <ClCompile Include="..\dispatch\ErrorMsg.cpp" />
         <ClCompile Include="..\dispatch\FragmentItf.cpp" />
+        <ClCompile Include="..\dispatch\PackageItf.cpp" />
         <ClCompile Include="..\dispatch\PileupEventItf.cpp" />
         <ClCompile Include="..\dispatch\PileupItf.cpp" />
         <ClCompile Include="..\dispatch\ReadCollectionItf.cpp" />
@@ -71,6 +75,7 @@
         <ClCompile Include="..\dispatch\ReadItf.cpp" />
         <ClCompile Include="..\dispatch\Refcount.cpp" />
         <ClCompile Include="..\dispatch\ReferenceItf.cpp" />
+        <ClCompile Include="..\dispatch\ReferenceSequenceItf.cpp" />
         <ClCompile Include="..\dispatch\StatisticsItf.cpp" />
         <ClCompile Include="..\dispatch\StringItf.cpp" />
         <ClCompile Include="..\dispatch\VTable.cpp" />

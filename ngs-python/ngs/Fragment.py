@@ -24,11 +24,11 @@
 # 
 # 
 
-from ctypes import byref
+from ctypes import byref, c_int
 from . import NGS
 
 from .Refcount import Refcount
-from .String import NGS_String, NGS_RawString, getNGSString
+from .String import NGS_String, NGS_RawString, getNGSString, getNGSValue
 
 
 # Represents an NGS biological fragment
@@ -70,3 +70,9 @@ class Fragment(Refcount):
                 ngs_str_seq.close()
         finally:
             ngs_str_err.close()
+
+    def isPaired(self):
+        return bool(getNGSValue(self, NGS.lib_manager.PY_NGS_FragmentIsPaired, c_int))
+
+    def isAligned(self):
+        return bool(getNGSValue(self, NGS.lib_manager.PY_NGS_FragmentIsAligned, c_int))

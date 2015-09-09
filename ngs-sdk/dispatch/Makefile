@@ -47,22 +47,23 @@ clean:
 ngs-disp: $(ILIBDIR) $(OBJDIR) $(ILIBDIR)/$(LPFX)ngs-disp.$(LIBX)
 
 # core dispatcher sources
-DISP_SRC =            \
-	ReadCollectionItf \
-	ReferenceItf      \
-	PileupItf         \
-	PileupEventItf    \
-	AlignmentItf      \
-	ReadGroupItf      \
-	ReadItf           \
-	FragmentItf       \
-	StatisticsItf     \
-	StringItf         \
-	Refcount          \
-	VTable            \
-	ErrBlock          \
-	ErrorMsg          \
-    VTable
+DISP_SRC =                   \
+	ReadCollectionItf    \
+	ReferenceItf         \
+	ReferenceSequenceItf \
+	PileupItf            \
+	PileupEventItf       \
+	AlignmentItf         \
+	ReadGroupItf         \
+	ReadItf              \
+	FragmentItf          \
+	StatisticsItf        \
+	PackageItf           \
+	StringItf            \
+	Refcount             \
+	VTable               \
+	ErrBlock             \
+	ErrorMsg
 
 # core dispatcher object files
 DISP_OBJ = \

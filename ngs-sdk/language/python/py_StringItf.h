@@ -33,9 +33,9 @@ extern "C" {
 #include "py_ngs_defs.h"
 #include <stddef.h>
 
-PY_RES_TYPE PY_NGS_StringGetData      ( void* pRef, char const** pRet );
-PY_RES_TYPE PY_NGS_StringGetSize      ( void* pRef, size_t* pRet );
-PY_RES_TYPE PY_NGS_StringGetSubstring ( void* pRef, size_t offset, size_t size, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_StringGetData      ( void* pRef, char const** pRet );
+LIB_EXPORT PY_RES_TYPE PY_NGS_StringGetSize      ( void* pRef, size_t* pRet );
+LIB_EXPORT PY_RES_TYPE PY_NGS_StringGetSubstring ( void* pRef, size_t offset, size_t size, void** ppNGSStringBuf, void** ppNGSStrError );
 
 #ifdef __cplusplus
 }

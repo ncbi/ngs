@@ -36,6 +36,7 @@ public interface Reference
     /** 
      * getCommonName
      * @return the common name of reference, e.g. "chr1"
+	 * @throws ErrorMsg if no common name found
      */
     String getCommonName ()
         throws ErrorMsg;
@@ -43,6 +44,7 @@ public interface Reference
     /** 
      * getCanonicalName
      * @return the accessioned name of reference, e.g. "NC_000001.11"
+	 * @throws ErrorMsg if no cannonical name found	 
      */
     String getCanonicalName ()
         throws ErrorMsg;
@@ -51,6 +53,7 @@ public interface Reference
     /** 
      * getIsCircular
      * @return true if reference is circular
+	 * @throws ErrorMsg if cannot detect if reference is circular
      */
     boolean getIsCircular ()
         throws ErrorMsg;
@@ -59,6 +62,7 @@ public interface Reference
     /** 
      * getLength
      * @return the length of the reference sequence
+	 * @throws ErrorMsg if length cannot be detected
      */
     long getLength ()
         throws ErrorMsg;
@@ -68,6 +72,7 @@ public interface Reference
      * getReferenceBases
      * @param offset is zero-based and non-negative
      * @return sub-sequence bases for Reference
+	 * @throws ErrorMsg if no reference-bases found at offset
      */
     String getReferenceBases ( long offset )
         throws ErrorMsg;
@@ -77,6 +82,7 @@ public interface Reference
      * @param offset is zero-based and non-negative
      * @param length must be &ge; 0
      * @return sub-sequence bases for Reference
+	 * @throws ErrorMsg if no reference-bases found at offset or lenght invalid
      */
     String getReferenceBases ( long offset, long length )
         throws ErrorMsg;
@@ -90,6 +96,7 @@ public interface Reference
      *  than requested. to obtain all bases available
      *  in chunk, use a negative "size" value
      * </p>
+	 * @throws ErrorMsg if no ReferenceChunk found
      */
     String getReferenceChunk ( long offset )
         throws ErrorMsg;
@@ -104,6 +111,7 @@ public interface Reference
      *  than requested. to obtain all bases available
      *  in chunk, use a negative "size" value
      * </p>
+	 * @throws ErrorMsg if no ReferenceChunk found	 
      */
     String getReferenceChunk ( long offset, long length )
         throws ErrorMsg;
@@ -125,6 +133,7 @@ public interface Reference
      * @param categories is a bitfield of AlignmentCategory
      * @return count of all alignments
      * @see ngs.Alignment Alignment interface for definitions of AlignmentCategory
+	 * @throws ErrorMsg if no AlignmentCount can be found
      */
     long getAlignmentCount ( int categories )
         throws ErrorMsg;
@@ -132,6 +141,7 @@ public interface Reference
     /** 
      * getAlignment
      * @return an individual Alignment
+	 * @param alignmentId the ID of the Alignment to be returned
      * @throws ErrorMsg if Alignment does not exist or is not part of this Reference
      */
     Alignment getAlignment ( String alignmentId )
@@ -144,6 +154,8 @@ public interface Reference
     /** 
      * getAlignments
      * @return an iterator of contained alignments
+	 * @param categories the or'ed list of categories
+     * @throws ErrorMsg if no Iterator can be created
      */
     AlignmentIterator getAlignments ( int categories )
         throws ErrorMsg;
@@ -153,6 +165,7 @@ public interface Reference
      * @param start is a signed 0-based offset from the start of the Reference
      * @param length is the length of the slice.
      * @return an iterator across a range of Alignments
+     * @throws ErrorMsg if no Iterator can be created	 
      */
     AlignmentIterator getAlignmentSlice ( long start, long length )
         throws ErrorMsg;
@@ -163,8 +176,24 @@ public interface Reference
      * @param length is the length of the slice.
      * @param categories provides a means of filtering by AlignmentCategory
      * @return an iterator across a range of Alignments
+     * @throws ErrorMsg if no Iterator can be created	 
      */
     AlignmentIterator getAlignmentSlice ( long start, long length, int categories )
+        throws ErrorMsg;
+    
+    /** 
+     * getFilteredAlignmentSlice
+     * Behaves like "getAlignmentSlice" except that supported filters are applied to selection
+     * @param start is a signed 0-based offset from the start of the Reference
+     * @param length is the length of the slice.
+     * @param categories provides a means of filtering by AlignmentCategory
+     * @param filters is a set of filter bits defined in Alignment
+     * @param mappingQuality is a cutoff to be used according to bits in "filter"
+     * @return an iterator across a range of Alignments
+     * @throws ErrorMsg if no Iterator can be created
+     *
+     */
+    AlignmentIterator getFilteredAlignmentSlice ( long start, long length, int categories, int filters, int mappingQuality )
         throws ErrorMsg;
 
 
@@ -175,6 +204,8 @@ public interface Reference
     /** 
      * getPileups
      * @return an iterator of contained Pileups
+     * @param categories is a bitfield of AlignmentCategory
+     * @throws ErrorMsg if no Iterator can be created	 
      */
     PileupIterator getPileups ( int categories )
         throws ErrorMsg;
@@ -182,9 +213,11 @@ public interface Reference
     /** 
      * getFilteredPileups
      * Filtered according to criteria in parameters
+     * @param categories is a bitfield of AlignmentCategory	 
      * @param filters is a set of filter bits defined in Alignment
      * @param mappingQuality is a cutoff to be used according to bits in "filter"
      * @return an iterator of contained Pileups
+     * @throws ErrorMsg if no Iterator can be created	 	 
      */
     PileupIterator getFilteredPileups ( int categories, int filters, int mappingQuality )
         throws ErrorMsg;
@@ -192,9 +225,10 @@ public interface Reference
     /** 
      * getPileupSlice
      * Creates a PileupIterator on a slice (window) of reference
+     * @return an iterator of contained Pileups	 
      * @param start is the signed starting position on reference
      * @param length is the unsigned number of bases in the window
-     * @return an iterator of contained Pileups
+     * @throws ErrorMsg if no Iterator can be created
      */
     PileupIterator getPileupSlice ( long start, long length )
         throws ErrorMsg;
@@ -206,6 +240,7 @@ public interface Reference
      * @param length is the unsigned number of bases in the window
      * @param categories provides a means of filtering by AlignmentCategory
      * @return an iterator of contained Pileups
+     * @throws ErrorMsg if no Iterator can be created	 
      */
     PileupIterator getPileupSlice ( long start, long length, int categories )
         throws ErrorMsg;
@@ -220,6 +255,7 @@ public interface Reference
      * @param filters is a set of filter bits defined in Alignment
      * @param mappingQuality is a cutoff to be used according to bits in "filter"
      * @return an iterator of contained Pileups
+     * @throws ErrorMsg if no Iterator can be created	 
      */
     PileupIterator getFilteredPileupSlice ( long start, long length,
             int categories, int filters, int mappingQuality )

@@ -96,7 +96,7 @@ class NGS_RawString:
 
     def close(self):
         if self.ref:
-            from Refcount import RefcountRawStringRelease
+            from .Refcount import RefcountRawStringRelease
             RefcountRawStringRelease(self.ref)
             self.init_members_with_null()
             

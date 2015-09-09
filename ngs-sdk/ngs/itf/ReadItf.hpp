@@ -52,6 +52,8 @@ namespace ngs
             throw ( ErrorMsg );
         uint32_t getNumFragments () const
             throw ( ErrorMsg );
+        bool fragmentIsAligned ( uint32_t fragIdx ) const
+            throw ( ErrorMsg );
         uint32_t getReadCategory () const
             throw ( ErrorMsg );
         StringItf * getReadGroup () const

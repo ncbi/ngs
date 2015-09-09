@@ -24,10 +24,13 @@
 *
 */
 
+
 package gov.nih.nlm.ncbi.ngs;
+
 
 import ngs.ErrorMsg;
 import ngs.ReadCollection;
+import ngs.ReferenceSequence;
 
 
 /*==========================================================================
@@ -38,9 +41,31 @@ public class NGS
 {
 
     /**
+     * Check to see if NGS SDK is supported by current environment
+     * @return true if NGS SDK is supported
+     */
+    static public boolean isSupported ()
+    {
+        return mgr . isSupported ();
+    }
+
+
+    /**
+     * Updates User-Agent header in HTTP communications
+     *
+     * @param app_version gives app name and version, e.g. "pileup-stats.1.0.0"
+     */
+    static public void setAppVersionString ( String app_version )
+    {
+        mgr . setAppVersionString ( app_version );
+    }
+
+
+    /**
      * Create an object representing a named collection of reads
      *
      * @param spec may be a path to an object or may be an id, accession, or URL
+     * @return the requested read-collection
      * @throws ErrorMsg if object cannot be located
      * @throws ErrorMsg if object cannot be converted to a ReadCollection
      * @throws ErrorMsg if an error occurs during construction
@@ -51,6 +76,78 @@ public class NGS
         return mgr . openReadCollection ( spec );
     }
 
+
+    /**
+     * Create an object representing a named reference sequence
+     *
+     * @param spec may be a path to an object or may be an id, accession, or URL
+     * @return the requested reference
+     * @throws ErrorMsg if object cannot be located
+     * @throws ErrorMsg if object cannot be converted to a ReadCollection
+     * @throws ErrorMsg if an error occurs during construction
+     */
+    static public ReferenceSequence openReferenceSequence ( String spec )
+        throws ErrorMsg
+    {
+        return mgr . openReferenceSequence ( spec );
+    }
+
+
+    /**
+     * Check to see if spec string represents an SRA archive
+     *
+     * @param spec may be a path to an object or may be an id, accession, or URL
+     * @return true spec represents an SRA archive
+     */
+    static public boolean isValid ( String spec )
+    {
+        return mgr . isValid ( spec );
+    }
+
+
     private static Manager mgr = new Manager ();
+
+
+    private static void test(String s, boolean expected) {
+        if (isValid(s) != expected) {
+            System.err.println("ERRRRRRROR isValid(" + s + ") = " + ! expected);
+            System.exit(1);
+        } else if (false) {
+            System.err.println("isValid(" + s + ") = " + expected);
+        }
+    }
+
+
+    public static void main(String[] args) {
+        String h = System.getenv("HOME") + "/A/";
+        try {
+            isValid(null);
+            System.exit(1);
+        } catch (NullPointerException e) {}
+        test( ""        , false);
+        test( "SRR00000", false);
+        test( "SRR000000", false);
+        test( "SRR000001", true); // table
+        test("http://sra-download.ncbi.nlm.nih.gov/srapub/SRR000001", true);
+        test( "SRR499924", true); // db
+        test("http://sra-download.ncbi.nlm.nih.gov/srapub/SRR499924", true);
+        test("SRR9000000", false);
+        test("ERR000000", false);
+        test("ERR000002", true);
+        test("ERR900000", false);
+        test("DRR000000", false);
+        test("DRR000003", true);
+        test("DRR900000", false);
+        test(h + "notExisting", false);
+        test(h + "empty"      , false);
+        test(h + "text"       , false);
+        test(h + "SRR053325.f", true); // tbl; file
+        test(h + "SRR053325"  , true); // tbl; dir
+        test(h + "SRR600096.f", true); // db; file
+        test(h + "SRR600096"  , true); // db; dir
+        test("http://w.gov/", false); // bad host
+        test("http://www.nih.gov/", false); // exists
+        test("http://sra-download.ncbi.nlm.nih.gov/srapub/", false); // ! exists
+    }
 
 }

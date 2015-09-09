@@ -71,7 +71,7 @@ jstring JStringVMake ( JNIEnv * jenv, const char * fmt, va_list args )
         return jenv -> NewStringUTF ( "" );
 
     char buffer [ 4096 ];
-    int size = snprintf ( buffer, sizeof buffer, fmt, args );
+    int size = vsnprintf ( buffer, sizeof buffer, fmt, args );
     if ( size < 0 )
         JNI_INTERNAL_ERROR ( jenv, "failed to make a String ( bad format or string too long )" );
     else if ( ( size_t ) size >= sizeof buffer )

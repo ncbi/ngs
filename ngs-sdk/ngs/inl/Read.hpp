@@ -57,6 +57,11 @@ namespace ngs
     { return self -> getNumFragments (); }
 
     inline
+    bool Read :: fragmentIsAligned ( uint32_t fragIdx ) const
+        throw ( ErrorMsg )
+    { return self -> fragmentIsAligned ( fragIdx ); }
+
+    inline
     Read :: ReadCategory Read :: getReadCategory () const
         throw ( ErrorMsg )
     { return ( Read :: ReadCategory ) self -> getReadCategory (); }

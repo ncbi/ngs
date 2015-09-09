@@ -35,6 +35,8 @@ public interface Fragment
 
     /**
      * getFragmentId
+     * @return the unique ID of the fragment
+     * @throws ErrorMsg upon an error accessing data
      */
     String getFragmentId ()
         throws ErrorMsg;
@@ -46,6 +48,7 @@ public interface Fragment
     /** 
      * getFragmentBases
      * @return sequence bases
+     * @throws ErrorMsg upon an error accessing data
      */
     String getFragmentBases ()
         throws ErrorMsg;
@@ -54,6 +57,8 @@ public interface Fragment
      * getFragmentBases
      * @param offset is zero-based and non-negative
      * @return sequence bases
+     * @throws ErrorMsg upon an error accessing data
+     * @throws IndexOutOfBoundsException upon invalid offset
      */
     String getFragmentBases ( long offset )
         throws ErrorMsg, IndexOutOfBoundsException;
@@ -63,6 +68,8 @@ public interface Fragment
      * @param offset is zero-based and non-negative
      * @param length must be &ge; 0
      * @return sequence bases
+     * @throws ErrorMsg upon an error accessing data
+     * @throws IndexOutOfBoundsException upon invalid offset
      */
     String getFragmentBases ( long offset, long length )
         throws ErrorMsg, IndexOutOfBoundsException;
@@ -71,6 +78,7 @@ public interface Fragment
     /** 
      * getFragmentQualities using ASCII offset of 33
      * @return phred quality values for the whole fragment
+     * @throws ErrorMsg upon an error accessing data
      */
     String getFragmentQualities ()
         throws ErrorMsg;
@@ -79,6 +87,8 @@ public interface Fragment
      * getFragmentQualities using ASCII offset of 33
      * @param offset is zero-based and non-negative
      * @return phred quality values
+     * @throws ErrorMsg upon an error accessing data
+     * @throws IndexOutOfBoundsException upon invalid offset
      */
     String getFragmentQualities ( long offset )
         throws ErrorMsg, IndexOutOfBoundsException;
@@ -88,7 +98,26 @@ public interface Fragment
      * @param offset is zero-based and non-negative
      * @param length must be &ge; 0
      * @return phred quality values
+     * @throws ErrorMsg upon an error accessing data
+     * @throws IndexOutOfBoundsException upon invalid offset/length
      */
     String getFragmentQualities ( long offset, long length )
         throws ErrorMsg, IndexOutOfBoundsException;
+
+    /**
+     * isPaired
+     * @return true if fragment has a mate
+     * @throws ErrorMsg upon an error accessing data
+     */
+    boolean isPaired ()
+        throws ErrorMsg;
+
+    
+    /**
+     * check to see if Fragment has alignment data (requires interface 1.1)
+     * @return true if Fragment is aligned
+     * @throws ErrorMsg if object is invalid or implementation too old
+     */
+    boolean isAligned ()
+        throws ErrorMsg;
 }

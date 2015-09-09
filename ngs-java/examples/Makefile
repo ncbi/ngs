@@ -92,11 +92,11 @@ run_all: $(ALL_TESTS)
 #
 # expected results for auto-testing
 #
-update_expected: 
+expected.txt update_expected: 
 	rm -f expected.txt; $(MAKE) run_all REDIRECT=">>expected.txt"
 
-run_and_diff: 
+run_and_diff: expected.txt  
 	rm -f actual.txt; $(MAKE) run_all REDIRECT=">>actual.txt"
-	diff expected.txt actual.txt && rm actual.txt && echo NGS C++ examples work as expected
+	diff expected.txt actual.txt && rm actual.txt && echo NGS Java examples work as expected
 
 .PHONY: update_expected run_and_diff

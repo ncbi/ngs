@@ -54,6 +54,7 @@ BIND_SRC =                  \
 	ErrorMsg                \
 	FragmentItf             \
 	FragmentIteratorItf     \
+	PackageItf				\
 	PileupEventItf          \
 	PileupEventIteratorItf  \
 	PileupItf               \
@@ -65,6 +66,7 @@ BIND_SRC =                  \
 	ReadIteratorItf         \
 	ReferenceItf            \
 	ReferenceIteratorItf    \
+	ReferenceSequenceItf	\
 	StatisticsItf           \
 	Refcount                \
 	StringItf

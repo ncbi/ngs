@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ngs-adapt-c++", "libadapter.vcxproj", "{B9096FEF-5B55-4308-A81F-3B52CA968BE9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libngs-adapt-c++", "libadapter.vcxproj", "{B9096FEF-5B55-4308-A81F-3B52CA968BE9}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ngs-disp", "libdispatch.vcxproj", "{06FA485F-8AA9-4F3B-B1E3-D8CF1993637B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libngs-disp", "libdispatch.vcxproj", "{06FA485F-8AA9-4F3B-B1E3-D8CF1993637B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ngs-bind-c++", "libngs-c++.vcxproj", "{A8AC88D2-FADA-4458-A251-DB2E039678A4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libngs-bind-c++", "libngs-c++.vcxproj", "{A8AC88D2-FADA-4458-A251-DB2E039678A4}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libtest_engine", "libtest_engine.vcxproj", "{FB574D6F-8684-45AE-A0AF-B52BA67E9FDE}"
 EndProject
@@ -14,8 +14,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HeaderFiles", "HeaderFiles", "{3F19C31D-C662-4909-84F1-FCB983178DEE}"
 	ProjectSection(SolutionItems) = preProject
 		..\ngs\Alignment.hpp = ..\ngs\Alignment.hpp
-		..\ngs\defs.h = ..\ngs\defs.h
 		..\ngs\AlignmentIterator.hpp = ..\ngs\AlignmentIterator.hpp
+		..\ngs\defs.h = ..\ngs\defs.h
 		..\ngs\ErrorMsg.hpp = ..\ngs\ErrorMsg.hpp
 		..\ngs\Fragment.hpp = ..\ngs\Fragment.hpp
 		..\ngs\FragmentIterator.hpp = ..\ngs\FragmentIterator.hpp
@@ -30,6 +30,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HeaderFiles", "HeaderFiles"
 		..\ngs\ReadIterator.hpp = ..\ngs\ReadIterator.hpp
 		..\ngs\Reference.hpp = ..\ngs\Reference.hpp
 		..\ngs\ReferenceIterator.hpp = ..\ngs\ReferenceIterator.hpp
+		..\ngs\ReferenceSequence.hpp = ..\ngs\ReferenceSequence.hpp
 		..\ngs\Statistics.hpp = ..\ngs\Statistics.hpp
 		..\ngs\StringRef.hpp = ..\ngs\StringRef.hpp
 	EndProjectSection
@@ -51,11 +52,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "inl", "inl", "{D3CE4594-588
 		..\ngs\inl\ReadIterator.hpp = ..\ngs\inl\ReadIterator.hpp
 		..\ngs\inl\Reference.hpp = ..\ngs\inl\Reference.hpp
 		..\ngs\inl\ReferenceIterator.hpp = ..\ngs\inl\ReferenceIterator.hpp
+		..\ngs\inl\ReferenceSequence.hpp = ..\ngs\inl\ReferenceSequence.hpp
 		..\ngs\inl\Statistics.hpp = ..\ngs\inl\Statistics.hpp
 		..\ngs\inl\StringRef.hpp = ..\ngs\inl\StringRef.hpp
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ngs-sdk", "ngs-sdk.vcxproj", "{A6A46CB4-760E-4F16-9499-BC712E99FB5D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libngs-sdk", "ngs-sdk.vcxproj", "{A6A46CB4-760E-4F16-9499-BC712E99FB5D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -52,6 +52,8 @@ public interface Alignment
 
     /** 
      * getReferenceSpec
+     * @return the name of the reference	 
+     * @throws ErrorMsg if the property cannot be retrieved
      */
     String getReferenceSpec ()
         throws ErrorMsg;
@@ -59,6 +61,7 @@ public interface Alignment
     /**
      * getMappingQuality 
      * @return mapping quality 
+     * @throws ErrorMsg if the property cannot be retrieved
      */
     int getMappingQuality ()
         throws ErrorMsg;
@@ -66,6 +69,7 @@ public interface Alignment
     /** 
      * getReferenceBases
      * @return reference bases
+     * @throws ErrorMsg if the property cannot be retrieved
      */
     String getReferenceBases ()
         throws ErrorMsg;
@@ -77,12 +81,16 @@ public interface Alignment
 
     /**
      *  getReadGroup
+     * @return the name of the read-group
+     * @throws ErrorMsg if the property cannot be retrieved
      */
     String getReadGroup ()
         throws ErrorMsg;
 
     /** 
      * getReadId
+     * @return the unique name of the read
+     * @throws ErrorMsg if the property cannot be retrieved
      */
     String getReadId ()
         throws ErrorMsg;
@@ -90,6 +98,7 @@ public interface Alignment
     /** 
      * getClippedFragmentBases
      * @return clipped fragment bases
+     * @throws ErrorMsg if the property cannot be retrieved
      */
     String getClippedFragmentBases ()
         throws ErrorMsg;
@@ -97,6 +106,7 @@ public interface Alignment
     /** 
      * getClippedFragmentQualities
      * @return clipped fragment phred quality values using ASCII offset of 33
+     * @throws ErrorMsg if the property cannot be retrieved
      */
     String getClippedFragmentQualities ()
         throws ErrorMsg;
@@ -104,6 +114,7 @@ public interface Alignment
     /** 
      * getAlignedFragmentBases
      * @return fragment bases in their aligned orientation
+     * @throws ErrorMsg if the property cannot be retrieved
      */
     String getAlignedFragmentBases ()
         throws ErrorMsg;
@@ -115,10 +126,12 @@ public interface Alignment
     /* AlignmentFilter
      *  values should be or'd together to produce filter bits
      */
-    static int passFailed = 1;       // reads rejected due to platform/vendor quality criteria
-    static int passDuplicates = 2;   // either a PCR or optical duplicate
-    static int minMapQuality = 4;    // pass alignments with mappingQuality >= param
-    static int maxMapQuality = 8;    // pass alignments with mappingQuality <= param
+    static int passFailed = 1;         // reads rejected due to platform/vendor quality criteria
+    static int passDuplicates = 2;     // either a PCR or optical duplicate
+    static int minMapQuality = 4;      // pass alignments with mappingQuality >= param
+    static int maxMapQuality = 8;      // pass alignments with mappingQuality <= param
+    static int noWraparound = 16;      // do not include leading wrapped around alignments to circular references
+    static int startWithinSlice = 32;  // change slice intersection criteria so that start pos is within slice
 
     /* AlignmentCategory
      */
@@ -164,27 +177,36 @@ public interface Alignment
     static int clipRight = 1;
 
     /** 
-     * getSoftClip 
+     * getSoftClip
+     * @return the position of the clipping
+     * @param edge which edge
+     * @throws ErrorMsg if the property cannot be retrieved
      */
     int getSoftClip ( int edge )
         throws ErrorMsg;
 
     /** 
      * getTemplateLength
+     * @return the lenght of the template
+     * @throws ErrorMsg if the property cannot be retrieved
      */
     long getTemplateLength ()
         throws ErrorMsg;
 
     /** 
      * getShortCigar
+     * @param clipped selects if clipping has to be applied
      * @return a text string describing alignment details
+     * @throws ErrorMsg if the property cannot be retrieved
      */
     String getShortCigar ( boolean clipped )
         throws ErrorMsg;
 
     /** 
      * getLongCigar
+     * @param clipped selects if clipping has to be applied	 
      * @return a text string describing alignment details
+     * @throws ErrorMsg if the property cannot be retrieved
      */
     String getLongCigar ( boolean clipped )
         throws ErrorMsg;
@@ -194,6 +216,7 @@ public interface Alignment
      * @return '+' if positive strand is transcribed
      * @return '-' if negative strand is transcribed
      * @return '?' if unknown
+     * @throws ErrorMsg if the property cannot be retrieved	 
      */
     char getRNAOrientation ()
         throws ErrorMsg;
@@ -205,29 +228,38 @@ public interface Alignment
 
     /** 
      * hasMate
+     * @return if the alignment has a mate
      */
     boolean hasMate ();
         
     /** 
      * getMateAlignmentId
+     * @return unique ID of th alignment
+     * @throws ErrorMsg if the property cannot be retrieved
      */
     String getMateAlignmentId ()
         throws ErrorMsg;
 
     /** 
      * getMateAlignment
+     * @return the mate as alignment
+     * @throws ErrorMsg if the property cannot be retrieved
      */
     Alignment getMateAlignment ()
         throws ErrorMsg;
 
     /** 
      * getMateReferenceSpec
+     * @return the name of the reference the mate is aligned at
+     * @throws ErrorMsg if the property cannot be retrieved
      */
     String getMateReferenceSpec ()
         throws ErrorMsg;
 
     /**
      * getMateIsReversedOrientation
+     * @return the orientation of the mate
+     * @throws ErrorMsg if the property cannot be retrieved
      */
     boolean getMateIsReversedOrientation ()
         throws ErrorMsg;

@@ -43,7 +43,7 @@ clean:
 copyexamples:
 	@ echo "Installing examples to $(INST_SHAREDIR)/examples-python"
 	@ mkdir -p $(INST_SHAREDIR)/examples-python
-	@ cp $(TOP)/examples/*.py $(INST_SHAREDIR)/examples-python
+	@ cp $(TOP)/examples/*.py $(TOP)/examples/Makefile $(INST_SHAREDIR)/examples-python
 
 
 #-------------------------------------------------------------------------------
@@ -53,7 +53,7 @@ ifeq (mac, $(OS))
 $(INST_PYTHONDIR):
 	@ mkdir -p $@
 
-install: $(TARGETS) $(INST_PYTHONDIR)
+install: $(TARGETS) $(INST_PYTHONDIR) copyexamples
 ifeq (0, $(shell id -u))
 	@ echo "Installing ngs-python package..."
 	@ python setup.py -q install

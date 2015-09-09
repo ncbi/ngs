@@ -52,22 +52,23 @@ clean:
 ngs-bind-c++: $(ILIBDIR) $(OBJDIR) $(ILIBDIR)/$(LPFX)ngs-bind-c++.$(LIBX)
 
 BIND_SRC =              \
-    ReadCollection      \
-    ReferenceIterator   \
-    Reference           \
-    PileupIterator      \
-    Pileup              \
-    PileupEventIterator \
-    PileupEvent         \
-    AlignmentIterator   \
-    Alignment           \
-    ReadGroupIterator   \
-    ReadGroup           \
-    ReadIterator        \
-    Read                \
-    FragmentIterator    \
-    Fragment            \
-    Statistics          \
+	ReadCollection      \
+	ReferenceSequence   \
+	ReferenceIterator   \
+	Reference           \
+	PileupIterator      \
+	Pileup              \
+	PileupEventIterator \
+	PileupEvent         \
+	AlignmentIterator   \
+	Alignment           \
+	ReadGroupIterator   \
+	ReadGroup           \
+	ReadIterator        \
+	Read                \
+	FragmentIterator    \
+	Fragment            \
+	Statistics          \
 	StringRef
 
 BIND_OBJ = \

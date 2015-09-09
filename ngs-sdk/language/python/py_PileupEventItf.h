@@ -32,18 +32,18 @@ extern "C" {
 
 #include "py_ngs_defs.h"
 
-PY_RES_TYPE PY_NGS_PileupEventGetMappingQuality ( void* pRef, int32_t* pRet, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_PileupEventGetAlignmentId ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_PileupEventGetAlignmentPosition ( void* pRef, int64_t* pRet, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_PileupEventGetFirstAlignmentPosition ( void* pRef, int64_t* pRet, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_PileupEventGetLastAlignmentPosition ( void* pRef, int64_t* pRet, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_PileupEventGetEventType ( void* pRef, uint32_t* pRet, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_PileupEventGetAlignmentBase ( void* pRef, char* pRet, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_PileupEventGetAlignmentQuality ( void* pRef, char* pRet, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_PileupEventGetInsertionBases ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_PileupEventGetInsertionQualities ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_PileupEventGetEventRepeatCount ( void* pRef, uint32_t* pRet, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_PileupEventGetEventIndelType ( void* pRef, uint32_t* pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_PileupEventGetMappingQuality ( void* pRef, int32_t* pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_PileupEventGetAlignmentId ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_PileupEventGetAlignmentPosition ( void* pRef, int64_t* pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_PileupEventGetFirstAlignmentPosition ( void* pRef, int64_t* pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_PileupEventGetLastAlignmentPosition ( void* pRef, int64_t* pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_PileupEventGetEventType ( void* pRef, uint32_t* pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_PileupEventGetAlignmentBase ( void* pRef, char* pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_PileupEventGetAlignmentQuality ( void* pRef, char* pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_PileupEventGetInsertionBases ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_PileupEventGetInsertionQualities ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_PileupEventGetEventRepeatCount ( void* pRef, uint32_t* pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_PileupEventGetEventIndelType ( void* pRef, uint32_t* pRet, void** ppNGSStrError );
 
 #ifdef __cplusplus
 }

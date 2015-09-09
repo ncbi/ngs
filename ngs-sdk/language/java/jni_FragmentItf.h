@@ -31,6 +31,22 @@ JNIEXPORT jstring JNICALL Java_ngs_itf_FragmentItf_GetFragmentBases
 JNIEXPORT jstring JNICALL Java_ngs_itf_FragmentItf_GetFragmentQualities
   (JNIEnv *, jobject, jlong, jlong, jlong);
 
+/*
+ * Class:     ngs_itf_FragmentItf
+ * Method:    IsPaired
+ * Signature: (J)Z
+ */
+JNIEXPORT jboolean JNICALL Java_ngs_itf_FragmentItf_IsPaired
+    (JNIEnv * jenv, jobject jthis, jlong jself );
+    
+/*
+ * Class:     ngs_itf_FragmentItf
+ * Method:    IsAligned
+ * Signature: (J)Z
+ */
+JNIEXPORT jboolean JNICALL Java_ngs_itf_FragmentItf_IsAligned
+  (JNIEnv *, jobject, jlong);
+
 #ifdef __cplusplus
 }
 #endif

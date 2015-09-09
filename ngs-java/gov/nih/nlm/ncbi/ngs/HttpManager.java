@@ -24,7 +24,9 @@
 *
 */
 
+
 package gov.nih.nlm.ncbi.ngs;
+
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -46,10 +48,10 @@ class HttpManager
             String request)
         throws HttpException
     {
-        ByteArrayOutputStream result = new ByteArrayOutputStream();
-
         Logger.fine(spec + "?" + request + "...");
         
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
+
         InputStream is = getPostInputStream(spec, request);
         byte[] buffer = new byte[1024];
         int l = 0;
@@ -167,10 +169,12 @@ class HttpManager
     private static boolean download(InputStream in,
          FileCreator creator, String libname)
     {
+        boolean success = false;
         java.io.BufferedOutputStream bout = creator.create( libname );
         if (bout == null) {
             System.err.println("Not possible to create a file for downloading");
-            return false;
+            creator.done(success);
+            return success;
         }
 
         BufferedInputStream bin = new BufferedInputStream(in);
@@ -182,7 +186,8 @@ class HttpManager
                 count = bin.read(data, 0, BUF_SZ);
             } catch (IOException e) {
                 System.err.println(e);
-                return false;
+                creator.done(success);
+                return success;
             }
             if (count == -1) {
                 break;
@@ -192,18 +197,23 @@ class HttpManager
                 bout.write(data, 0, count);
             } catch (IOException e) {
                 System.err.println(e);
-                return false;
+                creator.done(success);
+                return success;
             }
+//          break;
         }
 
         try {
             bout.close();
         } catch (IOException e) {
             System.err.println(e);
-            return false;
+            creator.done(success);
+            return success;
         }
 
-        return true;
+        success = true;
+        creator.done(success);
+        return success;
     }
 
 

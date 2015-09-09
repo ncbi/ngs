@@ -24,11 +24,15 @@
 *
 */
 
+
 package gov.nih.nlm.ncbi.ngs;
+
 
 import ngs.ErrorMsg;
 import ngs.ReadCollection;
 import ngs.itf.ReadCollectionItf;
+import ngs.ReferenceSequence;
+import ngs.itf.ReferenceSequenceItf;
 
 
 /*==========================================================================
@@ -38,9 +42,19 @@ import ngs.itf.ReadCollectionItf;
 class Manager
 {
 
+    void setAppVersionString ( String app_version )
+    {
+        checkSelf();
+
+        SetAppVersionString ( app_version );
+    }
+
+
     ReadCollection openReadCollection ( String spec )
         throws ErrorMsg
     {
+        checkSelf();
+
         long ref = this . OpenReadCollection ( spec );
         try
         {
@@ -53,8 +67,26 @@ class Manager
         }
     }
 
+
+    ReferenceSequence openReferenceSequence ( String spec )
+        throws ErrorMsg
+    {
+        checkSelf();
+
+        long ref = this . OpenReferenceSequence ( spec );
+        try
+        {
+            return new ReferenceSequenceItf ( ref );
+        }
+        catch ( Exception x )
+        {
+            this . release ( ref );
+            throw new ErrorMsg ( x . toString () );
+        }
+    }
+
+
     Manager ()
-        throws ExceptionInInitializerError
     {
         try
         {
@@ -64,11 +96,16 @@ class Manager
                 set LibManager.JUST_DO_REGULAR_JAVA_SYSTEM_LOAD_LIBRARY to true
                 or set vdb.System.loadLibrary java system property. */
 
-            LibManager m = new LibManager ();
-            if ( ! m . loadLibrary ( "ngs-sdk" ) )
-                throw new ExceptionInInitializerError ( "Cannot load ngs-sdk library" );
-            if ( ! m . loadLibrary ( "ncbi-vdb" ) )
-                throw new ExceptionInInitializerError ( "Cannot load ncbi-vdb library" );
+            String ngs_sdk  = "ngs-sdk";
+            String ncbi_vdb = "ncbi-vdb";
+
+            LibManager m = new LibManager( new String[] { ngs_sdk, ncbi_vdb } );
+            if ( ! m . loadLibrary ( ngs_sdk ) )
+                throw new ExceptionInInitializerError
+                    ( "Cannot load " + ngs_sdk + " library" );
+            if ( ! m . loadLibrary ( ncbi_vdb ) )
+                throw new ExceptionInInitializerError
+                    ( "Cannot load " + ncbi_vdb + " library" );
 
             // try to initialize the NCBI library
             String err = Initialize ();
@@ -89,27 +126,64 @@ class Manager
         }
         catch ( ExceptionInInitializerError x )
         {
-            throw x;
+            invalid = x;
         }
         catch ( Throwable x )
         {
-            throw new ExceptionInInitializerError ( x );
+            invalid = new ExceptionInInitializerError ( x );
         }
     }
 
+
     /** ncbi-vdb version */
-    static String version() {
-        try {
-            return Version();
-        } catch (Throwable e) {
+    static String getPackageVersion()
+    {
+        // Do not check self. Return an empty string then.
+
+        try
+        {
+            return Version ();
+        }
+        catch ( Throwable e )
+        {
             return "";
         }
     }
-    private native static String Version ();
 
+
+    boolean isValid ( String spec )
+    {
+        if (spec == null)
+            throw new NullPointerException();
+
+        checkSelf();
+
+        return IsValid ( spec );
+    }
+
+
+    boolean isSupported () { return invalid == null; }
+
+
+    private void checkSelf()
+    {
+        if ( invalid != null )
+            throw invalid;
+    }
+
+
+    private native static String Version ();
     private native static String Initialize ();
     private native static void Shutdown ();
+    private native static void SetAppVersionString ( String app_version );
     private native static long OpenReadCollection ( String spec )
         throws ErrorMsg;
+    private native static long OpenReferenceSequence ( String spec )
+        throws ErrorMsg;
+    private native static boolean IsValid ( String spec );
     private native static void release ( long ref );
+
+
+    ExceptionInInitializerError invalid;
+
 }

@@ -40,18 +40,23 @@ public interface Pileup
 
     /**
      * getReferenceSpec
+     * @return name of the Reference
+     * @throws ErrorMsg upon an error accessing data
      */
     String getReferenceSpec ()
         throws ErrorMsg;
 
     /**
      * getReferencePosition
+     * @return current position on the Reference
+     * @throws ErrorMsg upon an error accessing data	 
      */
     long getReferencePosition ()
         throws ErrorMsg;
 
     /**
      * @return base at current Reference position
+     * @throws ErrorMsg upon an error accessing data
      */
     char getReferenceBase ()
         throws ErrorMsg;
@@ -64,6 +69,7 @@ public interface Pileup
     /**
      * getPileupDepth
      * @return the coverage depth at the current reference position
+     * @throws ErrorMsg upon an error accessing data
      */
     int getPileupDepth ()
         throws ErrorMsg;

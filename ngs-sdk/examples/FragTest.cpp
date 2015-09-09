@@ -25,6 +25,7 @@
 */
 
 #include <ncbi-vdb/NGS.hpp>
+#include <ngs-bam/ngs-bam.hpp>
 #include <ngs/ErrorMsg.hpp>
 #include <ngs/ReadCollection.hpp>
 #include <ngs/ReadIterator.hpp>
@@ -41,25 +42,12 @@ class FragTest
 {
 public:
 
-    static void run ( String acc, int splitNum, int splitNo )
+    static void run_common ( ReadCollection & run, int splitNum, int splitNo )
     {
 
-        // open requested accession using SRA implementation of the API
-        ReadCollection run = ncbi::NGS::openReadCollection ( acc );
         String run_name = run.getName ();
 
-        // compute window to iterate through
-        long MAX_ROW = run.getReadCount (); 
-        double chunk = ( double ) MAX_ROW / splitNum;
-        long first = ( long ) round ( chunk * ( splitNo-1 ) );
-
-        long next_first = ( long ) round ( chunk * ( splitNo ) );
-        if ( next_first > MAX_ROW )
-            next_first = MAX_ROW;
-
-        //start iterator on reads
-        long count = next_first - first;
-        ReadIterator it = run.getReadRange ( first+1, count, Read::all );
+        ReadIterator it = run.getReads ( Read::all );
 
         long i;
         for ( i = 0; it.nextRead (); ++ i )
@@ -75,6 +63,37 @@ public:
 
         cerr << "Read " << i << " spots for " << run_name << '\n';
     }
+
+    static void run_csra ( String acc, int splitNum, int splitNo )
+    {
+        // open requested accession using SRA implementation of the API
+        ReadCollection run = ncbi::NGS::openReadCollection ( acc );
+        run_common ( run, splitNum, splitNo );
+    }
+
+    static void run_bam ( String acc, int splitNum, int splitNo )
+    {
+        // open requested accession using example BAM implementation of the API
+        ReadCollection run = NGS_BAM::openReadCollection ( acc );
+        run_common ( run, splitNum, splitNo );
+    }
+
+    static void run ( String acc, int splitNum, int splitNo )
+    {
+        size_t dot = acc . find_last_of ( '.' );
+        if ( dot != string :: npos )
+        {
+            String extension = acc . substr ( dot );
+            if ( extension == ".bam" || extension == ".BAM" )
+            {
+                run_bam ( acc, splitNum, splitNo );
+                return;
+            }
+        }
+
+        run_csra ( acc, splitNum, splitNo );
+    }
+
 };
 
 int main (int argc, char const *argv[])
@@ -85,6 +104,7 @@ int main (int argc, char const *argv[])
     }
     else try
     {
+        ncbi::NGS::setAppVersionString ( "FragTest.1.1.0" );
         FragTest::run ( argv[1], atoi ( argv[2] ), atoi ( argv[3] ) );
         return 0;
     }

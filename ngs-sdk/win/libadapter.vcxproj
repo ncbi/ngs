@@ -41,6 +41,7 @@
         <ClInclude Include="..\ngs\adapter\ReadItf.hpp" />
         <ClInclude Include="..\ngs\adapter\Refcount.hpp" />
         <ClInclude Include="..\ngs\adapter\ReferenceItf.hpp" />
+        <ClInclude Include="..\ngs\adapter\ReferenceSequenceItf.hpp" />
         <ClInclude Include="..\ngs\adapter\StatisticsItf.hpp" />
         <ClInclude Include="..\ngs\adapter\StringItf.hpp" />
     </ItemGroup>
@@ -56,6 +57,7 @@
         <ClCompile Include="..\adapter\ReadItf.cpp" />
         <ClCompile Include="..\adapter\Refcount.cpp" />
         <ClCompile Include="..\adapter\ReferenceItf.cpp" />
+        <ClCompile Include="..\adapter\ReferenceSequenceItf.cpp" />
         <ClCompile Include="..\adapter\StatisticsItf.cpp" />
         <ClCompile Include="..\adapter\StringItf.cpp" />
     </ItemGroup>

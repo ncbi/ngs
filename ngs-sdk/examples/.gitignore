@@ -4,3 +4,4 @@ FragTest
 RefTest
 FastqTableDump
 PileupTest
+DumpReferenceFASTA

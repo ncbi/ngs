@@ -32,3 +32,5 @@
 GEN_PY_FUNC_GET_STRING                  ( Fragment, FragmentId )
 GEN_PY_FUNC_GET_STRING_BY_PARAMS_2      ( Fragment, FragmentBases,     uint64_t, offset, uint64_t, length )
 GEN_PY_FUNC_GET_STRING_BY_PARAMS_2      ( Fragment, FragmentQualities, uint64_t, offset, uint64_t, length )
+GEN_PY_FUNC_GET_EXPLICIT_NAMES          ( Fragment, bool, PY_NGS_FragmentIsPaired, isPaired )
+GEN_PY_FUNC_GET_EXPLICIT_NAMES          ( Fragment, bool, PY_NGS_FragmentIsAligned, isAligned )

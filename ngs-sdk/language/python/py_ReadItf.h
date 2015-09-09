@@ -33,18 +33,19 @@ extern "C" {
 #include "py_ngs_defs.h"
 
 /* TODO: ? Remove cast-functions */
-/*PY_RES_TYPE PY_NGS_ReadGetFragmentId        ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_ReadGetFragmentBases     ( void* pRef, uint64_t offset, uint64_t length, void** ppNGSStringBuf, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_ReadGetFragmentQualities ( void* pRef, uint64_t offset, uint64_t length, void** ppNGSStringBuf, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_ReadNextFragment         ( void* pRef, int* pRet, void** ppNGSStrError );*/
+/*LIB_EXPORT PY_RES_TYPE PY_NGS_ReadGetFragmentId        ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReadGetFragmentBases     ( void* pRef, uint64_t offset, uint64_t length, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReadGetFragmentQualities ( void* pRef, uint64_t offset, uint64_t length, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReadNextFragment         ( void* pRef, int* pRet, void** ppNGSStrError );*/
 
-PY_RES_TYPE PY_NGS_ReadGetReadId        ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_ReadGetNumFragments  ( void* pRef, uint32_t* pRet, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_ReadGetReadCategory  ( void* pRef, uint32_t* pRet, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_ReadGetReadGroup     ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_ReadGetReadName      ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_ReadGetReadBases     ( void* pRef, uint64_t offset, uint64_t length, void** ppNGSStringBuf, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_ReadGetReadQualities ( void* pRef, uint64_t offset, uint64_t length, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReadGetReadId        ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReadGetNumFragments  ( void* pRef, uint32_t* pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReadFragmentIsAligned( void* pRef, uint32_t fragIdx, int32_t* pRet, void** ppNGSStrError);
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReadGetReadCategory  ( void* pRef, uint32_t* pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReadGetReadGroup     ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReadGetReadName      ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReadGetReadBases     ( void* pRef, uint64_t offset, uint64_t length, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReadGetReadQualities ( void* pRef, uint64_t offset, uint64_t length, void** ppNGSStringBuf, void** ppNGSStrError );
 
 #ifdef __cplusplus
 }

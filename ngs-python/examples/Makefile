@@ -32,12 +32,11 @@ clean:
 .PHONY: default std $(TARGETS)
 
 PYTHON_VERS = $(shell python -V 2>&1)
-$(warning PYTHON_VERS=$(PYTHON_VERS))
 
 # there is a separate set of sources for 2.5 and 2.6
-ifeq (Python 2.6,$(shell expr match "$(PYTHON_VERS)" "\(Python 2.6\)"))
+ifeq (Python 2.6,$(shell expr "$(PYTHON_VERS)" : "\(Python 2.6\)"))
 PYTHON_VERS=26
-elif (Python 2.5,$(shell expr match "$(PYTHON_VERS)" "\(Python 2.5\)"))
+elif (Python 2.5,$(shell expr "$(PYTHON_VERS)" : "\(Python 2.5\)"))
 PYTHON_VERS=26
 else
 PYTHON_VERS=
@@ -53,6 +52,8 @@ NGS_EXAMPLES = \
 # ===========================================================================
 #
 # example runs
+#
+# NOTE: Expect libngs-sdk.so and libncbi-vdb.so somewhere inside $LD_LIBRARY_PATH
 
 run_frag: 
 	python FragTest$(PYTHON_VERS).py ERR225922 10000 2 $(REDIRECT)
@@ -79,10 +80,10 @@ run_all: $(ALL_TESTS)
 #
 # expected results for auto-testing
 #
-update_expected: 
+expected.txt update_expected: 
 	rm -f expected.txt; $(MAKE) run_all REDIRECT=">>expected.txt"
 
-run_and_diff: 
+run_and_diff: expected.txt  
 	rm -f actual.txt; $(MAKE) run_all REDIRECT=">>actual.txt"
 	diff expected.txt actual.txt && rm actual.txt && echo NGS Python examples work as expected
 

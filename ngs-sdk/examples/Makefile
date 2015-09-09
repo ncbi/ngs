@@ -46,11 +46,12 @@ TARGETS =           \
 # This rule triggers detection of the libraries and headers
 # in addition to building the examples
 std: $(TARGETS)
-     
+
 $(TARGETS): $(NCBI_VDB_LIBDIR)/libncbi-vdb-static.a ncbi-headers $(NGS_LIBDIR)/libngs-c++.a ngs-headers
 
 clean:
 	rm -f $(TARGETS) *.o
+	rm -rf *.dSYM
 
 .PHONY: default std $(TARGETS)
 
@@ -64,6 +65,7 @@ TEST_LIBS =              \
     -L$(NGS_LIBDIR)      \
     -lncbi-ngs-c++       \
     -lngs-c++            \
+	-lngs-bam-c++        \
     -lncbi-ngs-c++       \
     -lncbi-vdb-static    \
     -lngs-adapt-c++      \
@@ -144,9 +146,9 @@ run_pileup: PileupTest
 
 run_ref: RefTest
 	./$^ SRR1121656 $(REDIRECT)
-    
+
 ALL_TESTS = run_frag run_align run_align_slice run_pileup run_ref
-    
+
 run_all: $(ALL_TESTS)
 
 .PHONY: $(ALL_TESTS)
@@ -155,11 +157,11 @@ run_all: $(ALL_TESTS)
 #
 # expected results for auto-testing
 #
-update_expected: 
+expected.txt update_expected: 
 	rm -f expected.txt
 	$(MAKE) run_all REDIRECT=">>expected.txt"
 
-run_and_diff: 
+run_and_diff: expected.txt
 	rm -f actual.txt
 	$(MAKE) run_all REDIRECT=">>actual.txt"
 	@ diff expected.txt actual.txt && rm actual.txt && echo "NGS C++ examples work as expected"

@@ -34,23 +34,18 @@ else:
     from urllib2 import urlopen
 
 from .ErrorMsg import check_res_embedded
-from . import ErrorMsg
+from .ErrorMsg import ErrorMsg
 
-def machine():
-    """Return type of machine."""
-    if os.name == 'nt' and sys.version_info[:2] < (2,7):
-        return os.environ.get("PROCESSOR_ARCHITEW6432", 
-               os.environ.get('PROCESSOR_ARCHITECTURE', ''))
-    else:
-        return platform.machine()
-
-def os_bits(machine=machine()):
-    """Return bitness of operating system, or None if unknown."""
-    machine2bits = {'AMD64': 64, 'x86_64': 64, 'i386': 32, 'x86': 32}
-    return machine2bits.get(machine, None)
+def process_bits():
+    """Return bitness of the running python process, or None if unknown."""
+    architecture2bits = {'64bit': 64, '32bit': 32}
+    return architecture2bits.get(platform.architecture()[0], None)
 
 def lib_filename(lib_name):
-    return "lib"+lib_name+LibManager.get_lib_extension()
+    if platform.system() == "Windows":
+        return lib_name+LibManager.get_lib_extension()
+    else:
+        return "lib"+lib_name+LibManager.get_lib_extension()
     
 def load_saved_library(lib_name):
     """search library in different possible locations
@@ -98,7 +93,7 @@ def load_updated_library(lib_name):
             'cmd':     'lib',
             'libname': lib_name,
             'os_name': LibManager.get_post_os_name_param(),
-            'bits':    str(os_bits())
+            'bits':    str(process_bits())
         })
         resp = urlopen(url=LibManager.URL_NCBI_SRATOOLKIT, data=params.encode())
         if resp.code != 200:
@@ -121,6 +116,20 @@ def load_updated_library(lib_name):
     elif not file_saved[0]:
         raise ErrorMsg("Failed to save file " + file_saved[1])
 
+def load_library(lib_name):
+    do_download = os.environ.get("NGS_PY_DOWNLOAD_LIBRARY", "1")
+    if do_download.lower() in ("1", "yes", "true", "on"):
+        library = load_saved_library(lib_name) or load_updated_library(lib_name)
+    else:
+        library = load_saved_library(lib_name)
+    
+    if not library:
+        raise ErrorMsg("Failed to load library " +
+            lib_name +
+            " (NGS_PY_DOWNLOAD_LIBRARY=" + do_download + ", "
+            + "NGS_PY_LIBRARY_PATH=" + os.environ.get("NGS_PY_LIBRARY_PATH", "<not set>") + ")")
+    else:
+        return library
     
 class LibManager:
     c_lib_engine = None
@@ -141,12 +150,16 @@ class LibManager:
     
     @staticmethod
     def get_directories_to_find_dll():
-        return (
-            os.path.join(os.path.expanduser('~'), ".ncbi", "lib"+str(os_bits())),
-            "",
-            ".",
-            tempfile.gettempdir(),
-        )
+        env_path = os.environ.get("NGS_PY_LIBRARY_PATH", None)
+        if env_path is None:
+            return (
+                os.path.join(os.path.expanduser('~'), ".ncbi", "lib"+str(process_bits())),
+                "",
+                ".",
+                tempfile.gettempdir(),
+            )
+        else:
+            return ( env_path, )
     
     @staticmethod
     def get_post_os_name_param():
@@ -173,12 +186,18 @@ class LibManager:
         libname_engine = "ncbi-vdb"
         libname_sdk = "ngs-sdk"
 
-        self.c_lib_engine = load_saved_library(libname_engine) or load_updated_library(libname_engine)
-        self.c_lib_sdk = load_saved_library(libname_sdk) or load_updated_library(libname_sdk)
+        self.c_lib_engine = load_library(libname_engine)
+        self.c_lib_sdk = load_library(libname_sdk)
         
         ##############  ngs-engine imports below  ####################
         
-        self._bind(self.c_lib_engine, "PY_NGS_Engine_ReadCollectionMake", [c_char_p, POINTER(c_void_p), POINTER(c_char), c_size_t], None)
+        self._bind(self.c_lib_engine, "PY_NGS_Engine_ReadCollectionMake",    [c_char_p, POINTER(c_void_p), POINTER(c_char), c_size_t], None)
+        self._bind(self.c_lib_engine, "PY_NGS_Engine_ReferenceSequenceMake", [c_char_p, POINTER(c_void_p), POINTER(c_char), c_size_t], None)
+
+        self._bind(self.c_lib_engine, "PY_NGS_Engine_SetAppVersionString",   [c_char_p, POINTER(c_char), c_size_t], None)
+        self._bind(self.c_lib_engine, "PY_NGS_Engine_GetVersion",            [POINTER(c_char_p), POINTER(c_char), c_size_t], None)
+        self._bind(self.c_lib_engine, "PY_NGS_Engine_IsValid",               [c_char_p, POINTER(c_int), POINTER(c_char), c_size_t], None)
+
         # self._bind(self.c_lib_engine, "PY_NGS_Engine_RefcountRelease", [c_void_p, POINTER(c_void_p)], None)
         # self._bind(self.c_lib_engine, "PY_NGS_Engine_StringData", [c_void_p, POINTER(c_char_p)], None)
         # self._bind(self.c_lib_engine, "PY_NGS_Engine_StringSize", [c_void_p, POINTER(c_size_t)], None)
@@ -241,8 +260,15 @@ class LibManager:
         self.bind_sdk("PY_NGS_FragmentGetFragmentId",        [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_FragmentGetFragmentBases",     [c_void_p, c_uint64, c_uint64, POINTER(c_void_p), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_FragmentGetFragmentQualities", [c_void_p, c_uint64, c_uint64, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_FragmentIsPaired",             [c_void_p, POINTER(c_int), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_FragmentIsAligned",            [c_void_p, POINTER(c_int), POINTER(c_void_p)])
 
         self.bind_sdk("PY_NGS_FragmentIteratorNext",         [c_void_p, POINTER(c_int), POINTER(c_void_p)])
+        
+        # Package
+
+        self.bind_sdk("PY_NGS_PackageGetPackageVersion", [POINTER(c_void_p), POINTER(c_void_p)])
+       
         
         # PileupEvent
         
@@ -282,6 +308,7 @@ class LibManager:
         
         self.bind_sdk("PY_NGS_ReadGetReadId",        [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_ReadGetNumFragments",  [c_void_p, POINTER(c_uint32), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReadFragmentIsAligned",[c_void_p, c_uint32, POINTER(c_int32), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_ReadGetReadCategory",  [c_void_p, POINTER(c_uint32), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_ReadGetReadGroup",     [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_ReadGetReadName",      [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
@@ -292,22 +319,31 @@ class LibManager:
         
         # Reference
         
-        self.bind_sdk("PY_NGS_ReferenceGetCommonName",          [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
-        self.bind_sdk("PY_NGS_ReferenceGetCanonicalName",       [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
-        self.bind_sdk("PY_NGS_ReferenceGetIsCircular",          [c_void_p, POINTER(c_int), POINTER(c_void_p)])
-        self.bind_sdk("PY_NGS_ReferenceGetLength",              [c_void_p, POINTER(c_uint64), POINTER(c_void_p)])
-        self.bind_sdk("PY_NGS_ReferenceGetReferenceBases",      [c_void_p, c_uint64, c_uint64, POINTER(c_void_p), POINTER(c_void_p)])
-        self.bind_sdk("PY_NGS_ReferenceGetReferenceChunk",      [c_void_p, c_uint64, c_uint64, POINTER(c_void_p), POINTER(c_void_p)])
-        self.bind_sdk("PY_NGS_ReferenceGetAlignment",           [c_void_p, c_char_p, POINTER(c_void_p), POINTER(c_void_p)])
-        self.bind_sdk("PY_NGS_ReferenceGetAlignments",          [c_void_p, c_uint32, POINTER(c_void_p), POINTER(c_void_p)])
-        self.bind_sdk("PY_NGS_ReferenceGetAlignmentSlice",      [c_void_p, c_int64, c_uint64, c_uint32, POINTER(c_void_p), POINTER(c_void_p)])
-        self.bind_sdk("PY_NGS_ReferenceGetPileups",             [c_void_p, c_uint32, POINTER(c_void_p), POINTER(c_void_p)])
-        self.bind_sdk("PY_NGS_ReferenceGetFilteredPileups",     [c_void_p, c_uint32, c_uint32, c_int32, POINTER(c_void_p), POINTER(c_void_p)])
-        self.bind_sdk("PY_NGS_ReferenceGetPileupSlice",         [c_void_p, c_int64, c_uint64, c_uint32, POINTER(c_void_p), POINTER(c_void_p)])
-        self.bind_sdk("PY_NGS_ReferenceGetFilteredPileupSlice", [c_void_p, c_int64, c_uint64, c_uint32, c_uint32, c_int32, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceGetCommonName",             [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceGetCanonicalName",          [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceGetIsCircular",             [c_void_p, POINTER(c_int), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceGetLength",                 [c_void_p, POINTER(c_uint64), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceGetReferenceBases",         [c_void_p, c_uint64, c_uint64, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceGetReferenceChunk",         [c_void_p, c_uint64, c_uint64, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceGetAlignment",              [c_void_p, c_char_p, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceGetAlignments",             [c_void_p, c_uint32, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceGetAlignmentSlice",         [c_void_p, c_int64, c_uint64, c_uint32, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceGetFilteredAlignmentSlice", [c_void_p, c_int64, c_uint64, c_uint32, c_uint32, c_int32, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceGetPileups",                [c_void_p, c_uint32, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceGetFilteredPileups",        [c_void_p, c_uint32, c_uint32, c_int32, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceGetPileupSlice",            [c_void_p, c_int64, c_uint64, c_uint32, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceGetFilteredPileupSlice",    [c_void_p, c_int64, c_uint64, c_uint32, c_uint32, c_int32, POINTER(c_void_p), POINTER(c_void_p)])
 
-        self.bind_sdk("PY_NGS_ReferenceIteratorNext",           [c_void_p, POINTER(c_int), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceIteratorNext",              [c_void_p, POINTER(c_int), POINTER(c_void_p)])
         
+        # ReferenceSequence
+        
+        self.bind_sdk("PY_NGS_ReferenceSequenceGetCanonicalName",  [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceSequenceGetIsCircular",     [c_void_p, POINTER(c_int), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceSequenceGetLength",         [c_void_p, POINTER(c_uint64), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceSequenceGetReferenceBases", [c_void_p, c_uint64, c_uint64, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReferenceSequenceGetReferenceChunk", [c_void_p, c_uint64, c_uint64, POINTER(c_void_p), POINTER(c_void_p)])
+
         # Statistics
         
         self.bind_sdk("PY_NGS_StatisticsGetValueType", [c_void_p, c_char_p, POINTER(c_uint32), POINTER(c_void_p)])

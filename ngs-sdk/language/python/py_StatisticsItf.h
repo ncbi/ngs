@@ -32,12 +32,12 @@ extern "C" {
 
 #include "py_ngs_defs.h"
 
-PY_RES_TYPE PY_NGS_StatisticsGetValueType ( void* pRef, char const* path, uint32_t* pRet, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_StatisticsGetAsString  ( void* pRef, char const* path, void** ppNGSStringBuf, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_StatisticsGetAsI64     ( void* pRef, char const* path, int64_t* pRet, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_StatisticsGetAsU64     ( void* pRef, char const* path, uint64_t* pRet, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_StatisticsGetAsDouble  ( void* pRef, char const* path, double* pRet, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_StatisticsGetNextPath  ( void* pRef, char const* path, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_StatisticsGetValueType ( void* pRef, char const* path, uint32_t* pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_StatisticsGetAsString  ( void* pRef, char const* path, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_StatisticsGetAsI64     ( void* pRef, char const* path, int64_t* pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_StatisticsGetAsU64     ( void* pRef, char const* path, uint64_t* pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_StatisticsGetAsDouble  ( void* pRef, char const* path, double* pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_StatisticsGetNextPath  ( void* pRef, char const* path, void** ppNGSStringBuf, void** ppNGSStrError );
 
 #ifdef __cplusplus
 }

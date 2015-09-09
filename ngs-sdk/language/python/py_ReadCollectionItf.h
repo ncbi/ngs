@@ -32,19 +32,19 @@ extern "C" {
 
 #include "py_ngs_defs.h"
 
-PY_RES_TYPE PY_NGS_ReadCollectionGetName           (void* pRef, void** ppNGSStringBuf, void** ppNGSStrError);
-PY_RES_TYPE PY_NGS_ReadCollectionGetReadGroups     (void* pRef, void** pRet, void** ppNGSStrError);
-PY_RES_TYPE PY_NGS_ReadCollectionGetReadGroup      (void* pRef, char const* spec, void** pRet, void** ppNGSStrError);
-PY_RES_TYPE PY_NGS_ReadCollectionGetReferences     (void* pRef, void** pRet, void** ppNGSStrError);
-PY_RES_TYPE PY_NGS_ReadCollectionGetReference      (void* pRef, char const* spec, void** pRet, void** ppNGSStrError);
-PY_RES_TYPE PY_NGS_ReadCollectionGetAlignment      (void* pRef, char const* alignmentId, void** pRet, void** ppNGSStrError);
-PY_RES_TYPE PY_NGS_ReadCollectionGetAlignments     (void* pRef, uint32_t categories, void** pRet, void** ppNGSStrError);
-PY_RES_TYPE PY_NGS_ReadCollectionGetAlignmentCount (void* pRef, uint32_t categories, uint64_t* pRet, void** ppNGSStrError);
-PY_RES_TYPE PY_NGS_ReadCollectionGetAlignmentRange (void* pRef, uint64_t first, uint64_t count, uint32_t categories, void** pRet, void** ppNGSStrError);
-PY_RES_TYPE PY_NGS_ReadCollectionGetRead           (void* pRef, char const* readId, void** pRet, void** ppNGSStrError);
-PY_RES_TYPE PY_NGS_ReadCollectionGetReads          (void* pRef, uint32_t categories, void** pRet, void** ppNGSStrError);
-PY_RES_TYPE PY_NGS_ReadCollectionGetReadCount      (void* pRef, uint32_t categories, uint64_t* pRet, void** ppNGSStrError);
-PY_RES_TYPE PY_NGS_ReadCollectionGetReadRange      (void* pRef, uint64_t first, uint64_t count, uint32_t categories, void** pRet, void** ppNGSStrError);
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReadCollectionGetName           (void* pRef, void** ppNGSStringBuf, void** ppNGSStrError);
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReadCollectionGetReadGroups     (void* pRef, void** pRet, void** ppNGSStrError);
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReadCollectionGetReadGroup      (void* pRef, char const* spec, void** pRet, void** ppNGSStrError);
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReadCollectionGetReferences     (void* pRef, void** pRet, void** ppNGSStrError);
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReadCollectionGetReference      (void* pRef, char const* spec, void** pRet, void** ppNGSStrError);
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReadCollectionGetAlignment      (void* pRef, char const* alignmentId, void** pRet, void** ppNGSStrError);
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReadCollectionGetAlignments     (void* pRef, uint32_t categories, void** pRet, void** ppNGSStrError);
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReadCollectionGetAlignmentCount (void* pRef, uint32_t categories, uint64_t* pRet, void** ppNGSStrError);
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReadCollectionGetAlignmentRange (void* pRef, uint64_t first, uint64_t count, uint32_t categories, void** pRet, void** ppNGSStrError);
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReadCollectionGetRead           (void* pRef, char const* readId, void** pRet, void** ppNGSStrError);
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReadCollectionGetReads          (void* pRef, uint32_t categories, void** pRet, void** ppNGSStrError);
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReadCollectionGetReadCount      (void* pRef, uint32_t categories, uint64_t* pRet, void** ppNGSStrError);
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReadCollectionGetReadRange      (void* pRef, uint64_t first, uint64_t count, uint32_t categories, void** pRet, void** ppNGSStrError);
 
 #ifdef __cplusplus
 }

@@ -33,34 +33,34 @@ extern "C" {
 #include "py_ngs_defs.h"
 
 /* TODO: it looks like CAST-functions are not actually needed, they are implemented on the python level, see ReadItf as well */
-/*PY_RES_TYPE PY_NGS_AlignmentGetFragmentId                ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_AlignmentGetFragmentBases             ( void* pRef, uint64_t offset, uint64_t length, void** ppNGSStringBuf, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_AlignmentGetFragmentQualities         ( void* pRef, uint64_t offset, uint64_t length, void** ppNGSStringBuf, void** ppNGSStrError );
+/*LIB_EXPORT PY_RES_TYPE PY_NGS_AlignmentGetFragmentId                ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_AlignmentGetFragmentBases             ( void* pRef, uint64_t offset, uint64_t length, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_AlignmentGetFragmentQualities         ( void* pRef, uint64_t offset, uint64_t length, void** ppNGSStringBuf, void** ppNGSStrError );
 */
 
-PY_RES_TYPE PY_NGS_AlignmentGetAlignmentId               ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_AlignmentGetReferenceSpec             ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_AlignmentGetMappingQuality            ( void* pRef, int32_t* pRet, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_AlignmentGetReferenceBases            ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_AlignmentGetReadGroup                 ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_AlignmentGetReadId                    ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_AlignmentGetClippedFragmentBases      ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_AlignmentGetClippedFragmentQualities  ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_AlignmentGetAlignedFragmentBases      ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_AlignmentGetAlignmentCategory         ( void* pRef, uint32_t* pRet, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_AlignmentGetAlignmentPosition         ( void* pRef, int64_t* pRet, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_AlignmentGetAlignmentLength           ( void* pRef, uint64_t* pRet, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_AlignmentGetIsReversedOrientation     ( void* pRef, int* pRet, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_AlignmentGetSoftClip                  ( void* pRef, uint32_t edge, int32_t* pRet, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_AlignmentGetTemplateLength            ( void* pRef, uint64_t* pRet, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_AlignmentGetShortCigar                ( void* pRef, int clipped, void** ppNGSStringBuf, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_AlignmentGetLongCigar                 ( void* pRef, int clipped, void** ppNGSStringBuf, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_AlignmentGetRNAOrientation            ( void* pRef, char* pRet, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_AlignmentHasMate                      ( void* pRef, int* pRet, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_AlignmentGetMateAlignmentId           ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_AlignmentGetMateAlignment             ( void* pRef, void** ppRet, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_AlignmentGetMateReferenceSpec         ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
-PY_RES_TYPE PY_NGS_AlignmentGetMateIsReversedOrientation ( void* pRef, int* pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_AlignmentGetAlignmentId               ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_AlignmentGetReferenceSpec             ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_AlignmentGetMappingQuality            ( void* pRef, int32_t* pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_AlignmentGetReferenceBases            ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_AlignmentGetReadGroup                 ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_AlignmentGetReadId                    ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_AlignmentGetClippedFragmentBases      ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_AlignmentGetClippedFragmentQualities  ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_AlignmentGetAlignedFragmentBases      ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_AlignmentGetAlignmentCategory         ( void* pRef, uint32_t* pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_AlignmentGetAlignmentPosition         ( void* pRef, int64_t* pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_AlignmentGetAlignmentLength           ( void* pRef, uint64_t* pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_AlignmentGetIsReversedOrientation     ( void* pRef, int* pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_AlignmentGetSoftClip                  ( void* pRef, uint32_t edge, int32_t* pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_AlignmentGetTemplateLength            ( void* pRef, uint64_t* pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_AlignmentGetShortCigar                ( void* pRef, int clipped, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_AlignmentGetLongCigar                 ( void* pRef, int clipped, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_AlignmentGetRNAOrientation            ( void* pRef, char* pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_AlignmentHasMate                      ( void* pRef, int* pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_AlignmentGetMateAlignmentId           ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_AlignmentGetMateAlignment             ( void* pRef, void** ppRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_AlignmentGetMateReferenceSpec         ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_AlignmentGetMateIsReversedOrientation ( void* pRef, int* pRet, void** ppNGSStrError );
 
 
 #ifdef __cplusplus

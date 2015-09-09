@@ -113,6 +113,11 @@ namespace ngs
     { return AlignmentIterator ( ( AlignmentRef ) self -> getAlignmentSlice ( start, length, ( uint32_t ) categories ) ); }
 
     inline
+    AlignmentIterator Reference :: getFilteredAlignmentSlice ( int64_t start, uint64_t length, Alignment :: AlignmentCategory categories, Alignment :: AlignmentFilter filters, int32_t mappingQuality ) const
+        throw ( ErrorMsg )
+    { return AlignmentIterator ( ( AlignmentRef ) self -> getFilteredAlignmentSlice ( start, length, ( uint32_t ) categories, ( uint32_t ) filters, mappingQuality ) ); }
+
+    inline
     PileupIterator Reference :: getPileups ( Alignment :: AlignmentCategory categories ) const
         throw ( ErrorMsg )
     { return PileupIterator ( ( PileupRef ) self -> getPileups ( ( uint32_t ) categories ) ); }

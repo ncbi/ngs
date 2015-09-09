@@ -134,6 +134,7 @@ public interface ReadCollection
      *
      * Note Excessive usage may create pressure on JVM and System memory.
      *
+     * @param alignmentId the ID of the alignment to return
      * @return an individual Alignment instance
      * @throws ErrorMsg if Alignment is not found
      * @throws ErrorMsg upon an error accessing data
@@ -143,7 +144,9 @@ public interface ReadCollection
 
     /**
      * Select Alignments by AlignmentCategory.
+     * @param categories is a bitfield of AlignmentCategory	 
      * @return an iterator of all Alignments from specified categories
+     * @throws ErrorMsg upon an error accessing data
      */
     AlignmentIterator getAlignments ( int categories )
         throws ErrorMsg;
@@ -161,6 +164,7 @@ public interface ReadCollection
      * @param categories is a bitfield of AlignmentCategory
      * @return count of all alignments
      * @see ngs.Alignment Alignment interface for definitions of AlignmentCategory
+     * @throws ErrorMsg upon an error accessing data	 
      */
     long getAlignmentCount ( int categories )
         throws ErrorMsg;
@@ -170,6 +174,7 @@ public interface ReadCollection
      * @param first is an unsigned ordinal into set
      * @param count the number of alignments
      * @return an iterator across a range of Alignments
+     * @throws ErrorMsg upon an error accessing data	 
      */
     AlignmentIterator getAlignmentRange ( long first, long count )
         throws ErrorMsg;
@@ -180,6 +185,7 @@ public interface ReadCollection
      * @param count number of alignments
      * @param categories provides a means of filtering by AlignmentCategory
      * @return an iterator across a range of Alignments
+     * @throws ErrorMsg upon an error accessing data	 
      */
   AlignmentIterator getAlignmentRange ( long first, long count, int categories )
         throws ErrorMsg;
@@ -191,6 +197,7 @@ public interface ReadCollection
 
     /** 
      * getRead
+     * @param readId the ID of the Read to return	 
      * @return an individual Read
      * @throws ErrorMsg if Read does not exist
      */
@@ -205,6 +212,7 @@ public interface ReadCollection
      * getReads
      * @param categories provides a means of filtering by ReadCategory
      * @return an iterator of all contained machine Reads
+     * @throws ErrorMsg upon an error accessing data	 	 
      */
     ReadIterator getReads ( int categories )
         throws ErrorMsg;
@@ -212,6 +220,7 @@ public interface ReadCollection
     /**
      * getReadCount
      * @return the number of reads in the collection
+     * @throws ErrorMsg upon an error accessing data	 	 
      */
     long getReadCount ()
         throws ErrorMsg;
@@ -220,6 +229,7 @@ public interface ReadCollection
      * getReadCount
      * @param categories provides an optional means of filtering by ReadCategory
      * @return the number of reads in the collection
+     * @throws ErrorMsg upon an error accessing data	 	 
      */
     long getReadCount ( int categories )
         throws ErrorMsg;
@@ -229,6 +239,7 @@ public interface ReadCollection
      * @param first is an unsigned ordinal into set
      * @param count the number of reads
      * @return an iterator across a range of Reads
+     * @throws ErrorMsg upon an error accessing data	 	 
      */
     ReadIterator getReadRange ( long first, long count )
         throws ErrorMsg;
@@ -238,6 +249,7 @@ public interface ReadCollection
      * @param count the number of reads
      * @param categories provides an optional means of filtering by ReadCategory
      * @return an iterator across a range of Reads
+     * @throws ErrorMsg upon an error accessing data	 	 
      */
     ReadIterator getReadRange ( long first, long count, int categories )
         throws ErrorMsg;

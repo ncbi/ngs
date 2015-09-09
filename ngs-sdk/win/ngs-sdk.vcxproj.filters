@@ -10,6 +10,9 @@
     <Filter Include="ngs-bind-java sources">
       <UniqueIdentifier>{577b60af-a77c-4f5e-b720-42439623c791}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ngs-bind-python sources">
+      <UniqueIdentifier>{577b60af-a77c-4f5e-b720-42439623c792}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\language\c++\Alignment.cpp">
@@ -57,6 +60,9 @@
     <ClCompile Include="..\language\c++\ReferenceIterator.cpp">
       <Filter>ngs-bind-c++ sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\language\c++\ReferenceSequence.cpp">
+      <Filter>ngs-bind-c++ sources</Filter>
+    </ClCompile>
     <ClCompile Include="..\language\c++\Statistics.cpp">
       <Filter>ngs-bind-c++ sources</Filter>
     </ClCompile>
@@ -76,6 +82,9 @@
       <Filter>ngs-disp-sources</Filter>
     </ClCompile>
     <ClCompile Include="..\dispatch\FragmentItf.cpp">
+      <Filter>ngs-disp-sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dispatch\PackageItf.cpp">
       <Filter>ngs-disp-sources</Filter>
     </ClCompile>
     <ClCompile Include="..\dispatch\PileupEventItf.cpp">
@@ -99,6 +108,9 @@
     <ClCompile Include="..\dispatch\ReferenceItf.cpp">
       <Filter>ngs-disp-sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\dispatch\ReferenceSequenceItf.cpp">
+      <Filter>ngs-disp-sources</Filter>
+    </ClCompile>
     <ClCompile Include="..\dispatch\StatisticsItf.cpp">
       <Filter>ngs-disp-sources</Filter>
     </ClCompile>
@@ -118,6 +130,9 @@
       <Filter>ngs-bind-java sources</Filter>
     </ClCompile>
     <ClCompile Include="..\language\java\jni_FragmentItf.cpp">
+      <Filter>ngs-bind-java sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\language\java\jni_Package.cpp">
       <Filter>ngs-bind-java sources</Filter>
     </ClCompile>
     <ClCompile Include="..\language\java\jni_PileupEventIteratorItf.cpp">
@@ -156,8 +171,33 @@
     <ClCompile Include="..\language\java\jni_ReferenceItf.cpp">
       <Filter>ngs-bind-java sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\language\java\jni_ReferenceSequenceItf.cpp">
+      <Filter>ngs-bind-java sources</Filter>
+    </ClCompile>
     <ClCompile Include="..\language\java\jni_StatisticsItf.cpp">
       <Filter>ngs-bind-java sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\language\python\py_AlignmentIteratorItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
+    <ClCompile Include="..\language\python\py_AlignmentItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
+    <ClCompile Include="..\language\python\py_ErrorMsg.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
+    <ClCompile Include="..\language\python\py_ErrorMsg.hpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
+    <ClCompile Include="..\language\python\py_FragmentIteratorItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
+    <ClCompile Include="..\language\python\py_FragmentItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
+    <ClCompile Include="..\language\python\py_PackageItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
+    <ClCompile Include="..\language\python\py_PileupEventIteratorItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
+    <ClCompile Include="..\language\python\py_PileupEventItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
+    <ClCompile Include="..\language\python\py_PileupIteratorItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
+    <ClCompile Include="..\language\python\py_PileupItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
+    <ClCompile Include="..\language\python\py_ReadCollectionItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
+    <ClCompile Include="..\language\python\py_ReadGroupIteratorItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
+    <ClCompile Include="..\language\python\py_ReadGroupItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
+    <ClCompile Include="..\language\python\py_ReadIteratorItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
+    <ClCompile Include="..\language\python\py_ReadItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
+    <ClCompile Include="..\language\python\py_Refcount.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
+    <ClCompile Include="..\language\python\py_ReferenceIteratorItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
+    <ClCompile Include="..\language\python\py_ReferenceItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
+    <ClCompile Include="..\language\python\py_ReferenceSequenceItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
+    <ClCompile Include="..\language\python\py_StatisticsItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
+    <ClCompile Include="..\language\python\py_StringItf.cpp"><Filter>ngs-bind-python sources</Filter></ClCompile>
   </ItemGroup>
 </Project>

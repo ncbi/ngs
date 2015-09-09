@@ -32,6 +32,22 @@ JNIEXPORT jstring JNICALL Java_ngs_itf_ReadItf_GetFragmentQualities
   (JNIEnv *, jobject, jlong, jlong, jlong);
 
 /*
+ * Class:     ngs_itf_AlignmentItf
+ * Method:    IsPaired
+ * Signature: (J)Z
+ */
+JNIEXPORT jboolean JNICALL Java_ngs_itf_ReadItf_IsPaired
+  (JNIEnv *, jobject, jlong );
+    
+/*
+ * Class:     ngs_itf_ReadItf
+ * Method:    IsAligned
+ * Signature: (J)Z
+ */
+JNIEXPORT jboolean JNICALL Java_ngs_itf_ReadItf_IsAligned
+  (JNIEnv *, jobject, jlong);
+
+/*
  * Class:     ngs_itf_ReadItf
  * Method:    NextFragment
  * Signature: (J)Z
@@ -55,6 +71,14 @@ JNIEXPORT jstring JNICALL Java_ngs_itf_ReadItf_GetReadId
 JNIEXPORT jint JNICALL Java_ngs_itf_ReadItf_GetNumFragments
   (JNIEnv *, jobject, jlong);
 
+/*
+ * Class:     ngs_itf_ReadItf
+ * Method:    FragmentIsAligned
+ * Signature: (JI)Z
+ */
+JNIEXPORT jboolean JNICALL Java_ngs_itf_ReadItf_FragmentIsAligned
+    (JNIEnv *, jobject, jlong, jint);
+    
 /*
  * Class:     ngs_itf_ReadItf
  * Method:    GetReadCategory

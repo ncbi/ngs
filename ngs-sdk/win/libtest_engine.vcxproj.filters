@@ -37,6 +37,9 @@
     <ClInclude Include="..\test\test_engine\ReferenceItf.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\test\test_engine\ReferenceSequenceItf.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\test\test_engine\StatisticsItf.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

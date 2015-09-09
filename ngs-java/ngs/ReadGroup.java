@@ -36,6 +36,7 @@ public interface ReadGroup
     /**
      * getName
      * @return the simple name of the read group
+     * @throws ErrorMsg if name cannot be returned
      */
     String getName ()
         throws ErrorMsg;
@@ -48,6 +49,7 @@ public interface ReadGroup
     /**
      * getStatistics
      * @return a collection of statistical data
+     * @throws ErrorMsg if not statistical data can be returned	 
      */
     Statistics getStatistics ()
         throws ErrorMsg;

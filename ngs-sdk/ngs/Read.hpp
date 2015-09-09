@@ -54,11 +54,16 @@ namespace ngs
         StringRef getReadId () const
             throw ( ErrorMsg );
 
-        /**
-         * getNumFragments
-         * the number of biological Fragments contained in the read
+        /* getNumFragments
+         *  the number of biological Fragments contained in the read
          */
         uint32_t getNumFragments () const
+            throw ( ErrorMsg );
+
+        /* fragmentIsAligned
+         *  tests a fragment for being aligned
+         */
+        bool fragmentIsAligned ( uint32_t fragIdx ) const
             throw ( ErrorMsg );
             
         /*------------------------------------------------------------------

@@ -1,0 +1,77 @@
+<project>
+
+    <!-- This file is currently for use on Windows; Linux/Mac builds are run via gmake -->
+    <property environment="env"/>
+    <property name="vdb.build"      value="Debug" />
+    <property name="vdb.platform"   value="x64" />
+    
+    <property name="vdb.dir"   value="${env.USERPROFILE}\win\cl\${vdb.platform}\${vdb.build}\bin" />
+	
+    <!-- Set this to full path to Python if not in PATH already -->
+    <property name="python.exe"     value="python" />
+    
+    <target name="install">
+        <exec executable="${python.exe}" failonerror="true" >
+            <arg value="setup.py" />
+            <arg value="install" />
+            <arg value="--user" />
+        </exec>
+    </target>
+    
+    <macrodef name="run-example">
+        <attribute name="class" />
+        <element name="args" optional="yes" />
+        <sequential>
+            <exec executable="${python.exe}" failonerror="true">
+                <env key="NGS_PY_LIBRARY_PATH" value="${vdb.dir}"/>
+                <env key="NGS_PY_DOWNLOAD_LIBRARY" value="0"/>
+                <arg value="examples/@{class}.py"/>
+                <args />
+            </exec>
+        </sequential>
+    </macrodef>
+
+    <target name="run" depends="install">
+        <run-example class="FragTest">
+            <args>
+                <arg value="ERR225922" />
+                <arg value="10000" />
+                <arg value="2" />
+            </args>
+        </run-example>
+    
+        <run-example class="AlignTest">
+            <args>
+                <arg value="ERR225922"/>
+                <arg value="1000"/>
+                <arg value="2"/>
+            </args>
+        </run-example>
+        
+        <run-example class="AlignSliceTest">
+            <args>
+                <arg value="SRR1121656"/>
+                <arg value="1"/>
+                <arg value="1"/>
+                <arg value="9999"/>
+            </args>
+        </run-example>
+        
+        <run-example class="PileupTest">
+            <args>
+                <arg value="SRR1121656"/>
+                <arg value="1"/>
+                <arg value="9999"/>
+                <arg value="10003"/>
+            </args>
+        </run-example>
+        
+        <run-example class="RefTest">
+            <args>
+                <arg value="SRR1121656"/>
+            </args>
+        </run-example>
+        
+    </target>
+    
+</project>

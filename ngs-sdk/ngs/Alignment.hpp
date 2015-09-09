@@ -105,7 +105,7 @@ namespace ngs
         StringRef getClippedFragmentQualities () const
             throw ( ErrorMsg );
 
-        /* getAlignedpedFragmentBases
+        /* getAlignedFragmentBases
          *  return fragment bases in their aligned orientation
          */
         StringRef getAlignedFragmentBases () const
@@ -120,10 +120,12 @@ namespace ngs
          */
         enum AlignmentFilter
         {
-            passFailed = 1,       // reads rejected due to platform/vendor quality criteria
-            passDuplicates = 2,   // either a PCR or optical duplicate
-            minMapQuality = 4,    // pass alignments with mappingQuality >= param
-            maxMapQuality = 8     // pass alignments with mappingQuality <= param
+            passFailed = 1,         // reads rejected due to platform/vendor quality criteria
+            passDuplicates = 2,     // either a PCR or optical duplicate
+            minMapQuality = 4,      // pass alignments with mappingQuality >= param
+            maxMapQuality = 8,      // pass alignments with mappingQuality <= param
+            noWraparound = 16,      // do not include leading wrapped around alignments to circular references
+            startWithinSlice = 32   // change slice intersection criteria so that start pos is within slice
         };
 
         /* AlignmentCategory

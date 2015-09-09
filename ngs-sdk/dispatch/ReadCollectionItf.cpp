@@ -199,7 +199,8 @@ namespace ngs
         ErrBlock err;
         assert ( vt -> get_alignments != 0 );
         bool wants_primary = ( categories & Alignment :: primaryAlignment );
-        bool wants_secondary = ( categories & Alignment :: secondaryAlignment );
+        bool wants_secondary
+            = ( categories & Alignment :: secondaryAlignment ) != 0;
         NGS_Alignment_v1 * ret  = ( * vt -> get_alignments ) ( self, & err, wants_primary, wants_secondary );
 
         // check for errors
@@ -221,7 +222,8 @@ namespace ngs
         ErrBlock err;
         assert ( vt -> get_align_count != 0 );
         bool wants_primary = ( categories & Alignment :: primaryAlignment );
-        bool wants_secondary = ( categories & Alignment :: secondaryAlignment );
+        bool wants_secondary
+            = ( categories & Alignment :: secondaryAlignment ) != 0;
         uint64_t ret  = ( * vt -> get_align_count ) ( self, & err, wants_primary, wants_secondary );
 
         // check for errors
@@ -243,7 +245,8 @@ namespace ngs
         ErrBlock err;
         assert ( vt -> get_align_range != 0 );
         bool wants_primary = ( categories & Alignment :: primaryAlignment );
-        bool wants_secondary = ( categories & Alignment :: secondaryAlignment );
+        bool wants_secondary
+            = ( categories & Alignment :: secondaryAlignment ) != 0;
         NGS_Alignment_v1 * ret  = ( * vt -> get_align_range ) ( self, & err, first, count, wants_primary, wants_secondary );
 
         // check for errors

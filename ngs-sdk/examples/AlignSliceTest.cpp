@@ -25,6 +25,7 @@
 */
 
 #include <ncbi-vdb/NGS.hpp>
+#include <ngs-bam/ngs-bam.hpp>
 #include <ngs/ErrorMsg.hpp>
 #include <ngs/ReadCollection.hpp>
 #include <ngs/Reference.hpp>
@@ -41,11 +42,9 @@ class AlignSliceTest
 {
 public:
 
-    static void run ( String acc, String refname, int start, int stop )
+    static void run_common ( ReadCollection & run, String refname, int start, int stop )
     {
 
-        // open requested accession using SRA implementation of the API
-        ReadCollection run = ncbi::NGS::openReadCollection ( acc );
         String run_name = run.getName ();
 
         // get requested reference
@@ -68,6 +67,38 @@ public:
 
         cerr << "Read " <<  i <<  " alignments for " <<  run_name << '\n';
     }
+
+    static void run_csra ( String acc, String refname, int start, int stop )
+    {
+        // open requested accession using SRA implementation of the API
+        ReadCollection run = ncbi::NGS::openReadCollection ( acc );
+        run_common ( run, refname, start, stop );
+    }
+
+    static void run_bam ( String acc, String refname, int start, int stop )
+    {
+        // open requested accession using example BAM implementation of the API
+        ReadCollection run = NGS_BAM::openReadCollection ( acc );
+        run_common ( run, refname, start, stop );
+    }
+
+    static void run ( String acc, String refname, int start, int stop )
+    {
+        size_t dot = acc . find_last_of ( '.' );
+        if ( dot != string :: npos )
+        {
+            String extension = acc . substr ( dot );
+            if ( extension == ".bam" || extension == ".BAM" )
+            {
+                run_bam ( acc, refname, start, stop );
+                return;
+            }
+        }
+
+        run_csra ( acc, refname, start, stop );
+    }
+
+
 };
 
 int main ( int argc, char const *argv[] )
@@ -78,6 +109,7 @@ int main ( int argc, char const *argv[] )
     }
     else try
     {
+        ncbi::NGS::setAppVersionString ( "AlignSliceTest.1.1.0" );
         AlignSliceTest::run ( argv[1], argv[2], atoi ( argv[3] ), atoi ( argv[4] ) );
         return 0;
     }

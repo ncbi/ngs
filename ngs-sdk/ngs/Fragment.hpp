@@ -90,6 +90,20 @@ namespace ngs
         StringRef getFragmentQualities ( uint64_t offset, uint64_t length ) const
             throw ( ErrorMsg );
 
+
+        /* isPaired
+         *  returns true if fragment has a mate
+         */
+        bool isPaired () const
+            throw ( ErrorMsg );
+
+
+        /* isAligned
+         *  returns true if fragment has alignment data
+         */
+        bool isAligned () const
+            throw ( ErrorMsg );
+
     public:
 
         // C++ support

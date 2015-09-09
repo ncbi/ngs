@@ -35,10 +35,11 @@ GEN_PY_FUNC_GET_STRING_BY_PARAMS_2_CAST ( Read, FragmentBases,     Fragment, uin
 GEN_PY_FUNC_GET_STRING_BY_PARAMS_2_CAST ( Read, FragmentQualities, Fragment, uint64_t, offset, uint64_t, length )
 GEN_PY_ITERATOR_NEXT_EXPLICIT_NAMES     ( Fragment, PY_NGS_ReadNextFragment )*/
 
-GEN_PY_FUNC_GET_STRING                  ( Read, ReadId )
-GEN_PY_FUNC_GET                         ( Read, NumFragments, uint32_t )
-GEN_PY_FUNC_GET                         ( Read, ReadCategory, uint32_t )
-GEN_PY_FUNC_GET_STRING                  ( Read, ReadGroup )
-GEN_PY_FUNC_GET_STRING                  ( Read, ReadName )
-GEN_PY_FUNC_GET_STRING_BY_PARAMS_2      ( Read, ReadBases, uint64_t, offset, uint64_t, length )
-GEN_PY_FUNC_GET_STRING_BY_PARAMS_2      ( Read, ReadQualities, uint64_t, offset, uint64_t, length )
+GEN_PY_FUNC_GET_STRING                      ( Read, ReadId )
+GEN_PY_FUNC_GET                             ( Read, NumFragments, uint32_t )
+GEN_PY_FUNC_GET_BY_PARAMS_1_EXPLICIT_NAMES  ( Read, bool, uint32_t, fragIdx, PY_NGS_ReadFragmentIsAligned, fragmentIsAligned)
+GEN_PY_FUNC_GET                             ( Read, ReadCategory, uint32_t )
+GEN_PY_FUNC_GET_STRING                      ( Read, ReadGroup )
+GEN_PY_FUNC_GET_STRING                      ( Read, ReadName )
+GEN_PY_FUNC_GET_STRING_BY_PARAMS_2          ( Read, ReadBases, uint64_t, offset, uint64_t, length )
+GEN_PY_FUNC_GET_STRING_BY_PARAMS_2          ( Read, ReadQualities, uint64_t, offset, uint64_t, length )

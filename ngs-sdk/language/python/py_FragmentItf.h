@@ -34,9 +34,11 @@ extern "C" {
 
 /* TODO: names has changed, fix it in python */
 
-PY_RES_TYPE PY_NGS_FragmentGetFragmentId(void* pRef, void** ppNGSStringBuf, void** ppNGSStrError);
-PY_RES_TYPE PY_NGS_FragmentGetFragmentBases(void* pRef, uint64_t offset, uint64_t length, void** ppNGSStringBuf, void** ppNGSStrError);
-PY_RES_TYPE PY_NGS_FragmentGetFragmentQualities(void* pRef, uint64_t offset, uint64_t length, void** ppNGSStringBuf, void** ppNGSStrError);
+LIB_EXPORT PY_RES_TYPE PY_NGS_FragmentGetFragmentId(void* pRef, void** ppNGSStringBuf, void** ppNGSStrError);
+LIB_EXPORT PY_RES_TYPE PY_NGS_FragmentGetFragmentBases(void* pRef, uint64_t offset, uint64_t length, void** ppNGSStringBuf, void** ppNGSStrError);
+LIB_EXPORT PY_RES_TYPE PY_NGS_FragmentGetFragmentQualities(void* pRef, uint64_t offset, uint64_t length, void** ppNGSStringBuf, void** ppNGSStrError);
+LIB_EXPORT PY_RES_TYPE PY_NGS_FragmentIsPaired(void* pRef, int* pRet, void** ppNGSStrError);
+LIB_EXPORT PY_RES_TYPE PY_NGS_FragmentIsAligned(void* pRef, int* pRet, void** ppNGSStrError);
 
 #ifdef __cplusplus
 }

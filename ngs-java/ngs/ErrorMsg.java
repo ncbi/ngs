@@ -35,7 +35,7 @@ public class ErrorMsg
 {
 
     /** 
-     * What went wrong
+     * @return What went wrong
      */
     public String what ()
     {

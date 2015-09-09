@@ -56,6 +56,9 @@
     <ClCompile Include="..\language\c++\ReferenceIterator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\language\c++\ReferenceSequence.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\language\c++\Statistics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

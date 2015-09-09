@@ -67,7 +67,8 @@ class LibPathIterator {
         String filename[],
         boolean parents)
     {
-        Logger.finer("\nCreating LibPathIterator(" + toString(filename) + ", "
+//      Logger.finer("\n");
+        Logger.finer("Creating LibPathIterator(" + toString(filename) + ", "
             + location + ")...");
 
         if (mgr == null && location == null) {
@@ -175,13 +176,13 @@ class LibPathIterator {
 
         while (true) {
             ++iLocation;
-            Logger.finer("LibPathIterator.reset() " + iLocation);
+            Logger.finest("LibPathIterator.reset() " + iLocation);
             if (location == null) {
                 if (iLocation >= mgr.locations().length) {
                     return false; // iterated over all locations
                 }
                 crnLocation = mgr.locations()[iLocation];
-                Logger.finer("LibPathIterator.reset(" + crnLocation + ")");
+                Logger.finest("LibPathIterator.reset(" + crnLocation + ")");
             } else if (iLocation > 1) {
                 return false; /* A single location was requested;
                                  already processed it: break this loop */
@@ -217,7 +218,7 @@ class LibPathIterator {
                     }
                     return true;
                 case NCBI_HOME:
-                    if (!resetPaths(ncbiHome())) {
+                    if (!resetPaths(ncbiLibHome())) {
                         continue;
                     }
                     return true;
@@ -285,6 +286,11 @@ class LibPathIterator {
                     dir = paths[i].substring(0, paths[i].length()
                         - NCBI_NGS_JAR_NAME.length());
                 }
+                String fileSeparator = fileSeparator();
+                if (fileSeparator != null && fileSeparator.length() == 1 &&
+                    dir.length() > 0 &&
+                    dir.charAt(dir.length() - 1) == fileSeparator.charAt(0))
+                {   dir = dir.substring(0, dir.length() - 1); }
                 return dir;
             }
         }
@@ -425,7 +431,7 @@ Here we use it just to find where to write the downoaded file. */
             try {
                 f.mkdirs();
             } catch (SecurityException e) {
-                Logger.fine(e.toString());
+                Logger.fine(e);
                 return false;
             }
 
@@ -433,49 +439,60 @@ Here we use it just to find where to write the downoaded file. */
                 try {
                     f.setExecutable(false, false);
                 } catch (SecurityException e) {
-                    Logger.fine(e.toString());
+                    Logger.fine(e);
                 }
                 try {
                     f.setReadable(false, false);
                 } catch (SecurityException e) {
-                    Logger.fine(e.toString());
+                    Logger.fine(e);
                 }
                 try {
                     f.setWritable(false, false);
                 } catch (SecurityException e) {
-                    Logger.fine(e.toString());
+                    Logger.fine(e);
                 }
             }
 
             try {
                 f.setExecutable(true, true);
             } catch (SecurityException e) {
-                Logger.fine(e.toString());
+                Logger.fine(e);
             }
             try {
                 f.setReadable(true, true);
             } catch (SecurityException e) {
-                Logger.fine(e.toString());
+                Logger.fine(e);
             }
             try {
                 f.setWritable(true, true);
             } catch (SecurityException e) {
-                Logger.fine(e.toString());
+                Logger.fine(e);
             }
         }
 
         return true;
     }
 
-    /** NCBI_HOME (~/.ncbi). Create it if required. */
-    private String ncbiHome()
-    {
+
+    /** [Configuration] /NCBI_HOME (~/.ncbi/). */
+    static String ncbiHome() {
         String path = System.getProperty("user.home");
         if (path == null) {
             return null;
         }
 
-        path += fileSeparator() + ".ncbi";
+        return path + fileSeparator() + ".ncbi";
+    }
+
+
+    /** [Libraries in] NCBI_HOME (~/.ncbi/libXX/). Create it if required. */
+    private String ncbiLibHome()
+    {
+        String path = ncbiHome();
+        if (path == null) {
+            return null;
+        }
+
         if (parents) {
             if (!mkdir(path, true)) {
                 return null;
@@ -535,7 +552,7 @@ Here we use it just to find where to write the downoaded file. */
     }
 
     /** Separates components of a file path. "/" on UNIX and "\" on Windows. */
-    private static String fileSeparator()
+    static String fileSeparator()
     {
         String separator = System.getProperty("file.separator");
         if (separator == null) {
