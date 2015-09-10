@@ -220,6 +220,21 @@ namespace ngs_adapt
         return 0;
     }
 
+    uint64_t CC AlignmentItf :: get_ref_pos_projection_range ( const NGS_Alignment_v1 * iself, NGS_ErrBlock_v1 * err, int64_t ref_pos )
+    {
+        const AlignmentItf * self = Self ( iself );
+        try
+        {
+            return self -> getReferencePositionProjectionRange ( ref_pos );
+        }
+        catch ( ... )
+        {
+            ErrBlockHandleException ( err );
+        }
+
+        return 0;
+    }
+
     uint64_t CC AlignmentItf :: get_align_length ( const NGS_Alignment_v1 * iself, NGS_ErrBlock_v1 * err )
     {
         const AlignmentItf * self = Self ( iself );
@@ -455,7 +470,10 @@ namespace ngs_adapt
         next,
 
         // v1.1
-        get_rna_orientation
+        get_rna_orientation,
+
+        // v1.2
+        get_ref_pos_projection_range
     };
 
 } // namespace ngs_adapt

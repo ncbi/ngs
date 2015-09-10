@@ -280,6 +280,30 @@ namespace ngs
         return ret;
     }
 
+    uint64_t AlignmentItf :: getReferencePositionProjectionRange (int64_t ref_pos) const
+        throw ( ErrorMsg )
+    {
+        // the object is really from C
+        const NGS_Alignment_v1 * self = Test ();
+
+        // cast vtable to our level
+        const NGS_Alignment_v1_vt * vt = Access ( self -> vt );
+
+        // test for v1.2
+        if ( vt -> dad . minor_version < 2 )
+            throw ErrorMsg ( "the Alignment interface provided by this NGS engine is too old to support this message" );
+
+        // call through C vtable
+        ErrBlock err;
+        assert ( vt -> get_ref_pos_projection_range != 0 );
+        uint64_t ret  = ( * vt -> get_ref_pos_projection_range ) ( self, & err, ref_pos );
+
+        // check for errors
+        err . Check ();
+
+        return ret;
+    }
+
     uint64_t AlignmentItf :: getAlignmentLength () const
         throw ( ErrorMsg )
     {

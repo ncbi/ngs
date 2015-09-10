@@ -487,6 +487,11 @@ TEST_BEGIN_ALIGNMENT( Alignment_getAlignmentPosition )
     Assert ( 123 == pos );
 TEST_END
 
+TEST_BEGIN_ALIGNMENT( Alignment_getReferencePositionProjectionRange )
+    uint64_t range = align.getReferencePositionProjectionRange( 44 );
+    Assert ( range == (((uint64_t)123 << 32) | 15) );
+TEST_END
+
 TEST_BEGIN_ALIGNMENT( Alignment_getAlignmentLength )
     uint64_t len = align.getAlignmentLength();
     Assert ( 321 == len );

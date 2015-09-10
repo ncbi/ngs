@@ -70,6 +70,8 @@ namespace ngs
             throw ( ErrorMsg );
         int64_t getAlignmentPosition () const
             throw ( ErrorMsg );
+        uint64_t getReferencePositionProjectionRange ( int64_t ref_pos ) const
+            throw ( ErrorMsg );
         uint64_t getAlignmentLength () const
             throw ( ErrorMsg );
         bool getIsReversedOrientation () const
