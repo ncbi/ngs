@@ -141,6 +141,9 @@ public:
     int64_t getAlignmentPosition() const {
         throw std::runtime_error("no rows");
     }
+    uint64_t getReferencePositionProjectionRange ( int64_t ref_pos ) const {
+        throw std::runtime_error("no rows");
+    }
     uint64_t getAlignmentLength() const {
         throw std::runtime_error("no rows");
     }

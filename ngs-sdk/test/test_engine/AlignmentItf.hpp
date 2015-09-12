@@ -129,6 +129,11 @@ namespace ngs_test_engine
             return 123; 
         }
 
+        virtual uint64_t getReferencePositionProjectionRange ( int64_t ref_pos ) const 
+        { 
+            return ((uint64_t)123 << 32) | 15;
+        }
+
         virtual uint64_t getAlignmentLength () const 
         { 
             return 321; 

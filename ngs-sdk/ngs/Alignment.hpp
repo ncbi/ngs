@@ -153,6 +153,23 @@ namespace ngs
         int64_t getAlignmentPosition () const
             throw ( ErrorMsg );
 
+        /* getReferencePositionProjectionRange
+         *  retrieve the projection of Reference position on the Alignment
+         *  ref_pos - 0-based offset from start of Reference
+         *  returns a packed 64bit value:
+         *   -upper 32bits represent a 0-based offset from start of the Alignment
+         *    corresponding to ref_pos (beginning of the insertion in the case ref_pos
+         *    projects on the insertion)
+         *   -lower 32bits represent the length of the ref_pos projection on the 
+         *    Alignment: e.g. 1 - match/mismatch, 0 - ref_pos is within the
+         *    region deleted from the Alignment, > 1 - there is an insertion
+         *    on the Alignment so ref_pos can be projected anywhere from the
+         *    beginning of that insertion to the end of it.
+         *  throws ErrorMsg if the property cannot be retrieved
+         */
+        uint64_t getReferencePositionProjectionRange ( int64_t ref_pos ) const
+            throw ( ErrorMsg );
+
         /* getAligmentLength
          *  retrieve the projected length of an Alignment projected upon Reference.
          *  return unsigned length of projection
