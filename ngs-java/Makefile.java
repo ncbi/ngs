@@ -216,11 +216,13 @@ $(LIBDIR)/ngs-java.jar: $(CLSDIR)/ngs-java-api $(CLSDIR)/ngs-java-itf $(CLSDIR)/
 ngs-examples: $(LIBDIR) $(CLSDIR) $(LIBDIR)/ngs-examples.jar
 
 # java examples
-NGS_EXAMPLES =    \
-	RefTest       \
-	FragTest      \
-	AlignTest     \
-	AlignSliceTest
+NGS_EXAMPLES =     \
+	AlignTest      \
+	AlignSliceTest \
+	FragTest       \
+	PileupTest     \
+	RefTest        \
+	ReadGroupTest  \
 
 NGS_EXAMPLES_PATH = \
 	$(addprefix $(SRCDIR)examples/examples/,$(addsuffix .java,$(NGS_EXAMPLES)))
