@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Vector;
 
 
 /** This class is responsible for JNI dynamic library load
@@ -1034,18 +1035,17 @@ or pathname not found and its directory is not writable */
             Logger.finest
                 (libname + "-" + latest + " was not found in properties");
         }
-        String[] cmdarray = new String[8];
-        int i = 0;
+        Vector<String> cmdarray = new Vector<String>();
         String property = System.getProperty("java.home");
         if (property != null) {
-            cmdarray[i] = property + LibPathIterator.fileSeparator()
-                   + "bin" + LibPathIterator.fileSeparator() + "java";
+            cmdarray.add(property + LibPathIterator.fileSeparator()
+                   + "bin" + LibPathIterator.fileSeparator() + "java");
             if (!tryJava(cmdarray)) {
-                cmdarray[i] = null;
+                cmdarray.remove(0);
             }
         }
-        if (cmdarray[i] == null) {
-            cmdarray[i] = "java";
+        if (cmdarray.size() == 0) {
+            cmdarray.add("java");
             if (!tryJava(cmdarray)) {
                 return;
             }
@@ -1053,32 +1053,26 @@ or pathname not found and its directory is not writable */
 
         String classpath = System.getProperty("java.class.path");
         if (classpath != null) {
-            cmdarray[++i] = "-cp";
-            cmdarray[++i] = classpath;
+            cmdarray.add("-cp");
+            cmdarray.add(classpath);
         }
-        cmdarray[++i] = addProperty("java.library.path");
-        cmdarray[++i] = addProperty("vdb.log"); 
-        cmdarray[++i] = "gov.nih.nlm.ncbi.ngs.LibManager";
-        cmdarray[++i] = libname;
+        cmdarray.add(addProperty("java.library.path"));
+        if (System.getProperty("vdb.log") != null) {
+            cmdarray.add(addProperty("vdb.log"));
+        }
+        cmdarray.add("gov.nih.nlm.ncbi.ngs.LibManager");
+        cmdarray.add(libname);
         if (latest != null) {
-            cmdarray[++i] = latest;
+            cmdarray.add(latest);
         }
 
         Logger.info(">>> RUNNING CHILD ...");
         try {
-            String cmd = null;
-            for (String s : cmdarray) {
-                if (s != null) {
-                    if (cmd == null) {
-                        cmd = "";
-                    } else {
-                        cmd += " ";
-                    }
-                }
+            String cmd[] = new String[cmdarray.size()];
+            for (int i = 0; i < cmdarray.size(); ++i) {
+                cmd[i] = cmdarray.elementAt(i);
             }
             Logger.finest(cmd);
-/*TODO exec(cmdarray) did not work.
-To check: can cmdarray contain trailing "" or null-s? */
             Process p = Runtime.getRuntime().exec(cmd);
             BufferedReader bri =
                  new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -1114,9 +1108,10 @@ To check: can cmdarray contain trailing "" or null-s? */
 
 
     /** Make sure we can execute java */
-    private boolean tryJava(String[] cmdarray) {
+    private boolean tryJava(Vector<String> cmdarray) {
         try {
-            Process p = Runtime.getRuntime().exec(cmdarray[0] + " -?");
+            Process p
+                = Runtime.getRuntime().exec(cmdarray.elementAt(0) + " -?");
             if (p.waitFor() == 0) {
                 return true;
             }
