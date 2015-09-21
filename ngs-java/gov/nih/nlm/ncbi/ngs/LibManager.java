@@ -223,6 +223,23 @@ class LibManager implements FileCreator
                 }
 
                 File file = new File(cfgFilePath());
+                File parent = file.getParentFile();
+                if (parent == null) {
+                    Logger.finest
+                        ("Cannot find parent directory to store properties");
+                    return;
+                } else if (!parent.exists()) {
+                    if (!parent.mkdir()) {
+                        Logger.finest("Cannot create " + parent.getName());
+                        return;
+                    }
+                    parent.setExecutable(false, false);
+                    parent.setReadable(false, false);
+                    parent.setWritable(false, false);
+                    parent.setExecutable(true, true);
+                    parent.setReadable(true, true);
+                    parent.setWritable(true, true);
+                }
                 FileOutputStream fileOut = new FileOutputStream(file);
                 store(fileOut, null);
                 fileOut.close();
