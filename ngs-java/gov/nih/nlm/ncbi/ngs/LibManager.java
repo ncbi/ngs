@@ -1034,7 +1034,7 @@ or pathname not found and its directory is not writable */
             Logger.finest
                 (libname + "-" + latest + " was not found in properties");
         }
-        String[] cmdarray = new String[6];
+        String[] cmdarray = new String[8];
         int i = 0;
         String property = System.getProperty("java.home");
         if (property != null) {
@@ -1051,6 +1051,11 @@ or pathname not found and its directory is not writable */
             }
         }
 
+        String classpath = System.getProperty("java.class.path");
+        if (classpath != null) {
+            cmdarray[++i] = "-cp";
+            cmdarray[++i] = classpath;
+        }
         cmdarray[++i] = addProperty("java.library.path");
         cmdarray[++i] = addProperty("vdb.log"); 
         cmdarray[++i] = "gov.nih.nlm.ncbi.ngs.LibManager";
@@ -1061,8 +1066,18 @@ or pathname not found and its directory is not writable */
 
         Logger.info(">>> RUNNING CHILD ...");
         try {
-            Logger.finest(cmdarray);
-            Process p = Runtime.getRuntime().exec(cmdarray);
+            String cmd = null;
+            for (String s : cmdarray) {
+                if (s != null) {
+                    if (cmd == null) {
+                        cmd = "";
+                    } else {
+                        cmd += " ";
+                    }
+                }
+            }
+            Logger.finest(cmd);
+            Process p = Runtime.getRuntime().exec(cmd);
             BufferedReader bri =
                  new BufferedReader(new InputStreamReader(p.getInputStream()));
             BufferedReader bre =
