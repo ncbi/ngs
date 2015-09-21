@@ -1077,6 +1077,8 @@ or pathname not found and its directory is not writable */
                 }
             }
             Logger.finest(cmd);
+/*TODO exec(cmdarray) did not work.
+To check: can cmdarray contain trailing "" or null-s? */
             Process p = Runtime.getRuntime().exec(cmd);
             BufferedReader bri =
                  new BufferedReader(new InputStreamReader(p.getInputStream()));
