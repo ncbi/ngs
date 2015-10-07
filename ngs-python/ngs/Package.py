@@ -32,11 +32,12 @@ from .String import NGS_RawString
 class Package:
     @staticmethod
     def getPackageVersion():
+        if NGS.lib_manager.PY_NGS_PackageGetPackageVersion is None:
+            return "0"
         ngs_str_err = NGS_RawString()
         try:
             ngs_str_ver = NGS_RawString()
             try:
-                NGS.lib_manager.initialize_ngs_bindings()
                 res = NGS.lib_manager.PY_NGS_PackageGetPackageVersion(byref(ngs_str_ver.ref), byref(ngs_str_err.ref))
                 #check_res(res, ngs_str_err)
                 return ngs_str_ver.getPyString()
