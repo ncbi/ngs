@@ -118,7 +118,18 @@ def load_updated_library(lib_name):
 
 def version_tuple(version_str):
     assert isinstance(version_str, str) or isinstance(version_str, unicode)
-    return tuple ( map ( int, version_str.split('.') ) )
+    import re
+    
+    arr = re.split('\.\s*|\-\s*|\s+', version_str)
+    arr_typed = []
+
+    for x in arr:
+        try:
+            arr_typed.append(int(x))
+        except ValueError:
+            arr_typed.append(x) # TODO: apply a smarter parsing here if needed
+    
+    return tuple ( arr_typed )
         
 def get_library_version_tuple_remote(lib_name):
     params = urlencode({
