@@ -24,10 +24,6 @@
 # 
 # 
 
-def call_to_module_dispatcher_function():
-    from ngs import NGS
-    return NGS.checkLibVersions()
-
 def check_versions():
     from ctypes import POINTER, c_char_p, c_void_p, c_size_t, c_char
 
