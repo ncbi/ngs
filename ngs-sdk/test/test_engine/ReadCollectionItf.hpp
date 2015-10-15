@@ -59,6 +59,11 @@ namespace ngs_test_engine
             return new ngs_test_engine::ReadGroupItf ( 2 );
         }
 
+        virtual bool hasReadGroup ( const char * spec ) const 
+        { 
+            return true;
+        }
+
         virtual ngs_adapt::ReadGroupItf *	getReadGroup ( const char * spec ) const 
         { 
             return new ngs_test_engine::ReadGroupItf (); 
@@ -67,6 +72,11 @@ namespace ngs_test_engine
         virtual ngs_adapt::ReferenceItf *	getReferences () const 
         { 
             return new ngs_test_engine::ReferenceItf ( 3 ); 
+        }
+
+        virtual bool hasReference ( const char * spec ) const 
+        { 
+            return true;
         }
 
         virtual ngs_adapt::ReferenceItf *	getReference ( const char * spec ) const 
