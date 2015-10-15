@@ -31,8 +31,10 @@
 
 GEN_PY_FUNC_GET_STRING                  ( ReadCollection, Name )
 GEN_PY_FUNC_GET                         ( ReadCollection, ReadGroups,     ngs::ReadGroupItf* )
+GEN_PY_FUNC_GET_EXPLICIT_NAMES_1        ( ReadCollection, bool, PY_NGS_ReadCollectionHasReadGroup, hasReadGroup, char const*, spec )
 GEN_PY_FUNC_GET_BY_PARAMS_1             ( ReadCollection, ReadGroup,      ngs::ReadGroupItf*, char const*, spec )
 GEN_PY_FUNC_GET                         ( ReadCollection, References,     ngs::ReferenceItf* )
+GEN_PY_FUNC_GET_EXPLICIT_NAMES_1        ( ReadCollection, bool, PY_NGS_ReadCollectionHasReference, hasReference, char const*, spec )
 GEN_PY_FUNC_GET_BY_PARAMS_1             ( ReadCollection, Reference,      ngs::ReferenceItf*, char const*, spec )
 GEN_PY_FUNC_GET_BY_PARAMS_1             ( ReadCollection, Alignment,      ngs::AlignmentItf*, char const*, alignmentId )
 GEN_PY_FUNC_GET_BY_PARAMS_1             ( ReadCollection, Alignments,     ngs::AlignmentItf*, uint32_t, categories )

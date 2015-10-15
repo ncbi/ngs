@@ -106,6 +106,39 @@ namespace ngs
         return ReadGroupItf :: Cast ( ret );
     }
 
+    bool ReadCollectionItf :: hasReadGroup ( const char * spec ) const
+        throw ()
+    {
+        try
+        {
+            // the object is really from C
+            const NGS_ReadCollection_v1 * self = Test ();
+
+            // cast vtable to our level
+            const NGS_ReadCollection_v1_vt * vt = Access ( self -> vt );
+
+            // test for v1.1
+            if ( vt -> dad . minor_version < 1 )
+            {
+                ReadGroupItf * itf = getReadGroup ( spec );
+                if ( itf == 0 )
+                    return false;
+
+                itf -> Release ();
+                return true;
+            }
+
+            // call through C vtable
+            assert ( vt -> has_read_group != 0 );
+            return ( * vt -> has_read_group ) ( self, spec );
+        }
+        catch ( ... )
+        {
+        }
+
+        return false;
+    }
+
     ReadGroupItf * ReadCollectionItf :: getReadGroup ( const char * spec ) const
         throw ( ErrorMsg )
     {
@@ -144,6 +177,39 @@ namespace ngs
         err . Check ();
 
         return ReferenceItf :: Cast ( ret );
+    }
+
+    bool ReadCollectionItf :: hasReference ( const char * spec ) const
+        throw ()
+    {
+        try
+        {
+            // the object is really from C
+            const NGS_ReadCollection_v1 * self = Test ();
+
+            // cast vtable to our level
+            const NGS_ReadCollection_v1_vt * vt = Access ( self -> vt );
+
+            // test for v1.1
+            if ( vt -> dad . minor_version < 1 )
+            {
+                ReferenceItf * itf = getReference ( spec );
+                if ( itf == 0 )
+                    return false;
+
+                itf -> Release ();
+                return true;
+            }
+
+            // call through C vtable
+            assert ( vt -> has_reference != 0 );
+            return ( * vt -> has_reference ) ( self, spec );
+        }
+        catch ( ... )
+        {
+        }
+
+        return false;
     }
 
     ReferenceItf * ReadCollectionItf :: getReference ( const char * spec ) const

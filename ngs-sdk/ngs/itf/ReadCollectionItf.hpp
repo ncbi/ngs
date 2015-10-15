@@ -56,10 +56,14 @@ namespace ngs
             throw ( ErrorMsg );
         ReadGroupItf * getReadGroups () const
             throw ( ErrorMsg );
+        bool hasReadGroup ( const char * spec ) const
+            throw ();
         ReadGroupItf * getReadGroup ( const char * spec ) const
             throw ( ErrorMsg );
         ReferenceItf * getReferences () const
             throw ( ErrorMsg );
+        bool hasReference ( const char * spec ) const
+            throw ();
         ReferenceItf * getReference ( const char * spec ) const
             throw ( ErrorMsg );
         AlignmentItf * getAlignment ( const char * alignmentId ) const

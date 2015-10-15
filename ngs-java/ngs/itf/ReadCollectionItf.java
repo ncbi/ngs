@@ -92,6 +92,14 @@ public class ReadCollectionItf
         }
     }
 
+    /* hasReadGroup
+     *  returns true if a call to "getReadGroup()" should succeed
+     */
+    public boolean hasReadGroup ( String spec )
+    {
+        return this . HasReadGroup ( self, spec );
+    }
+
     /* getReadGroup
      */
     public ReadGroup getReadGroup ( String spec )
@@ -130,6 +138,14 @@ public class ReadCollectionItf
             this . release ( ref );
             throw new ErrorMsg ( x . toString () );
         }
+    }
+
+    /* hasReference
+     *  returns true if a call to "getReference()" should succeed
+     */
+    public boolean hasReference ( String spec )
+    {
+        return this . HasReference ( self, spec );
     }
 
     /* getReference
@@ -357,10 +373,12 @@ public class ReadCollectionItf
         throws ErrorMsg;
     private native long GetReadGroups ( long self )
         throws ErrorMsg;
+    private native boolean HasReadGroup ( long self, String spec );
     private native long GetReadGroup ( long self, String spec )
         throws ErrorMsg;
     private native long GetReferences ( long self )
         throws ErrorMsg;
+    private native boolean HasReference ( long self, String spec );
     private native long GetReference ( long self, String spec )
         throws ErrorMsg;
     private native long GetAlignment ( long self, String alignmentId )

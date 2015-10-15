@@ -58,6 +58,7 @@ struct NGS_ReadCollection_v1_vt
 {
     NGS_VTable dad;
 
+    // 1.0
     NGS_String_v1 * ( CC * get_name ) ( const NGS_ReadCollection_v1 * self, NGS_ErrBlock_v1 * err );
     struct NGS_ReadGroup_v1 * ( CC * get_read_groups ) ( const NGS_ReadCollection_v1 * self, NGS_ErrBlock_v1 * err );
     struct NGS_ReadGroup_v1 * ( CC * get_read_group ) ( const NGS_ReadCollection_v1 * self, NGS_ErrBlock_v1 * err, const char * spec );
@@ -74,6 +75,10 @@ struct NGS_ReadCollection_v1_vt
     uint64_t ( CC * get_read_count ) ( const NGS_ReadCollection_v1 * self, NGS_ErrBlock_v1 * err, bool wants_full, bool wants_partial, bool wants_unaligned );
     struct NGS_Read_v1 * ( CC * get_read_range ) ( const NGS_ReadCollection_v1 * self, NGS_ErrBlock_v1 * err, 
         uint64_t first, uint64_t count, bool wants_full, bool wants_partial, bool wants_unaligned );
+
+    // 1.1
+    bool ( CC * has_read_group ) ( const NGS_ReadCollection_v1 * self, const char * spec );
+    bool ( CC * has_reference ) ( const NGS_ReadCollection_v1 * self, const char * spec );
 };
 
 

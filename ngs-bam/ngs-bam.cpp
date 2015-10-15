@@ -49,8 +49,10 @@ public:
     
     ngs_adapt::StringItf *getName() const;
     ngs_adapt::ReadGroupItf *getReadGroups() const;
+    bool hasReadGroup(char const spec[]) const;
     ngs_adapt::ReadGroupItf *getReadGroup(char const spec[]) const;
     ngs_adapt::ReferenceItf *getReferences() const;
+    bool hasReference(char const spec[]) const;
     ngs_adapt::ReferenceItf *getReference(char const spec[]) const;
     ngs_adapt::AlignmentItf *getAlignment(char const spec[]) const;
     ngs_adapt::AlignmentItf *getAlignments(bool const want_primary,
@@ -423,6 +425,11 @@ ngs_adapt::ReadGroupItf *ReadCollection::getReadGroups() const
     throw std::logic_error("unimplemented");
 }
 
+bool ReadCollection::hasReadGroup(char const spec[]) const
+{
+    return false;
+}
+
 ngs_adapt::ReadGroupItf *ReadCollection::getReadGroup(char const spec[]) const
 {
     throw std::logic_error("unimplemented");
@@ -431,6 +438,12 @@ ngs_adapt::ReadGroupItf *ReadCollection::getReadGroup(char const spec[]) const
 ngs_adapt::ReferenceItf *ReadCollection::getReferences() const
 {
     return new Reference(this, 0, file.countOfReferences(), 0);
+}
+
+bool ReadCollection::hasReference(char const spec[]) const
+{
+    int const i = file.getReferenceIndexByName(spec);
+    return i >= 0;
 }
 
 ngs_adapt::ReferenceItf *ReadCollection::getReference(char const spec[]) const

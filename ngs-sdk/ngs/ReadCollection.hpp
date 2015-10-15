@@ -81,6 +81,12 @@ namespace ngs
         ReadGroupIterator getReadGroups () const
             throw ( ErrorMsg );
 
+        /* hasReadGroup
+         *  returns true if a call to "getReadGroup()" should succeed
+         */
+        bool hasReadGroup ( const String & spec ) const
+            throw ();
+
         /* getReadGroup
          */
         ReadGroup getReadGroup ( const String & spec ) const
@@ -97,6 +103,12 @@ namespace ngs
          */
         ReferenceIterator getReferences () const
             throw ( ErrorMsg );
+
+        /* hasReference
+         *  returns true if a call to "getReference()" should succeed
+         */
+        bool hasReference ( const String & spec ) const
+            throw ();
 
         /* getReference
          */

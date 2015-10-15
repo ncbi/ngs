@@ -84,6 +84,21 @@ class ReadCollection(Refcount):
         ret.ref = getNGSValue(self, NGS.lib_manager.PY_NGS_ReadCollectionGetReadGroups, c_void_p) # TODO: check if it works
         return ret
 
+    def hasReadGroup(self, spec):
+        """check existence of a ReadGroup by name.
+
+        :param spec: the name of a possibly contained read group
+        :returns: true if the read group exists
+        """
+        ret = c_int()
+        ngs_str_err = NGS_RawString()
+        try:
+            res = NGS.lib_manager.PY_NGS_ReadCollectionHasReadGroup(self.ref, spec.encode(), byref(ret), byref(ngs_str_err.ref))
+        finally:
+            ngs_str_err.close()
+    
+        return bool(ret.value)
+
     def getReadGroup(self, spec):
         """Access a single ReadGroup by name.
         
@@ -115,6 +130,21 @@ class ReadCollection(Refcount):
         ret = ReferenceIterator()
         ret.ref = getNGSValue(self, NGS.lib_manager.PY_NGS_ReadCollectionGetReferences, c_void_p) # TODO: check if it works
         return ret
+
+    def hasReference(self, spec):
+        """check existence of a Reference by name.
+
+        :param spec: the name of a possibly contained reference sequence
+        :returns: true if the reference exists
+        """
+        ret = c_int()
+        ngs_str_err = NGS_RawString()
+        try:
+            res = NGS.lib_manager.PY_NGS_ReadCollectionHasReference(self.ref, spec.encode(), byref(ret), byref(ngs_str_err.ref))
+        finally:
+            ngs_str_err.close()
+    
+        return bool(ret.value)
 
     def getReference(self, spec):
         ret = Reference()

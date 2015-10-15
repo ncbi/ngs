@@ -34,8 +34,10 @@ extern "C" {
 
 LIB_EXPORT PY_RES_TYPE PY_NGS_ReadCollectionGetName           (void* pRef, void** ppNGSStringBuf, void** ppNGSStrError);
 LIB_EXPORT PY_RES_TYPE PY_NGS_ReadCollectionGetReadGroups     (void* pRef, void** pRet, void** ppNGSStrError);
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReadCollectionHasReadGroup      (void* pRef, char const* spec, int* pRet, void** ppNGSStrError);
 LIB_EXPORT PY_RES_TYPE PY_NGS_ReadCollectionGetReadGroup      (void* pRef, char const* spec, void** pRet, void** ppNGSStrError);
 LIB_EXPORT PY_RES_TYPE PY_NGS_ReadCollectionGetReferences     (void* pRef, void** pRet, void** ppNGSStrError);
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReadCollectionHasReference      (void* pRef, char const* spec, int* pRet, void** ppNGSStrError);
 LIB_EXPORT PY_RES_TYPE PY_NGS_ReadCollectionGetReference      (void* pRef, char const* spec, void** pRet, void** ppNGSStrError);
 LIB_EXPORT PY_RES_TYPE PY_NGS_ReadCollectionGetAlignment      (void* pRef, char const* alignmentId, void** pRet, void** ppNGSStrError);
 LIB_EXPORT PY_RES_TYPE PY_NGS_ReadCollectionGetAlignments     (void* pRef, uint32_t categories, void** pRet, void** ppNGSStrError);

@@ -263,8 +263,10 @@ class LibManager:
 
         self.bind_sdk("PY_NGS_ReadCollectionGetName",           [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_ReadCollectionGetReadGroups",     [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReadCollectionHasReadGroup",      [c_void_p, c_char_p, POINTER(c_int), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_ReadCollectionGetReadGroup",      [c_void_p, c_char_p, POINTER(c_void_p), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_ReadCollectionGetReferences",     [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReadCollectionHasReference",      [c_void_p, c_char_p, POINTER(c_int), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_ReadCollectionGetReference",      [c_void_p, c_char_p, POINTER(c_void_p), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_ReadCollectionGetAlignment",      [c_void_p, c_char_p, POINTER(c_void_p), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_ReadCollectionGetAlignments",     [c_void_p, c_uint32, POINTER(c_void_p), POINTER(c_void_p)])

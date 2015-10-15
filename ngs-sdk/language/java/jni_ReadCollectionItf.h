@@ -25,6 +25,14 @@ JNIEXPORT jlong JNICALL Java_ngs_itf_ReadCollectionItf_GetReadGroups
 
 /*
  * Class:     ngs_itf_ReadCollectionItf
+ * Method:    HasReadGroup
+ * Signature: (JLjava/lang/String;)Z
+ */
+JNIEXPORT jboolean JNICALL Java_ngs_itf_ReadCollectionItf_HasReadGroup
+  (JNIEnv *, jobject, jlong, jstring);
+
+/*
+ * Class:     ngs_itf_ReadCollectionItf
  * Method:    GetReadGroup
  * Signature: (JLjava/lang/String;)J
  */
@@ -38,6 +46,14 @@ JNIEXPORT jlong JNICALL Java_ngs_itf_ReadCollectionItf_GetReadGroup
  */
 JNIEXPORT jlong JNICALL Java_ngs_itf_ReadCollectionItf_GetReferences
   (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     ngs_itf_ReadCollectionItf
+ * Method:    HasReference
+ * Signature: (JLjava/lang/String;)Z
+ */
+JNIEXPORT jboolean JNICALL Java_ngs_itf_ReadCollectionItf_HasReference
+  (JNIEnv *, jobject, jlong, jstring);
 
 /*
  * Class:     ngs_itf_ReadCollectionItf

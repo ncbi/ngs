@@ -53,6 +53,11 @@ namespace ngs
     { return ReadGroupIterator ( self -> getReadGroups () ); }
 
 	inline
+    bool ReadCollection :: hasReadGroup ( const String & spec ) const
+        throw ()
+    { return self -> hasReadGroup ( spec . c_str () ); }
+
+	inline
     ReadGroup ReadCollection :: getReadGroup ( const String & spec ) const
         throw ( ErrorMsg )
     { return ReadGroup ( self -> getReadGroup ( spec . c_str () ) ); }
@@ -61,6 +66,11 @@ namespace ngs
     ReferenceIterator ReadCollection :: getReferences () const
         throw ( ErrorMsg )
     { return ReferenceIterator ( self -> getReferences () ); }
+
+	inline
+    bool ReadCollection :: hasReference ( const String & spec ) const
+        throw ()
+    { return self -> hasReference ( spec . c_str () ); }
 
 	inline
     Reference ReadCollection :: getReference ( const String & spec ) const
