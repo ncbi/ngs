@@ -25,7 +25,7 @@
 # 
 
 
-from ctypes import c_void_p, c_uint64, byref, create_string_buffer, c_char_p
+from ctypes import c_void_p, c_uint64, byref, create_string_buffer, c_char_p, c_int
 from . import NGS
     
 from .Refcount import Refcount

@@ -81,6 +81,7 @@ class NGS:
     @staticmethod
     def getPackageVersion():
         NGS.lib_manager.initialize_ngs_bindings()
+        from .Package import Package
         return Package.getPackageVersion()
 
     @staticmethod
