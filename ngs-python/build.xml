@@ -5,7 +5,8 @@
     <property name="vdb.build"      value="Debug" />
     <property name="vdb.platform"   value="x64" />
     
-    <property name="vdb.dir"   value="${env.USERPROFILE}\win\cl\${vdb.platform}\${vdb.build}\bin" />
+    <property name="vdb.outdir"   value="${ProjectDir}..\..\..\..\ngs\ngs-sdk\..\..\OUTDIR\" />
+    <property name="vdb.dir"   value="${env.outdir}\win\cl\${vdb.platform}\${vdb.build}\bin" />
 	
     <!-- Set this to full path to Python if not in PATH already -->
     <property name="python.exe"     value="python" />
