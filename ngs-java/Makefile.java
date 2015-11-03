@@ -69,13 +69,13 @@ endif
 install: $(TARGETS) $(INST_JARDIR) $(INST_JARDIR)/ngs-java.jar.$(VERSION) copydocs copyexamples 
 ifeq (true, $(LINUX_ROOT))
 	@ echo "Updating $(PROFILE_FILE).[c]sh"
-	@ echo -e \
+	@ printf \
 "#version $(VERSION)\n"\
 "if ! echo \$$CLASSPATH | /bin/grep -q $(JAR_TARGET)\n"\
 "then export CLASSPATH=$(JAR_TARGET):\$$CLASSPATH\n"\
 "fi" \
         >$(PROFILE_FILE).sh && chmod 644 $(PROFILE_FILE).sh || true;
-	@ echo -e \
+	@ printf \
 "#version $(VERSION)\n"\
 "echo \$$CLASSPATH | /bin/grep -q $(JAR_TARGET)\n"\
 "if ( \$$status ) setenv CLASSPATH $(JAR_TARGET):\$$CLASSPATH\n"\

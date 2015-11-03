@@ -77,14 +77,14 @@ ifeq (true, $(LINUX_ROOT))
 	@ ln -s $(INST_INCDIR)/ngs $(INCLUDE_SYMLINK)
 	@ #
 	@ echo "Updating $(PROFILE_FILE).[c]sh"
-	@ echo -e \
+	@ printf \
 "#version $(VERSION)\n"\
 "if ! echo \$$LD_LIBRARY_PATH | /bin/grep -q $(LIB_TARGET)\n"\
 "then export LD_LIBRARY_PATH=$(LIB_TARGET):\$$LD_LIBRARY_PATH\n"\
 "fi\n"\
 "export NGS_LIBDIR=$(LIB_TARGET)\n" \
         >$(PROFILE_FILE).sh && chmod 644 $(PROFILE_FILE).sh || true;
-	@ echo -e \
+	@ printf \
 "#version $(VERSION)\n"\
 "echo \$$LD_LIBRARY_PATH | /bin/grep -q $(LIB_TARGET)\n"\
 "if ( \$$status ) setenv LD_LIBRARY_PATH $(LIB_TARGET):\$$LD_LIBRARY_PATH\n"\
