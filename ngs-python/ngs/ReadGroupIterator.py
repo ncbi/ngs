@@ -38,5 +38,5 @@ class ReadGroupIterator(ReadGroup):
         :returns: false if no more ReadGroups are available.
         :throws: ErrorMsg if more ReadGroups should be available, but could not be accessed.
         """
-        return bool(getNGSValue(self, PY_NGS_ReadGroupIteratorNext, c_int))
+        return bool(getNGSValue(self, NGS.lib_manager.PY_NGS_ReadGroupIteratorNext, c_int))
 
