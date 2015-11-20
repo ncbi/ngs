@@ -6,8 +6,8 @@
         <Platform Condition="'$(Platform)' == ''">x64</Platform>
         <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
     
-        <NGS_OUTDIR Condition="'$(NGS_OUTDIR)' == ''">$(USERPROFILE)\</NGS_OUTDIR>
-        <NGS_ROOT Condition="'$(NGS_ROOT)' == ''">$(ProjectDir)..\</NGS_ROOT>
+        <NGS_ROOT Condition="'$(NGS_ROOT)' == ''">$(ProjectDir)..\..\</NGS_ROOT>
+        <NGS_OUTDIR Condition="'$(NGS_OUTDIR)' == ''">$(NGS_ROOT)..\OUTDIR\</NGS_OUTDIR>
         <NGS_TARGET Condition="'$(NGS_TARGET)' == ''">$(NGS_OUTDIR)win\cl\$(Platform)\$(Configuration)\</NGS_TARGET>    
     </PropertyGroup>
   

@@ -103,6 +103,11 @@ namespace ngs
     { return self -> getAlignmentPosition (); }
 
     inline
+    uint64_t Alignment :: getReferencePositionProjectionRange (int64_t ref_pos) const
+        throw ( ErrorMsg )
+    { return self -> getReferencePositionProjectionRange (ref_pos); }
+
+    inline
     uint64_t Alignment :: getAlignmentLength () const
         throw ( ErrorMsg )
     { return self -> getAlignmentLength (); }

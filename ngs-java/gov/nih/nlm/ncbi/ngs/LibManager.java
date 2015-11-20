@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Vector;
 
 
 /** This class is responsible for JNI dynamic library load
@@ -223,6 +224,23 @@ class LibManager implements FileCreator
                 }
 
                 File file = new File(cfgFilePath());
+                File parent = file.getParentFile();
+                if (parent == null) {
+                    Logger.finest
+                        ("Cannot find parent directory to store properties");
+                    return;
+                } else if (!parent.exists()) {
+                    if (!parent.mkdir()) {
+                        Logger.finest("Cannot create " + parent.getName());
+                        return;
+                    }
+                    parent.setExecutable(false, false);
+                    parent.setReadable(false, false);
+                    parent.setWritable(false, false);
+                    parent.setExecutable(true, true);
+                    parent.setReadable(true, true);
+                    parent.setWritable(true, true);
+                }
                 FileOutputStream fileOut = new FileOutputStream(file);
                 store(fileOut, null);
                 fileOut.close();
@@ -1017,35 +1035,45 @@ or pathname not found and its directory is not writable */
             Logger.finest
                 (libname + "-" + latest + " was not found in properties");
         }
-        String[] cmdarray = new String[6];
-        int i = 0;
+        Vector<String> cmdarray = new Vector<String>();
         String property = System.getProperty("java.home");
         if (property != null) {
-            cmdarray[i] = property + LibPathIterator.fileSeparator()
-                   + "bin" + LibPathIterator.fileSeparator() + "java";
+            cmdarray.add(property + LibPathIterator.fileSeparator()
+                   + "bin" + LibPathIterator.fileSeparator() + "java");
             if (!tryJava(cmdarray)) {
-                cmdarray[i] = null;
+                cmdarray.remove(0);
             }
         }
-        if (cmdarray[i] == null) {
-            cmdarray[i] = "java";
+        if (cmdarray.size() == 0) {
+            cmdarray.add("java");
             if (!tryJava(cmdarray)) {
                 return;
             }
         }
 
-        cmdarray[++i] = addProperty("java.library.path");
-        cmdarray[++i] = addProperty("vdb.log"); 
-        cmdarray[++i] = "gov.nih.nlm.ncbi.ngs.LibManager";
-        cmdarray[++i] = libname;
+        String classpath = System.getProperty("java.class.path");
+        if (classpath != null) {
+            cmdarray.add("-cp");
+            cmdarray.add(classpath);
+        }
+        cmdarray.add(addProperty("java.library.path"));
+        if (System.getProperty("vdb.log") != null) {
+            cmdarray.add(addProperty("vdb.log"));
+        }
+        cmdarray.add("gov.nih.nlm.ncbi.ngs.LibManager");
+        cmdarray.add(libname);
         if (latest != null) {
-            cmdarray[++i] = latest;
+            cmdarray.add(latest);
         }
 
         Logger.info(">>> RUNNING CHILD ...");
         try {
-            Logger.finest(cmdarray);
-            Process p = Runtime.getRuntime().exec(cmdarray);
+            String cmd[] = new String[cmdarray.size()];
+            for (int i = 0; i < cmdarray.size(); ++i) {
+                cmd[i] = cmdarray.elementAt(i);
+            }
+            Logger.finest(cmd);
+            Process p = Runtime.getRuntime().exec(cmd);
             BufferedReader bri =
                  new BufferedReader(new InputStreamReader(p.getInputStream()));
             BufferedReader bre =
@@ -1080,9 +1108,10 @@ or pathname not found and its directory is not writable */
 
 
     /** Make sure we can execute java */
-    private boolean tryJava(String[] cmdarray) {
+    private boolean tryJava(Vector<String> cmdarray) {
         try {
-            Process p = Runtime.getRuntime().exec(cmdarray[0] + " -?");
+            Process p
+                = Runtime.getRuntime().exec(cmdarray.elementAt(0) + " -?");
             if (p.waitFor() == 0) {
                 return true;
             }

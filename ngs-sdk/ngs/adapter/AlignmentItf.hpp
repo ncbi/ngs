@@ -61,6 +61,7 @@ namespace ngs_adapt
         virtual StringItf * getAlignedFragmentBases () const = 0;
         virtual bool isPrimary () const = 0;
         virtual int64_t getAlignmentPosition () const = 0;
+        virtual uint64_t getReferencePositionProjectionRange ( int64_t ref_pos ) const = 0;
         virtual uint64_t getAlignmentLength () const = 0;
         virtual bool getIsReversedOrientation () const = 0;
         virtual int32_t getSoftClip ( uint32_t edge ) const = 0;
@@ -109,6 +110,7 @@ namespace ngs_adapt
         static NGS_String_v1 * CC get_aligned_frag_bases ( const NGS_Alignment_v1 * self, NGS_ErrBlock_v1 * err );
         static bool CC is_primary ( const NGS_Alignment_v1 * self, NGS_ErrBlock_v1 * err );
         static int64_t CC get_align_pos ( const NGS_Alignment_v1 * self, NGS_ErrBlock_v1 * err );
+        static uint64_t CC get_ref_pos_projection_range ( const NGS_Alignment_v1 * self, NGS_ErrBlock_v1 * err, int64_t ref_pos );
         static uint64_t CC get_align_length ( const NGS_Alignment_v1 * self, NGS_ErrBlock_v1 * err );
         static bool CC get_is_reversed ( const NGS_Alignment_v1 * self, NGS_ErrBlock_v1 * err );
         static int32_t CC get_soft_clip ( const NGS_Alignment_v1 * self, NGS_ErrBlock_v1 * err, uint32_t edge );

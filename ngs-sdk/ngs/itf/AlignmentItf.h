@@ -76,6 +76,9 @@ struct NGS_Alignment_v1_vt
 
     /* v1.1 */
     char ( CC * get_rna_orientation ) ( const NGS_Alignment_v1 * self, NGS_ErrBlock_v1 * err );
+
+    /* v1.2 */
+    uint64_t ( CC * get_ref_pos_projection_range ) ( const NGS_Alignment_v1 * self, NGS_ErrBlock_v1 * err, int64_t ref_pos );
 };
 
 

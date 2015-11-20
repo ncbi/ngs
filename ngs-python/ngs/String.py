@@ -71,7 +71,10 @@ class NGS_String:
         return self.size.value
         
     def getPyString(self):
-        return string_at(self.getData(), self.getSize()).decode()
+        ret = string_at(self.getData(), self.getSize()).decode()
+        if isinstance(ret, bytes):
+            ret = ret.decode(encoding='UTF-8')        
+        return ret
 
 
 class NGS_RawString:
@@ -117,7 +120,10 @@ class NGS_RawString:
         return len(self.ref_to_char_p().value)
         
     def getPyString(self):
-        return string_at(self.getData(), self.getSize()).decode()
+        ret = string_at(self.getData(), self.getSize()).decode()
+        if isinstance(ret, bytes):
+            ret = ret.decode(encoding='UTF-8')
+        return ret
 
 
 def getNGSString(self, py_func):

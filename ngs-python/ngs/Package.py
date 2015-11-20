@@ -24,19 +24,25 @@
 # 
 # 
 
-from ctypes import c_int
+from ctypes import byref
 from . import NGS
-from .String import getNGSValue
-from .ReadGroup import ReadGroup
 
-# Iterates across a list of ReadGroups
+from .String import NGS_RawString
 
-class ReadGroupIterator(ReadGroup):
-    def nextReadGroup(self):
-        """Advance to first ReadGroup on initial invocation 
-        Advance to next ReadGroup subsequently
-        :returns: false if no more ReadGroups are available.
-        :throws: ErrorMsg if more ReadGroups should be available, but could not be accessed.
-        """
-        return bool(getNGSValue(self, NGS.lib_manager.PY_NGS_ReadGroupIteratorNext, c_int))
+class Package:
+    @staticmethod
+    def getPackageVersion():
+        if NGS.lib_manager.PY_NGS_PackageGetPackageVersion is None:
+            return "0"
+        ngs_str_err = NGS_RawString()
+        try:
+            ngs_str_ver = NGS_RawString()
+            try:
+                res = NGS.lib_manager.PY_NGS_PackageGetPackageVersion(byref(ngs_str_ver.ref), byref(ngs_str_err.ref))
+                #check_res(res, ngs_str_err)
+                return ngs_str_ver.getPyString()
+            finally:
+                ngs_str_ver.close()
+        finally:
+            ngs_str_err.close()
 

@@ -85,6 +85,11 @@ public interface ReadCollection
         throws ErrorMsg;
 
     /**
+     * @return true if a call to "getReadGroup()" should succeed
+     */
+    boolean hasReadGroup ( String spec );
+
+    /**
      * Access a single ReadGroup by name.
      *
      * @param spec the name of a contained read group
@@ -110,6 +115,11 @@ public interface ReadCollection
      */
     ReferenceIterator getReferences ()
         throws ErrorMsg;
+
+    /**
+     * @return true if a call to "getReference()" should succeed
+     */
+    boolean hasReference ( String spec );
 
     /**
      * Access a single Reference by name spec.

@@ -25,7 +25,8 @@
 # 
 
 from ctypes import cdll, c_char, c_int, c_char_p, c_int32, c_int64, c_double, POINTER, c_size_t, c_void_p, c_uint64, c_uint32
-import os, sys, platform, tempfile
+import os, sys, platform, tempfile, subprocess
+
 if sys.version_info[0] > 2:
     from urllib.parse import urlencode
     from urllib.request import urlopen
@@ -106,7 +107,6 @@ def load_updated_library(lib_name):
         except:
             file_saved = (False, lib_path)
             continue
-            
         return cdll.LoadLibrary(lib_path)
     
     if not directory_created[0]:
@@ -116,18 +116,55 @@ def load_updated_library(lib_name):
     elif not file_saved[0]:
         raise ErrorMsg("Failed to save file " + file_saved[1])
 
-def load_library(lib_name):
+def version_tuple(version_str):
+    assert isinstance(version_str, str) or isinstance(version_str, unicode)
+    import re
+    
+    arr = re.split('\.\s*|\-\s*|\s+', version_str)
+    arr_typed = []
+
+    for x in arr:
+        try:
+            arr_typed.append(int(x))
+        except ValueError:
+            arr_typed.append(x) # TODO: apply a smarter parsing here if needed
+    
+    return tuple ( arr_typed )
+        
+def get_library_version_tuple_remote(lib_name):
+    params = urlencode({
+        'cmd':     'vers',
+        'libname': lib_name,
+        'os_name': LibManager.get_post_os_name_param(),
+        'bits':    str(process_bits())
+    })
+    resp = urlopen(url=LibManager.URL_NCBI_SRATOOLKIT, data=params.encode())
+    if resp.code != 200:
+        raise ErrorMsg("Failed to query dll version: url=" + LibManager.URL_NCBI_SRATOOLKIT + "; params=" + params + "; response code=" + str(resp.code))
+    
+    version_str = resp.read().strip()
+    if isinstance(version_str, bytes):
+        version_str = version_str.decode(encoding='utf8')
+    
+    return version_tuple (version_str)
+
+def should_download_library():
     do_download = os.environ.get("NGS_PY_DOWNLOAD_LIBRARY", "1")
-    if do_download.lower() in ("1", "yes", "true", "on"):
-        library = load_saved_library(lib_name) or load_updated_library(lib_name)
+    return do_download.lower() in ("1", "yes", "true", "on")
+
+    
+def load_library(lib_name, do_download, silent):
+    if do_download:
+        library = load_updated_library(lib_name)
     else:
         library = load_saved_library(lib_name)
     
-    if not library:
+    if not library and not silent:
         raise ErrorMsg("Failed to load library " +
             lib_name +
-            " (NGS_PY_DOWNLOAD_LIBRARY=" + do_download + ", "
-            + "NGS_PY_LIBRARY_PATH=" + os.environ.get("NGS_PY_LIBRARY_PATH", "<not set>") + ")")
+            " (NGS_PY_DOWNLOAD_LIBRARY=" + os.environ.get("NGS_PY_DOWNLOAD_LIBRARY", "<not set>") + ", "
+            + "NGS_PY_LIBRARY_PATH=" + os.environ.get("NGS_PY_LIBRARY_PATH", "<not set>") + ", "
+            + "do_download=" + str(do_download) + ")")
     else:
         return library
     
@@ -183,11 +220,22 @@ class LibManager:
         if self.c_lib_engine and self.c_lib_sdk: # already initialized
             return
 
+        # check versions - must be run in a separate script to free library before overwriting it
+        # check_vers_res = os.system('python -c "from ngs import NGS; exit(NGS.checkLibVersions())"')
+        # if platform.system() != "Windows":
+            # check_vers_res = check_vers_res >> 8 # python is a cross-platform language
+        
+        # os.system is not that reliable and cross-platform as subprocess. So using subprocess
+        check_vers_res = subprocess.call([sys.executable, "-c", "from ngs import NGS; exit(NGS.checkLibVersions())"])
+        
+        do_update_engine = check_vers_res & 1
+        do_update_sdk    = check_vers_res & 2
+        
         libname_engine = "ncbi-vdb"
         libname_sdk = "ngs-sdk"
-
-        self.c_lib_engine = load_library(libname_engine)
-        self.c_lib_sdk = load_library(libname_sdk)
+        
+        self.c_lib_engine = load_library(libname_engine, do_update_engine, silent=False)
+        self.c_lib_sdk = load_library(libname_sdk, do_update_sdk, silent=False)
         
         ##############  ngs-engine imports below  ####################
         
@@ -215,8 +263,10 @@ class LibManager:
 
         self.bind_sdk("PY_NGS_ReadCollectionGetName",           [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_ReadCollectionGetReadGroups",     [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReadCollectionHasReadGroup",      [c_void_p, c_char_p, POINTER(c_int), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_ReadCollectionGetReadGroup",      [c_void_p, c_char_p, POINTER(c_void_p), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_ReadCollectionGetReferences",     [c_void_p, POINTER(c_void_p), POINTER(c_void_p)])
+        self.bind_sdk("PY_NGS_ReadCollectionHasReference",      [c_void_p, c_char_p, POINTER(c_int), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_ReadCollectionGetReference",      [c_void_p, c_char_p, POINTER(c_void_p), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_ReadCollectionGetAlignment",      [c_void_p, c_char_p, POINTER(c_void_p), POINTER(c_void_p)])
         self.bind_sdk("PY_NGS_ReadCollectionGetAlignments",     [c_void_p, c_uint32, POINTER(c_void_p), POINTER(c_void_p)])
@@ -268,8 +318,7 @@ class LibManager:
         # Package
 
         self.bind_sdk("PY_NGS_PackageGetPackageVersion", [POINTER(c_void_p), POINTER(c_void_p)])
-       
-        
+
         # PileupEvent
         
         self.bind_sdk("PY_NGS_PileupEventGetMappingQuality",         [c_void_p, POINTER(c_int32), POINTER(c_void_p)])

@@ -44,12 +44,15 @@ class NGS:
         res = NGS.lib_manager.PY_NGS_Engine_SetAppVersionString(app_version.encode(), str_err, len(str_err))
         if res != PY_RES_OK:
             raise ErrorMsg(str_err.value)
+
             
     @staticmethod
-    def getVersion():
-        from .String import NGS_RawString
-        NGS.lib_manager.initialize_ngs_bindings()
+    def getVersion_impl():
+        if NGS.lib_manager.PY_NGS_Engine_GetVersion is None:
+            return "0"
 
+        from .String import NGS_RawString
+        
         ret = c_char_p()
         ERROR_BUFFER_SIZE = 4096
         str_err = create_string_buffer(ERROR_BUFFER_SIZE)
@@ -57,13 +60,28 @@ class NGS:
         if res != PY_RES_OK:
             raise ErrorMsg(str_err.value)
         
-        return string_at(ret.value).decode()
+        s = string_at(ret.value).decode()
+        if isinstance(s, bytes):
+            s = s.decode(encoding='UTF-8')
+        return s
+        
+        
+
+    @staticmethod
+    def getVersion():
+        NGS.lib_manager.initialize_ngs_bindings()
+        return NGS.getVersion_impl()
+
+
+    @staticmethod
+    def getPackageVersion_impl():
+        from .Package import Package
+        return Package.getPackageVersion()
 
     @staticmethod
     def getPackageVersion():
-        from .String import NGS_RawString
+        NGS.lib_manager.initialize_ngs_bindings()
         from .Package import Package
-        
         return Package.getPackageVersion()
 
     @staticmethod
@@ -94,3 +112,8 @@ class NGS:
     
         from .ReferenceSequence import openReferenceSequence  # entry point - adding name to ngs package global namespace
         return openReferenceSequence(spec)
+        
+    @staticmethod
+    def checkLibVersions():
+        from . LibChecker import check_versions
+        return check_versions()

@@ -94,7 +94,7 @@ JNIEXPORT jlong JNICALL Java_ngs_itf_ReferenceItf_GetAlignmentSlice
  */
 JNIEXPORT jlong JNICALL Java_ngs_itf_ReferenceItf_GetFilteredAlignmentSlice
   (JNIEnv *, jobject, jlong, jlong, jlong, jint, jint, jint);
-    
+
 /*
  * Class:     ngs_itf_ReferenceItf
  * Method:    GetPileups

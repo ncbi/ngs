@@ -130,6 +130,28 @@ JNIEXPORT jlong JNICALL Java_ngs_itf_ReadCollectionItf_GetReadGroups
 
 /*
  * Class:     ngs_itf_ReadCollectionItf
+ * Method:    HasReadGroup
+ * Signature: (JLjava/lang/String;)Z
+ */
+JNIEXPORT jboolean JNICALL Java_ngs_itf_ReadCollectionItf_HasReadGroup
+    ( JNIEnv * jenv, jobject jthis, jlong jself, jstring jspec )
+{
+    try
+    {
+        const char * spec = JStringData ( jspec, jenv );
+        bool ret = Self ( jself ) -> hasReadGroup ( spec );
+        JStringReleaseData ( jspec, jenv, spec );
+        return ret;
+    }
+    catch ( ... )
+    {
+    }
+
+    return 0;
+}
+
+/*
+ * Class:     ngs_itf_ReadCollectionItf
  * Method:    GetReadGroup
  * Signature: (JLjava/lang/String;)J
  */
@@ -191,6 +213,28 @@ JNIEXPORT jlong JNICALL Java_ngs_itf_ReadCollectionItf_GetReferences
     catch ( ... )
     {
         JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
+    }
+
+    return 0;
+}
+
+/*
+ * Class:     ngs_itf_ReadCollectionItf
+ * Method:    HasReference
+ * Signature: (JLjava/lang/String;)Z
+ */
+JNIEXPORT jboolean JNICALL Java_ngs_itf_ReadCollectionItf_HasReference
+    ( JNIEnv * jenv, jobject jthis, jlong jself, jstring jspec )
+{
+    try
+    {
+        const char * spec = JStringData ( jspec, jenv );
+        bool ret = Self ( jself ) -> hasReference ( spec );
+        JStringReleaseData ( jspec, jenv, spec );
+        return ret;
+    }
+    catch ( ... )
+    {
     }
 
     return 0;

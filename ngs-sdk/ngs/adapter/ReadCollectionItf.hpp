@@ -56,8 +56,10 @@ namespace ngs_adapt
         
         virtual StringItf * getName () const = 0;
         virtual ReadGroupItf * getReadGroups () const = 0;
+        virtual bool hasReadGroup ( const char * spec ) const = 0;
         virtual ReadGroupItf * getReadGroup ( const char * spec ) const = 0;
         virtual ReferenceItf * getReferences () const = 0;
+        virtual bool hasReference ( const char * spec ) const = 0;
         virtual ReferenceItf * getReference ( const char * spec ) const = 0;
         virtual AlignmentItf * getAlignment ( const char * alignmentId ) const = 0;
         virtual AlignmentItf * getAlignments ( bool wants_primary, bool wants_secondary ) const = 0;
@@ -77,9 +79,11 @@ namespace ngs_adapt
 
         static NGS_String_v1 * CC get_name ( const NGS_ReadCollection_v1 * self, NGS_ErrBlock_v1 * err );
         static NGS_ReadGroup_v1 * CC get_read_groups ( const NGS_ReadCollection_v1 * self, NGS_ErrBlock_v1 * err );
+        static bool CC has_read_group ( const NGS_ReadCollection_v1 * self, const char * spec );
         static NGS_ReadGroup_v1 * CC get_read_group ( const NGS_ReadCollection_v1 * self, NGS_ErrBlock_v1 * err,
             const char * spec );
         static NGS_Reference_v1 * CC get_references ( const NGS_ReadCollection_v1 * self, NGS_ErrBlock_v1 * err );
+        static bool CC has_reference ( const NGS_ReadCollection_v1 * self, const char * spec );
         static NGS_Reference_v1 * CC get_reference ( const NGS_ReadCollection_v1 * self, NGS_ErrBlock_v1 * err,
             const char * spec );
         static NGS_Alignment_v1 * CC get_alignment ( const NGS_ReadCollection_v1 * self, NGS_ErrBlock_v1 * err,

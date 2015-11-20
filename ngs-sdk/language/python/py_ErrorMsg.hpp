@@ -270,6 +270,13 @@ PY_RES_TYPE generated_function_name(void* pRef, c_type<value_type>::type_c* pRet
     return PY_NGS_GetValue <ngs::object_name##Itf, value_type, c_type<value_type>::type_c> ( pRef, pRet, ppNGSStrError, & ngs::object_name##Itf::itf_function_name );\
 }
 
+// TODO: this function is for special cases when Itf method names do not adhere common pattern.
+#define GEN_PY_FUNC_GET_EXPLICIT_NAMES_1( object_name, value_type, generated_function_name, itf_function_name, param_type1, p1 ) \
+PY_RES_TYPE generated_function_name(void* pRef, c_type<param_type1>::type_c p1, c_type<value_type>::type_c* pRet, void** ppNGSStrError)\
+{\
+    return PY_NGS_GetValueByParams1 <ngs::object_name##Itf, value_type, c_type<value_type>::type_c> ( pRef, (c_type<param_type1>::type_cpp)(p1), pRet, ppNGSStrError, & ngs::object_name##Itf::itf_function_name ); \
+}
+
 #define GEN_PY_FUNC_GET_BY_PARAMS_1( object_name, func_sub_name, value_type, param_type1, p1 )\
 PY_RES_TYPE PY_NGS_##object_name##Get##func_sub_name(void* pRef, c_type<param_type1>::type_c p1, c_type<value_type>::type_c* pRet, void** ppNGSStrError)\
 {\

@@ -66,16 +66,16 @@ ifeq (linux, $(OS))
     endif
 endif
 
-install: $(TARGETS) javadoc $(INST_JARDIR) $(INST_JARDIR)/ngs-java.jar.$(VERSION) copydocs copyexamples 
+install: $(TARGETS) $(INST_JARDIR) $(INST_JARDIR)/ngs-java.jar.$(VERSION) copydocs copyexamples 
 ifeq (true, $(LINUX_ROOT))
 	@ echo "Updating $(PROFILE_FILE).[c]sh"
-	@ echo -e \
+	@ printf \
 "#version $(VERSION)\n"\
 "if ! echo \$$CLASSPATH | /bin/grep -q $(JAR_TARGET)\n"\
 "then export CLASSPATH=$(JAR_TARGET):\$$CLASSPATH\n"\
 "fi" \
         >$(PROFILE_FILE).sh && chmod 644 $(PROFILE_FILE).sh || true;
-	@ echo -e \
+	@ printf \
 "#version $(VERSION)\n"\
 "echo \$$CLASSPATH | /bin/grep -q $(JAR_TARGET)\n"\
 "if ( \$$status ) setenv CLASSPATH $(JAR_TARGET):\$$CLASSPATH\n"\
@@ -126,14 +126,14 @@ endif
 	@ echo "done."
 
 clean:
-	rm -rf $(LIBDIR)/ngs-* $(CLSDIR)
+	rm -rf $(LIBDIR)/ngs-* $(LIBDIR)/javadoc $(CLSDIR)
 
 .PHONY: default all std clean install uninstall copyexamples copydocs $(TARGETS)
 
 #-------------------------------------------------------------------------------
 # JAVA NGS
 #
-ngs-java: $(LIBDIR) $(CLSDIR) $(LIBDIR)/ngs-java.jar
+ngs-java: $(LIBDIR) $(CLSDIR) $(LIBDIR)/ngs-java.jar $(LIBDIR)/ngs-src.jar $(LIBDIR)/ngs-doc.jar
 
 # java API
 NGS_SRC =                  \
@@ -207,8 +207,10 @@ $(CLSDIR)/ngs-java-ncbi: $(CLSDIR)/ngs-java-itf $(NCBI_SRC_PATH)
 
 # rule to produce the jar
 $(LIBDIR)/ngs-java.jar: $(CLSDIR)/ngs-java-api $(CLSDIR)/ngs-java-itf $(CLSDIR)/ngs-java-ncbi
-	( cd $(CLSDIR); $(JAR) $@ `find . -name "*.class"`; chmod -x,go-w $@ ) || ( rm -f $@ && false )
+	( cd $(CLSDIR); $(JAR) $@ `find . -name "*.class"`; chmod -x,o-w,g+w $@ ) || ( rm -f $@ && false )
 
+$(LIBDIR)/ngs-src.jar: $(ITF_SRC_PATH) $(NCBI_SRC_PATH)
+	( cd $(SRCDIR); $(JAR) $@ `find gov ngs -name "*.java"`; chmod -x,o-w,g+w $@ ) || ( rm -f $@ && false )
 
 #-------------------------------------------------------------------------------
 # NGS examples
@@ -232,7 +234,7 @@ $(CLSDIR)/ngs-examples: $(NGS_EXAMPLES_PATH)
 
 # rule to produce the jar
 $(LIBDIR)/ngs-examples.jar: $(CLSDIR)/ngs-examples
-	( cd $(CLSDIR); $(JAR) $@ `find examples -name "*.class"`; chmod -x,go-w $@  ) || ( rm -f $@ && false )
+	( cd $(CLSDIR); $(JAR) $@ `find examples -name "*.class"`; chmod -x,o-w,g+w $@  ) || ( rm -f $@ && false )
 
 #-------------------------------------------------------------------------------
 # JNI headers
@@ -277,8 +279,9 @@ endif
 #-------------------------------------------------------------------------------
 # javadoc
 #
-javadoc:
+$(LIBDIR)/ngs-doc.jar :
 	@ echo "Generating javadocs..."
 	@ javadoc -quiet -notimestamp $(CLSPATH) -sourcepath . gov.nih.nlm.ncbi.ngs ngs -d $(LIBDIR)/javadoc
+	( cd $(LIBDIR)/javadoc ; $(JAR) $@ `find . -type f`; chmod -x,o-w,g+w $@  ) || ( rm -f $@ && false )
 
 .PHONY: javadoc
