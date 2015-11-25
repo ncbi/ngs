@@ -25,6 +25,8 @@
 
 default: std
 
+#DEBUGGING = -d
+
 TARGETS =             \
 	NGS-JavaTest.jar
 
@@ -36,18 +38,19 @@ clean:
 .PHONY: default std $(TARGETS)
 
 NGS_EXAMPLES = \
-	PileupTest \
-	AlignTest \
 	AlignSliceTest \
+	AlignTest \
+	DumpReferenceFASTA \
 	FragTest \
-	RefTest \
+	PileupTest \
 	ReadGroupTest \
+	RefTest \
 
 NGS_EXAMPLES_PATH = \
 	$(addprefix examples/,$(addsuffix .java,$(NGS_EXAMPLES)))
 
 NGS-JavaTest.jar: $(NGS_EXAMPLES_PATH)
-	javac $^ -d . 
+	javac $(DEBUGGING) $^ -d . 
 	( jar cf $@ `find examples -name "*.class"`; chmod -x,o-w $@ ) || ( rm -f $@ && false )
 
 # ===========================================================================
@@ -70,6 +73,9 @@ run_frag: NGS-JavaTest.jar
 run_align: NGS-JavaTest.jar
 	java $(JAVAFLAGS) examples.AlignTest ERR225922 10000 2 $(REDIRECT)
 
+run_dump: NGS-JavaTest.jar
+	java $(JAVAFLAGS) examples.DumpReferenceFASTA SRR520124 1 $(REDIRECT)
+
 run_align_slice: NGS-JavaTest.jar
 	java $(JAVAFLAGS) examples.AlignSliceTest SRR1121656 1 1 9999 $(REDIRECT)
 
@@ -82,7 +88,8 @@ run_ref: NGS-JavaTest.jar
 run_read_group: NGS-JavaTest.jar
 	java $(JAVAFLAGS) examples.ReadGroupTest SRR1121656 $(REDIRECT)
     
-ALL_TESTS = run_frag run_align run_align_slice run_pileup run_ref run_read_group
+ALL_TESTS = run_frag run_align run_align_slice \
+	run_pileup run_ref run_read_group run_dump
 
 run_all: $(ALL_TESTS)
 
