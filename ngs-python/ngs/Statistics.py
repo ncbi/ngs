@@ -90,7 +90,7 @@ class Statistics(Refcount):
         ret = c_uint64()
         ngs_str_err = NGS_RawString()
         try:
-            res = NGS.lib_manager.PY_NGS_StatisticsGetAsU64(self.ref, path, byref(ret), byref(ngs_str_err.ref))
+            res = NGS.lib_manager.PY_NGS_StatisticsGetAsU64(self.ref, path.encode("UTF-8"), byref(ret), byref(ngs_str_err.ref))
         finally:
             ngs_str_err.close()
         
