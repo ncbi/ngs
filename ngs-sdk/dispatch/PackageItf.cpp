@@ -43,3 +43,10 @@ namespace ngs
     }
 
 } // namespace ngs
+
+extern "C" {
+    const char * ngs_PackageItf_getPackageVersion () {
+        static const ngs::String version (ngs::PackageItf::getPackageVersion());
+        return version . data ();
+    }
+}
