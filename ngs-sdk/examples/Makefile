@@ -25,7 +25,7 @@
 default: std
 
 ifeq (Darwin,$(shell uname -s))
-MFLAGS += -mmacosx-version-min=10.6
+	MFLAGS += -mmacosx-version-min=10.6
 endif
 
 CC = cc $(MFLAGS) $(CFLAGS)
@@ -35,13 +35,14 @@ CXX = c++ $(MFLAGS) $(CPPFLAGS)
 # NCBI_VDB_LIBDIR and NGS_LIBDIR
 include $(CURDIR)/Makefile.config
 
-TARGETS =           \
-    FragTest        \
-    AlignTest       \
-    AlignSliceTest  \
-    RefTest         \
-    PileupTest      \
-    FastqTableDump 
+TARGETS =               \
+	AlignSliceTest      \
+	AlignTest           \
+	DumpReferenceFASTA  \
+	FastqTableDump      \
+	FragTest            \
+	PileupTest          \
+	RefTest             \
 
 # This rule triggers detection of the libraries and headers
 # in addition to building the examples
@@ -61,65 +62,77 @@ clean:
 #     which in turn relies upon ncbi-vdb to access the SRA
 #
 TEST_LIBS =              \
-    -L$(NCBI_VDB_LIBDIR) \
-    -L$(NGS_LIBDIR)      \
-    -lncbi-ngs-c++       \
-    -lngs-c++            \
+	-L$(NCBI_VDB_LIBDIR) \
+	-L$(NGS_LIBDIR)      \
+	-lncbi-ngs-c++       \
+	-lngs-c++            \
 	-lngs-bam-c++        \
-    -lncbi-ngs-c++       \
-    -lncbi-vdb-static    \
-    -lngs-adapt-c++      \
-    -lpthread            \
-    -ldl                 \
-    -lm
+	-lncbi-ngs-c++       \
+	-lncbi-vdb-static    \
+	-lngs-adapt-c++      \
+	-lpthread            \
+	-ldl                 \
+	-lm                  \
 
-# FragTest
-#  access read fragments
-FRAG_TEST_SRC = \
-    FragTest.cpp
-
-FragTest: $(FRAG_TEST_SRC)
-	$(CXX) -g -o $@ $(FRAG_TEST_SRC) $(TEST_LIBS)
-
-# RefTest ###################
-REF_TEST_SRC = \
-    RefTest.cpp
-
-RefTest: $(REF_TEST_SRC)
-	$(CXX) -g -o $@ $(REF_TEST_SRC) $(TEST_LIBS)
-
-# AlignTest #################
-#  access alignments
-ALIGN_TEST_SRC = \
-    AlignTest.cpp
-
-AlignTest: $(ALIGN_TEST_SRC)
-	$(CXX) -g -o $@ $(ALIGN_TEST_SRC) $(TEST_LIBS)
 
 # AlignSliceTest
 #  slice a ReadCollection and output alignments
 ALIGNSLICE_TEST_SRC = \
-    AlignSliceTest.cpp
+	AlignSliceTest.cpp
 
 AlignSliceTest: $(ALIGNSLICE_TEST_SRC)
 	$(CXX) -g -o $@ $(ALIGNSLICE_TEST_SRC) $(TEST_LIBS)
 
 
-# PileupTest
-#  slice a ReadCollection and produce pileups
-PILEUP_TEST_OBJ = \
-    PileupTest.cpp
+# AlignTest #################
+#  access alignments
+ALIGN_TEST_SRC = \
+	AlignTest.cpp
 
-PileupTest: $(PILEUP_TEST_OBJ)
-	$(CXX) -g -o $@ $(PILEUP_TEST_OBJ) $(TEST_LIBS)
+AlignTest: $(ALIGN_TEST_SRC)
+	$(CXX) -g -o $@ $(ALIGN_TEST_SRC) $(TEST_LIBS)
+
+
+# DumpReferenceFASTA
+DUMP_SRC = \
+	DumpReferenceFASTA.cpp
+DumpReferenceFASTA: $(DUMP_SRC)
+	$(CXX) -g -o $@ $(DUMP_SRC) $(TEST_LIBS)
+
 
 # FastqTableDump
 #  produce fastq-like table
 FASTQ_TABLE_DUMP_OBJ = \
-    FastqTableDump.cpp
+	FastqTableDump.cpp
 
 FastqTableDump: $(FASTQ_TABLE_DUMP_OBJ)
 	$(CXX) -g -o $@ $(FASTQ_TABLE_DUMP_OBJ) $(TEST_LIBS)
+
+
+# FragTest
+#  access read fragments
+FRAG_TEST_SRC = \
+	FragTest.cpp
+
+FragTest: $(FRAG_TEST_SRC)
+	$(CXX) -g -o $@ $(FRAG_TEST_SRC) $(TEST_LIBS)
+
+
+# PileupTest
+#  slice a ReadCollection and produce pileups
+PILEUP_TEST_OBJ = \
+	PileupTest.cpp
+
+PileupTest: $(PILEUP_TEST_OBJ)
+	$(CXX) -g -o $@ $(PILEUP_TEST_OBJ) $(TEST_LIBS)
+
+
+# RefTest ###################
+REF_TEST_SRC = \
+	RefTest.cpp
+
+RefTest: $(REF_TEST_SRC)
+	$(CXX) -g -o $@ $(REF_TEST_SRC) $(TEST_LIBS)
 
 # ===========================================================================
 #
@@ -138,6 +151,9 @@ run_frag:  FragTest
 run_align: AlignTest
 	./$^ ERR225922 10000 2 $(REDIRECT)
 
+run_dump: DumpReferenceFASTA
+	./$^ SRR520124 1 $(REDIRECT)
+
 run_align_slice: AlignSliceTest
 	./$^ SRR1121656 1 1 9999 $(REDIRECT)
 
@@ -147,7 +163,7 @@ run_pileup: PileupTest
 run_ref: RefTest
 	./$^ SRR1121656 $(REDIRECT)
 
-ALL_TESTS = run_frag run_align run_align_slice run_pileup run_ref
+ALL_TESTS = run_frag run_align run_align_slice run_pileup run_ref run_dump
 
 run_all: $(ALL_TESTS)
 
