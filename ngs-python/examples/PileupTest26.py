@@ -98,6 +98,7 @@ def run(acc, refName, start, stop):
 
 if len(sys.argv) != 5:
     print ("Usage: PileupTest26 accession reference start stop\n")
+    exit(1)
 else:
     try:
         run(sys.argv[1], sys.argv[2], int(sys.argv[3]), int(sys.argv[4]))
@@ -105,5 +106,7 @@ else:
         print (x)
         traceback.print_exc()
         # x.printStackTrace - not implemented
+        exit(1)
     except BaseException, x:
         traceback.print_exc()
+        exit(1)

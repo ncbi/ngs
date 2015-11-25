@@ -51,6 +51,7 @@ def run(acc):
 
 if len(sys.argv) != 2:
     print ("Usage: RefTest accession\n")
+    exit(1)
 else:
     try:
         run(sys.argv[1])
@@ -58,5 +59,7 @@ else:
         print (x)
         traceback.print_exc()
         # x.printStackTrace - not implemented
+        exit(1)
     except BaseException as x:
         traceback.print_exc()
+        exit(1)
