@@ -100,7 +100,7 @@ public:
 
 int main (int argc, char const *argv[])
 {
-    if ( argc < 2 )
+    if ( argc < 2 || argc > 3)
     {
         cerr << "Usage: DumpReferenceFASTA accession [ reference ]\n";
     }
