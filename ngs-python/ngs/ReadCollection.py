@@ -28,7 +28,7 @@
 from ctypes import c_void_p, c_uint64, byref, create_string_buffer, c_char_p, c_int
 from . import NGS
     
-from .Refcount import Refcount
+from .Refcount import RefcountEngine
 from .ErrorMsg import ErrorMsg
 from .String import NGS_RawString, getNGSString, getNGSValue
 from .Read import Read
@@ -40,7 +40,7 @@ from .ReferenceIterator import ReferenceIterator
 from .Alignment import Alignment
 from .AlignmentIterator import AlignmentIterator
 
-class ReadCollection(Refcount):
+class ReadCollection(RefcountEngine):
     """Represents an NGS-capable object with a collection of
     *Reads*, *References* and *Alignments*.
     
