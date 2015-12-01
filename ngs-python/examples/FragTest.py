@@ -58,6 +58,9 @@ def run(acc, splitNum, splitNo):
                         print ("\t{} - {}".format(bases, "aligned" if it.isAligned() else "unaligned"))
                 print ("\n")
             print ("Read {} spots for {}".format(i,  run_name))
+        print ("ReadRange released")
+    print ("ReadCollection released")
+
 
 
 if len(sys.argv) != 4:
