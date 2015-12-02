@@ -12,6 +12,9 @@ def RefcountRelease(ref):
     """
     ngs_str_err = NGS_RawString()
     try:
+        
+        import sys
+        sys.stderr.write ("DEBUG: calling to PY_NGS_RefcountRelease\n")
         res = NGS.lib_manager.PY_NGS_RefcountRelease(ref, byref(ngs_str_err.ref))
     finally:
         ngs_str_err.close()
@@ -27,6 +30,9 @@ def RefcountEngineRelease(ref):
     ERROR_BUFFER_SIZE = 4096
     str_err = create_string_buffer(ERROR_BUFFER_SIZE)
     from . import PY_RES_OK
+    
+    import sys
+    sys.stderr.write ("DEBUG: calling to PY_NGS_Engine_RefcountRelease\n")
     res = NGS.lib_manager.PY_NGS_Engine_RefcountRelease(ref, str_err, len(str_err))
     if res != PY_RES_OK:
         raise ErrorMsg(str_err.value)
