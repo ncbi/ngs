@@ -8,7 +8,7 @@
     
         <NGS_ROOT Condition="'$(NGS_ROOT)' == ''">$(ProjectDir)..\..\</NGS_ROOT>
         <NGS_OUTDIR Condition="'$(NGS_OUTDIR)' == ''">$(NGS_ROOT)..\OUTDIR\</NGS_OUTDIR>
-        <NGS_TARGET Condition="'$(NGS_TARGET)' == ''">$(NGS_OUTDIR)win\cl\$(Platform)\$(Configuration)\</NGS_TARGET>    
+        <NGS_TARGET Condition="'$(NGS_TARGET)' == ''">$(NGS_OUTDIR)\ngs-sdk\win\cl\$(Platform)\$(Configuration)\</NGS_TARGET>    
     </PropertyGroup>
   
     <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
