@@ -6,7 +6,7 @@
 	
     <property name="Platform"       value="x64" />
     <property name="Configuration"  value="Debug" />
-    <property name="Outputr"        value="${basedir}\..\..\..\OUTDIR" />
+    <property name="Output"         value="${basedir}\..\..\..\OUTDIR" />
 	
     <target name="help">
   		<echo message="">
