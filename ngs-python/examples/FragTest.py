@@ -56,8 +56,13 @@ def run(acc, splitNum, splitNo):
                     bases = it.getFragmentBases()
                     if bases:
                         print ("\t{} - {}".format(bases, "aligned" if it.isAligned() else "unaligned"))
+                    sys.stderr.write ("DEBUG: Releasing Fragment\n")
                 print ("\n")
+                sys.stderr.write ("DEBUG: Releasing Read\n")
             print ("Read {} spots for {}".format(i,  run_name))
+            sys.stderr.write ("DEBUG: Releasing ReadRange\n")
+        sys.stderr.write ("DEBUG: Releasing ReadCollection\n")
+
 
 
 if len(sys.argv) != 4:

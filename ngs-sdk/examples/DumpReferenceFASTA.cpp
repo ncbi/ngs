@@ -69,6 +69,8 @@ public:
                     }
                 }
             }
+            if (line != 0)
+                cout << '\n';
         }
         catch ( ErrorMsg x )
         {
@@ -93,7 +95,6 @@ public:
         while ( refs . nextReference () )
         {
             process ( refs );
-            cout << '\n';
         }
     }
 };

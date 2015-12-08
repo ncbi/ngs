@@ -28,7 +28,7 @@
 from ctypes import c_void_p, c_uint64, byref, create_string_buffer, c_char_p, c_int
 from . import NGS
     
-from .Refcount import Refcount
+from .Refcount import RefcountEngine
 from .ErrorMsg import ErrorMsg
 from .String import NGS_RawString, getNGSString, getNGSValue
 from .Read import Read
@@ -40,7 +40,7 @@ from .ReferenceIterator import ReferenceIterator
 from .Alignment import Alignment
 from .AlignmentIterator import AlignmentIterator
 
-class ReadCollection(Refcount):
+class ReadCollection(RefcountEngine):
     """Represents an NGS-capable object with a collection of
     *Reads*, *References* and *Alignments*.
     
@@ -93,7 +93,7 @@ class ReadCollection(Refcount):
         ret = c_int()
         ngs_str_err = NGS_RawString()
         try:
-            res = NGS.lib_manager.PY_NGS_ReadCollectionHasReadGroup(self.ref, spec.encode(), byref(ret), byref(ngs_str_err.ref))
+            res = NGS.lib_manager.PY_NGS_ReadCollectionHasReadGroup(self.ref, spec.encode("UTF-8"), byref(ret), byref(ngs_str_err.ref))
         finally:
             ngs_str_err.close()
     
@@ -110,7 +110,7 @@ class ReadCollection(Refcount):
         ret = ReadGroup()
         ngs_str_err = NGS_RawString()
         try:
-            res = NGS.lib_manager.PY_NGS_ReadCollectionGetReadGroup(self.ref, spec, byref(ret.ref), byref(ngs_str_err.ref))
+            res = NGS.lib_manager.PY_NGS_ReadCollectionGetReadGroup(self.ref, spec.encode("UTF-8"), byref(ret.ref), byref(ngs_str_err.ref))
         finally:
             ngs_str_err.close()
         
@@ -140,7 +140,7 @@ class ReadCollection(Refcount):
         ret = c_int()
         ngs_str_err = NGS_RawString()
         try:
-            res = NGS.lib_manager.PY_NGS_ReadCollectionHasReference(self.ref, spec.encode(), byref(ret), byref(ngs_str_err.ref))
+            res = NGS.lib_manager.PY_NGS_ReadCollectionHasReference(self.ref, spec.encode("UTF-8"), byref(ret), byref(ngs_str_err.ref))
         finally:
             ngs_str_err.close()
     
@@ -150,7 +150,7 @@ class ReadCollection(Refcount):
         ret = Reference()
         ngs_str_err = NGS_RawString()
         try:
-            res = NGS.lib_manager.PY_NGS_ReadCollectionGetReference(self.ref, spec.encode(), byref(ret.ref), byref(ngs_str_err.ref))
+            res = NGS.lib_manager.PY_NGS_ReadCollectionGetReference(self.ref, spec.encode("UTF-8"), byref(ret.ref), byref(ngs_str_err.ref))
         finally:
             ngs_str_err.close()
         
@@ -166,7 +166,7 @@ class ReadCollection(Refcount):
         ret = Alignment()
         ngs_str_err = NGS_RawString()
         try:
-            res = NGS.lib_manager.PY_NGS_ReadCollectionGetAlignment(self.ref, alignmentId, byref(ret.ref), byref(ngs_str_err.ref))
+            res = NGS.lib_manager.PY_NGS_ReadCollectionGetAlignment(self.ref, alignmentId.encode("UTF-8"), byref(ret.ref), byref(ngs_str_err.ref))
         finally:
             ngs_str_err.close()
 
@@ -226,7 +226,7 @@ class ReadCollection(Refcount):
         ret = Read()
         ngs_str_err = NGS_RawString()
         try:
-            res = NGS.lib_manager.PY_NGS_ReadCollectionGetRead(self.ref, readId, byref(ret.ref), byref(ngs_str_err.ref))
+            res = NGS.lib_manager.PY_NGS_ReadCollectionGetRead(self.ref, readId.encode("UTF-8"), byref(ret.ref), byref(ngs_str_err.ref))
         finally:
             ngs_str_err.close()
 
@@ -286,7 +286,7 @@ def openReadCollection(spec):
     ERROR_BUFFER_SIZE = 4096
     str_err = create_string_buffer(ERROR_BUFFER_SIZE)
     from . import PY_RES_OK
-    res = NGS.lib_manager.PY_NGS_Engine_ReadCollectionMake(spec.encode(), byref(ret.ref), str_err, len(str_err))
+    res = NGS.lib_manager.PY_NGS_Engine_ReadCollectionMake(spec.encode("UTF-8"), byref(ret.ref), str_err, len(str_err))
     if res != PY_RES_OK:
         raise ErrorMsg(str_err.value)
         

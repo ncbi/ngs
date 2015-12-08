@@ -103,7 +103,7 @@ class Reference(Refcount):
         ret = Alignment()
         ngs_str_err = NGS_RawString()
         try:
-            res = NGS.lib_manager.PY_NGS_ReferenceGetAlignment(self.ref, alignmentId, byref(ret.ref), byref(ngs_str_err.ref))
+            res = NGS.lib_manager.PY_NGS_ReferenceGetAlignment(self.ref, alignmentId.encode("UTF-8"), byref(ret.ref), byref(ngs_str_err.ref))
         finally:
             ngs_str_err.close()
         
