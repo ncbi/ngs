@@ -67,26 +67,6 @@ def run(acc, refName=None):
                 while refs.nextReference():
                     process(refs)
                     print("")
-    
-    
-        run_name = run.getName()
-    
-        # get requested reference
-        with run.getReference(refName) as ref:
-            # start iterator on requested range
-            with ref.getAlignmentSlice(start, stop-start+1, Alignment.primaryAlignment) as it:
-                i = 0
-                while it.nextAlignment():
-                    print ("{}\t{}\t{}\t{}\t{}".format(
-                        it.getReadId(),
-                        it.getReferenceSpec(),
-                        it.getAlignmentPosition(),
-                        it.getLongCigar(False),
-                        it.getAlignedFragmentBases(),
-                        ))
-                    i += 1
-                print ("Read {} alignments for {}".format(i, run_name))
-
 
 if len(sys.argv) < 2 or len(sys.argv) > 3:
     print ("Usage: DumpReferenceFASTA accession [ reference ]\n")
