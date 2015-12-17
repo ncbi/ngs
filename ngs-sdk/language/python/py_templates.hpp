@@ -24,9 +24,30 @@
 *
 */
 
-#include "py_AlignmentIteratorItf.h"
-#include "py_ErrorMsg.hpp"
+#include <ngs/itf/ErrorMsg.hpp>
 
-#include <ngs/itf/AlignmentItf.hpp>
+namespace
+{
+    template < typename T >
+    T CheckedCast ( void* pRef )
+    {
+        if ( !pRef )
+            throw ngs::ErrorMsg ( "NULL pRef parameter" );
 
-GEN_PY_ITERATOR_NEXT ( Alignment )
+        return ( T ) pRef;
+    }
+
+    template < typename E >
+    PY_RES_TYPE ExceptionHandler (E& x, void** ppNGSStrError)
+    {
+        assert(ppNGSStrError);
+
+        char const* error_descr = x.what();
+        size_t len = strlen ( error_descr );
+        char* error_copy = new char [ len + 1 ];
+        ::memcpy ( error_copy, error_descr, len + 1 );
+        *((char**)ppNGSStrError) = error_copy;
+
+        return PY_RES_ERROR;
+    }
+}
