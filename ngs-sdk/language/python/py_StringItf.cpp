@@ -24,30 +24,50 @@
 *
 */
 
-#include <ngs/itf/ErrorMsg.hpp>
+#include "py_StringItf.h"
+#include "py_ErrorMsg.hpp"
 
-namespace
+#include <ngs/itf/StringItf.hpp>
+
+PY_RES_TYPE PY_NGS_StringGetSubstring ( void* pRef, size_t offset, size_t size, void** pRet, void** ppNGSStrError )
 {
-    template < typename T >
-    T CheckedCast ( void* pRef )
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
     {
-        if ( !pRef )
-            throw ngs::ErrorMsg ( "NULL pRef parameter" );
-
-        return ( T ) pRef;
+        ngs::StringItf* res = CheckedCast< ngs::StringItf* >(pRef) -> substr ( offset, size );
+        assert (pRet != NULL);
+        *pRet = (void*) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
     }
 
-    template < typename E >
-    PY_RES_TYPE ExceptionHandler (E& x, void** ppNGSStrError)
-    {
-        assert(ppNGSStrError);
+    return ret;
+}
 
-        char const* error_descr = x.what();
-        size_t len = strlen ( error_descr );
-        char* error_copy = new char [ len + 1 ];
-        ::memcpy ( error_copy, error_descr, len + 1 );
-        *((char**)ppNGSStrError) = error_copy;
 
-        return PY_RES_ERROR;
-    }
+PY_RES_TYPE PY_NGS_StringGetData ( void* pRef, char const** pRet )
+{
+    assert ( pRef );
+    assert ( pRet );
+    *pRet = ((ngs::StringItf const*)pRef) -> data ();
+    return PY_RES_OK;
+}
+
+PY_RES_TYPE PY_NGS_StringGetSize ( void* pRef, size_t* pRet )
+{
+    assert ( pRef );
+    assert ( pRet );
+    *pRet = ((ngs::StringItf const*)pRef) -> size ();
+    return PY_RES_OK;
 }

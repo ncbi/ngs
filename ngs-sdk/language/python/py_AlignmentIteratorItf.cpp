@@ -24,41 +24,33 @@
 *
 */
 
-#include <string.h>
-#include <ngs/itf/ErrorMsg.hpp>
+#include "py_AlignmentIteratorItf.h"
+#include "py_ErrorMsg.hpp"
 
-namespace
+#include <ngs/itf/AlignmentItf.hpp>
+
+PY_RES_TYPE PY_NGS_AlignmentIteratorNext ( void* pRef, int* pRet, void** ppNGSStrError )
 {
-    template < typename T >
-    T CheckedCast ( void* pRef )
+    PY_RES_TYPE ret = PY_RES_ERROR;
+    try
     {
-        if ( !pRef )
-            throw ngs::ErrorMsg ( "NULL pRef parameter" );
-
-        return ( T ) pRef;
+        bool res = CheckedCast< ngs::AlignmentItf* >(pRef) -> nextAlignment();
+        assert(pRet != NULL);
+        *pRet = (int)res;
+        ret = PY_RES_OK;
     }
-
-    template < typename E >
-    PY_RES_TYPE ExceptionHandler (E& x, void** ppNGSStrError)
+    catch ( ngs::ErrorMsg & x )
     {
-        assert(ppNGSStrError);
-
-        char const* error_descr = x.what();
-        size_t len = strlen ( error_descr );
-        char* error_copy = new char [ len + 1 ];
-        ::memcpy ( error_copy, error_descr, len + 1 );
-        *((char**)ppNGSStrError) = error_copy;
-
-        return PY_RES_ERROR;
+        ret = ExceptionHandler ( x, ppNGSStrError );
     }
-
-    PY_RES_TYPE ExceptionHandler ( void** ppNGSStrError )
+    catch ( std::exception & x )
     {
-        char const error_text_constant[] = "INTERNAL ERROR";
-        char* error_copy = new char [ sizeof error_text_constant ];
-        ::memcpy ( error_copy, error_text_constant, sizeof error_text_constant );
-        *((char**)ppNGSStrError) = error_copy;
-
-        return PY_RES_ERROR;
+        ret = ExceptionHandler ( x, ppNGSStrError );
     }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+    return ret;
 }
+
