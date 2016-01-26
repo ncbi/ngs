@@ -41,7 +41,7 @@ if [ "$FILENAME" != configure -a ! -s configure ]
     echo configure: error: configure should be run as ./configure
 else
     cd $CURDIR
-    for D in ngs-sdk ngs-java ngs-python ngs-bam
+    for D in ngs-sdk ngs-java ngs-python
     do
       if [ -d $D ]
           then echo "CONFIGURING $D"
