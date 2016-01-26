@@ -29,17 +29,12 @@ package gov.nih.nlm.ncbi.ngs;
 
 
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.InputStreamReader;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.Vector;
 
 
 /** This class is responsible for JNI dynamic library load
@@ -306,31 +301,35 @@ class LibManager implements FileCreator
 
 ////////////////////// TODO check out of space condition ///////////////////////
 
-
-    LibManager ()
+    LibManager ( String [] libs, String [] versions )
     {
-        this ( null, null );
+        this ( null, libs, versions );
     }
 
-
-    LibManager ( String [] libs )
-    {
-        this ( null, libs );
-    }
-
-    private LibManager ( Location [] locations, String [] libs )
+    private LibManager ( Location [] locations, String [] libs, String [] versions )
     {
         properties = new LMProperties();
 
         latest         = new Latest();
         latestLibPaths = new HashMap<String, String>();
 
-//      if (locations == null) locations = getLocationProperty ();
-
         if (locations != null)
             this.location = locations;
         else
             this.location = Location.values ();
+
+        if (versions == null || libs == null) {
+            throw new RuntimeException("Neither libs nor versions can't be null");
+        }
+
+        if (versions.length != libs.length) {
+            throw new RuntimeException("Invalid library versions: should match number of libraries");
+        }
+
+        libraryVersions = new HashMap<String, String>();
+        for (int i = 0; i < libs.length; ++i) {
+            libraryVersions.put(libs[i], versions[i]);
+        }
 
         if (System.getProperty("vdb.System.loadLibrary") != null)
         {
@@ -342,19 +341,12 @@ class LibManager implements FileCreator
             return;
         }
 
-        boolean delete = System.getProperty("vdb.deleteLibraries") != null;
-        /* make sure we have the latest version of ngs-sdk & ncbi-vdb dll-s */
-        for (String libname : libs) {
-            if (delete) {
+        if (System.getProperty("vdb.deleteLibraries") != null) {
+            /* make sure we have the latest version of ngs-sdk & ncbi-vdb dll-s */
+            for (String libname : libs) {
                 Logger.warning( "Deleting all JNI libraries...");
                 LibPathIterator.deleteLibraries(this, libname);
-            } else {
-                launchLibCheck(libname);
             }
-        }
-
-        if (! delete) {
-            properties.store();
         }
     }
 
@@ -666,33 +658,71 @@ or pathname not found and its directory is not writable */
 
 
     private boolean systemLoad(String filename, String libname) {
-        if (prepareToLoad(filename)) {
-            Logger.finer("System.load(" + filename + ")...");
-            try {
-                System.load(filename);
-                Logger.fine("Loaded library " + filename);
-                properties.loaded(libname, current(libname), filename);
-                return true;
-            } catch (UnsatisfiedLinkError e) {
-                Logger.fine("error: " + e);
-            } catch (Throwable e) {
-                Logger.warning("Cannot load library: " + e);
+        if (!fileExists(filename)) {
+            return false;
+        }
+
+        Logger.finer("System.load(" + filename + ")...");
+
+        // check for version
+        String requiredVersion = libraryVersions.get(libname);
+        if (libname == null) {
+            throw new RuntimeException("Library '" + libname + "' version was not specified");
+        }
+
+        try {
+            String version = LibVersionChecker.getVersion(libname, filename, false);
+            if (version == null) {
+                Logger.fine("Cannot get library version: " + filename);
+                return false;
             }
+
+            if (new Version(version).compareTo(new Version(requiredVersion)) < 0) {
+                Logger.info("Library: " + filename + " version (" +
+                        version + ") is less than minimum required (" + requiredVersion + ")");
+                return false;
+            }
+
+            System.load(filename);
+            Logger.fine("Loaded library " + filename);
+            properties.loaded(libname, current(libname), filename);
+            return true;
+        } catch (UnsatisfiedLinkError e) {
+            Logger.fine("error: " + e);
+        } catch (Throwable e) {
+            Logger.warning("Cannot load library: " + e);
         }
         return false;
     }
 
 
-    private boolean systemLoadLibrary
-        (String libnameWithDataModl, Location l, String libname)
+    private boolean systemLoadLibrary(String libnameWithDataModl, Location l, String libname)
     {
-// System.loadLibrary is using java.library.path to find the library
-        Logger.finest("java.library.path = "
-            + System.getProperty("java.library.path"));
+        // System.loadLibrary is using java.library.path to find the library
+        Logger.finest("java.library.path = " + System.getProperty("java.library.path"));
         Logger.fine(l + ": System.loadLibrary(" + libnameWithDataModl + ")...");
-        Logger.finest("System.mapLibraryName(" + libnameWithDataModl + ") = "
-            + System.mapLibraryName(libnameWithDataModl));
+        Logger.finest("System.mapLibraryName(" + libnameWithDataModl + ") = " +
+            System.mapLibraryName(libnameWithDataModl));
+
+        // check for version
+        String requiredVersion = libraryVersions.get(libname);
+        if (libname == null) {
+            throw new RuntimeException("Library '" + libname + "' version was not specified");
+        }
+
         try {
+            String version = LibVersionChecker.getVersion(libname, libnameWithDataModl, true);
+            if (version == null) {
+                Logger.fine("Cannot get library version: " + libnameWithDataModl);
+                return false;
+            }
+
+            if (new Version(version).compareTo(new Version(requiredVersion)) < 0) {
+                Logger.info("Found library: " + libnameWithDataModl + " version (" +
+                        version + ") is less than minimum required (" + requiredVersion + ")");
+                return false;
+            }
+
             System.loadLibrary(libnameWithDataModl);
             Logger.fine("Loaded library " + libnameWithDataModl);
             properties.loaded(libname, current(libname), libnameWithDataModl);
@@ -706,7 +736,7 @@ or pathname not found and its directory is not writable */
     }
 
 
-    private static boolean prepareToLoad(String filename) {
+    private static boolean fileExists(String filename) {
         File file = new File(filename);
         if (file.exists()) {
             return true;
@@ -991,134 +1021,6 @@ or pathname not found and its directory is not writable */
 ////////////////////////////////////////////////////////////////////////////////
 
 
-    /** Check the version of local dll,
-        compare it with the latest available;
-        download the latest if it is more recent */
-    private String checkLib(String libname, String latest) {
-        Logger.finest("> Checking the version of " + libname + " library...");
-
-        if (latest == null || latest.length() == 0) {
-            latest = this.latest.get(libname);
-        } else {
-            this.latest.put(libname, latest);
-            Logger.info("The latest version of " + libname + " = " + latest);
-        }
-
-        Logger.finest(">> Checking the current version of "
-            + libname + " library...");
-        String path = load(libname);
-        String current = current(libname);
-        Logger.info("The current version of " + libname + " = " + current);
-
-        if (new Version(current).compareTo(new Version(latest)) < 0) {
-            Logger.info("Will download " + libname + " library");
-            path = downloadLib(libname, latest);
-        } else {
-            Logger.info("Will not download " + libname + " library");
-        }
-
-        Logger.finest
-            ("< ...Done checking the version of " + libname + " library");
-
-        return path;
-    }
-
-
-    /** Execute a process to check the version of dll,
-        and download it if it is out of date */
-    private void launchLibCheck(String libname) {
-        String latest = this.latest.get(libname);
-        if (properties.getLoud(libname, latest) != null) {
-         // LibManager.properties knows already where the latest dll version is
-            return;
-        } else {
-            Logger.finest
-                (libname + "-" + latest + " was not found in properties");
-        }
-        Vector<String> cmdarray = new Vector<String>();
-        String property = System.getProperty("java.home");
-        if (property != null) {
-            cmdarray.add(property + LibPathIterator.fileSeparator()
-                   + "bin" + LibPathIterator.fileSeparator() + "java");
-            if (!tryJava(cmdarray)) {
-                cmdarray.remove(0);
-            }
-        }
-        if (cmdarray.size() == 0) {
-            cmdarray.add("java");
-            if (!tryJava(cmdarray)) {
-                return;
-            }
-        }
-
-        String classpath = System.getProperty("java.class.path");
-        if (classpath != null) {
-            cmdarray.add("-cp");
-            cmdarray.add(classpath);
-        }
-        cmdarray.add(addProperty("java.library.path"));
-        if (System.getProperty("vdb.log") != null) {
-            cmdarray.add(addProperty("vdb.log"));
-        }
-        cmdarray.add("gov.nih.nlm.ncbi.ngs.LibManager");
-        cmdarray.add(libname);
-        if (latest != null) {
-            cmdarray.add(latest);
-        }
-
-        Logger.info(">>> RUNNING CHILD ...");
-        try {
-            String cmd[] = new String[cmdarray.size()];
-            for (int i = 0; i < cmdarray.size(); ++i) {
-                cmd[i] = cmdarray.elementAt(i);
-            }
-            Logger.finest(cmd);
-            Process p = Runtime.getRuntime().exec(cmd);
-            BufferedReader bri =
-                 new BufferedReader(new InputStreamReader(p.getInputStream()));
-            BufferedReader bre =
-                new BufferedReader(new InputStreamReader(p.getErrorStream()));
-            String line = null;
-            while ((line = bre.readLine()) != null)
-            {   System.err.println(line); }
-            bre.close();
-            while ((line = bri.readLine()) != null) {
-                String found = null;
-                Pattern pattern =  Pattern.compile
-                    ("^LibManager: libname='(.*)' filename='(.*)'$");
-                Matcher matcher = pattern.matcher(line);
-                while (matcher.find()) {
-                    found = matcher.group(1);
-                    if (!found.startsWith(libname)) {
-                        continue;
-                    }
-                    String filename = matcher.group(2);
-                    latestLibPaths.put(libname, filename);
-                    break;
-                }
-                if (found == null) {
-                    System.out.println(line);
-                }
-            }
-            bri.close();
-            p.waitFor();
-        } catch (Exception e) { Logger.finest(e); }
-        Logger.info("<<< Done CHILD");
-    }
-
-
-    /** Make sure we can execute java */
-    private boolean tryJava(Vector<String> cmdarray) {
-        try {
-            Process p
-                = Runtime.getRuntime().exec(cmdarray.elementAt(0) + " -?");
-            if (p.waitFor() == 0) {
-                return true;
-            }
-        } catch (Exception e) {}
-        return false;
-    }
-
 
     /** Create java property option */
     private String addProperty(String key) {
@@ -1173,6 +1075,8 @@ or pathname not found and its directory is not writable */
     /** Locations where the latest libraries were found */
     private HashMap<String, String> latestLibPaths;
 
+    private HashMap<String, String> libraryVersions;
+
     /** The latest available library versions */
     private Latest latest;
 
@@ -1182,30 +1086,6 @@ or pathname not found and its directory is not writable */
     private LMProperties properties; // to keep dll path/version-s
 
 ////////////////////////////////////////////////////////////////////////////////
-
-
-    /** Call checkLib for every argument to the version of local dll,
-        compare it with the latest available
-        and download the latest if it is more recent */
-    public static void main(String[] args) {
-        LibManager l = new LibManager();
-
-        for (int i = 0; i < args.length; i++) {
-            String libname = args[i];
-            String version = null;
-            if (i + 1 < args.length) {
-                version = args[++i];
-            }
-            String path = l.checkLib(libname, version);
-            if (path != null) {
-                System.out.println("LibManager: libname='"
-                    + libname + "' filename='" + path + "'");
-            }
-        }
-
-        l.properties.store();
-    }
-
 
 /*******************************************************************************
 -Djava.library.path

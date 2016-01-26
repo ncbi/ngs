@@ -194,6 +194,7 @@ NCBI_SRC =                 \
 	Logger                 \
 	HttpManager            \
 	LibManager             \
+	LibVersionChecker      \
 	LibPathIterator        \
 	Manager                \
 	NGS                    \

@@ -148,7 +148,7 @@ class LibPathIterator {
     /** Iterate over all locations and print them: debug/test */
     static boolean list( String libname )
     {
-        return iterate(new LibManager(), libname, false);
+        return iterate(new LibManager(new String[] {}, new String[] {}), libname, false);
     }
 
 

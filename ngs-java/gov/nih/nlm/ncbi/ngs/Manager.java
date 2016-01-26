@@ -98,8 +98,13 @@ class Manager
 
             String ngs_sdk  = "ngs-sdk";
             String ncbi_vdb = "ncbi-vdb";
+            String ngs_sdk_version = "1.2.3";
+            String ncbi_vdb_version = "2.5.7";
 
-            LibManager m = new LibManager( new String[] { ngs_sdk, ncbi_vdb } );
+            LibManager m = new LibManager(
+                    new String[] { ngs_sdk, ncbi_vdb },
+                    new String[] { ngs_sdk_version, ncbi_vdb_version });
+
             if ( ! m . loadLibrary ( ngs_sdk ) )
                 throw new ExceptionInInitializerError
                     ( "Cannot load " + ngs_sdk + " library" );
