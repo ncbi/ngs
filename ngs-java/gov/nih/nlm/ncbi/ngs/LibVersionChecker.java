@@ -7,8 +7,8 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LibVersionChecker {
-    public static String getVersion(String libname, String libpath, boolean useLoadLibrary) {
+class LibVersionChecker {
+    static String getVersion(String libname, String libpath, boolean useLoadLibrary) {
         Vector<String> cmdarray = new Vector<String>();
         String property = System.getProperty("java.home");
         if (property != null) {
@@ -42,7 +42,7 @@ public class LibVersionChecker {
             cmdarray.add("true");
         }
 
-        Logger.info(">>> RUNNING CHILD ...");
+        Logger.finer(">>> RUNNING CHILD ...");
         String version = null;
         try {
             String cmd[] = new String[cmdarray.size()];
@@ -76,7 +76,7 @@ public class LibVersionChecker {
             bri.close();
             p.waitFor();
         } catch (Exception e) { Logger.finest(e); }
-        Logger.info("<<< Done CHILD");
+        Logger.finer("<<< Done CHILD");
         return version;
     }
 
@@ -94,7 +94,9 @@ public class LibVersionChecker {
         String libpath = args[1];
         boolean useLoadLibrary = args.length == 3 && args[2].equals("true");
         String version = checker.checkLib(libname, libpath, useLoadLibrary);
-        System.out.println("LibManager: version='" + version + "'");
+        if (version != null) {
+            System.out.println("LibManager: version='" + version + "'");
+        }
 
     }
 
@@ -123,7 +125,7 @@ public class LibVersionChecker {
             Logger.finest(">> Checking current version of the library...");
             version = getVersion(libname);
 
-            Logger.info("<< The current version of " + path + " = " + version);
+            Logger.finest("<< The current version of " + path + " = " + version);
         }
 
         Logger.finest("< Done checking version of the library");

@@ -500,7 +500,7 @@ Here we use it just to find where to write the downoaded file. */
         }
 
         path += fileSeparator() + "lib";
-        switch (LibManager.DetectJVM()) {
+        switch (LibManager.detectJVM()) {
             case b64:
                 path += "64";
                 break;

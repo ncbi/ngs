@@ -190,12 +190,14 @@ $(CLSDIR)/ngs-java-itf: $(CLSDIR)/ngs-java-api $(ITF_SRC_PATH)
 
 # NCBI engine bindings
 NCBI_SRC =                 \
+	DownloadManager        \
 	FileCreator            \
-	Logger                 \
 	HttpManager            \
 	LibManager             \
-	LibVersionChecker      \
 	LibPathIterator        \
+	LibVersionChecker      \
+	LMProperties           \
+	Logger                 \
 	Manager                \
 	NGS                    \
 	Version                \
