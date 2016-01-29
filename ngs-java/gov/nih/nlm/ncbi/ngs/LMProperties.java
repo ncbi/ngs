@@ -34,11 +34,11 @@ class LMProperties extends java.util.Properties {
         }
     }
 
-    String get(String libname, String latest)
-    {   return get(libname, latest, Logger.Level.FINE); }
+    String get(String libname, String minimalVersion)
+    {   return get(libname, minimalVersion, Logger.Level.FINE); }
 
-    String getLoud(String libname, String latest)
-    {   return get(libname, latest, Logger.Level.INFO); }
+    String getLoud(String libname, String minimalVersion)
+    {   return get(libname, minimalVersion, Logger.Level.INFO); }
 
     String cfgFilePath() { return path; }
 
@@ -100,16 +100,16 @@ class LMProperties extends java.util.Properties {
         setProperty(node + "version", version);
     }
 
-    private String get(String libname, String latest, Logger.Level level) {
-        String path = get(libname, "loaded", latest, level);
+    private String get(String libname, String minimalVersion, Logger.Level level) {
+        String path = get(libname, "loaded", minimalVersion, level);
         if (path == null) {
-            path = get(libname, "saved" , latest, level);
+            path = get(libname, "saved" , minimalVersion, level);
         }
         return path;
     }
 
     private String get
-            (String libname, String name, String latest, Logger.Level level)
+            (String libname, String name, String minimalVersion, Logger.Level level)
     {
         String node = "/dll/" + libname + "/" + bits + "/" + name +"/";
         String version = getProperty(node + "version");
@@ -118,7 +118,7 @@ class LMProperties extends java.util.Properties {
             if (path != null) {
                 File f = new File(path);
                 if (f.exists() &&
-                        new Version(version).compareTo(new Version(latest)) < 0)
+                        new Version(version).compareTo(new Version(minimalVersion)) < 0)
                 {
                     remove(node + "path");
                     remove(node + "version");

@@ -81,13 +81,8 @@ class LibPathIterator {
 
         this.mgr = mgr;
         this.location = location;
+        this.filenames = filename;
 
-        if (location == LibManager.Location.KNOWN_PATH) {
-            this.abspath = filename[0];
-        } else {
-            this.filenames = filename;
-        }
-        
         this.parents = parents;
         this.separator = fileSeparator();
 
@@ -128,19 +123,10 @@ class LibPathIterator {
                 crn = crnLocation;
             }
 
-            if (crn != null && crn == LibManager.Location.KNOWN_PATH) {
-                if (abspath != null) {
-                    return abspath;
-                } else {
-                    continue;
-                }
+            if (separator == null) {
+                throw new NullPointerException();
             }
-            else {
-                if (separator == null) {
-                    throw new NullPointerException();
-                }
-                return path += separator + filename;
-            }
+            return path += separator + filename;
         }
     }
 
@@ -175,6 +161,7 @@ class LibPathIterator {
         }
 
         while (true) {
+            // TODO(andrii): check if that will work with new changes
             ++iLocation;
             Logger.finest("LibPathIterator.reset() " + iLocation);
             if (location == null) {
@@ -202,11 +189,6 @@ class LibPathIterator {
                     if (!resetPaths(System.getProperty("user.dir"),
                         pathSeparator))
                     {
-                        continue;
-                    }
-                    return true;
-                case KNOWN_PATH:
-                    if (!resetPaths(abspath)) {
                         continue;
                     }
                     return true;

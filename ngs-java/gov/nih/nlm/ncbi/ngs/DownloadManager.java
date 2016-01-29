@@ -38,7 +38,7 @@ class DownloadManager {
         return false;
     }
 
-    static String osProperties()
+    private String osProperties()
             throws Exception
     {
         String request = "os_name=";
