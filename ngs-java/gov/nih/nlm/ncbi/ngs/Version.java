@@ -89,6 +89,10 @@ class Version implements Comparable<Version> {
             + major + "." + minor + "." + release + stage + revision + " }";
     }
 
+    public String toSimpleVersion() {
+        return version == null ? "null" : version;
+    }
+
     /** Compares two Version, testing whether one comes before or after the
         other, or whether they're equal. The Version parts are compared.
 

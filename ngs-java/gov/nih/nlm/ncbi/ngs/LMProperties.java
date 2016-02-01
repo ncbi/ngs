@@ -1,6 +1,7 @@
 package gov.nih.nlm.ncbi.ngs;
 
 
+import java.util.Date;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -42,10 +43,24 @@ class LMProperties extends java.util.Properties {
 
     String cfgFilePath() { return path; }
 
+    void setLastSearch(String libname) {
+        setProperty("/dll/" + libname + "/" + bits + "/last-search", Long.toString(new Date().getTime()));
+    }
+
+    Date getLastSeach(String libname) {
+        String dateLong = getProperty("/dll/" + libname + "/" + bits + "/last-search");
+        if (dateLong == null) {
+            return null;
+        }
+
+        return new Date(Long.valueOf(dateLong));
+    }
+
     void notLoaded(String libname) {
-        String node = "/dll/" + libname + "/" + bits + "/loaded/";
-        remove(node + "path");
-        remove(node + "version");
+        String node = "/dll/" + libname + "/" + bits + "/";
+        remove(node + "loaded/path");
+        remove(node + "loaded/version");
+        remove(node + "last-search");
         dirty = true;
     }
 
