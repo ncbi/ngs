@@ -132,17 +132,18 @@ class LMProperties extends java.util.Properties {
             String path = getProperty(node + "path");
             if (path != null) {
                 File f = new File(path);
-                if (f.exists() &&
+                // TODO: check with Kurt whether we should remove old version from config file
+                /*if (f.exists() &&
                         new Version(version).compareTo(new Version(minimalVersion)) < 0)
                 {
                     remove(node + "path");
                     remove(node + "version");
                     dirty = true;
-                } else {//new Exception().printStackTrace();
+                } else {*///new Exception().printStackTrace();
                     Logger.log(level, "The version of the most recently"
                             + " loaded " + libname + " = " + version);
                     return path;
-                }
+                /*}*/
             } else {
                 remove(node + "version");
                 dirty = true;

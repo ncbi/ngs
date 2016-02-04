@@ -28,10 +28,15 @@
 package gov.nih.nlm.ncbi.ngs;
 
 
+import gov.nih.nlm.ncbi.ngs.error.LibraryLoadError;
+import gov.nih.nlm.ncbi.ngs.error.LibraryNotFoundError;
+import gov.nih.nlm.ncbi.ngs.error.LibraryTooOldError;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -112,9 +117,11 @@ class LibManager implements FileCreator
 
         libraryVersions = new HashMap<String, String>();
         foundLibrariesVersions = new TreeMap<String, TreeMap<Version, String>>();
+        outdatedLibrariesVersions = new TreeMap<String, TreeMap<String, Version>>();
         for (int i = 0; i < libs.length; ++i) {
             libraryVersions.put(libs[i], versions[i]);
             foundLibrariesVersions.put(libs[i], new TreeMap<Version, String>());
+            outdatedLibrariesVersions.put(libs[i], new TreeMap<String, Version>());
         }
 
 
@@ -464,7 +471,11 @@ or pathname not found and its directory is not writable */
 
         Version v = new Version(version);
         if (v.compareTo(new Version(requiredVersion)) < 0) {
-            Logger.info("Found library: " + libpath + " version (" +
+            TreeMap<String, Version> outdatedLibrariesCurrent = getOutdatedLibraries(libname);
+            if (!outdatedLibrariesCurrent.containsKey(libpath)) {
+                outdatedLibrariesCurrent.put(libpath, v);
+            }
+            Logger.info("Found library '" + libpath + "' version (" +
                     version + ") is less than minimal required (" + requiredVersion + ")");
             return false;
         }
@@ -475,10 +486,7 @@ or pathname not found and its directory is not writable */
         // b) when latest version is unknown and "continueIfLatestUnknown" is true
         if ((latestVersion != null && v.compareTo(new Version(latestVersion)) < 0) ||
                 (latestVersion == null && continueIfLatestUnknown)) {
-            TreeMap<Version, String> libraryByVersionCurrent = foundLibrariesVersions.get(libname);
-            if (libraryByVersionCurrent == null) {
-                throw new RuntimeException("Cannot find library entry in array for: " + libname);
-            }
+            TreeMap<Version, String> libraryByVersionCurrent = getFoundLibraries(libname);
             if (!libraryByVersionCurrent.containsKey(v)) {
                 libraryByVersionCurrent.put(v, libpath);
             }
@@ -632,10 +640,7 @@ or pathname not found and its directory is not writable */
             }
         }
 
-        TreeMap<Version, String> libraryByVersionCurrent = foundLibrariesVersions.get(libname);
-        if (libraryByVersionCurrent == null) {
-            throw new RuntimeException("Cannot find library entry in array for: " + libname);
-        }
+        TreeMap<Version, String> libraryByVersionCurrent = getFoundLibraries(libname);
         if (libraryByVersionCurrent.size() > 0) {
             String libpath = libraryByVersionCurrent.lastEntry().getValue();
             String version = libraryByVersionCurrent.lastEntry().getKey().toSimpleVersion();
@@ -644,9 +649,18 @@ or pathname not found and its directory is not writable */
                 properties.setLastSearch(libname);
                 return libpath;
             }
+            throw new LibraryLoadError("Failed to load previously found library: " + libpath);
         }
 
-        return null;
+        boolean downloadEnabled = Arrays.asList(locations).contains(Location.DOWNLOAD);
+        String failReason = downloadEnabled ? "check your network connection" : "auto-download is disabled";
+        String errorMsg = "Failed to find and/or download library '" + libname + "': " + failReason;
+        TreeMap<String, Version> outdatedLibrariesCurrent = getOutdatedLibraries(libname);
+        if (outdatedLibrariesCurrent.isEmpty()) {
+            throw new LibraryNotFoundError(errorMsg);
+        }
+
+        throw new LibraryTooOldError(errorMsg, new ArrayList<String>(outdatedLibrariesCurrent.keySet()));
     }
 
 
@@ -758,6 +772,26 @@ or pathname not found and its directory is not writable */
         return true;
     }
 
+    private TreeMap<Version, String> getFoundLibraries(String libname) {
+        TreeMap<Version, String> result = foundLibrariesVersions.get(libname);
+        if (result == null) {
+            throw new RuntimeException("Cannot find library entry in array for: " + libname);
+        }
+
+        return result;
+    }
+
+    private TreeMap<String, Version> getOutdatedLibraries(String libname) {
+        TreeMap<String, Version> result = outdatedLibrariesVersions.get(libname);
+        if (result == null) {
+            throw new RuntimeException("Cannot find library entry in array for: " + libname);
+        }
+
+        return result;
+    }
+
+
+
 ////////////////////////////////////////////////////////////////////////////////
 
     /** Possible location to search for library to load.
@@ -767,6 +801,8 @@ or pathname not found and its directory is not writable */
     private HashMap<String, String> libraryVersions;
 
     private TreeMap<String, TreeMap<Version, String>> foundLibrariesVersions;
+
+    private TreeMap<String, TreeMap<String, Version>> outdatedLibrariesVersions;
 
     /** Knows how to check and download latest libraries versions */
     private DownloadManager downloadManager;
