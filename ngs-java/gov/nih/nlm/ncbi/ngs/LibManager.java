@@ -38,6 +38,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
@@ -69,6 +70,11 @@ class LibManager implements FileCreator
      * How often search for a latest installed library
      */
     private static final long SEARCH_LIB_FREQUENCY_INTERVAL = 7 * 24 * 60 * 60 * 1000;
+
+    /**
+     * How long we will trust latest version in cache before asking server
+     */
+    private static final long CACHE_LATEST_VERSION_INTERVAL = 7 * 24 * 60 * 60 * 1000;
 
 
     /** Possible location to search for library to load.
@@ -115,9 +121,6 @@ class LibManager implements FileCreator
             downloadManager = new DownloadManager(properties);
         }
 
-        libraryVersions = new HashMap<String, String>();
-        foundLibrariesVersions = new TreeMap<String, TreeMap<Version, String>>();
-        outdatedLibrariesVersions = new TreeMap<String, TreeMap<String, Version>>();
         for (int i = 0; i < libs.length; ++i) {
             libraryVersions.put(libs[i], versions[i]);
             foundLibrariesVersions.put(libs[i], new TreeMap<Version, String>());
@@ -289,14 +292,17 @@ or pathname not found and its directory is not writable */
         boolean ok = false;
 
         Logger.fine("Loading " + libname + " library...");
-        if (searchAndLoad(libname) != null) {
-            Logger.fine("Loaded " + libname + " library");
-            ok = true;
-        } else {
+        try {
+            if (searchAndLoad(libname) != null) {
+                Logger.fine("Loaded " + libname + " library");
+                ok = true;
+            }
+        } catch (LibraryLoadError e) {
             Logger.warning("Failed to load " + libname + " library");
+            throw e;
+        } finally {
+            properties.store();
         }
-
-        properties.store();
 
         return ok;
     }
@@ -545,10 +551,22 @@ or pathname not found and its directory is not writable */
     }
 
     private String getLatestVersion(String libname) {
-        if (!CHECK_AND_DOWNLOAD_LATEST_LIBRARY_VERSION) {
-            return null;
+        if (latestVersions.containsKey(libname)) {
+            return latestVersions.get(libname);
         }
-        return downloadManager.getLatestVersion(libname);
+
+        String version = properties.getLatestVersion(libname, CACHE_LATEST_VERSION_INTERVAL);
+        if (version == null && CHECK_AND_DOWNLOAD_LATEST_LIBRARY_VERSION) {
+            version = downloadManager.getLatestVersion(libname);
+            if (version != null) {
+                properties.setLatestVersion(libname, version);
+            }
+        }
+
+        // we will cache whatever we have here, even null
+        latestVersions.put(libname, version);
+
+        return version;
     }
 
     /** Tries to load the library by searching it using allowed locations array.
@@ -646,6 +664,13 @@ or pathname not found and its directory is not writable */
             String version = libraryByVersionCurrent.lastEntry().getKey().toSimpleVersion();
             Logger.fine("Loading latest installed library: " + libpath + " " + version);
             if (systemLoadLibraryUnchecked(libname, libpath, version, libpath.startsWith(libname))) {
+                String loadedVersion = LibVersionChecker.getVersion(libname);
+                String minimalVersion = getMinimalVersion(libname);
+                if (loadedVersion == null || new Version(loadedVersion).compareTo(new Version(minimalVersion)) < 0) {
+                    throw new LibraryTooOldError("Version of previously found library '"
+                            + libname + "' is too old", Collections.singletonList(libpath));
+                }
+
                 properties.setLastSearch(libname);
                 return libpath;
             }
@@ -653,7 +678,15 @@ or pathname not found and its directory is not writable */
         }
 
         boolean downloadEnabled = Arrays.asList(locations).contains(Location.DOWNLOAD);
-        String failReason = downloadEnabled ? "check your network connection" : "auto-download is disabled";
+        String failReason;
+        if (!downloadEnabled) {
+            failReason = "auto-download is disabled";
+        } else if (downloadUsupportedLibs.contains(libname)) {
+            failReason = "there is no build for your OS/version available";
+        } else {
+            failReason = "check your network connection";
+        }
+
         String errorMsg = "Failed to find and/or download library '" + libname + "': " + failReason;
         TreeMap<String, Version> outdatedLibrariesCurrent = getOutdatedLibraries(libname);
         if (outdatedLibrariesCurrent.isEmpty()) {
@@ -675,7 +708,11 @@ or pathname not found and its directory is not writable */
         }
 
         String latestVersion = getLatestVersion(libname);
-        if (!downloadManager.downloadLib(this, libname, latestVersion)) {
+        DownloadManager.DownloadResult downloadResult = downloadManager.downloadLib(this, libname, latestVersion);
+        if (downloadResult != DownloadManager.DownloadResult.SUCCESS) {
+            if (downloadResult == DownloadManager.DownloadResult.UNSUPPORTED_OS) {
+                downloadUsupportedLibs.add(libname);
+            }
             return null;
         }
 
@@ -798,11 +835,21 @@ or pathname not found and its directory is not writable */
         The order of elements defines library location search order. */
     private Location[] locations;
 
-    private HashMap<String, String> libraryVersions;
+    /** Minimal versions for each of the libraries */
+    private HashMap<String, String> libraryVersions = new HashMap<String, String>();
 
-    private TreeMap<String, TreeMap<Version, String>> foundLibrariesVersions;
+    /** Latest versions downloaded from NCBI or taken from cache for each of the libraries */
+    private HashMap<String, String> latestVersions = new HashMap<String, String>();
 
-    private TreeMap<String, TreeMap<String, Version>> outdatedLibrariesVersions;
+    /** Found libraries which satisfy minimal version requirements */
+    private TreeMap<String, TreeMap<Version, String>> foundLibrariesVersions = new TreeMap<String, TreeMap<Version, String>>();
+
+    /** Found libraries which do not satisfy minimal version requirements */
+    private TreeMap<String, TreeMap<String, Version>> outdatedLibrariesVersions = new TreeMap<String, TreeMap<String, Version>>();
+
+    /** Set of libs for which download reported that
+     * it does not have a library for a given OS/version */
+    private Set<String> downloadUsupportedLibs = new TreeSet<String>();
 
     /** Knows how to check and download latest libraries versions */
     private DownloadManager downloadManager;
@@ -810,6 +857,8 @@ or pathname not found and its directory is not writable */
     /** Is updated by FileCreator methods called by HttpManager */
     private String createdFileName;
 
+    /** File that plays a role of a cache for information
+     * of libraries locations/versions between runs */
     private LMProperties properties; // to keep dll path/version-s
 
 ////////////////////////////////////////////////////////////////////////////////

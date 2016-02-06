@@ -133,7 +133,7 @@ class LibVersionChecker {
         return version;
     }
 
-    private static String getVersion(String libname) {
+    static String getVersion(String libname) {
         try {
             if (libname.equals("ncbi-vdb")) {
                 return Manager.getPackageVersion();

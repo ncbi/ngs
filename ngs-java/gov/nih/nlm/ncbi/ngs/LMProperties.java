@@ -56,6 +56,29 @@ class LMProperties extends java.util.Properties {
         return new Date(Long.valueOf(dateLong));
     }
 
+    void setLatestVersion(String libname, String version) {
+        String node = "/dll/" + libname + "/" + bits + "/latest-version/";
+        setProperty(node + "value", version);
+        setProperty(node + "updated", Long.toString(new Date().getTime()));
+    }
+
+    String getLatestVersion(String libname, long cacheTrustInterval) {
+        String node = "/dll/" + libname + "/" + bits + "/latest-version/";
+        String version = getProperty(node + "value");
+        String dateLong = getProperty(node + "updated");
+        if (dateLong == null || version == null) {
+            return null;
+        }
+
+        if (new Date().getTime() - Long.valueOf(dateLong) > cacheTrustInterval) {
+            remove(node + "value");
+            remove(node + "updated");
+            return null;
+        }
+
+        return version;
+    }
+
     void notLoaded(String libname) {
         String node = "/dll/" + libname + "/" + bits + "/";
         remove(node + "loaded/path");
