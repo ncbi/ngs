@@ -868,9 +868,11 @@ or pathname not found and its directory is not writable */
 -Dvdb.log
 off if JUST_DO_SIMPLE_LOAD_LIBRARY
 
-TODO save location where library was found
-(try to use load instead of loadLibrary even for LIBPATH);
-add which() method to return this location(?);
+-Dvdb.System.noLibraryDownload=true - will turn auto-download off
+-Dvdb.System.noLatestLibrarySearch=true - with previous option will not try
+                                          to find latest installed lib
+
+TODO
 try to load the library if LibManager.loadLibrary() was never called.
 What if loadLibrary() is called several times? load()
       http://docs.oracle.com/javase/6/docs/api/java/util/logging/Level.html

@@ -201,6 +201,9 @@ NCBI_SRC =                 \
 	Manager                \
 	NGS                    \
 	Version                \
+	error/LibraryLoadError     \
+	error/LibraryNotFoundError \
+	error/LibraryTooOldError   \
 
 NCBI_SRC_PATH = \
 	$(addprefix $(SRCDIR)/gov/nih/nlm/ncbi/ngs/,$(addsuffix .java,$(NCBI_SRC)))
