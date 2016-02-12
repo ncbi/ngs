@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 class LibVersionChecker {
-    static String getVersion(String libname, String libpath, boolean useLoadLibrary) {
+    static Version getVersion(String libname, String libpath, boolean useLoadLibrary) {
         Vector<String> cmdarray = new Vector<String>();
         String property = System.getProperty("java.home");
         if (property != null) {
@@ -77,7 +77,10 @@ class LibVersionChecker {
             p.waitFor();
         } catch (Exception e) { Logger.finest(e); }
         Logger.finer("<<< Done CHILD");
-        return version;
+        if (version != null) {
+            return new Version(version);
+        }
+        return null;
     }
 
     /** Call checkLib for every argument to the version of local dll,
@@ -123,7 +126,7 @@ class LibVersionChecker {
         String version = null;
         if (loaded) {
             Logger.finest(">> Checking current version of the library...");
-            version = getVersion(libname);
+            version = getLoadedVersion(libname);
 
             Logger.finest("<< The current version of " + path + " = " + version);
         }
@@ -133,7 +136,7 @@ class LibVersionChecker {
         return version;
     }
 
-    static String getVersion(String libname) {
+    static String getLoadedVersion(String libname) {
         try {
             if (libname.equals("ncbi-vdb")) {
                 return Manager.getPackageVersion();

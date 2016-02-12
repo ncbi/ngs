@@ -93,6 +93,14 @@ class Version implements Comparable<Version> {
         return version == null ? "null" : version;
     }
 
+    public boolean isCompatible(Version other) {
+        return major == other.major;
+    }
+
+    public int getMajor() {
+        return major;
+    }
+
     /** Compares two Version, testing whether one comes before or after the
         other, or whether they're equal. The Version parts are compared.
 

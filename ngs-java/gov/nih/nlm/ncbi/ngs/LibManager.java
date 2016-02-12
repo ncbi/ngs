@@ -28,9 +28,15 @@
 package gov.nih.nlm.ncbi.ngs;
 
 
+import gov.nih.nlm.ncbi.ngs.error.LibraryIncompatibleVersionError;
 import gov.nih.nlm.ncbi.ngs.error.LibraryLoadError;
 import gov.nih.nlm.ncbi.ngs.error.LibraryNotFoundError;
-import gov.nih.nlm.ncbi.ngs.error.LibraryTooOldError;
+import gov.nih.nlm.ncbi.ngs.error.cause.ConnectionProblemCause;
+import gov.nih.nlm.ncbi.ngs.error.cause.DownloadDisabledCause;
+import gov.nih.nlm.ncbi.ngs.error.cause.DownloadInvalidLibraryCause;
+import gov.nih.nlm.ncbi.ngs.error.cause.JvmErrorCause;
+import gov.nih.nlm.ncbi.ngs.error.cause.LibraryLoadCause;
+import gov.nih.nlm.ncbi.ngs.error.cause.UnsupportedArchCause;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -38,11 +44,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 
@@ -101,6 +107,18 @@ class LibManager implements FileCreator
         {   switch (this) { case b32: return "32"; default: return "64";} }
     }
 
+    private class LibSearchResult {
+        Location location = null;
+        String path = null;
+        Version version = null;
+        LibraryLoadCause failCause = null;
+    }
+
+    private class LibDownloadResult {
+        String savedPath = null;
+        DownloadManager.DownloadResult status;
+    }
+
 ////////////////////// TODO check out of space condition ///////////////////////
 
     LibManager ( String [] libs, String [] versions )
@@ -116,17 +134,14 @@ class LibManager implements FileCreator
         checkSystemProperties();
         locations = generateLocations();
 
-        properties = new LMProperties(detectJVM().intString());
+        for (int i = 0; i < libs.length; ++i) {
+            libraryVersions.put(libs[i], versions[i]);
+        }
+
+        properties = new LMProperties(detectJVM().intString(), libraryVersions);
         if (CHECK_AND_DOWNLOAD_LATEST_LIBRARY_VERSION) {
             downloadManager = new DownloadManager(properties);
         }
-
-        for (int i = 0; i < libs.length; ++i) {
-            libraryVersions.put(libs[i], versions[i]);
-            foundLibrariesVersions.put(libs[i], new TreeMap<Version, String>());
-            outdatedLibrariesVersions.put(libs[i], new TreeMap<String, Version>());
-        }
-
 
         if (!JUST_DO_SIMPLE_LOAD_LIBRARY && System.getProperty("vdb.deleteLibraries") != null) {
             /* make sure we have the latest version of ngs-sdk & ncbi-vdb dll-s */
@@ -286,25 +301,72 @@ or pathname not found and its directory is not writable */
 ////////////////////////////////////////////////////////////////////////////////
 
 
-    /** Loads the system library by finding it by iterating the location array.
-        Try to download it from NCBI if not found. */
-    boolean loadLibrary( String libname ) {
-        boolean ok = false;
+    /**
+     * Loads the system library by finding it by iterating the location array.
+     *   Try to download it from NCBI if not found.
+     *
+     * Will throw LibraryLoadError when failed.
+     */
+    void loadLibrary( String libname ) {
+        Version minimalVersion = getMinimalVersion(libname);
+        boolean cacheEnabled = Arrays.asList(locations).contains(Location.CACHE);
 
-        Logger.fine("Loading " + libname + " library...");
+        Logger.fine("Searching for " + libname + " library...");
         try {
-            if (searchAndLoad(libname) != null) {
-                Logger.fine("Loaded " + libname + " library");
-                ok = true;
+            LibSearchResult searchResult = searchLibrary(libname, minimalVersion);
+
+            if (searchResult.path == null) {
+                throw new LibraryNotFoundError("Failed to find and/or download library",
+                        searchResult.failCause);
+            }
+
+            if (cacheEnabled && searchResult.location != Location.CACHE) {
+                properties.setLastSearch(libname);
+            }
+
+            Logger.fine("Found " + libname + " library");
+
+            String libpath = searchResult.path;
+            Logger.info("Loading " + libname + "...");
+            try {
+                if (libpath.startsWith(libname)) {
+                    System.loadLibrary(libpath);
+                } else {
+                    System.load(libpath);
+                }
+            } catch (Throwable e) {
+                throw new LibraryLoadError("Failed to load found library " + libpath,
+                        new JvmErrorCause(e));
+            }
+            Logger.fine("Loaded " + libname + " library");
+
+            Logger.fine("Checking library " + libname + " version...");
+            String v = LibVersionChecker.getLoadedVersion(libname);
+            if (v == null) {
+                throw new LibraryLoadError("Failed to retrive loaded library version", null);
+            }
+            Version loadedVersion = new Version(v);
+            if (loadedVersion.compareTo(minimalVersion) < 0) {
+                throw new LibraryIncompatibleVersionError("Found library is too old",
+                        libpath, searchResult.failCause);
+            }
+            Logger.fine("Library " + libname + " was loaded successfully." +
+                    " Version = " + loadedVersion.toSimpleVersion());
+
+            if (cacheEnabled) {
+                properties.loaded(libname, searchResult.version.toSimpleVersion(), libpath);
             }
         } catch (LibraryLoadError e) {
+            if (cacheEnabled) {
+                properties.notLoaded(libname);
+            }
             Logger.warning("Failed to load " + libname + " library");
             throw e;
         } finally {
-            properties.store();
+            if (cacheEnabled) {
+                properties.store();
+            }
         }
-
-        return ok;
     }
 
 //////////////////////////// static package methods ////////////////////////////
@@ -441,84 +503,18 @@ or pathname not found and its directory is not writable */
         return locations;
     }
 
-    private boolean systemLoadByFile(String filepath, String libname, boolean continueIfLatestUnknown) {
-        if (!fileExists(filepath)) {
-            Logger.finer("File " + filepath + " not found");
-            return false;
+    private Version checkLibraryVersion(String libname, String libpath, boolean useLoadLibrary) {
+        if (!useLoadLibrary && !fileExists(libpath)) {
+            Logger.finer("File " + libpath + " not found");
+            return null;
         }
 
-        Logger.finer("System.load(" + filepath + ")...");
-
-        return systemLoadLibrary(libname, filepath, false, continueIfLatestUnknown);
-    }
-
-
-    private boolean systemLoadByJava(String libnameWithDataModl, Location l,
-                                     String libname, boolean continueIfLatestUnknown) {
-        // System.loadLibrary is using java.library.path to find the library
-        Logger.finest("java.library.path = " + System.getProperty("java.library.path"));
-        Logger.finer(l + ": System.loadLibrary(" + libnameWithDataModl + ")...");
-        Logger.finest("System.mapLibraryName(" + libnameWithDataModl + ") = " +
-                System.mapLibraryName(libnameWithDataModl));
-
-        return systemLoadLibrary(libname, libnameWithDataModl, true, continueIfLatestUnknown);
-    }
-
-    private boolean systemLoadLibrary(String libname, String libpath,
-                                      boolean useLoadLibrary, boolean continueIfLatestUnknown) {
-        // check for version
-        String requiredVersion = getMinimalVersion(libname);
-
-        String version = LibVersionChecker.getVersion(libname, libpath, useLoadLibrary);
+        Version version = LibVersionChecker.getVersion(libname, libpath, useLoadLibrary);
         if (version == null) {
             Logger.fine("Cannot load or get library version: " + libpath);
-            return false;
         }
 
-        Version v = new Version(version);
-        if (v.compareTo(new Version(requiredVersion)) < 0) {
-            TreeMap<String, Version> outdatedLibrariesCurrent = getOutdatedLibraries(libname);
-            if (!outdatedLibrariesCurrent.containsKey(libpath)) {
-                outdatedLibrariesCurrent.put(libpath, v);
-            }
-            Logger.info("Found library '" + libpath + "' version (" +
-                    version + ") is less than minimal required (" + requiredVersion + ")");
-            return false;
-        }
-
-        String latestVersion = getLatestVersion(libname);
-        // continue if:
-        // a) when latest version is known and found library is older than latest
-        // b) when latest version is unknown and "continueIfLatestUnknown" is true
-        if ((latestVersion != null && v.compareTo(new Version(latestVersion)) < 0) ||
-                (latestVersion == null && continueIfLatestUnknown)) {
-            TreeMap<Version, String> libraryByVersionCurrent = getFoundLibraries(libname);
-            if (!libraryByVersionCurrent.containsKey(v)) {
-                libraryByVersionCurrent.put(v, libpath);
-            }
-            return false;
-        }
-
-        return systemLoadLibraryUnchecked(libname, libpath, version, useLoadLibrary);
-    }
-
-    private boolean systemLoadLibraryUnchecked(String libname, String libpath, String version,
-                                               boolean useLoadLibrary) {
-        try {
-            if (useLoadLibrary) {
-                System.loadLibrary(libpath);
-            } else {
-                System.load(libpath);
-            }
-            Logger.fine("Loaded library " + libpath);
-            properties.loaded(libname, version, libpath);
-            return true;
-        } catch (UnsatisfiedLinkError e) {
-            Logger.fine("cannot load library: " + e);
-        } catch (Throwable e) {
-            Logger.warning("Cannot load library: " + e);
-        }
-        return false;
+        return version;
     }
 
     private static boolean fileExists(String filename) {
@@ -531,112 +527,93 @@ or pathname not found and its directory is not writable */
         }
     }
 
-    private static void printLoadingMsg(Location l, String libname) {
-        if (l == Location.LIBPATH) {
-            Logger.info("LoadingLibrary " + libname + "...");
-        } else {
-            Logger.info("Loading " + libname + " from " + l + "...");
-        }
-    }
-
-
 ////////////////////////////////////////////////////////////////////////////////
 
-    private String getMinimalVersion(String libname) {
+    private Version getMinimalVersion(String libname) {
         String minimalVersion = libraryVersions.get(libname);
-        if (libname == null) {
+        if (minimalVersion == null) {
             throw new RuntimeException("Library '" + libname + "' version was not specified");
         }
-        return minimalVersion;
+        return new Version(minimalVersion);
     }
 
-    private String getLatestVersion(String libname) {
+    private Version getLatestVersion(String libname) {
         if (latestVersions.containsKey(libname)) {
             return latestVersions.get(libname);
         }
 
-        String version = properties.getLatestVersion(libname, CACHE_LATEST_VERSION_INTERVAL);
-        if (version == null && CHECK_AND_DOWNLOAD_LATEST_LIBRARY_VERSION) {
-            version = downloadManager.getLatestVersion(libname);
-            if (version != null) {
-                properties.setLatestVersion(libname, version);
+        String v = properties.getLatestVersion(libname, CACHE_LATEST_VERSION_INTERVAL);
+        if (v == null && CHECK_AND_DOWNLOAD_LATEST_LIBRARY_VERSION) {
+            v = downloadManager.getLatestVersion(libname);
+            if (v != null) {
+                properties.setLatestVersion(libname, v);
             }
         }
 
         // we will cache whatever we have here, even null
+        Version version = null;
+        if (v != null) {
+            version = new Version(v);
+        }
         latestVersions.put(libname, version);
 
         return version;
     }
 
-    /** Tries to load the library by searching it using allowed locations array.
-        If JUST_DO_SIMPLE_LOAD_LIBRARY = true
-        then just call plain System.LoadLibrary(libname) */
-    private String searchAndLoad(String libname) {
-        if (SEARCH_FOR_LATEST_INSTALLED_LIBRARY) {
-            Logger.fine("Starting a search for the latest installed library: " + libname);
-        }
+    private LibSearchResult searchLibrary(String libname, Version requiredVersion) {
+        LibSearchResult searchResult = new LibSearchResult();
+
         for (Location l : locations) {
+            Logger.info("Checking " + libname + " from " + l + "...");
 
-            printLoadingMsg(l, libname);
-
+            List<String> pathsToCheck = new ArrayList<String>();
+            boolean useLoadLibrary;
+            boolean searchEvenAfterFound = !JUST_DO_SIMPLE_LOAD_LIBRARY;
             switch (l) {
             case LIBPATH: {
-                if (systemLoadByJava(libname, l, libname, SEARCH_FOR_LATEST_INSTALLED_LIBRARY)) {
-                    return libname;
-                }
-                if (JUST_DO_SIMPLE_LOAD_LIBRARY) {
-                    break;
-                }
+                pathsToCheck.add(libname);
                 String libnameWithDataModel = libnameWithDataModel(libname);
                 if (libnameWithDataModel != null) {
-                    if (systemLoadByJava(libnameWithDataModel, l, libname, SEARCH_FOR_LATEST_INSTALLED_LIBRARY)) {
-                        return libnameWithDataModel;
-                    }
+                    pathsToCheck.add(libnameWithDataModel);
                 }
+                useLoadLibrary = true;
                 break;
             }
             case CACHE: {
-                String filename = properties.get(libname, getMinimalVersion(libname));
+                String filename = properties.get(libname, requiredVersion);
                 if (filename == null) {
                     continue;
                 }
 
                 // when search is enabled, we might skip it if cache has information about previously
                 // loaded library and last search was less than SEARCH_LIB_FREQUENCY_INTERVAL ago
-                boolean searchEvenAfterFound = SEARCH_FOR_LATEST_INSTALLED_LIBRARY;
-                if (searchEvenAfterFound) {
-                    Date lastSearchDate = properties.getLastSeach(libname);
+                Date lastSearchDate = properties.getLastSeach(libname);
 
-                    searchEvenAfterFound = lastSearchDate == null ||
-                            (new Date().getTime() - lastSearchDate.getTime() > SEARCH_LIB_FREQUENCY_INTERVAL);
-                }
+                searchEvenAfterFound = lastSearchDate == null ||
+                        (new Date().getTime() - lastSearchDate.getTime() > SEARCH_LIB_FREQUENCY_INTERVAL);
 
-                if (filename.startsWith(libname)) {
-                    if (systemLoadByJava(filename, l, libname, searchEvenAfterFound)) {
-                        return filename;
-                    }
-                } else {
-                    if (systemLoadByFile(filename, libname, searchEvenAfterFound)) {
-                        return filename;
-                    }
-                }
-
-                properties.notLoaded(libname);
+                pathsToCheck.add(filename);
+                useLoadLibrary = filename.startsWith(libname);
                 break;
             }
             case DOWNLOAD: {
                 Logger.info("Downloading " + libname + " from NCBI...");
-                String filename = download(libname);
-                if (filename == null) {
+                LibDownloadResult downloadResult = download(libname);
+                if (downloadResult.status != DownloadManager.DownloadResult.SUCCESS) {
                     Logger.warning("Failed to download " + libname + " from NCBI");
+                    if (downloadResult.status == DownloadManager.DownloadResult.UNSUPPORTED_OS) {
+                        searchResult.failCause = new UnsupportedArchCause();
+                    } else {
+                        searchResult.failCause = new ConnectionProblemCause();
+                    }
                     continue;
                 }
                 Logger.info("Downloaded " + libname + " from NCBI");
-                Logger.fine("Loading " + libname + " library...");
-                if (systemLoadByFile(filename, libname, SEARCH_FOR_LATEST_INSTALLED_LIBRARY)) {
-                    return filename;
-                }
+                Logger.fine("Checking " + libname + " library...");
+
+                pathsToCheck.add(downloadResult.savedPath);
+                useLoadLibrary = false;
+                break;
             }
             default: {
                 String name[] = mapLibraryName(libname);
@@ -649,38 +626,79 @@ or pathname not found and its directory is not writable */
                         break;
                     }
 
-                    if (systemLoadByFile(filename, libname, SEARCH_FOR_LATEST_INSTALLED_LIBRARY)) {
-                        return filename;
-                    }
+                    pathsToCheck.add(filename);
                 }
+                useLoadLibrary = false;
                 break;
-              }
             }
-        }
+            }
 
-        TreeMap<Version, String> libraryByVersionCurrent = getFoundLibraries(libname);
-        if (libraryByVersionCurrent.size() > 0) {
-            String libpath = libraryByVersionCurrent.lastEntry().getValue();
-            String version = libraryByVersionCurrent.lastEntry().getKey().toSimpleVersion();
-            Logger.fine("Loading latest installed library: " + libpath + " " + version);
-            if (systemLoadLibraryUnchecked(libname, libpath, version, libpath.startsWith(libname))) {
-                String loadedVersion = LibVersionChecker.getVersion(libname);
-                String minimalVersion = getMinimalVersion(libname);
-                if (loadedVersion == null || new Version(loadedVersion).compareTo(new Version(minimalVersion)) < 0) {
-                    throw new LibraryTooOldError("Version of previously found library '"
-                            + libname + "' is too old", Collections.singletonList(libpath));
+
+            boolean foundInLocation = false;
+            for (String path : pathsToCheck) {
+                Version v = checkLibraryVersion(libname, path, useLoadLibrary);
+                if (v == null) {
+                    continue;
                 }
 
-                properties.setLastSearch(libname);
-                return libpath;
+                foundInLocation = true;
+
+                if (searchResult.version == null ||
+                        (v.isCompatible(requiredVersion) && v.compareTo(searchResult.version) > 0)) {
+                    searchResult.location = l;
+                    searchResult.version = v;
+                    searchResult.path = path;
+                }
+
+                if (searchResult.version.compareTo(requiredVersion) >= 0 && !searchEvenAfterFound) {
+                    break;
+                }
             }
-            throw new LibraryLoadError("Failed to load previously found library: " + libpath);
+
+            if (l == Location.DOWNLOAD && !foundInLocation) {
+                searchResult.failCause = new DownloadInvalidLibraryCause();
+                // if we overwrite our "best" found lib by "invalid" download, clear the result
+                if (searchResult.path.equals(pathsToCheck.get(0))) {
+                    searchResult.location = null;
+                    searchResult.version = null;
+                    searchResult.path = null;
+                }
+            }
+
+            if (searchResult.version != null && searchResult.version.isCompatible(requiredVersion)) {
+                Version latestVersion = getLatestVersion(libname);
+                // if we don't know the latest version, then we might stop the search if
+                // found version is okay and searchEvenAfterFound == false
+                if (latestVersion == null && searchResult.version.compareTo(requiredVersion) >= 0 &&
+                        !searchEvenAfterFound) {
+                    break;
+                }
+                // if we know the latest version, then we should search until find it
+                if (latestVersion != null && searchResult.version.compareTo(latestVersion) >= 0) {
+                    break;
+                }
+            }
         }
 
         boolean downloadEnabled = Arrays.asList(locations).contains(Location.DOWNLOAD);
-        String failReason;
+
+        if (searchResult.failCause == null && !downloadEnabled) {
+            // TODO: once implement "disable search", check if search disabled and use SearchDisabledCause
+            searchResult.failCause = new DownloadDisabledCause();
+        }
+
+        return searchResult;
+    }
+
+    /** Tries to load the library by searching it using allowed locations array.
+        If JUST_DO_SIMPLE_LOAD_LIBRARY = true
+        then just call plain System.LoadLibrary(libname) */
+    /*private String searchAndLoad(String libname) {
+
+
+        TreeMap<Version, String> libraryByVersionCurrent = getFoundLibraries(libname);
+
         if (!downloadEnabled) {
-            failReason = "auto-download is disabled";
         } else if (downloadUsupportedLibs.contains(libname)) {
             failReason = "there is no build for your OS/version available";
         } else {
@@ -693,8 +711,8 @@ or pathname not found and its directory is not writable */
             throw new LibraryNotFoundError(errorMsg);
         }
 
-        throw new LibraryTooOldError(errorMsg, new ArrayList<String>(outdatedLibrariesCurrent.keySet()));
-    }
+        throw new LibraryIncompatibleVersionError(errorMsg, new ArrayList<String>(outdatedLibrariesCurrent.keySet()));
+    }*/
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -702,25 +720,27 @@ or pathname not found and its directory is not writable */
 
     /** Downloads the library and default configuration from NCBI.
         Save them where it can be found by LibManager.loadLibrary() */
-    private String download(String libname) {
+    private LibDownloadResult download(String libname) {
         if (!CHECK_AND_DOWNLOAD_LATEST_LIBRARY_VERSION) {
             throw new RuntimeException("CHECK_AND_DOWNLOAD_LATEST_LIBRARY_VERSION is disabled. This method should not be called");
         }
 
-        String latestVersion = getLatestVersion(libname);
-        DownloadManager.DownloadResult downloadResult = downloadManager.downloadLib(this, libname, latestVersion);
-        if (downloadResult != DownloadManager.DownloadResult.SUCCESS) {
-            if (downloadResult == DownloadManager.DownloadResult.UNSUPPORTED_OS) {
-                downloadUsupportedLibs.add(libname);
-            }
-            return null;
+        LibDownloadResult result = new LibDownloadResult();
+
+        Version latestVersion = getLatestVersion(libname);
+        if (latestVersion == null) {
+            result.status = DownloadManager.DownloadResult.FAILED;
+            return result;
+        }
+        result.status = downloadManager.downloadLib(this, libname, latestVersion);
+
+        if (result.status == DownloadManager.DownloadResult.SUCCESS) {
+            result.savedPath = createdFileName;
+            createdFileName = null;
+            properties.saved(libname, latestVersion.toSimpleVersion(), result.savedPath);
         }
 
-        String r = createdFileName;
-        createdFileName = null;
-        properties.saved(libname, latestVersion, r);
-
-        return r;
+        return result;
 
 //        return downloadKfg(knownLibPath[i + 1]);
     }
@@ -809,26 +829,6 @@ or pathname not found and its directory is not writable */
         return true;
     }
 
-    private TreeMap<Version, String> getFoundLibraries(String libname) {
-        TreeMap<Version, String> result = foundLibrariesVersions.get(libname);
-        if (result == null) {
-            throw new RuntimeException("Cannot find library entry in array for: " + libname);
-        }
-
-        return result;
-    }
-
-    private TreeMap<String, Version> getOutdatedLibraries(String libname) {
-        TreeMap<String, Version> result = outdatedLibrariesVersions.get(libname);
-        if (result == null) {
-            throw new RuntimeException("Cannot find library entry in array for: " + libname);
-        }
-
-        return result;
-    }
-
-
-
 ////////////////////////////////////////////////////////////////////////////////
 
     /** Possible location to search for library to load.
@@ -836,20 +836,10 @@ or pathname not found and its directory is not writable */
     private Location[] locations;
 
     /** Minimal versions for each of the libraries */
-    private HashMap<String, String> libraryVersions = new HashMap<String, String>();
+    private Map<String, String> libraryVersions = new HashMap<String, String>();
 
     /** Latest versions downloaded from NCBI or taken from cache for each of the libraries */
-    private HashMap<String, String> latestVersions = new HashMap<String, String>();
-
-    /** Found libraries which satisfy minimal version requirements */
-    private TreeMap<String, TreeMap<Version, String>> foundLibrariesVersions = new TreeMap<String, TreeMap<Version, String>>();
-
-    /** Found libraries which do not satisfy minimal version requirements */
-    private TreeMap<String, TreeMap<String, Version>> outdatedLibrariesVersions = new TreeMap<String, TreeMap<String, Version>>();
-
-    /** Set of libs for which download reported that
-     * it does not have a library for a given OS/version */
-    private Set<String> downloadUsupportedLibs = new TreeSet<String>();
+    private HashMap<String, Version> latestVersions = new HashMap<String, Version>();
 
     /** Knows how to check and download latest libraries versions */
     private DownloadManager downloadManager;

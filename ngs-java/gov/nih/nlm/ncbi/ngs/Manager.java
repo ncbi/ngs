@@ -105,12 +105,8 @@ class Manager
                     new String[] { ngs_sdk, ncbi_vdb },
                     new String[] { ngs_sdk_version, ncbi_vdb_version });
 
-            if ( ! m . loadLibrary ( ngs_sdk ) )
-                throw new ExceptionInInitializerError
-                    ( "Cannot load " + ngs_sdk + " library" );
-            if ( ! m . loadLibrary ( ncbi_vdb ) )
-                throw new ExceptionInInitializerError
-                    ( "Cannot load " + ncbi_vdb + " library" );
+            m . loadLibrary ( ngs_sdk );
+            m . loadLibrary ( ncbi_vdb );
 
             // try to initialize the NCBI library
             String err = Initialize ();
