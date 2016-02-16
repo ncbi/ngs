@@ -208,7 +208,6 @@ NCBI_SRC =                 \
 	error/cause/DownloadDisabledCause       \
 	error/cause/JvmErrorCause               \
 	error/cause/LibraryLoadCause            \
-	error/cause/SearchDisabledCause         \
 	error/cause/UnsupportedArchCause        \
 
 NCBI_SRC_PATH = \

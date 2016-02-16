@@ -6,7 +6,13 @@ public class LibraryLoadError extends ExceptionInInitializerError {
     LibraryLoadCause cause;
 
     public LibraryLoadError(String msg, LibraryLoadCause cause) {
-        super(generateMsg(msg, cause));
+        super(generateMsg(msg, cause, cause.getRecommendation()));
+
+        this.cause = cause;
+    }
+
+    public LibraryLoadError(String msg, LibraryLoadCause cause, String recommendation) {
+        super(generateMsg(msg, cause, recommendation));
 
         this.cause = cause;
     }
@@ -16,10 +22,13 @@ public class LibraryLoadError extends ExceptionInInitializerError {
         return cause;
     }
 
-    private static String generateMsg(String msg, LibraryLoadCause cause) {
+    private static String generateMsg(String msg, LibraryLoadCause cause, String recommendation) {
         String result = msg;
         if (cause != null) {
-            result += " - " + cause.getMessage();
+            result += ", " + cause.getMessage();
+            if (recommendation != null) {
+                result += "\n" + recommendation;
+            }
         }
 
         return result;

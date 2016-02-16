@@ -6,4 +6,9 @@ public class JvmErrorCause extends LibraryLoadCause {
         super("JVM error");
         initCause(e);
     }
+
+    @Override
+    public String getRecommendation() {
+        return null;
+    }
 }
