@@ -48,7 +48,7 @@ class Pileup(PileupEventIterator):
         """
         :return: base at current Reference position
         """
-        return getNGSValue(self, NGS.lib_manager.PY_NGS_PileupGetReferenceBase, c_char)
+        return getNGSValue(self, NGS.lib_manager.PY_NGS_PileupGetReferenceBase, c_char).decode("utf-8")
 
     # ----------------------------------------------------------------------
     # details of this pileup row

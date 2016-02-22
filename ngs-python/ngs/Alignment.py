@@ -178,7 +178,7 @@ class Alignment(Fragment):
         :returns: '-' if negative strand is transcribed
         :returns: '?' if unknown
         """
-        return getNGSValue(self, NGS.lib_manager.PY_NGS_AlignmentGetRNAOrientation, c_char)
+        return getNGSValue(self, NGS.lib_manager.PY_NGS_AlignmentGetRNAOrientation, c_char).decode("utf-8")
 
     # ------------------------------------------------------------------
     # details of mate alignment            

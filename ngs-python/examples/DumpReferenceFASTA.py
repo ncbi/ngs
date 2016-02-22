@@ -27,45 +27,55 @@ import traceback
 
 from ngs import NGS
 from ngs.ErrorMsg import ErrorMsg
-from ngs.ReadCollection import ReadCollection
-from ngs.Read import Read
-from ngs.ReadIterator import ReadIterator
 
+def process(ref):
+    length = ref.getLength()
+    line = 0
 
-def run(acc, splitNum, splitNo):
+    print( ">" + ref.getCanonicalName() )
+    try:
+        offset = 0
+        while offset < length:
+            chunk = ref.getReferenceChunk ( offset, 5000 )
+            chunk_len = len (chunk)
+            
+            chunk_idx = 0
+            while chunk_idx < chunk_len:
+                endIndex = chunk_idx + 70 - line
+                if endIndex > chunk_len:
+                    endIndex = chunk_len
+                chunk_line = chunk [ chunk_idx : endIndex ]
+                line = line + len (chunk_line)
+                chunk_idx = chunk_idx + len (chunk_line)
+
+                sys.stdout.write( chunk_line )
+                if line >= 70:
+                    print("")
+                    line = 0
+            offset = offset + 5000
+    except ErrorMsg as x:
+        pass
+
+def run(acc, refName=None):
     # open requested accession using SRA implementation of the API
     with NGS.openReadCollection(acc) as run:
-        run_name = run.getName()
+        if refName:
+            with run.getReference(refName) as ref:
+                process(ref)
+        else:
+            with run.getReferences() as refs:
+                while refs.nextReference():
+                    process(refs)
+                    print("")
 
-        # compute window to iterate through
-        MAX_ROW = run.getReadCount()
-        chunk = MAX_ROW/splitNum
-        first = int(round(chunk*(splitNo-1)))
-        next_first = int(round(chunk*(splitNo)))
-        if next_first > MAX_ROW:
-            next_first = MAX_ROW
-
-        # start iterator on reads
-        with run.getReadRange(first+1, next_first-first, Read.all) as it:
-            i = 0
-            while it.nextRead():
-                i += 1
-                print (it.getReadId())
-                # iterate through fragments
-                while it.nextFragment():
-                    bases = it.getFragmentBases()
-                    if bases:
-                        print ("\t{} - {}".format(bases, "aligned" if it.isAligned() else "unaligned"))
-                print ("\n")
-            print ("Read {} spots for {}".format(i,  run_name))
-
-
-if len(sys.argv) != 4:
-    print ("Usage: FragTest accession NumChunks ChunkNo\n")
+if len(sys.argv) < 2 or len(sys.argv) > 3:
+    print ("Usage: DumpReferenceFASTA accession [ reference ]\n")
     exit(1)
 else:
     try:
-        run(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]))
+        acc = sys.argv[1]
+        refName = sys.argv[2] if len(sys.argv) == 3 else None
+        run ( acc, refName )
     except ErrorMsg as x:
         print (x)
         traceback.print_exc()

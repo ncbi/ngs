@@ -29,7 +29,32 @@
 
 #include <ngs/itf/StringItf.hpp>
 
-GEN_PY_FUNC_GET_BY_PARAMS_2_EXPLICIT_NAMES ( String, ngs::StringItf*, size_t, offset, size_t, size, PY_NGS_StringGetSubstring, substr )
+PY_RES_TYPE PY_NGS_StringGetSubstring ( void* pRef, size_t offset, size_t size, void** pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        ngs::StringItf* res = CheckedCast< ngs::StringItf* >(pRef) -> substr ( offset, size );
+        assert (pRet != NULL);
+        *pRet = (void*) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+
 
 PY_RES_TYPE PY_NGS_StringGetData ( void* pRef, char const** pRet )
 {

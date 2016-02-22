@@ -29,8 +29,133 @@
 
 #include <ngs/itf/FragmentItf.hpp>
 
-GEN_PY_FUNC_GET_STRING                  ( Fragment, FragmentId )
-GEN_PY_FUNC_GET_STRING_BY_PARAMS_2      ( Fragment, FragmentBases,     uint64_t, offset, uint64_t, length )
-GEN_PY_FUNC_GET_STRING_BY_PARAMS_2      ( Fragment, FragmentQualities, uint64_t, offset, uint64_t, length )
-GEN_PY_FUNC_GET_EXPLICIT_NAMES          ( Fragment, bool, PY_NGS_FragmentIsPaired, isPaired )
-GEN_PY_FUNC_GET_EXPLICIT_NAMES          ( Fragment, bool, PY_NGS_FragmentIsAligned, isAligned )
+PY_RES_TYPE PY_NGS_FragmentGetFragmentId ( void* pRef, void** pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        void* res = CheckedCast< ngs::FragmentItf* >(pRef) -> getFragmentId ();
+        assert (pRet != NULL);
+        *pRet = (void*) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+
+PY_RES_TYPE PY_NGS_FragmentGetFragmentBases ( void* pRef, uint64_t offset, uint64_t length, void** pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        void* res = CheckedCast< ngs::FragmentItf* >(pRef) -> getFragmentBases ( offset, length );
+        assert (pRet != NULL);
+        *pRet = (void*) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+
+PY_RES_TYPE PY_NGS_FragmentGetFragmentQualities ( void* pRef, uint64_t offset, uint64_t length, void** pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        void* res = CheckedCast< ngs::FragmentItf* >(pRef) -> getFragmentQualities ( offset, length );
+        assert (pRet != NULL);
+        *pRet = (void*) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+
+PY_RES_TYPE PY_NGS_FragmentIsPaired ( void* pRef, int* pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        bool res = CheckedCast< ngs::FragmentItf* >(pRef) -> isPaired ();
+        assert (pRet != NULL);
+        *pRet = (int) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+
+PY_RES_TYPE PY_NGS_FragmentIsAligned ( void* pRef, int* pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        bool res = CheckedCast< ngs::FragmentItf* >(pRef) -> isAligned ();
+        assert (pRet != NULL);
+        *pRet = (int) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+

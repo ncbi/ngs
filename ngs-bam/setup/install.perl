@@ -7,7 +7,10 @@ require 'install.prl';
 use Config;
 use Cwd        "abs_path";
 use File::Copy "copy";
-use File::Copy::Recursive qw(dircopy);
+
+#use File::Copy::Recursive qw(dircopy);
+#WILL FAIL IN FUNCTION TRYING TO USE dircopy - THEY ARE NOT CALLED IN ngs-bam
+
 use File::Path   "make_path";
 use FindBin    qw($Bin);
 use Getopt::Long "GetOptions";
