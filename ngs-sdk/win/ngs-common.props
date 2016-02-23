@@ -11,6 +11,12 @@
         <NGS_TARGET Condition="'$(NGS_TARGET)' == ''">$(NGS_OUTDIR)win\cl\$(Platform)\$(Configuration)\</NGS_TARGET>    
     </PropertyGroup>
   
+    <ItemDefinitionGroup>
+        <ClCompile>
+            <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+        </ClCompile>
+    </ItemDefinitionGroup>
+  
     <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
 
     <PropertyGroup Label="Configuration">
@@ -34,7 +40,6 @@
             <CompileAsManaged>false</CompileAsManaged>
             <MinimalRebuild>true</MinimalRebuild>
             <DisableLanguageExtensions>false</DisableLanguageExtensions>
-            <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
             <DisableSpecificWarnings>4996;4101;4251;4290</DisableSpecificWarnings>
              <StringPooling>true</StringPooling>
             <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..;$(ProjectDir)..\ngs\win;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
