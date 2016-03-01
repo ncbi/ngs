@@ -16,6 +16,22 @@ def RefcountRelease(ref):
     finally:
         ngs_str_err.close()
 
+# def RefcountEngineRelease(ref):
+    # """Releases NGS-object imported from ngs engine
+    
+    # :param ref: reference to refcounted NGS-object to be released. It's expected to be of type c_void_p
+    # :returns: None
+    # :throws: ErrorMsg
+    # """
+
+    # ERROR_BUFFER_SIZE = 4096
+    # str_err = create_string_buffer(ERROR_BUFFER_SIZE)
+    # from . import PY_RES_OK
+    # res = NGS.lib_manager.PY_NGS_Engine_RefcountRelease(ref, str_err, len(str_err))
+    # if res != PY_RES_OK:
+        # raise ErrorMsg(str_err.value)
+
+
 def RefcountRawStringRelease(ref):
     """Releases raw string imported from ngs-sdk
     
@@ -28,17 +44,6 @@ def RefcountRawStringRelease(ref):
         res = NGS.lib_manager.PY_NGS_RawStringRelease(ref, byref(ngs_str_err.ref))
     finally:
         ngs_str_err.close()
-
-# def RefcountEngineRelease(ref):
-    # """Releases NGS-object imported from ngs engine
-    
-    # :param ref: reference to refcounted NGS-object to be released. It's expected to be of type c_void_p
-    # :returns: None
-    # :throws: ErrorMsg
-    # """
-    # with NGSEngine_String() as ngs_str_err:
-        # res = NGS.lib_manager.PY_NGS_Engine_RefcountRelease(ref, byref(ngs_str_err.ref))
-        # check_res(res, ngs_str_err)
 
 
 class Refcount:

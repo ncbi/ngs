@@ -63,6 +63,7 @@ def run(acc, splitNum, splitNo): # this function doesn't release NGS objects how
 
 if len(sys.argv) != 4:
     print ("Usage: FragTest accession NumChunks ChunkNo\n")
+    exit(1)
 else:
     try:
         run(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]))
@@ -70,5 +71,7 @@ else:
         print (x)
         traceback.print_exc()
         # x.printStackTrace - not implemented
+        exit(1)
     except BaseException, x:
         traceback.print_exc()
+        exit(1)

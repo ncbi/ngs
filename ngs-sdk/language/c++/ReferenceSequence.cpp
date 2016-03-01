@@ -36,6 +36,16 @@ namespace ngs
         assert ( ref != 0 );
     }
 
+    ReferenceSequence & ReferenceSequence :: operator = ( ReferenceSequenceRef ref )
+            throw ()
+    {
+        assert ( ref != 0 );
+        ReferenceSequenceRef new_ref = ref -> Duplicate ();
+        this -> self -> Release ();
+        this -> self = new_ref;
+        return * this;
+    }
+
     ReferenceSequence & ReferenceSequence :: operator = ( const ReferenceSequence & obj )
         throw ( ErrorMsg )
     {

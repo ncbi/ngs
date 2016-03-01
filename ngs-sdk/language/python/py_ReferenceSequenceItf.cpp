@@ -29,8 +29,133 @@
 
 #include <ngs/itf/ReferenceSequenceItf.hpp>
 
-GEN_PY_FUNC_GET_STRING             ( ReferenceSequence, CanonicalName )
-GEN_PY_FUNC_GET                    ( ReferenceSequence, IsCircular,     bool )
-GEN_PY_FUNC_GET                    ( ReferenceSequence, Length,         uint64_t )
-GEN_PY_FUNC_GET_STRING_BY_PARAMS_2 ( ReferenceSequence, ReferenceBases, uint64_t, offset, uint64_t, length )
-GEN_PY_FUNC_GET_STRING_BY_PARAMS_2 ( ReferenceSequence, ReferenceChunk, uint64_t, offset, uint64_t, length )
+PY_RES_TYPE PY_NGS_ReferenceSequenceGetCanonicalName ( void* pRef, void** pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        void* res = CheckedCast< ngs::ReferenceSequenceItf* >(pRef) -> getCanonicalName ();
+        assert (pRet != NULL);
+        *pRet = (void*) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+
+PY_RES_TYPE PY_NGS_ReferenceSequenceGetIsCircular ( void* pRef, int* pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        bool res = CheckedCast< ngs::ReferenceSequenceItf* >(pRef) -> getIsCircular ();
+        assert (pRet != NULL);
+        *pRet = (int) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+
+PY_RES_TYPE PY_NGS_ReferenceSequenceGetLength ( void* pRef, uint64_t* pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        uint64_t res = CheckedCast< ngs::ReferenceSequenceItf* >(pRef) -> getLength ();
+        assert (pRet != NULL);
+        *pRet = (uint64_t) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+
+PY_RES_TYPE PY_NGS_ReferenceSequenceGetReferenceBases ( void* pRef, uint64_t offset, uint64_t length, void** pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        void* res = CheckedCast< ngs::ReferenceSequenceItf* >(pRef) -> getReferenceBases ( offset, length );
+        assert (pRet != NULL);
+        *pRet = (void*) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+
+PY_RES_TYPE PY_NGS_ReferenceSequenceGetReferenceChunk ( void* pRef, uint64_t offset, uint64_t length, void** pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        void* res = CheckedCast< ngs::ReferenceSequenceItf* >(pRef) -> getReferenceChunk ( offset, length );
+        assert (pRet != NULL);
+        *pRet = (void*) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+

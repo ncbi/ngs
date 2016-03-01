@@ -27,34 +27,55 @@ import traceback
 
 from ngs import NGS
 from ngs.ErrorMsg import ErrorMsg
-from ngs.ReadCollection import ReadCollection
-from ngs.Reference import Reference
-from ngs.ReferenceIterator import ReferenceIterator
 
-def run(acc):
+def process(ref):
+    length = ref.getLength()
+    line = 0
+
+    print( ">" + ref.getCanonicalName() )
+    try:
+        offset = 0
+        while offset < length:
+            chunk = ref.getReferenceChunk ( offset, 5000 )
+            chunk_len = len (chunk)
+            
+            chunk_idx = 0
+            while chunk_idx < chunk_len:
+                endIndex = chunk_idx + 70 - line
+                if endIndex > chunk_len:
+                    endIndex = chunk_len
+                chunk_line = chunk [ chunk_idx : endIndex ]
+                line = line + len (chunk_line)
+                chunk_idx = chunk_idx + len (chunk_line)
+
+                sys.stdout.write( chunk_line )
+                if line >= 70:
+                    print("")
+                    line = 0
+            offset = offset + 5000
+    except ErrorMsg as x:
+        pass
+
+def run(acc, refName=None):
     # open requested accession using SRA implementation of the API
     with NGS.openReadCollection(acc) as run:
-        run_name = run.getName()
+        if refName:
+            with run.getReference(refName) as ref:
+                process(ref)
+        else:
+            with run.getReferences() as refs:
+                while refs.nextReference():
+                    process(refs)
+                    print("")
 
-        # get requested reference
-        with run.getReferences() as it:
-            i = 0
-            while it.nextReference():
-                print ("{}\t{}\t{}\t{}".format(it.getCommonName(),
-                    it.getCanonicalName(),
-                    it.getLength(),
-                    "circular" if it.getIsCircular() else "linear",
-                ))
-
-            print ("Read {} references for {}".format(i, run_name))
-
-
-if len(sys.argv) != 2:
-    print ("Usage: RefTest accession\n")
+if len(sys.argv) < 2 or len(sys.argv) > 3:
+    print ("Usage: DumpReferenceFASTA accession [ reference ]\n")
     exit(1)
 else:
     try:
-        run(sys.argv[1])
+        acc = sys.argv[1]
+        refName = sys.argv[2] if len(sys.argv) == 3 else None
+        run ( acc, refName )
     except ErrorMsg as x:
         print (x)
         traceback.print_exc()
