@@ -43,7 +43,14 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  
   <ImportGroup Label="ExtensionTargets" />
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+    
   <ItemGroup>
     <ClCompile Include="..\dispatch\AlignmentItf.cpp" />
     <ClCompile Include="..\dispatch\ErrBlock.cpp" />
