@@ -20,8 +20,8 @@ public class LibraryIncompatibleVersionError extends LibraryLoadError {
     }
 
     private static String generateMsg(String msg, String outdatedLibPath) {
-        String result = msg + ":";
-        result += "\n" + outdatedLibPath;
+        String result = msg + "\n";
+        result += "Library path: " + outdatedLibPath;
         return result;
     }
 }
