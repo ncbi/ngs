@@ -6,7 +6,8 @@
 	
     <property name="Platform"       value="x64" />
     <property name="Configuration"  value="Debug" />
-    <property name="Output"         value="${basedir}\..\..\..\OUTDIR" />
+    <property name="Output"         value="${basedir}\..\..\..\OUTDIR\ngs-sdk\" />
+    <property name="MSVS"           value="2013" />
 	
     <target name="help">
   		<echo message="">
@@ -29,13 +30,14 @@ Supported targets:
 Options:
     -DConfiguration=Debug or -DConfiguration=Release (default)  
     -DPlatform=Win32 or -DPlatform=x64 (default)  
-    -DOutput=path   folder to create output in (default: ../../../OUTDIR)
+    -DOutput=path   folder to create output in (default: ../../../OUTDIR/ngs-sdk`)
+    -DMSVS=version  MSVS toolset, 2010 or 2013 (default: 2013)
   		</echo>
     </target>
     
     <target name="clean">
         <exec executable="msbuild.exe" failonerror="true">
-            <arg value="ngs-sdk.sln"/>
+            <arg value="vs${MSVS}\ngs-sdk.sln"/>
             <arg value="/t:clean"/>
             <arg value="/m"/>
             <arg value="/p:Platform=${Platform}"/>
@@ -46,7 +48,7 @@ Options:
 
     <target name="build">
         <exec executable="msbuild.exe" failonerror="true">
-            <arg value="ngs-sdk.sln"/>
+            <arg value="vs${MSVS}\ngs-sdk.sln"/>
             <arg value="/m"/>
             <arg value="/p:Platform=${Platform}"/>
             <arg value="/p:Configuration=${Configuration}"/>
@@ -56,7 +58,7 @@ Options:
     
     <target name="runtests" depends="build">
         <exec executable="msbuild.exe" failonerror="true">
-            <arg value="ngs-test.vcxproj"/>
+            <arg value="vs${MSVS}\ngs-sdk.sln"/>
             <arg value="/p:Platform=${Platform}"/>
             <arg value="/p:Configuration=${Configuration}"/>
             <arg value="/p:NGS_OUTDIR=${Output}"/>
