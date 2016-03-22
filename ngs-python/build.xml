@@ -2,11 +2,12 @@
 
     <!-- This file is currently for use on Windows; Linux/Mac builds are run via gmake -->
     <property environment="env"/>
+    <property name="vdb.platformtoolset"    value="v100" />
     <property name="vdb.build"      value="Debug" />
     <property name="vdb.platform"   value="x64" />
     
     <property name="vdb.outdir"   value="..\ngs-sdk\..\..\OUTDIR\" />
-    <property name="vdb.dir"   value="${vdb.outdir}\win\cl\${vdb.platform}\${vdb.build}\bin" />
+    <property name="vdb.dir"   value="${vdb.outdir}\win\${vdb.platformtoolset}\${vdb.platform}\${vdb.build}\bin" />
 	
     <!-- Set this to full path to Python if not in PATH already -->
     <property name="python.exe"     value="python" />
