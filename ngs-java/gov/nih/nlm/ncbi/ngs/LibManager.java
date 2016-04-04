@@ -321,12 +321,12 @@ or pathname not found and its directory is not writable */
      * Will throw LibraryLoadError when failed.
      */
     void loadLibrary( String libname ) {
-        Version minimalVersion = getMinimalVersion(libname);
+        Version requiredVersion = getRequiredVersion(libname);
         boolean updateCache = Arrays.asList(locations).contains(Location.CACHE);
 
         Logger.fine("Searching for " + libname + " library...");
         try {
-            LibSearchResult searchResult = searchLibrary(libname, minimalVersion);
+            LibSearchResult searchResult = searchLibrary(libname, requiredVersion);
 
             if (searchResult.path == null) {
                 throw new LibraryNotFoundError("No installed library was found",
@@ -364,8 +364,8 @@ or pathname not found and its directory is not writable */
                 throw new LibraryLoadError("Failed to retrieve loaded library's version", null);
             }
             Version loadedVersion = new Version(v);
-            if (loadedVersion.compareTo(minimalVersion) < 0) {
-                throw new LibraryIncompatibleVersionError("Found library is too old",
+            if (loadedVersion.compareTo(requiredVersion) < 0 || !loadedVersion.isCompatible(requiredVersion)) {
+                throw new LibraryIncompatibleVersionError("Library is incompatible",
                         libpath, searchResult.failCause);
             }
             Logger.fine("Library " + libname + " was loaded successfully." +
@@ -551,7 +551,7 @@ or pathname not found and its directory is not writable */
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    private Version getMinimalVersion(String libname) {
+    private Version getRequiredVersion(String libname) {
         String minimalVersion = libraryVersions.get(libname);
         if (minimalVersion == null) {
             throw new RuntimeException("Library '" + libname + "' version was not specified");
