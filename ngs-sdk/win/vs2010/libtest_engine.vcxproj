@@ -1,40 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Win32">
-      <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|x64">
-      <Configuration>Debug</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|x64">
-      <Configuration>Release</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-  </ItemGroup>
+    <ItemGroup Label="ProjectConfigurations">
+        <ProjectConfiguration Include="Debug|Win32">
+            <Configuration>Debug</Configuration>
+            <Platform>Win32</Platform>
+        </ProjectConfiguration>
+        <ProjectConfiguration Include="Debug|x64">
+            <Configuration>Debug</Configuration>
+            <Platform>x64</Platform>
+        </ProjectConfiguration>
+        <ProjectConfiguration Include="Release|Win32">
+            <Configuration>Release</Configuration>
+            <Platform>Win32</Platform>
+        </ProjectConfiguration>
+        <ProjectConfiguration Include="Release|x64">
+            <Configuration>Release</Configuration>
+            <Platform>x64</Platform>
+        </ProjectConfiguration>
+    </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FB574D6F-8684-45AE-A0AF-B52BA67E9FDE}</ProjectGuid>
   </PropertyGroup>
   <Import Project="lib-project.props" />
-  <ItemGroup>
-    <ClCompile Include="$(NGS_ROOT)ngs-sdk\test\test_engine\test_engine.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="$(NGS_ROOT)ngs-sdk\test\test_engine\AlignmentItf.hpp" />
-    <ClInclude Include="$(NGS_ROOT)ngs-sdk\test\test_engine\PileupEventItf.hpp" />
-    <ClInclude Include="$(NGS_ROOT)ngs-sdk\test\test_engine\PileupItf.hpp" />
-    <ClInclude Include="$(NGS_ROOT)ngs-sdk\test\test_engine\ReadCollectionItf.hpp" />
-    <ClInclude Include="$(NGS_ROOT)ngs-sdk\test\test_engine\ReadGroupItf.hpp" />
-    <ClInclude Include="$(NGS_ROOT)ngs-sdk\test\test_engine\ReadItf.hpp" />
-    <ClInclude Include="$(NGS_ROOT)ngs-sdk\test\test_engine\ReferenceItf.hpp" />
-    <ClInclude Include="$(NGS_ROOT)ngs-sdk\test\test_engine\ReferenceSequenceItf.hpp" />
-    <ClInclude Include="$(NGS_ROOT)ngs-sdk\test\test_engine\StatisticsItf.hpp" />
-    <ClInclude Include="$(NGS_ROOT)ngs-sdk\test\test_engine\test_engine.hpp" />
-  </ItemGroup>
+  <Import Project="..\libtest_engine.files" />
 </Project>
