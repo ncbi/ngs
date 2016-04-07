@@ -18,36 +18,29 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  
-    <PropertyGroup Label="Globals">
-        <ProjectGuid>{A8AC88D2-FADA-4458-A251-DB2E039678A4}</ProjectGuid>
-        <ProjectName>libngs-bind-c++</ProjectName>
-    </PropertyGroup>
-    
-   <Import Project="lib-project.props" />
-  
-    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-    <ImportGroup Label="ExtensionTargets" />
-
-    <ItemGroup>
-        <ClCompile Include="..\language\c++\Alignment.cpp" />
-        <ClCompile Include="..\language\c++\AlignmentIterator.cpp" />
-        <ClCompile Include="..\language\c++\Fragment.cpp" />
-        <ClCompile Include="..\language\c++\FragmentIterator.cpp" />
-        <ClCompile Include="..\language\c++\Pileup.cpp" />
-        <ClCompile Include="..\language\c++\PileupEvent.cpp" />
-        <ClCompile Include="..\language\c++\PileupEventIterator.cpp" />
-        <ClCompile Include="..\language\c++\PileupIterator.cpp" />
-        <ClCompile Include="..\language\c++\Read.cpp" />
-        <ClCompile Include="..\language\c++\ReadCollection.cpp" />
-        <ClCompile Include="..\language\c++\ReadGroup.cpp" />
-        <ClCompile Include="..\language\c++\ReadGroupIterator.cpp" />
-        <ClCompile Include="..\language\c++\ReadIterator.cpp" />
-        <ClCompile Include="..\language\c++\Reference.cpp" />
-        <ClCompile Include="..\language\c++\ReferenceIterator.cpp" />
-        <ClCompile Include="..\language\c++\ReferenceSequence.cpp" />
-        <ClCompile Include="..\language\c++\Statistics.cpp" />
-        <ClCompile Include="..\language\c++\StringRef.cpp" />
-    </ItemGroup>
-  
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A8AC88D2-FADA-4458-A251-DB2E039678A4}</ProjectGuid>
+    <ProjectName>libngs-bind-c++</ProjectName>
+  </PropertyGroup>
+  <Import Project="lib-project.props" />
+  <ItemGroup>
+    <ClCompile Include="..\language\c++\Alignment.cpp" />
+    <ClCompile Include="..\language\c++\AlignmentIterator.cpp" />
+    <ClCompile Include="..\language\c++\Fragment.cpp" />
+    <ClCompile Include="..\language\c++\FragmentIterator.cpp" />
+    <ClCompile Include="..\language\c++\Pileup.cpp" />
+    <ClCompile Include="..\language\c++\PileupEvent.cpp" />
+    <ClCompile Include="..\language\c++\PileupEventIterator.cpp" />
+    <ClCompile Include="..\language\c++\PileupIterator.cpp" />
+    <ClCompile Include="..\language\c++\Read.cpp" />
+    <ClCompile Include="..\language\c++\ReadCollection.cpp" />
+    <ClCompile Include="..\language\c++\ReadGroup.cpp" />
+    <ClCompile Include="..\language\c++\ReadGroupIterator.cpp" />
+    <ClCompile Include="..\language\c++\ReadIterator.cpp" />
+    <ClCompile Include="..\language\c++\Reference.cpp" />
+    <ClCompile Include="..\language\c++\ReferenceIterator.cpp" />
+    <ClCompile Include="..\language\c++\ReferenceSequence.cpp" />
+    <ClCompile Include="..\language\c++\Statistics.cpp" />
+    <ClCompile Include="..\language\c++\StringRef.cpp" />
+  </ItemGroup>
 </Project>
