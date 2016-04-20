@@ -1,4 +1,8 @@
-﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">  
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  
+    <PropertyGroup Label="Configuration">
+        <PlatformToolset>v100</PlatformToolset>
+    </PropertyGroup>
 
     <Import Condition="Exists('$(ProjectDir)..\Makefile.config.win')" Project="$(ProjectDir)..\Makefile.config.win" />
 
@@ -8,8 +12,14 @@
     
         <NGS_ROOT Condition="'$(NGS_ROOT)' == ''">$(ProjectDir)..\..\</NGS_ROOT>
         <NGS_OUTDIR Condition="'$(NGS_OUTDIR)' == ''">$(NGS_ROOT)..\OUTDIR\</NGS_OUTDIR>
-        <NGS_TARGET Condition="'$(NGS_TARGET)' == ''">$(NGS_OUTDIR)win\cl\$(Platform)\$(Configuration)\</NGS_TARGET>    
+        <NGS_TARGET Condition="'$(NGS_TARGET)' == ''">$(NGS_OUTDIR)win\$(PlatformToolset)\$(Platform)\$(Configuration)\</NGS_TARGET>    
     </PropertyGroup>
+  
+    <ItemDefinitionGroup>
+        <ClCompile>
+            <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+        </ClCompile>
+    </ItemDefinitionGroup>
   
     <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
 
@@ -34,7 +44,6 @@
             <CompileAsManaged>false</CompileAsManaged>
             <MinimalRebuild>true</MinimalRebuild>
             <DisableLanguageExtensions>false</DisableLanguageExtensions>
-            <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
             <DisableSpecificWarnings>4996;4101;4251;4290</DisableSpecificWarnings>
              <StringPooling>true</StringPooling>
             <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..;$(ProjectDir)..\ngs\win;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
