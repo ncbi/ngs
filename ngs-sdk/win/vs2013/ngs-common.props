@@ -1,17 +1,34 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <ItemGroup Label="ProjectConfigurations">
+        <ProjectConfiguration Include="Debug|Win32">
+            <Configuration>Debug</Configuration>
+            <Platform>Win32</Platform>
+        </ProjectConfiguration>
+        <ProjectConfiguration Include="Debug|x64">
+            <Configuration>Debug</Configuration>
+            <Platform>x64</Platform>
+        </ProjectConfiguration>
+        <ProjectConfiguration Include="Release|Win32">
+            <Configuration>Release</Configuration>
+            <Platform>Win32</Platform>
+        </ProjectConfiguration>
+        <ProjectConfiguration Include="Release|x64">
+            <Configuration>Release</Configuration>
+            <Platform>x64</Platform>
+        </ProjectConfiguration>
+    </ItemGroup>
   
     <PropertyGroup Label="Configuration">
-        <PlatformToolset>v100</PlatformToolset>
+        <PlatformToolset>v120</PlatformToolset>
     </PropertyGroup>
-
-    <Import Condition="Exists('$(ProjectDir)..\Makefile.config.win')" Project="$(ProjectDir)..\Makefile.config.win" />
 
     <PropertyGroup Label="Globals">
         <Platform Condition="'$(Platform)' == ''">x64</Platform>
         <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
     
-        <NGS_ROOT Condition="'$(NGS_ROOT)' == ''">$(ProjectDir)..\..\</NGS_ROOT>
-        <NGS_OUTDIR Condition="'$(NGS_OUTDIR)' == ''">$(NGS_ROOT)..\OUTDIR\</NGS_OUTDIR>
+        <NGS_ROOT Condition="'$(NGS_ROOT)' == ''">$(ProjectDir)..\..\..\</NGS_ROOT>
+        <NGS_OUTDIR Condition="'$(NGS_OUTDIR)' == ''">$(NGS_ROOT)..\OUTDIR\ngs-sdk\</NGS_OUTDIR>
         <NGS_TARGET Condition="'$(NGS_TARGET)' == ''">$(NGS_OUTDIR)win\$(PlatformToolset)\$(Platform)\$(Configuration)\</NGS_TARGET>    
     </PropertyGroup>
   
@@ -45,8 +62,8 @@
             <MinimalRebuild>true</MinimalRebuild>
             <DisableLanguageExtensions>false</DisableLanguageExtensions>
             <DisableSpecificWarnings>4996;4101;4251;4290</DisableSpecificWarnings>
-             <StringPooling>true</StringPooling>
-            <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..;$(ProjectDir)..\ngs\win;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+            <StringPooling>true</StringPooling>
+            <AdditionalIncludeDirectories>$(NGS_ROOT)\ngs-sdk;$(NGS_ROOT)\ngs-sdk\ngs\win;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
         </ClCompile>
     </ItemDefinitionGroup>
     
