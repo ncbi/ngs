@@ -29,4 +29,28 @@
 
 #include <ngs/itf/ReferenceItf.hpp>
 
-GEN_PY_ITERATOR_NEXT ( Reference )
+PY_RES_TYPE PY_NGS_ReferenceIteratorNext ( void* pRef, int* pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR;
+    try
+    {
+        bool res = CheckedCast< ngs::ReferenceItf* >(pRef) -> nextReference();
+        assert(pRet != NULL);
+        *pRet = (int)res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+    return ret;
+}
+

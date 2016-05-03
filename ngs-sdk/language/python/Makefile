@@ -51,7 +51,6 @@ ngs-bind-python: $(ILIBDIR) $(OBJDIR) $(ILIBDIR)/$(LPFX)ngs-bind-python.$(LIBX)
 BIND_SRC =                  \
 	AlignmentItf            \
 	AlignmentIteratorItf    \
-	ErrorMsg                \
 	FragmentItf             \
 	FragmentIteratorItf     \
 	PackageItf				\

@@ -29,9 +29,159 @@
 
 #include <ngs/itf/StatisticsItf.hpp>
 
-GEN_PY_FUNC_GET_BY_PARAMS_1                ( Statistics, ValueType, uint32_t, char const*, path )
-GEN_PY_FUNC_GET_STRING_BY_PARAMS_1         ( Statistics, AsString, char const*, path )
-GEN_PY_FUNC_GET_BY_PARAMS_1                ( Statistics, AsI64,     int64_t, char const*, path )
-GEN_PY_FUNC_GET_BY_PARAMS_1                ( Statistics, AsU64,     uint64_t, char const*, path )
-GEN_PY_FUNC_GET_BY_PARAMS_1                ( Statistics, AsDouble,  double, char const*, path )
-GEN_PY_FUNC_GET_BY_PARAMS_1_EXPLICIT_NAMES ( Statistics, ngs::StringItf*, char const*, path, PY_NGS_StatisticsGetNextPath, nextPath )
+PY_RES_TYPE PY_NGS_StatisticsGetValueType ( void* pRef, char const* path, uint32_t* pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        uint32_t res = CheckedCast< ngs::StatisticsItf* >(pRef) -> getValueType ( path );
+        assert (pRet != NULL);
+        *pRet = (uint32_t) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+
+PY_RES_TYPE PY_NGS_StatisticsGetAsString ( void* pRef, char const* path, void** pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        void* res = CheckedCast< ngs::StatisticsItf* >(pRef) -> getAsString ( path );
+        assert (pRet != NULL);
+        *pRet = (void*) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+
+PY_RES_TYPE PY_NGS_StatisticsGetAsI64 ( void* pRef, char const* path, int64_t* pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        int64_t res = CheckedCast< ngs::StatisticsItf* >(pRef) -> getAsI64 ( path );
+        assert (pRet != NULL);
+        *pRet = (int64_t) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+
+PY_RES_TYPE PY_NGS_StatisticsGetAsU64 ( void* pRef, char const* path, uint64_t* pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        uint64_t res = CheckedCast< ngs::StatisticsItf* >(pRef) -> getAsU64 ( path );
+        assert (pRet != NULL);
+        *pRet = (uint64_t) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+
+PY_RES_TYPE PY_NGS_StatisticsGetAsDouble ( void* pRef, char const* path, double* pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        double res = CheckedCast< ngs::StatisticsItf* >(pRef) -> getAsDouble ( path );
+        assert (pRet != NULL);
+        *pRet = (double) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+
+PY_RES_TYPE PY_NGS_StatisticsGetNextPath ( void* pRef, char const* path, void** pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        ngs::StringItf* res = CheckedCast< ngs::StatisticsItf* >(pRef) -> nextPath ( path );
+        assert (pRet != NULL);
+        *pRet = (void*) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+

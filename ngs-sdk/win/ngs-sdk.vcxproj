@@ -43,7 +43,14 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  
   <ImportGroup Label="ExtensionTargets" />
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+    
   <ItemGroup>
     <ClCompile Include="..\dispatch\AlignmentItf.cpp" />
     <ClCompile Include="..\dispatch\ErrBlock.cpp" />
@@ -101,7 +108,6 @@
     <ClCompile Include="..\language\java\jni_String.cpp" />
     <ClCompile Include="..\language\python\py_AlignmentIteratorItf.cpp" />
     <ClCompile Include="..\language\python\py_AlignmentItf.cpp" />
-    <ClCompile Include="..\language\python\py_ErrorMsg.cpp" />
     <ClCompile Include="..\language\python\py_FragmentIteratorItf.cpp" />
     <ClCompile Include="..\language\python\py_FragmentItf.cpp" />
     <ClCompile Include="..\language\python\py_PackageItf.cpp" />

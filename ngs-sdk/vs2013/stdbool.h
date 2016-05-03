@@ -24,4 +24,23 @@
 *
 */
 
-#include "py_ErrorMsg.hpp"
+#ifndef _STDBOOL_H
+#define _STDBOOL_H
+
+/*--------------------------------------------------------------------------
+ * bool
+ */
+
+#ifndef __cplusplus
+typedef unsigned char bool;
+
+#undef true
+#define true 1
+
+#undef false
+#define false 0
+
+#endif
+
+
+#endif /* _STDBOOL_H */

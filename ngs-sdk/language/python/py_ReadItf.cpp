@@ -35,11 +35,211 @@ GEN_PY_FUNC_GET_STRING_BY_PARAMS_2_CAST ( Read, FragmentBases,     Fragment, uin
 GEN_PY_FUNC_GET_STRING_BY_PARAMS_2_CAST ( Read, FragmentQualities, Fragment, uint64_t, offset, uint64_t, length )
 GEN_PY_ITERATOR_NEXT_EXPLICIT_NAMES     ( Fragment, PY_NGS_ReadNextFragment )*/
 
-GEN_PY_FUNC_GET_STRING                      ( Read, ReadId )
-GEN_PY_FUNC_GET                             ( Read, NumFragments, uint32_t )
-GEN_PY_FUNC_GET_BY_PARAMS_1_EXPLICIT_NAMES  ( Read, bool, uint32_t, fragIdx, PY_NGS_ReadFragmentIsAligned, fragmentIsAligned)
-GEN_PY_FUNC_GET                             ( Read, ReadCategory, uint32_t )
-GEN_PY_FUNC_GET_STRING                      ( Read, ReadGroup )
-GEN_PY_FUNC_GET_STRING                      ( Read, ReadName )
-GEN_PY_FUNC_GET_STRING_BY_PARAMS_2          ( Read, ReadBases, uint64_t, offset, uint64_t, length )
-GEN_PY_FUNC_GET_STRING_BY_PARAMS_2          ( Read, ReadQualities, uint64_t, offset, uint64_t, length )
+PY_RES_TYPE PY_NGS_ReadGetReadId ( void* pRef, void** pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        void* res = CheckedCast< ngs::ReadItf* >(pRef) -> getReadId ();
+        assert (pRet != NULL);
+        *pRet = (void*) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+
+PY_RES_TYPE PY_NGS_ReadGetNumFragments ( void* pRef, uint32_t* pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        uint32_t res = CheckedCast< ngs::ReadItf* >(pRef) -> getNumFragments ();
+        assert (pRet != NULL);
+        *pRet = (uint32_t) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+
+PY_RES_TYPE PY_NGS_ReadFragmentIsAligned ( void* pRef, uint32_t fragIdx, int* pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        bool res = CheckedCast< ngs::ReadItf* >(pRef) -> fragmentIsAligned ( fragIdx );
+        assert (pRet != NULL);
+        *pRet = (int) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+
+PY_RES_TYPE PY_NGS_ReadGetReadCategory ( void* pRef, uint32_t* pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        uint32_t res = CheckedCast< ngs::ReadItf* >(pRef) -> getReadCategory ();
+        assert (pRet != NULL);
+        *pRet = (uint32_t) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+
+PY_RES_TYPE PY_NGS_ReadGetReadGroup ( void* pRef, void** pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        void* res = CheckedCast< ngs::ReadItf* >(pRef) -> getReadGroup ();
+        assert (pRet != NULL);
+        *pRet = (void*) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+
+PY_RES_TYPE PY_NGS_ReadGetReadName ( void* pRef, void** pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        void* res = CheckedCast< ngs::ReadItf* >(pRef) -> getReadName ();
+        assert (pRet != NULL);
+        *pRet = (void*) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+
+PY_RES_TYPE PY_NGS_ReadGetReadBases ( void* pRef, uint64_t offset, uint64_t length, void** pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        void* res = CheckedCast< ngs::ReadItf* >(pRef) -> getReadBases ( offset, length );
+        assert (pRet != NULL);
+        *pRet = (void*) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+
+PY_RES_TYPE PY_NGS_ReadGetReadQualities ( void* pRef, uint64_t offset, uint64_t length, void** pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        void* res = CheckedCast< ngs::ReadItf* >(pRef) -> getReadQualities ( offset, length );
+        assert (pRet != NULL);
+        *pRet = (void*) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+
