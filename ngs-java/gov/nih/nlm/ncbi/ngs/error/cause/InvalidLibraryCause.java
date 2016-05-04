@@ -27,15 +27,13 @@
 
 package gov.nih.nlm.ncbi.ngs.error.cause;
 
-public class JvmErrorCause extends LibraryLoadCause {
-
-    public JvmErrorCause(Throwable e) {
-        super("JVM error");
-        initCause(e);
+public class InvalidLibraryCause extends LibraryLoadCause {
+    public InvalidLibraryCause() {
+        super("loaded library does not respond to versioning API");
     }
 
     @Override
     public String getRecommendation() {
-        return null;
+        return "Please make sure that loaded library is NCBI library";
     }
 }

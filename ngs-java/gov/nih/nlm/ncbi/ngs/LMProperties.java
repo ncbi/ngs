@@ -1,3 +1,30 @@
+/*===========================================================================
+*
+*                            PUBLIC DOMAIN NOTICE
+*               National Center for Biotechnology Information
+*
+*  This software/database is a "United States Government Work" under the
+*  terms of the United States Copyright Act.  It was written as part of
+*  the author's official duties as a United States Government employee and
+*  thus cannot be copyrighted.  This software/database is freely available
+*  to the public for use. The National Library of Medicine and the U.S.
+*  Government have not placed any restriction on its use or reproduction.
+*
+*  Although all reasonable efforts have been taken to ensure the accuracy
+*  and reliability of the software and data, the NLM and the U.S.
+*  Government do not and cannot warrant the performance or results that
+*  may be obtained by using this software or data. The NLM and the U.S.
+*  Government disclaim all warranties, express or implied, including
+*  warranties of performance, merchantability or fitness for any particular
+*  purpose.
+*
+*  Please cite the author in any work or product based on this material.
+*
+* ==============================================================================
+*
+*/
+
+
 package gov.nih.nlm.ncbi.ngs;
 
 
@@ -40,8 +67,8 @@ class LMProperties extends java.util.Properties {
         }
     }
 
-    String get(String libname, Version minimalVersion) {
-        return get(libname, minimalVersion, Logger.Level.FINE);
+    String get(String libname) {
+        return get(libname, Logger.Level.FINE);
     }
 
     String cfgFilePath() {
@@ -143,35 +170,25 @@ class LMProperties extends java.util.Properties {
         setProperty(node + "version", version);
     }
 
-    private String get(String libname, Version minimalVersion, Logger.Level level) {
-        String path = get(libname, "loaded", minimalVersion, level);
+    private String get(String libname, Logger.Level level) {
+        String path = get(libname, "loaded", level);
         if (path == null) {
-            path = get(libname, "saved" , minimalVersion, level);
+            path = get(libname, "saved", level);
         }
         return path;
     }
 
     private String get
-            (String libname, String name, Version minimalVersion, Logger.Level level)
+            (String libname, String name, Logger.Level level)
     {
         String node = getLibRoot(libname) + name +"/";
         String version = getProperty(node + "version");
         if (version != null) {
             String path = getProperty(node + "path");
             if (path != null) {
-                File f = new File(path);
-                // TODO: check with Kurt whether we should remove old version from config file
-                /*if (f.exists() &&
-                        new Version(version).compareTo(new Version(minimalVersion)) < 0)
-                {
-                    remove(node + "path");
-                    remove(node + "version");
-                    dirty = true;
-                } else {*///new Exception().printStackTrace();
-                    Logger.log(level, "The version of the most recently"
-                            + " loaded " + libname + " = " + version);
-                    return path;
-                /*}*/
+                Logger.log(level, "The version of the most recently"
+                        + " loaded " + libname + " = " + version);
+                return path;
             } else {
                 remove(node + "version");
                 dirty = true;

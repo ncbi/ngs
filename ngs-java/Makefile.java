@@ -206,6 +206,7 @@ NCBI_SRC =                 \
 	error/LibraryIncompatibleVersionError   \
 	error/cause/ConnectionProblemCause      \
 	error/cause/DownloadDisabledCause       \
+	error/cause/InvalidLibraryCause         \
 	error/cause/JvmErrorCause               \
 	error/cause/LibraryLoadCause            \
 	error/cause/UnsupportedArchCause        \

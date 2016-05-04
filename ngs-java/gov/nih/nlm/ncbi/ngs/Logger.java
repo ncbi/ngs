@@ -26,6 +26,8 @@
 
 package gov.nih.nlm.ncbi.ngs;
 
+import ngs.ErrorMsg;
+
 /** The Logger is used to print log messages to stderr.
  An associated "Level" reflects a minimum Level that this logger cares about. */
 class Logger {
@@ -70,7 +72,7 @@ class Logger {
     static void finer  (String msg) { log(Level.FINER  , msg); }
     static void finest (String msg) { log(Level.FINEST , msg); }
 
-    static void fine   (Throwable e) { fine  (e.toString()); }
+    static void fine   (Throwable e) { fine(e.toString()); }
     static void finest (Throwable e) { finest(e.toString()); }
 
     static void finest (String[] msgs) {
@@ -98,9 +100,24 @@ class Logger {
         if (this.level.id() < level.id()) {
             return;
         }
-        System.err.println(msg);
+        String v = getVersion();
+
+        String formatted = "ngs-java" + (v != null ? "." + v : "") + ": " + msg;
+        System.err.println(formatted);
     }
 
+    private String getVersion() {
+        if (version == null) {
+            try {
+                version = ngs.Package.getPackageVersion();
+            } catch (Throwable e) {
+                version = null;
+            }
+        }
+        return version;
+    }
+
+    private String version;
     private Level level;
     private static Logger logger = new Logger();
 }

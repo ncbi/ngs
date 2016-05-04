@@ -33,6 +33,7 @@ import gov.nih.nlm.ncbi.ngs.error.LibraryLoadError;
 import gov.nih.nlm.ncbi.ngs.error.LibraryNotFoundError;
 import gov.nih.nlm.ncbi.ngs.error.cause.ConnectionProblemCause;
 import gov.nih.nlm.ncbi.ngs.error.cause.DownloadDisabledCause;
+import gov.nih.nlm.ncbi.ngs.error.cause.InvalidLibraryCause;
 import gov.nih.nlm.ncbi.ngs.error.cause.JvmErrorCause;
 import gov.nih.nlm.ncbi.ngs.error.cause.LibraryLoadCause;
 import gov.nih.nlm.ncbi.ngs.error.cause.UnsupportedArchCause;
@@ -59,17 +60,17 @@ class LibManager implements FileCreator
     /** Force it in force-majeure situations.
         It also could be set without recompiling
         by setting vdb.System.loadLibrary java system property */
-    private static boolean JUST_DO_SIMPLE_LOAD_LIBRARY = false;
+    private boolean JUST_DO_SIMPLE_LOAD_LIBRARY = false;
 
     /**
      * Will search for latest library version among all installed
      */
-    private static boolean SEARCH_FOR_LIBRARY = true;
+    private boolean SEARCH_FOR_LIBRARY = true;
 
     /**
      * Will check what is the latest version available online
      */
-    private static boolean AUTO_DOWNLOAD = true;
+    private boolean AUTO_DOWNLOAD = true;
 
     /**
      * How often search for a latest installed library
@@ -125,11 +126,11 @@ class LibManager implements FileCreator
     LibManager ( String [] libs, String [] versions )
     {
         if (versions == null || libs == null) {
-            throw new RuntimeException("Neither libs nor versions can't be null");
+            throw new RuntimeException("Neither libs nor versions can be null");
         }
 
         if (versions.length != libs.length) {
-            throw new RuntimeException("Invalid library versions: should match number of libraries");
+            throw new RuntimeException("Invalid library versions: must match number of libraries");
         }
 
         checkSystemProperties();
@@ -155,7 +156,7 @@ class LibManager implements FileCreator
 
     private void checkSystemProperties() {
         String loadLibraryProperty = System.getProperty("vdb.System.loadLibrary");
-        if (loadLibraryProperty != null) {
+        if (loadLibraryProperty != null && loadLibraryProperty.equals("1")) {
             Logger.warning ( "Smart DLL search and library download was disabled" );
             JUST_DO_SIMPLE_LOAD_LIBRARY = true;
             AUTO_DOWNLOAD = false;
@@ -164,13 +165,13 @@ class LibManager implements FileCreator
         }
 
         String noLibraryDownload = System.getProperty("vdb.System.noLibraryDownload");
-        if (noLibraryDownload != null && noLibraryDownload.equals("true")) {
+        if (noLibraryDownload != null && noLibraryDownload.equals("1")) {
             Logger.warning ( "DLL download was disabled" );
             AUTO_DOWNLOAD = false;
         }
 
         String noLibrarySearch = System.getProperty("vdb.System.noLibrarySearch");
-        if (noLibrarySearch != null && noLibrarySearch.equals("true")) {
+        if (noLibrarySearch != null && noLibrarySearch.equals("1")) {
             Logger.warning ( "Search of installed DLL was disabled" );
             SEARCH_FOR_LIBRARY = false;
         }
@@ -338,10 +339,14 @@ or pathname not found and its directory is not writable */
             String libpath = searchResult.path;
             Logger.info("Loading " + libname + "...");
             try {
-                if (libpath.startsWith(libname)) {
-                    System.loadLibrary(libpath);
-                } else {
-                    System.load(libpath);
+                if (!mocksEnabled) {
+                    if (libpath.startsWith(libname)) {
+                        System.loadLibrary(libpath);
+                    } else {
+                        System.load(libpath);
+                    }
+                } else if (mockLoadException != null) {
+                    throw mockLoadException;
                 }
             } catch (Throwable e) {
                 if (searchResult.location != Location.DOWNLOAD) {
@@ -359,9 +364,14 @@ or pathname not found and its directory is not writable */
             Logger.fine("Loaded " + libname + " library");
 
             Logger.fine("Checking library " + libname + " version...");
-            String v = LibVersionChecker.getLoadedVersion(libname);
+            String v;
+            if (!mocksEnabled) {
+                v = LibVersionChecker.getLoadedVersion(libname);
+            } else {
+                v = mockLoadedLibraryVersion;
+            }
             if (v == null) {
-                throw new LibraryLoadError("Failed to retrieve loaded library's version", null);
+                throw new LibraryLoadError("Failed to retrieve loaded library's version", new InvalidLibraryCause());
             }
             Version loadedVersion = new Version(v);
             if (loadedVersion.compareTo(requiredVersion) < 0 || !loadedVersion.isCompatible(requiredVersion)) {
@@ -589,7 +599,7 @@ or pathname not found and its directory is not writable */
             Logger.info("Checking " + libname + " from " + l + "...");
 
             List<String> pathsToCheck = new ArrayList<String>();
-            boolean useLoadLibrary;
+            boolean useLoadLibrary = false;
             boolean searchEvenAfterFound = !JUST_DO_SIMPLE_LOAD_LIBRARY;
             switch (l) {
             case LIBPATH: {
@@ -602,7 +612,7 @@ or pathname not found and its directory is not writable */
                 break;
             }
             case CACHE: {
-                String filename = properties.get(libname, requiredVersion);
+                String filename = properties.get(libname);
                 if (filename == null) {
                     continue;
                 }
@@ -615,12 +625,23 @@ or pathname not found and its directory is not writable */
                         (new Date().getTime() - lastSearchDate.getTime() > SEARCH_LIB_FREQUENCY_INTERVAL);
 
                 pathsToCheck.add(filename);
+                // this is kind of hack, but it does not require different checks between win/unix
+                // we say that library was loaded from LIBPATH location when its path starts from library simple name
                 useLoadLibrary = filename.startsWith(libname);
                 break;
             }
             case DOWNLOAD: {
                 Logger.info("Downloading " + libname + " from NCBI...");
-                LibDownloadResult downloadResult = download(libname);
+                LibDownloadResult downloadResult;
+                if (!mocksEnabled) {
+                    downloadResult = download(libname);
+                } else if (mockDownloadStatus == null) {
+                    throw new RuntimeException("mockDownloadStatus must be set when mocks enabled");
+                } else {
+                    downloadResult = new LibDownloadResult();
+                    downloadResult.status = mockDownloadStatus;
+                    downloadResult.savedPath = "";
+                }
                 if (downloadResult.status != DownloadManager.DownloadResult.SUCCESS) {
                     Logger.warning("Failed to download " + libname + " from NCBI");
                     if (downloadResult.status == DownloadManager.DownloadResult.UNSUPPORTED_OS) {
@@ -634,7 +655,6 @@ or pathname not found and its directory is not writable */
                 Logger.fine("Checking " + libname + " library...");
 
                 pathsToCheck.add(downloadResult.savedPath);
-                useLoadLibrary = false;
                 break;
             }
             default: {
@@ -650,7 +670,6 @@ or pathname not found and its directory is not writable */
 
                     pathsToCheck.add(filename);
                 }
-                useLoadLibrary = false;
                 break;
             }
             }
@@ -658,7 +677,14 @@ or pathname not found and its directory is not writable */
 
             boolean foundInLocation = false;
             for (String path : pathsToCheck) {
-                Version v = checkLibraryVersion(libname, path, useLoadLibrary);
+                Version v;
+                if (!mocksEnabled) {
+                    v = checkLibraryVersion(libname, path, useLoadLibrary);
+                } else if (mockLocationVersions == null) {
+                    throw new RuntimeException("mockLocationVersions must be set when mocks enabled");
+                } else {
+                    v = mockLocationVersions.get(l);
+                }
                 if (v == null) {
                     continue;
                 }
@@ -712,8 +738,12 @@ or pathname not found and its directory is not writable */
 
         boolean downloadEnabled = Arrays.asList(locations).contains(Location.DOWNLOAD);
 
-        if (searchResult.failCause == null && !downloadEnabled) {
-            searchResult.failCause = new DownloadDisabledCause();
+        if (searchResult.failCause == null) {
+            if (!downloadEnabled) {
+                searchResult.failCause = new DownloadDisabledCause();
+            } else if (!searchResult.versionFits) {
+                searchResult.failCause = new ConnectionProblemCause();
+            }
         }
 
         return searchResult;
@@ -854,6 +884,16 @@ or pathname not found and its directory is not writable */
     /** File that plays a role of a cache for information
      * of libraries locations/versions between runs */
     private LMProperties properties; // to keep dll path/version-s
+
+////////////////////////////////////////////////////////////////////////////////
+/// These variables alter LibManager behaviour and should only be used in tests
+
+    boolean mocksEnabled = false;
+    Map<Location, Version> mockLocationVersions;
+    DownloadManager.DownloadResult mockDownloadStatus;
+    Throwable mockLoadException;
+    String mockLoadedLibraryVersion;
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
