@@ -2,12 +2,16 @@
 
     <!-- This file is currently for use on Windows; Linux/Mac builds are run via gmake -->
     <property environment="env"/>
-    <property name="vdb.platformtoolset"    value="v100" />
-    <property name="vdb.build"      value="Debug" />
-    <property name="vdb.platform"   value="x64" />
+    <property name="Platform"   value="x64" />
+    <property name="Configuration"      value="Debug" />
+    <property name="Output"     value="${basedir}\..\..\OUTDIR" />
+    <property name="MSVS"           value="2013" />
     
-    <property name="vdb.outdir"   value="..\ngs-sdk\..\..\OUTDIR\" />
-    <property name="vdb.dir"   value="${vdb.outdir}\win\${vdb.platformtoolset}\${vdb.platform}\${vdb.build}\bin" />
+    <condition property="PlatformToolset" value="v100" else="v120">
+        <equals arg1="${MSVS}" arg2="2010"/>
+    </condition>    
+    <property name="vdb.dir"        value="${Output}\ncbi-vdb\win\${PlatformToolset}\${Platform}\${Configuration}\bin" />
+    <property name="ngs.dir"        value="${Output}\ngs-sdk\win\${PlatformToolset}\${Platform}\${Configuration}\bin" />
 	
     <!-- Set this to full path to Python if not in PATH already -->
     <property name="python.exe"     value="python" />
@@ -25,11 +29,12 @@
         <element name="args" optional="yes" />
         <sequential>
             <exec executable="${python.exe}" failonerror="true">
-                <env key="NGS_PY_LIBRARY_PATH" value="${vdb.dir}"/>
+                <env key="PATH" value="${vdb.dir};${ngs.dir};${env.PATH}"/>            
                 <env key="NGS_PY_DOWNLOAD_LIBRARY" value="0"/>
                 <arg value="examples/@{class}.py"/>
                 <args />
             </exec>
+            <!-- TODO: use fc to diff output against expected -->
         </sequential>
     </macrodef>
 
@@ -76,4 +81,7 @@
         
     </target>
     
+    <target name="clean" />
+    <target name="build" />
+
 </project>
