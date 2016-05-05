@@ -34,6 +34,7 @@ public class ConnectionProblemCause extends LibraryLoadCause {
 
     @Override
     public String getRecommendation() {
-        return "Please check your network connection";
+        return "Please check your network connection, and check if you need proxy configuration. " +
+            "Contact your IT department or email sra-tools@ncbi.nlm.nih.gov for assistance.";
     }
 }

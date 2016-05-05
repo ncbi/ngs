@@ -29,11 +29,11 @@ package gov.nih.nlm.ncbi.ngs.error.cause;
 
 public class InvalidLibraryCause extends LibraryLoadCause {
     public InvalidLibraryCause() {
-        super("loaded library does not respond to versioning API");
+        super("library was found but its version cannot be determined");
     }
 
     @Override
     public String getRecommendation() {
-        return "Please make sure that loaded library is NCBI library";
+        return "Please be sure that you have the latest library from NCBI";
     }
 }
