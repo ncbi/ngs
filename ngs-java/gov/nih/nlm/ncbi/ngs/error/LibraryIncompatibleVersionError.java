@@ -31,9 +31,15 @@ import gov.nih.nlm.ncbi.ngs.error.cause.LibraryLoadCause;
 public class LibraryIncompatibleVersionError extends LibraryLoadError {
     private String outdatedLibPath;
 
-    public LibraryIncompatibleVersionError(String msg, String outdatedLibPath, LibraryLoadCause cause) {
-        super(msg, cause);
+    public LibraryIncompatibleVersionError(String libName, String msg, String outdatedLibPath, LibraryLoadCause cause) {
+        super(libName, msg, cause);
         this.outdatedLibPath = outdatedLibPath;
+    }
+
+    @Override
+    public String getErrorMessage() {
+        return super.getErrorMessage() + "\n" +
+            "Library path: " + outdatedLibPath;
     }
 
     public String getOutdateLibPath() {

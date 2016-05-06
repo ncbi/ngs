@@ -36,6 +36,8 @@ import gov.nih.nlm.ncbi.ngs.error.cause.DownloadDisabledCause;
 import gov.nih.nlm.ncbi.ngs.error.cause.InvalidLibraryCause;
 import gov.nih.nlm.ncbi.ngs.error.cause.JvmErrorCause;
 import gov.nih.nlm.ncbi.ngs.error.cause.LibraryLoadCause;
+import gov.nih.nlm.ncbi.ngs.error.cause.OutdatedJarCause;
+import gov.nih.nlm.ncbi.ngs.error.cause.PrereleaseReqLibCause;
 import gov.nih.nlm.ncbi.ngs.error.cause.UnsupportedArchCause;
 
 import java.io.BufferedOutputStream;
@@ -330,7 +332,7 @@ or pathname not found and its directory is not writable */
             LibSearchResult searchResult = searchLibrary(libname, requiredVersion);
 
             if (searchResult.path == null) {
-                throw new LibraryNotFoundError("No installed library was found",
+                throw new LibraryNotFoundError(libname, "No installed library was found",
                         searchResult.failCause);
             }
 
@@ -350,11 +352,11 @@ or pathname not found and its directory is not writable */
                 }
             } catch (Throwable e) {
                 if (searchResult.location != Location.DOWNLOAD) {
-                    throw new LibraryLoadError("Failed to load found library " + libpath,
+                    throw new LibraryLoadError(libname, "Failed to load found library " + libpath,
                             new JvmErrorCause(e));
                 }
 
-                throw new LibraryLoadError("No installed library was found and downloaded library cannot be loaded " + libpath,
+                throw new LibraryLoadError(libname, "No installed library was found and downloaded library '" + libpath + "' cannot be loaded",
                         new JvmErrorCause(e),
                         "Please install ngs and ncbi-vdb manually:" +
                                 " https://github.com/ncbi/ngs/wiki/Downloads" +
@@ -371,12 +373,17 @@ or pathname not found and its directory is not writable */
                 v = mockLoadedLibraryVersion;
             }
             if (v == null) {
-                throw new LibraryLoadError("Failed to retrieve loaded library's version", new InvalidLibraryCause());
+                throw new LibraryLoadError(libname, "Failed to retrieve loaded library's version", new InvalidLibraryCause());
             }
             Version loadedVersion = new Version(v);
             if (loadedVersion.compareTo(requiredVersion) < 0 || !loadedVersion.isCompatible(requiredVersion)) {
-                throw new LibraryIncompatibleVersionError("Library is incompatible",
-                        libpath, searchResult.failCause);
+                LibraryLoadCause failCause = searchResult.failCause;
+                if (searchResult.location == Location.DOWNLOAD || failCause == null) {
+                    failCause = (loadedVersion.compareTo(requiredVersion) < 0) ?
+                            new PrereleaseReqLibCause() : new OutdatedJarCause();
+                }
+                throw new LibraryIncompatibleVersionError(libname, "Library is incompatible",
+                        libpath, failCause);
             }
             Logger.fine("Library " + libname + " was loaded successfully." +
                     " Version = " + loadedVersion.toSimpleVersion());
@@ -640,7 +647,7 @@ or pathname not found and its directory is not writable */
                 } else {
                     downloadResult = new LibDownloadResult();
                     downloadResult.status = mockDownloadStatus;
-                    downloadResult.savedPath = "";
+                    downloadResult.savedPath = "/some/path/" + libname;
                 }
                 if (downloadResult.status != DownloadManager.DownloadResult.SUCCESS) {
                     Logger.warning("Failed to download " + libname + " from NCBI");
@@ -738,12 +745,8 @@ or pathname not found and its directory is not writable */
 
         boolean downloadEnabled = Arrays.asList(locations).contains(Location.DOWNLOAD);
 
-        if (searchResult.failCause == null) {
-            if (!downloadEnabled) {
-                searchResult.failCause = new DownloadDisabledCause();
-            } else if (!searchResult.versionFits) {
-                searchResult.failCause = new ConnectionProblemCause();
-            }
+        if (searchResult.failCause == null && !downloadEnabled) {
+            searchResult.failCause = new DownloadDisabledCause();
         }
 
         return searchResult;
@@ -902,9 +905,9 @@ or pathname not found and its directory is not writable */
 -Dvdb.log
 off if JUST_DO_SIMPLE_LOAD_LIBRARY
 
--Dvdb.System.noLibraryDownload=true - will turn auto-download off
--Dvdb.System.noLibrarySearch=true - with previous option will not try
-                                          to find latest installed lib
+-Dvdb.System.noLibraryDownload=1 - will turn auto-download off
+-Dvdb.System.noLibrarySearch=1  - with previous option will not try
+                                  to find latest installed lib
 
 TODO
 try to load the library if LibManager.loadLibrary() was never called.

@@ -24,13 +24,15 @@
 *
 */
 
+package gov.nih.nlm.ncbi.ngs.error.cause;
 
-package gov.nih.nlm.ncbi.ngs.error;
+public class PrereleaseReqLibCause extends LibraryLoadCause {
+    public PrereleaseReqLibCause() {
+        super("your NGS version requires a library that is still in pre-release");
+    }
 
-import gov.nih.nlm.ncbi.ngs.error.cause.LibraryLoadCause;
-
-public class LibraryNotFoundError extends LibraryLoadError {
-    public LibraryNotFoundError(String libName, String msg, LibraryLoadCause cause) {
-        super(libName, msg, cause);
+    @Override
+    public String getRecommendation() {
+        return "Please revert to an older ngs-java or contact sra-tools@ncbi.nlm.nih.gov for assistance";
     }
 }

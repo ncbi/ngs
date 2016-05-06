@@ -209,6 +209,8 @@ NCBI_SRC =                 \
 	error/cause/InvalidLibraryCause         \
 	error/cause/JvmErrorCause               \
 	error/cause/LibraryLoadCause            \
+	error/cause/OutdatedJarCause            \
+	error/cause/PrereleaseReqLibCause       \
 	error/cause/UnsupportedArchCause        \
 
 NCBI_SRC_PATH = \

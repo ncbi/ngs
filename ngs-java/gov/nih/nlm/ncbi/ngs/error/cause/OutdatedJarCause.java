@@ -24,13 +24,15 @@
 *
 */
 
+package gov.nih.nlm.ncbi.ngs.error.cause;
 
-package gov.nih.nlm.ncbi.ngs.error;
+public class OutdatedJarCause extends LibraryLoadCause {
+    public OutdatedJarCause() {
+        super("your NGS version is out of date");
+    }
 
-import gov.nih.nlm.ncbi.ngs.error.cause.LibraryLoadCause;
-
-public class LibraryNotFoundError extends LibraryLoadError {
-    public LibraryNotFoundError(String libName, String msg, LibraryLoadCause cause) {
-        super(libName, msg, cause);
+    @Override
+    public String getRecommendation() {
+        return "Please update ngs-java to the latest version or contact sra-tools@ncbi.nlm.nih.gov for assistance";
     }
 }

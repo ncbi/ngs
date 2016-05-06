@@ -29,20 +29,22 @@ package gov.nih.nlm.ncbi.ngs.error;
 import gov.nih.nlm.ncbi.ngs.error.cause.LibraryLoadCause;
 
 public class LibraryLoadError extends ExceptionInInitializerError {
+    String libName;
     LibraryLoadCause cause;
     String errorMessage;
+    String recommendation;
 
-    public LibraryLoadError(String msg, LibraryLoadCause cause) {
-        super(generateMsg(msg, cause, cause.getRecommendation()));
-
-        this.errorMessage = generateMsg(msg, cause, null);
-        this.cause = cause;
+    public LibraryLoadError(String libName, String msg, LibraryLoadCause cause) {
+        this(libName, msg, cause, cause.getRecommendation());
     }
 
-    public LibraryLoadError(String msg, LibraryLoadCause cause, String recommendation) {
-        super(generateMsg(msg, cause, recommendation));
+    public LibraryLoadError(String libName, String msg, LibraryLoadCause cause, String recommendation) {
+        super(generateMsg(libName, msg, cause, recommendation));
 
+        this.libName = libName;
         this.cause = cause;
+        this.errorMessage = generateMsg(libName, msg, cause, null);
+        this.recommendation = recommendation;
     }
 
     @Override
@@ -61,11 +63,11 @@ public class LibraryLoadError extends ExceptionInInitializerError {
      * @return recommendation for the user regarding error, can be null
      */
     public String getRecommendation() {
-        return cause.getRecommendation();
+        return recommendation;
     }
 
-    private static String generateMsg(String msg, LibraryLoadCause cause, String recommendation) {
-        String result = msg;
+    private static String generateMsg(String libName, String msg, LibraryLoadCause cause, String recommendation) {
+        String result = "Failed to load '" + libName + "' - " + msg;
         if (cause != null) {
             result += ", " + cause.getMessage();
             if (recommendation != null) {
