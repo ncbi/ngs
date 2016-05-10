@@ -94,19 +94,14 @@ class Manager
 
                To do just a plain call to System.LoadLibrary(libname)
                 set LibManager.JUST_DO_REGULAR_JAVA_SYSTEM_LOAD_LIBRARY to true
-                or set vdb.System.loadLibrary java system property. */
-
-            String ngs_sdk  = "ngs-sdk";
-            String ncbi_vdb = "ncbi-vdb";
-            String ngs_sdk_version = "1.2.3";
-            String ncbi_vdb_version = "2.5.7";
+                or set vdb.System.loadLibrary=1 java system property. */
 
             LibManager m = new LibManager(
-                    new String[] { ngs_sdk, ncbi_vdb },
-                    new String[] { ngs_sdk_version, ncbi_vdb_version });
+                    new String[] { LibDependencies.NGS_SDK, LibDependencies.NCBI_VDB },
+                    new String[] { LibDependencies.NGS_SDK_VERSION, LibDependencies.NCBI_VDB_VERSION });
 
-            m . loadLibrary ( ngs_sdk );
-            m . loadLibrary ( ncbi_vdb );
+            m . loadLibrary ( LibDependencies.NGS_SDK );
+            m . loadLibrary ( LibDependencies.NCBI_VDB );
 
             // try to initialize the NCBI library
             String err = Initialize ();

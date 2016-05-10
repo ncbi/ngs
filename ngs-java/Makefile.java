@@ -193,6 +193,7 @@ NCBI_SRC =                 \
 	DownloadManager        \
 	FileCreator            \
 	HttpManager            \
+	LibDependencies        \
 	LibManager             \
 	LibPathIterator        \
 	LibVersionChecker      \
