@@ -7,3 +7,8 @@
 *.suo
 OUTDIR
 *.ipch
+
+/.cproject
+/.project
+/.pydevproject
+.idea/
