@@ -40,6 +40,12 @@ clean: Makefile.config
 
 install: Makefile.config
 	@ $(MAKE) -f Makefile.libs
-	@ perl $(TOP)/setup/install
+# Perl installation is disabled, because of disabling generation of Makefile.config.install.$(OS).$(ARCH).prl
+# which is disabled because I removed package versions from konfigure scripts.
+# If needed, please change installation targets to use Makefile installation as in other projects
+#	@ perl $(TOP)/setup/install
+	@ echo "install is disabled"
+	@ exit 1
+
 
 .PHONY: std clean install
