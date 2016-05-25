@@ -39,11 +39,6 @@ import java.util.Map;
 class LMProperties extends java.util.Properties {
     LMProperties(String bitsStr, Map<String, String> libraryVersions) {
         bits = bitsStr;
-        for (Map.Entry<String, String> entry : libraryVersions.entrySet()) {
-            Version v = new Version(entry.getValue());
-            libsMajorVersions.put(entry.getKey(), v.getMajor());
-        }
-
         path = LibPathIterator.ncbiHome();
 
         if (path != null) {
@@ -198,14 +193,10 @@ class LMProperties extends java.util.Properties {
     }
 
     private String getLibRoot(String libname) {
-        if (!libsMajorVersions.containsKey(libname)) {
-            throw new RuntimeException("Cannot get library " + libname + " major version");
-        }
-        return "/dll/" + libname + "/v" + libsMajorVersions.get(libname) + "/" + bits +"/";
+        return "/dll/" + libname + "/" + bits +"/";
     }
 
     private String path;
     private String bits;
-    private Map<String, Integer> libsMajorVersions = new HashMap<String, Integer>();
     private boolean dirty;
 }

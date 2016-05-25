@@ -377,6 +377,7 @@ or pathname not found and its directory is not writable */
             }
             Version loadedVersion = new Version(v);
             if (loadedVersion.compareTo(requiredVersion) < 0 || !loadedVersion.isCompatible(requiredVersion)) {
+                Logger.fine("Library version is not compatible. Required: " + requiredVersion.toSimpleVersion() + " loaded: " + loadedVersion.toSimpleVersion());
                 LibraryLoadCause failCause = searchResult.failCause;
                 if (searchResult.location == Location.DOWNLOAD || failCause == null) {
                     failCause = (loadedVersion.compareTo(requiredVersion) < 0) ?
@@ -399,7 +400,7 @@ or pathname not found and its directory is not writable */
             if (updateCache) {
                 properties.notLoaded(libname);
             }
-            Logger.warning("Failed to load " + libname + " library");
+            Logger.warning("Loading of " + libname + " library failed");
             throw e;
         } finally {
             if (updateCache) {
