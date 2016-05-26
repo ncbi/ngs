@@ -67,7 +67,7 @@ class DownloadManager {
 
     /** Fetches the library from NCBI and writes it using fileCreator */
     DownloadResult downloadLib(FileCreator fileCreator, String libname, Version version) {
-        String request = "cmd=lib&version=" + version.toSimpleVersion() + "&libname=" + libname;
+        String request = "cmd=lib&version=1.0&libname=" + libname;
 
         try {
             request += "&" + osProperties();
