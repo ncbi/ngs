@@ -31,7 +31,7 @@ package gov.nih.nlm.ncbi.ngs;
 /******************************************************************************/
 
 
-class Version {
+class Version implements Comparable<Version> {
 
     Version(String version) {
         stage = Stage.FINAL;
@@ -89,6 +89,18 @@ class Version {
             + major + "." + minor + "." + release + stage + revision + " }";
     }
 
+    public String toSimpleVersion() {
+        return version == null ? "null" : version;
+    }
+
+    public boolean isCompatible(Version other) {
+        return major == other.major;
+    }
+
+    public int getMajor() {
+        return major;
+    }
+
     /** Compares two Version, testing whether one comes before or after the
         other, or whether they're equal. The Version parts are compared.
 
@@ -101,7 +113,7 @@ class Version {
                       0                : if version equals version2
                       a positive number: if version comes after version2
      */
-    int compareTo(Version o) { /* if this < o return -1 */
+    public int compareTo(Version o) { /* if this < o return -1 */
         int r = 1;
         if (o == null) {
             v(o, r, 88);

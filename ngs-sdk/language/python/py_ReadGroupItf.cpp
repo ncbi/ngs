@@ -29,10 +29,60 @@
 
 #include <ngs/itf/ReadGroupItf.hpp>
 
-GEN_PY_FUNC_GET_STRING           ( ReadGroup, Name )
+PY_RES_TYPE PY_NGS_ReadGroupGetName ( void* pRef, void** pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        void* res = CheckedCast< ngs::ReadGroupItf* >(pRef) -> getName ();
+        assert (pRet != NULL);
+        *pRet = (void*) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+
 
 #if READ_GROUP_SUPPORTS_READS
     GEN_PY_FUNC_GET_BY_PARAMS1   ( ReadGroup, Read, ngs::ReadItf*, char const*, readId )
     GEN_PY_FUNC_GET_BY_PARAMS1   ( ReadGroup, Reads, ngs::ReadItf*, uint32_t, categories )
 #endif
-    GEN_PY_FUNC_GET              ( ReadGroup, Statistics, ngs::StatisticsItf* )
+PY_RES_TYPE PY_NGS_ReadGroupGetStatistics ( void* pRef, void** pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        ngs::StatisticsItf* res = CheckedCast< ngs::ReadGroupItf* >(pRef) -> getStatistics ();
+        assert (pRet != NULL);
+        *pRet = (void*) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+

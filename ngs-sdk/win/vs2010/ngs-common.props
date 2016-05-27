@@ -1,17 +1,15 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  
+
     <PropertyGroup Label="Configuration">
         <PlatformToolset>v100</PlatformToolset>
     </PropertyGroup>
-
-    <Import Condition="Exists('$(ProjectDir)..\Makefile.config.win')" Project="$(ProjectDir)..\Makefile.config.win" />
 
     <PropertyGroup Label="Globals">
         <Platform Condition="'$(Platform)' == ''">x64</Platform>
         <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
     
-        <NGS_ROOT Condition="'$(NGS_ROOT)' == ''">$(ProjectDir)..\..\</NGS_ROOT>
-        <NGS_OUTDIR Condition="'$(NGS_OUTDIR)' == ''">$(NGS_ROOT)..\OUTDIR\</NGS_OUTDIR>
+        <NGS_ROOT Condition="'$(NGS_ROOT)' == ''">$(ProjectDir)..\..\..\</NGS_ROOT>
+        <NGS_OUTDIR Condition="'$(NGS_OUTDIR)' == ''">$(NGS_ROOT)..\OUTDIR\ngs-sdk\</NGS_OUTDIR>
         <NGS_TARGET Condition="'$(NGS_TARGET)' == ''">$(NGS_OUTDIR)win\$(PlatformToolset)\$(Platform)\$(Configuration)\</NGS_TARGET>    
     </PropertyGroup>
   
@@ -46,7 +44,7 @@
             <DisableLanguageExtensions>false</DisableLanguageExtensions>
             <DisableSpecificWarnings>4996;4101;4251;4290</DisableSpecificWarnings>
              <StringPooling>true</StringPooling>
-            <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..;$(ProjectDir)..\ngs\win;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+            <AdditionalIncludeDirectories>$(NGS_ROOT)\ngs-sdk;$(NGS_ROOT)\ngs-sdk\ngs\win;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
         </ClCompile>
     </ItemDefinitionGroup>
     

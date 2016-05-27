@@ -29,4 +29,28 @@
 
 #include <ngs/itf/FragmentItf.hpp>
 
-GEN_PY_ITERATOR_NEXT ( Fragment )
+PY_RES_TYPE PY_NGS_FragmentIteratorNext ( void* pRef, int* pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR;
+    try
+    {
+        bool res = CheckedCast< ngs::FragmentItf* >(pRef) -> nextFragment();
+        assert(pRet != NULL);
+        *pRet = (int)res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+    return ret;
+}
+

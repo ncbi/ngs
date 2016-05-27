@@ -29,7 +29,107 @@
 
 #include <ngs/itf/PileupItf.hpp>
 
-GEN_PY_FUNC_GET_STRING                  ( Pileup, ReferenceSpec )
-GEN_PY_FUNC_GET                         ( Pileup, ReferencePosition, int64_t )
-GEN_PY_FUNC_GET                         ( Pileup, ReferenceBase,     char )
-GEN_PY_FUNC_GET                         ( Pileup, PileupDepth,       uint32_t )
+PY_RES_TYPE PY_NGS_PileupGetReferenceSpec ( void* pRef, void** pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        void* res = CheckedCast< ngs::PileupItf* >(pRef) -> getReferenceSpec ();
+        assert (pRet != NULL);
+        *pRet = (void*) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+
+PY_RES_TYPE PY_NGS_PileupGetReferencePosition ( void* pRef, int64_t* pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        int64_t res = CheckedCast< ngs::PileupItf* >(pRef) -> getReferencePosition ();
+        assert (pRet != NULL);
+        *pRet = (int64_t) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+
+PY_RES_TYPE PY_NGS_PileupGetReferenceBase ( void* pRef, char* pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        char res = CheckedCast< ngs::PileupItf* >(pRef) -> getReferenceBase ();
+        assert (pRet != NULL);
+        *pRet = (char) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+
+PY_RES_TYPE PY_NGS_PileupGetPileupDepth ( void* pRef, uint32_t* pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        uint32_t res = CheckedCast< ngs::PileupItf* >(pRef) -> getPileupDepth ();
+        assert (pRet != NULL);
+        *pRet = (uint32_t) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+

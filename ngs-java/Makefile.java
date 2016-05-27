@@ -190,14 +190,29 @@ $(CLSDIR)/ngs-java-itf: $(CLSDIR)/ngs-java-api $(ITF_SRC_PATH)
 
 # NCBI engine bindings
 NCBI_SRC =                 \
+	DownloadManager        \
 	FileCreator            \
-	Logger                 \
 	HttpManager            \
+	LibDependencies        \
 	LibManager             \
 	LibPathIterator        \
+	LibVersionChecker      \
+	LMProperties           \
+	Logger                 \
 	Manager                \
 	NGS                    \
 	Version                \
+	error/LibraryLoadError     \
+	error/LibraryNotFoundError \
+	error/LibraryIncompatibleVersionError   \
+	error/cause/ConnectionProblemCause      \
+	error/cause/DownloadDisabledCause       \
+	error/cause/InvalidLibraryCause         \
+	error/cause/JvmErrorCause               \
+	error/cause/LibraryLoadCause            \
+	error/cause/OutdatedJarCause            \
+	error/cause/PrereleaseReqLibCause       \
+	error/cause/UnsupportedArchCause        \
 
 NCBI_SRC_PATH = \
 	$(addprefix $(SRCDIR)/gov/nih/nlm/ncbi/ngs/,$(addsuffix .java,$(NCBI_SRC)))

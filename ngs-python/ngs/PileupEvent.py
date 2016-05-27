@@ -100,14 +100,14 @@ class PileupEvent(Refcount):
         :returns: retrieves base aligned at current Reference position
         :throws: ErrorMsg if event is an insertion or deletion
         """
-        return getNGSValue(self, NGS.lib_manager.PY_NGS_PileupEventGetAlignmentBase, c_char)
+        return getNGSValue(self, NGS.lib_manager.PY_NGS_PileupEventGetAlignmentBase, c_char).decode("utf-8")
 
     def getAlignmentQuality(self):
         """
         :returns: retrieves base aligned at current Reference position
         :throws: ErrorMsg if event is an insertion or deletion
         """
-        return getNGSValue(self, NGS.lib_manager.PY_NGS_PileupEventGetAlignmentQuality, c_char)
+        return getNGSValue(self, NGS.lib_manager.PY_NGS_PileupEventGetAlignmentQuality, c_char).decode("utf-8")
 
     def getInsertionBases(self):
         """

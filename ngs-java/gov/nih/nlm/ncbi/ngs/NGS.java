@@ -49,6 +49,18 @@ public class NGS
         return mgr . isSupported ();
     }
 
+    /**
+     * Returns exception which occurred during initialization
+     *  If the exception is a subclass of LibraryLoadError, then there was a problem
+     *  with loading native libraries
+     *
+     * @return initialization error or null
+     */
+    static public ExceptionInInitializerError getInitializationError ()
+    {
+        return mgr . invalid;
+    }
+
 
     /**
      * Updates User-Agent header in HTTP communications

@@ -1,13 +1,20 @@
 <project>
 
     <!-- This file is currently for use on Windows; Linux/Mac builds are run via gmake -->
-    <property environment="env"/>
-    <property name="vdb.build"   value="Debug" />
-    <property name="vdb.platform"   value="x64" />
-    <property name="vdb.dir"   value="${env.USERPROFILE}\win\cl\${vdb.platform}\${vdb.build}\bin" />
-    <property name="build.dir" value="${env.USERPROFILE}\ncbi-outdir\ngs-java" />
+    <property name="Platform"       value="x64" />
+    <property name="Configuration"  value="Debug" />
+    <property name="Output"         value="${basedir}\..\..\OUTDIR" />
+    <property name="MSVS"           value="2013" />
     
-    <property name="classes.dir" value="${build.dir}\cls" />
+    <condition property="PlatformToolset" value="v100" else="v120">
+        <equals arg1="${MSVS}" arg2="2010"/>
+    </condition>    
+    <property name="vdb.dir"        value="${Output}\ncbi-vdb\win\${PlatformToolset}\${Platform}\${Configuration}\bin" />
+    <property name="ngs.dir"        value="${Output}\ngs-sdk\win\${PlatformToolset}\${Platform}\${Configuration}\bin" />
+
+    <property name="build.dir"      value="${Output}\ngs-java" />
+    
+    <property name="classes.dir"    value="${build.dir}\cls" />
 
     <target name="clean">
         <delete dir="${build.dir}"/>
@@ -43,6 +50,9 @@
         <jar destfile="${build.dir}\jar\ngs-examples.jar" basedir="${classes.dir}" includes="examples\**" />
     </target>
     
+    <condition property="JVMbits" value="64" else="32">
+        <equals arg1="${Platform}" arg2="x64"/>
+    </condition>    
     
     <macrodef name="run-example">
         <attribute name="class" />
@@ -53,11 +63,13 @@
                     <pathelement location="${build.dir}\jar\ngs-examples.jar" />
                     <pathelement location="${build.dir}\jar\ngs-java.jar" />
                 </classpath>
-                <sysproperty key="java.library.path" path="${vdb.dir}" />
+                <sysproperty key="java.library.path" path="${vdb.dir};${ngs.dir}" />
                 <sysproperty key="vdb.System.loadLibrary" value="1" />
                 <sysproperty key="vdb.log" value="FINEST" />
+                <jvmarg value="-d${JVMbits}" />
                 <args />
             </java>
+            <!-- TODO: use fc to diff output against expected -->
         </sequential>
     </macrodef>
     
@@ -104,4 +116,6 @@
         </run-example>
     </target>
 
+    <target name="build" depends="jar"/>
+    
 </project>
