@@ -1452,7 +1452,8 @@ sub check_compiler {
             $library = '-lmagic';
             $log = '#include <magic.h> \n int main() { magic_open     (0); }\n'
         } elsif ($n eq 'xml2') {
-            $library = '-lxml2';
+            $library  = '-lxml2';
+            $library .=       ' -liconv' if ($OS eq 'mac');
             $log = '#include <libxml/xmlreader.h>\n' .
                                          'int main() { xmlInitParser  ( ); }\n'
         } else {
