@@ -37,7 +37,7 @@ SUBTARGS =     \
 
 include $(CURDIR)/Makefile.rules
 
-sdk-libs: Makefile.config
+sdk-libs: $(SUBDIRS) Makefile.config
 	@ $(MAKE) -f Makefile.libs
 
 sdk-libs_cln: Makefile.config
