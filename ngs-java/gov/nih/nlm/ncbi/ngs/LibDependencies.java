@@ -30,5 +30,5 @@ class LibDependencies {
     final static String NGS_SDK  = "ngs-sdk";
     final static String NCBI_VDB = "ncbi-vdb";
     final static String NGS_SDK_VERSION = "1.2.5";
-    final static String NCBI_VDB_VERSION = "2.7.2";
+    final static String NCBI_VDB_VERSION = "2.7.0";
 }
