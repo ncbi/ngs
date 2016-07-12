@@ -26,6 +26,21 @@
 The NCBI NGS Software Development Kit
 Contact: sra-tools@ncbi.nlm.nih.gov
 
+NCBI External Developer Release: NGS SDK 1.2.5
+July 11, 2016
+
+  blast, kfg, ncbi-vdb, sra-tools, vfs: restored possibility to disable local caching
+  htsjdk: Several JVM crashes related to a number of open files were fixed. New property to disable auto-download was integrated into HTSJDK
+  kfg: When loading configuration files on Windows USERPROFILE environmnet variable is used before HOME
+  ngs, search, sra-search: sra-search was modified to support multiple threads.
+  ngs-engine, ngs-tools, sra-tools, vfs: The "auxiliary" nodes in configuration are now ignored
+  ngs-engine: Added support for blob-by-blob access to SEQUENCE table
+  ngs-engine: removed a potential memory leak in NGS_CursorMake()
+  ngs: Fixed a bug in ngs::Alignment::getMateReferenceSpec() affecting pre-March 2015 runs
+  ngs: now supports parallel compilation with "make -j N"
+  vfs: environment variable VDB_PWFILE is no longer used
+
+
 NCBI External Developer Release: NGS SDK 1.2.4
 May 25, 2016
 
