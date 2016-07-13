@@ -31,7 +31,7 @@ July 11, 2016
 
   blast, kfg, ncbi-vdb, sra-tools, vfs: restored possibility to disable local caching
   htsjdk: Several JVM crashes related to a number of open files were fixed. New property to disable auto-download was integrated into HTSJDK
-  kfg: When loading configuration files on Windows USERPROFILE environmnet variable is used before HOME
+  kfg: When loading configuration files on Windows USERPROFILE environment variable is used before HOME
   ngs, search, sra-search: sra-search was modified to support multiple threads.
   ngs-engine, ngs-tools, sra-tools, vfs: The "auxiliary" nodes in configuration are now ignored
   ngs-engine: Added support for blob-by-blob access to SEQUENCE table
