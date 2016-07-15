@@ -123,11 +123,17 @@ jstring StringItfCopyToJString ( const ngs :: StringItf * self, JNIEnv * jenv )
        at least when it comes to UTF-8 character sets... */
 
     /* an awful, but effective, test to see if the string
-       is already NUL terminated. */
+       is already NUL terminated:
+       1. we assume that buffer SIZE is aligned to 12 bits
+       2. we check if string size is less than buffer size,
+          i.e. if data[size] belongs buffer of not
+       3. if data[size] belongs to the buffer,
+          we can check if string is followed by NULL byte */
     if ( ( ( ( size_t ) & data [ size ] ) & 0xFFF ) != 0 )
     {
         /* we can read this address without fear of a seg-fault.
-           if it's NUL, then we can send the string in directly. */
+           if it's NUL, then we can send the string in directly.
+           NB: valgrind may complain about this line, but it is okay */
         if ( data [ size ] == 0 )
             return jenv -> NewStringUTF ( data );
     }
