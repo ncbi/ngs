@@ -120,7 +120,7 @@ class DownloadManager {
             if (spec != null) {
                 Logger.warning("Use " + spec + " from " + properties.cfgFilePath());
             } else {
-                spec = "http://trace.ncbi.nlm.nih.gov/Traces/sratoolkit/sratoolkit.cgi";
+                spec = "https://trace.ncbi.nlm.nih.gov/Traces/sratoolkit/sratoolkit.cgi";
             }
 
             done = false;
