@@ -101,8 +101,8 @@ $(INST_JARDIR)/ngs-java.jar.$(VERSION): $(LIBDIR)/ngs-java.jar
 	      false;                                                                      \
 	  fi
 
-ifeq ($(OS_ARCH),Darwin)
-    SED = sed -i '.bak'
+ifeq ($(OS),mac)
+    SED = sed -ibak
 else
     SED = sed -i
 endif
