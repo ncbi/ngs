@@ -101,11 +101,17 @@ $(INST_JARDIR)/ngs-java.jar.$(VERSION): $(LIBDIR)/ngs-java.jar
 	      false;                                                                      \
 	  fi
 
+ifeq ($(OS_ARCH),Darwin)
+    SED = sed -i '.bak'
+else
+    SED = sed -i
+endif
+
 copyexamples:
 	@ echo "Installing examples to $(INST_SHAREDIR)/examples-java..."
 	@ mkdir -p $(INST_SHAREDIR)/examples-java
 	@ cp $(TOP)/examples/Makefile $(INST_SHAREDIR)/examples-java
-	sed -i "s/NGS_CLASS_PATH = ../NGS_CLASS_PATH = $(subst /,\\/,$(INST_JARDIR)/ngs-java.jar)/" $(INST_SHAREDIR)/examples-java/Makefile
+	@ $(SED) "s/NGS_CLASS_PATH = ../NGS_CLASS_PATH = $(subst /,\\/,$(INST_JARDIR)/ngs-java.jar)/" $(INST_SHAREDIR)/examples-java/Makefile
 	@ cp -r $(TOP)/examples/examples $(INST_SHAREDIR)/examples-java
 
 copydocs:
