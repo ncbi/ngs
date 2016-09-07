@@ -49,23 +49,25 @@ NGS_EXAMPLES = \
 NGS_EXAMPLES_PATH = \
 	$(addprefix examples/,$(addsuffix .java,$(NGS_EXAMPLES)))
 
+NGS_CLASS_PATH = ..
+
 NGS-JavaTest.jar: $(NGS_EXAMPLES_PATH)
-	javac $(DEBUGGING) $^ -d . 
+	javac -classpath $(NGS_CLASS_PATH) $(DEBUGGING) $^ 
 	( jar cf $@ `find examples -name "*.class"`; chmod -x,o-w $@ ) || ( rm -f $@ && false )
 
 # ===========================================================================
 #
 # example runs
 
-JAVAFLAGS = -classpath $(CLASSPATH):.
+JAVAFLAGS = -classpath $(CLASSPATH):$(NGS_CLASS_PATH):.
 
 # Expect libngs-sdk.so and libncbi-vdb.so somewhere inside $LD_LIBRARY_PATH;
 #   if the libraries are not found, error out.
 # Comment out to rely on "smart load" instead (may download libraries from NCBI):
-JAVAFLAGS += -Djava.library.path=$(LD_LIBRARY_PATH) -Dvdb.System.loadLibrary=1
+#JAVAFLAGS += -Djava.library.path=$(LD_LIBRARY_PATH) -Dvdb.System.loadLibrary=1
 
 # uncomment to see detailed log"
-#JAVAFLAGS += -Dvdb.log=FINEST
+JAVAFLAGS += -Dvdb.log=FINEST
 
 run_frag: NGS-JavaTest.jar
 	java $(JAVAFLAGS) examples.FragTest ERR225922 10000 2  $(REDIRECT)
