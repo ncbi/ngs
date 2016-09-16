@@ -738,7 +738,7 @@ or pathname not found and its directory is not writable */
                     break;
                 }
                 // if we know the latest version, then we should search until find it
-                if (latestVersion != null && searchResult.version.compareTo(latestVersion) >= 0) {
+                if (latestVersion != null && searchResult.version.compareTo(requiredVersion) >= 0) {
                     break;
                 }
             }
