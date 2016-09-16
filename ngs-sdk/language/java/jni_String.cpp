@@ -89,7 +89,9 @@ jstring JStringVMake ( JNIEnv * jenv, const char * fmt, va_list args )
 const char * JStringData ( jstring jself, JNIEnv * jenv )
 {
     jboolean is_copy;
-    return jenv -> GetStringUTFChars ( jself, & is_copy );
+    if ( jself != NULL )
+        return jenv -> GetStringUTFChars ( jself, & is_copy );
+    return NULL;
 }
 
 

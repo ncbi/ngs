@@ -241,12 +241,14 @@ JNIEXPORT jstring JNICALL Java_ngs_itf_StatisticsItf_NextPath
         try
         {
             StringItf * new_ref = Self ( jself ) -> nextPath ( path );
-            JStringReleaseData ( jpath, jenv, path );
+            if ( jpath != NULL )
+                JStringReleaseData ( jpath, jenv, path );
             return new_ref ? StringItfConvertToJString ( new_ref, jenv ) : 0;
         }
         catch ( ... )
         {
-            JStringReleaseData ( jpath, jenv, path );
+            if ( jpath != NULL )
+                JStringReleaseData ( jpath, jenv, path );
             throw;
         }
     }
