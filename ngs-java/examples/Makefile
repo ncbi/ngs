@@ -59,7 +59,7 @@ NGS-JavaTest.jar: $(NGS_EXAMPLES_PATH)
 #
 # example runs
 
-JAVAFLAGS = -classpath $(CLASSPATH):$(NGS_CLASS_PATH):.
+JAVAFLAGS = -classpath $(CLASSPATH):$(NGS_CLASS_PATH):.:$(LD_LIBRARY_PATH) -Dvdb.System.loadLibrary=1
 
 # Expect libngs-sdk.so and libncbi-vdb.so somewhere inside $LD_LIBRARY_PATH;
 #   if the libraries are not found, error out.
