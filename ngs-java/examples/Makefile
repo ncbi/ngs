@@ -52,7 +52,7 @@ NGS_EXAMPLES_PATH = \
 NGS_CLASS_PATH = ..
 
 NGS-JavaTest.jar: $(NGS_EXAMPLES_PATH)
-	javac -classpath $(NGS_CLASS_PATH) $(DEBUGGING) $^ 
+	javac $(DEBUGGING) $^ -d .
 	( jar cf $@ `find examples -name "*.class"`; chmod -x,o-w $@ ) || ( rm -f $@ && false )
 
 # ===========================================================================
