@@ -588,6 +588,8 @@ or pathname not found and its directory is not writable */
             if (v != null) {
                 properties.setLatestVersion(libname, v);
             }
+        } else {
+            Logger.fine ( "Cached LatestVersion (" + libname + ") = " + v );
         }
 
         // we will cache whatever we have here, even null
