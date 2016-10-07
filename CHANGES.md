@@ -1,5 +1,23 @@
 # NCBI External Developer Release:
 
+## NGS SDK 1.3.0
+**October 7, 2016**
+
+### HTTPS-ENABLED RELEASE
+
+  **build, ngs-tools**: Now ngs-tools look for its dependencies using their normal build paths and does not reconfigure them  
+  **build, ngs-tools**: Now ngs-tools use CMAKE_INSTALL_PREFIX for installation path  
+  **kns**: All tools and libraries now support https  
+  **ngs**: Fixed all crashes when using null as string in ngs-java APIs  
+  **ngs**: NGS_ReferenceGetChunk() will now return chunks potentially exceeding 5000 bases  
+  **ngs**: fixed potential concurrency issues at exit, when called from Java  
+  **ngs**: ngs-java and ngs-python auto-download (of native libraries) now works through HTTPS  
+  **ngs**: read fragments of length 0 are now ignored  
+  **ngs, ngs-tools, ref-variation**: added class ngs-vdb::VdbAlignment, featuring method IsFirst()  
+  **ngs-engine**: improved diagnostic messages  
+  **ngs-tools**: Fixed Makefiles to keep supporting "./configure; make" build of sra-search, alongside CMake-based build.  
+
+
 ## NGS SDK 1.2.5
 **July 12, 2016**
 
