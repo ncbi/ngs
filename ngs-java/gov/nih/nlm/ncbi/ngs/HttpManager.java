@@ -39,7 +39,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 
-/** Helper class responsible for HTTP-related activities:
+/** Helper class responsible for HTTP/HTTPS-related activities:
     download files using GET/POST */
 class HttpManager
 {
@@ -217,6 +217,6 @@ class HttpManager
     }
 
 
-    /** Size of buffer for HTTP-related buffered IO operations */
+    /** Size of buffer for HTTP/HTTPS-related buffered IO operations */
     static final int BUF_SZ = 128 * 1024;
 }

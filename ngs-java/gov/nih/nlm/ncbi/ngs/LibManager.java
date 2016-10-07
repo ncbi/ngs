@@ -588,6 +588,8 @@ or pathname not found and its directory is not writable */
             if (v != null) {
                 properties.setLatestVersion(libname, v);
             }
+        } else {
+            Logger.fine ( "Cached LatestVersion (" + libname + ") = " + v );
         }
 
         // we will cache whatever we have here, even null
@@ -738,7 +740,7 @@ or pathname not found and its directory is not writable */
                     break;
                 }
                 // if we know the latest version, then we should search until find it
-                if (latestVersion != null && searchResult.version.compareTo(latestVersion) >= 0) {
+                if (latestVersion != null && searchResult.version.compareTo(requiredVersion) >= 0) {
                     break;
                 }
             }
@@ -913,9 +915,9 @@ off if JUST_DO_SIMPLE_LOAD_LIBRARY
 TODO
 try to load the library if LibManager.loadLibrary() was never called.
 What if loadLibrary() is called several times? load()
-      http://docs.oracle.com/javase/6/docs/api/java/util/logging/Level.html
-      http://en.wikipedia.org/wiki/Log4j
-      http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/Level.html
+      https://docs.oracle.com/javase/6/docs/api/java/util/logging/Level.html
+      https://en.wikipedia.org/wiki/Log4j
+      https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/Level.html
 -Dlog=0   1
 -Dlog=OFF SEVERE/FATAL
 -Dlog=O   S/F

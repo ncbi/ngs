@@ -172,7 +172,7 @@ class LibManager:
     c_lib_engine = None
     c_lib_sdk = None
     
-    URL_NCBI_SRATOOLKIT = 'http://trace.ncbi.nlm.nih.gov/Traces/sratoolkit/sratoolkit.cgi'
+    URL_NCBI_SRATOOLKIT = 'https://trace.ncbi.nlm.nih.gov/Traces/sratoolkit/sratoolkit.cgi'
     
     def _bind(self, c_lib, c_func_name_str, param_types_list, errorcheck):
         setattr(self, c_func_name_str, getattr(c_lib, c_func_name_str))

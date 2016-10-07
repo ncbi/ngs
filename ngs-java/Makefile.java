@@ -49,7 +49,7 @@ all std: $(TARGETS)
 
 #-------------------------------------------------------------------------------
 # install
-# 
+#
 
 #fake root for debugging
 #uncomment this line and change the test for root ( see under install: ) to succeed:
@@ -66,7 +66,7 @@ ifeq (linux, $(OS))
     endif
 endif
 
-install: $(TARGETS) $(INST_JARDIR) $(INST_JARDIR)/ngs-java.jar.$(VERSION) copydocs copyexamples 
+install: $(TARGETS) $(INST_JARDIR) $(INST_JARDIR)/ngs-java.jar.$(VERSION) copydocs copyexamples
 ifeq (true, $(LINUX_ROOT))
 	@ echo "Updating $(PROFILE_FILE).[c]sh"
 	@ printf \
@@ -81,11 +81,11 @@ ifeq (true, $(LINUX_ROOT))
 "if ( \$$status ) setenv CLASSPATH $(JAR_TARGET):\$$CLASSPATH\n"\
         >$(PROFILE_FILE).csh && chmod 644 $(PROFILE_FILE).sh || true;
 	@ #TODO: check version of the files above
-    
+
 else
 	@ #
 	@ echo "Please add $(JAR_TARGET) to your CLASSPATH, i.e.:"
-	@ echo "      export CLASSPATH=$(JAR_TARGET):\$$CLASSPATH"    
+	@ echo "      export CLASSPATH=$(JAR_TARGET):\$$CLASSPATH"
 endif
 
 $(INST_JARDIR)/ngs-java.jar.$(VERSION): $(LIBDIR)/ngs-java.jar
@@ -101,20 +101,27 @@ $(INST_JARDIR)/ngs-java.jar.$(VERSION): $(LIBDIR)/ngs-java.jar
 	      false;                                                                      \
 	  fi
 
+ifeq ($(OS),mac)
+    SED = sed -ibak
+else
+    SED = sed -i
+endif
+
 copyexamples:
 	@ echo "Installing examples to $(INST_SHAREDIR)/examples-java..."
 	@ mkdir -p $(INST_SHAREDIR)/examples-java
 	@ cp $(TOP)/examples/Makefile $(INST_SHAREDIR)/examples-java
+	@ $(SED) "s/NGS_CLASS_PATH = ../NGS_CLASS_PATH = $(subst /,\\/,$(INST_JARDIR)/ngs-java.jar)/" $(INST_SHAREDIR)/examples-java/Makefile
 	@ cp -r $(TOP)/examples/examples $(INST_SHAREDIR)/examples-java
 
 copydocs:
 	@ echo "Copying html docs to $(DOC_TARGET)..."
 	@ mkdir -p $(DOC_TARGET)
 	@ cp -r $(LIBDIR)/javadoc/* $(DOC_TARGET)
-    
+
 
 TO_UNINSTALL = $(INST_JARDIR)/ngs-java.jar* $(DOC_TARGET) $(INST_SHAREDIR)/examples-java
-TO_UNINSTALL_AS_ROOT = $(PROFILE_FILE).sh $(PROFILE_FILE).csh 
+TO_UNINSTALL_AS_ROOT = $(PROFILE_FILE).sh $(PROFILE_FILE).csh
 
 uninstall:
 	@ echo "Uninstalling $(TO_UNINSTALL) ..."
