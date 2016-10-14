@@ -119,6 +119,10 @@ class Manager
                     }
                 }
             );
+
+            Logger.info ( "NCBI-VDB v" + getPackageVersion () );
+            Logger.info ( "NGS-JAVA v" + LibDependencies . NGS_SDK_VERSION );
+            Logger.info ( "NGS-SDK v" + ngs . Package . getPackageVersion () );
         }
         catch ( ExceptionInInitializerError x )
         {
