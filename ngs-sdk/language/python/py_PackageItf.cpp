@@ -37,7 +37,7 @@ PY_RES_TYPE PY_NGS_PackageGetPackageVersion ( void** ppNGSRawStringBuf, void** p
         ngs::String const& res = ngs::PackageItf::getPackageVersion ();
 
         char* pRawString = new char [res.size() + 1];
-        ::memcpy (pRawString, res.c_str(), res.size() + 1);
+        ::memmove (pRawString, res.c_str(), res.size() + 1);
         *((char**)ppNGSRawStringBuf) = pRawString;
 
         ret = PY_RES_OK;

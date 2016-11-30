@@ -148,7 +148,7 @@ jstring StringItfCopyToJString ( const ngs :: StringItf * self, JNIEnv * jenv )
         return 0;
     }
 
-    memcpy ( copy, data, size );
+    memmove ( copy, data, size );
     copy [ size ] = 0;
 
     jstring jstr = jenv -> NewStringUTF ( copy );

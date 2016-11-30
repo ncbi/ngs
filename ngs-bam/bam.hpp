@@ -52,7 +52,7 @@ static T LE2Host(void const *const src)
         uint8_t ch[sizeof(T)];
         T v; // ensures alignment if necessary
     } u;
-    memcpy(reinterpret_cast<void *>(&u), src, sizeof(T));
+    memmove(reinterpret_cast<void *>(&u), src, sizeof(T));
 #if BYTE_ORDER == LITTLE_ENDIAN
     return u.v;
 #else
