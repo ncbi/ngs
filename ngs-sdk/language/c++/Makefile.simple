@@ -103,6 +103,8 @@ RANLIB  ?= ranlib
 PRINTF  ?= printf
 INSTALL ?= install
 
+RM      ?= rm
+
 ############################################################################
 # Standard targets required by ports
 
@@ -131,7 +133,7 @@ include Makefile.depend
 # Edit filespec and compiler command if not using just C source files
 
 depend:
-	rm -f Makefile.depend
+	${RM} -f Makefile.depend
 	for file in *.cpp; do \
 	    ${CXX} ${INCLUDES} -MM $${file} >> Makefile.depend; \
 	    ${PRINTF} "\t\$${CXX} -c \$${CXXFLAGS} $${file}\n\n" >> Makefile.depend; \
@@ -141,9 +143,9 @@ depend:
 # Remove generated files (objs and nroff output from man pages)
 
 clean:
-	rm -f ${OBJS} ${LIB}
+	${RM} -f ${OBJS} ${LIB}
 
 # Keep backup files during normal clean, but provide an option to remove them
 realclean: clean
-	rm -f .*.bak *.bak *.BAK *.gmon core *.core
+	${RM} -f .*.bak *.bak *.BAK *.gmon core *.core
 
