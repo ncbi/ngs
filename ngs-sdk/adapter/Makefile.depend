@@ -1,0 +1,119 @@
+AlignmentItf.o: AlignmentItf.cpp ../ngs/adapter/AlignmentItf.hpp \
+  ../ngs/adapter/FragmentItf.hpp ../ngs/adapter/Refcount.hpp \
+  ../ngs/itf/Refcount.h ../ngs/itf/VTable.h ../ngs/itf/defs.h \
+  ../ngs/adapter/defs.h ../ngs/unix/x86_64/atomic32.h \
+  ../ngs/itf/FragmentItf.h ../ngs/itf/AlignmentItf.h \
+  ../ngs/adapter/StringItf.hpp ../ngs/itf/StringItf.h \
+  ../ngs/adapter/ErrorMsg.hpp ErrBlock.hpp ../ngs/itf/ErrBlock.h
+	${CXX} -c ${CXXFLAGS} AlignmentItf.cpp
+
+ErrBlock.o: ErrBlock.cpp ErrBlock.hpp ../ngs/adapter/ErrorMsg.hpp \
+  ../ngs/itf/ErrBlock.h ../ngs/itf/defs.h
+	${CXX} -c ${CXXFLAGS} ErrBlock.cpp
+
+ErrorMsg.o: ErrorMsg.cpp ../ngs/adapter/ErrorMsg.hpp
+	${CXX} -c ${CXXFLAGS} ErrorMsg.cpp
+
+FragmentItf.o: FragmentItf.cpp ../ngs/adapter/FragmentItf.hpp \
+  ../ngs/adapter/Refcount.hpp ../ngs/itf/Refcount.h ../ngs/itf/VTable.h \
+  ../ngs/itf/defs.h ../ngs/adapter/defs.h ../ngs/unix/x86_64/atomic32.h \
+  ../ngs/itf/FragmentItf.h ../ngs/adapter/StringItf.hpp \
+  ../ngs/itf/StringItf.h ../ngs/adapter/ErrorMsg.hpp ErrBlock.hpp \
+  ../ngs/itf/ErrBlock.h
+	${CXX} -c ${CXXFLAGS} FragmentItf.cpp
+
+PileupEventItf.o: PileupEventItf.cpp ../ngs/adapter/PileupEventItf.hpp \
+  ../ngs/adapter/Refcount.hpp ../ngs/itf/Refcount.h ../ngs/itf/VTable.h \
+  ../ngs/itf/defs.h ../ngs/adapter/defs.h ../ngs/unix/x86_64/atomic32.h \
+  ../ngs/itf/PileupEventItf.h ../ngs/adapter/StringItf.hpp \
+  ../ngs/itf/StringItf.h ../ngs/adapter/AlignmentItf.hpp \
+  ../ngs/adapter/FragmentItf.hpp ../ngs/itf/FragmentItf.h \
+  ../ngs/itf/AlignmentItf.h ../ngs/adapter/ErrorMsg.hpp ErrBlock.hpp \
+  ../ngs/itf/ErrBlock.h
+	${CXX} -c ${CXXFLAGS} PileupEventItf.cpp
+
+PileupItf.o: PileupItf.cpp ../ngs/adapter/PileupItf.hpp \
+  ../ngs/adapter/PileupEventItf.hpp ../ngs/adapter/Refcount.hpp \
+  ../ngs/itf/Refcount.h ../ngs/itf/VTable.h ../ngs/itf/defs.h \
+  ../ngs/adapter/defs.h ../ngs/unix/x86_64/atomic32.h \
+  ../ngs/itf/PileupEventItf.h ../ngs/itf/PileupItf.h \
+  ../ngs/adapter/StringItf.hpp ../ngs/itf/StringItf.h \
+  ../ngs/adapter/ErrorMsg.hpp ErrBlock.hpp ../ngs/itf/ErrBlock.h
+	${CXX} -c ${CXXFLAGS} PileupItf.cpp
+
+ReadCollectionItf.o: ReadCollectionItf.cpp \
+  ../ngs/adapter/ReadCollectionItf.hpp ../ngs/adapter/Refcount.hpp \
+  ../ngs/itf/Refcount.h ../ngs/itf/VTable.h ../ngs/itf/defs.h \
+  ../ngs/adapter/defs.h ../ngs/unix/x86_64/atomic32.h \
+  ../ngs/itf/ReadCollectionItf.h ../ngs/adapter/StringItf.hpp \
+  ../ngs/itf/StringItf.h ../ngs/adapter/ReadGroupItf.hpp \
+  ../ngs/itf/ReadGroupItf.h ../ngs/adapter/ReferenceItf.hpp \
+  ../ngs/itf/ReferenceItf.h ../ngs/adapter/AlignmentItf.hpp \
+  ../ngs/adapter/FragmentItf.hpp ../ngs/itf/FragmentItf.h \
+  ../ngs/itf/AlignmentItf.h ../ngs/adapter/ReadItf.hpp \
+  ../ngs/itf/ReadItf.h ../ngs/adapter/ErrorMsg.hpp ErrBlock.hpp \
+  ../ngs/itf/ErrBlock.h
+	${CXX} -c ${CXXFLAGS} ReadCollectionItf.cpp
+
+ReadGroupItf.o: ReadGroupItf.cpp ../ngs/adapter/ReadGroupItf.hpp \
+  ../ngs/adapter/Refcount.hpp ../ngs/itf/Refcount.h ../ngs/itf/VTable.h \
+  ../ngs/itf/defs.h ../ngs/adapter/defs.h ../ngs/unix/x86_64/atomic32.h \
+  ../ngs/itf/ReadGroupItf.h ../ngs/adapter/StringItf.hpp \
+  ../ngs/itf/StringItf.h ../ngs/adapter/StatisticsItf.hpp \
+  ../ngs/itf/StatisticsItf.h ../ngs/adapter/ErrorMsg.hpp ErrBlock.hpp \
+  ../ngs/itf/ErrBlock.h
+	${CXX} -c ${CXXFLAGS} ReadGroupItf.cpp
+
+ReadItf.o: ReadItf.cpp ../ngs/adapter/ReadItf.hpp \
+  ../ngs/adapter/FragmentItf.hpp ../ngs/adapter/Refcount.hpp \
+  ../ngs/itf/Refcount.h ../ngs/itf/VTable.h ../ngs/itf/defs.h \
+  ../ngs/adapter/defs.h ../ngs/unix/x86_64/atomic32.h \
+  ../ngs/itf/FragmentItf.h ../ngs/itf/ReadItf.h \
+  ../ngs/adapter/StringItf.hpp ../ngs/itf/StringItf.h \
+  ../ngs/adapter/ErrorMsg.hpp ErrBlock.hpp ../ngs/itf/ErrBlock.h
+	${CXX} -c ${CXXFLAGS} ReadItf.cpp
+
+Refcount.o: Refcount.cpp ../ngs/adapter/Refcount.hpp \
+  ../ngs/itf/Refcount.h ../ngs/itf/VTable.h ../ngs/itf/defs.h \
+  ../ngs/adapter/defs.h ../ngs/unix/x86_64/atomic32.h \
+  ../ngs/adapter/StringItf.hpp ../ngs/itf/StringItf.h \
+  ../ngs/adapter/ErrorMsg.hpp ErrBlock.hpp ../ngs/itf/ErrBlock.h
+	${CXX} -c ${CXXFLAGS} Refcount.cpp
+
+ReferenceItf.o: ReferenceItf.cpp ../ngs/adapter/ReferenceItf.hpp \
+  ../ngs/adapter/Refcount.hpp ../ngs/itf/Refcount.h ../ngs/itf/VTable.h \
+  ../ngs/itf/defs.h ../ngs/adapter/defs.h ../ngs/unix/x86_64/atomic32.h \
+  ../ngs/itf/ReferenceItf.h ../ngs/adapter/StringItf.hpp \
+  ../ngs/itf/StringItf.h ../ngs/adapter/StatisticsItf.hpp \
+  ../ngs/itf/StatisticsItf.h ../ngs/adapter/AlignmentItf.hpp \
+  ../ngs/adapter/FragmentItf.hpp ../ngs/itf/FragmentItf.h \
+  ../ngs/itf/AlignmentItf.h ../ngs/adapter/PileupItf.hpp \
+  ../ngs/adapter/PileupEventItf.hpp ../ngs/itf/PileupEventItf.h \
+  ../ngs/itf/PileupItf.h ../ngs/adapter/ErrorMsg.hpp ErrBlock.hpp \
+  ../ngs/itf/ErrBlock.h
+	${CXX} -c ${CXXFLAGS} ReferenceItf.cpp
+
+ReferenceSequenceItf.o: ReferenceSequenceItf.cpp \
+  ../ngs/adapter/ReferenceSequenceItf.hpp ../ngs/adapter/Refcount.hpp \
+  ../ngs/itf/Refcount.h ../ngs/itf/VTable.h ../ngs/itf/defs.h \
+  ../ngs/adapter/defs.h ../ngs/unix/x86_64/atomic32.h \
+  ../ngs/itf/ReferenceSequenceItf.h ../ngs/adapter/StringItf.hpp \
+  ../ngs/itf/StringItf.h ../ngs/adapter/ErrorMsg.hpp ErrBlock.hpp \
+  ../ngs/itf/ErrBlock.h
+	${CXX} -c ${CXXFLAGS} ReferenceSequenceItf.cpp
+
+StatisticsItf.o: StatisticsItf.cpp ../ngs/adapter/StatisticsItf.hpp \
+  ../ngs/adapter/Refcount.hpp ../ngs/itf/Refcount.h ../ngs/itf/VTable.h \
+  ../ngs/itf/defs.h ../ngs/adapter/defs.h ../ngs/unix/x86_64/atomic32.h \
+  ../ngs/itf/StatisticsItf.h ../ngs/adapter/StringItf.hpp \
+  ../ngs/itf/StringItf.h ../ngs/adapter/ErrorMsg.hpp ErrBlock.hpp \
+  ../ngs/itf/ErrBlock.h
+	${CXX} -c ${CXXFLAGS} StatisticsItf.cpp
+
+StringItf.o: StringItf.cpp ../ngs/adapter/StringItf.hpp \
+  ../ngs/adapter/Refcount.hpp ../ngs/itf/Refcount.h ../ngs/itf/VTable.h \
+  ../ngs/itf/defs.h ../ngs/adapter/defs.h ../ngs/unix/x86_64/atomic32.h \
+  ../ngs/itf/StringItf.h ../ngs/adapter/ErrorMsg.hpp ErrBlock.hpp \
+  ../ngs/itf/ErrBlock.h
+	${CXX} -c ${CXXFLAGS} StringItf.cpp
+

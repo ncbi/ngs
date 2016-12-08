@@ -1,0 +1,112 @@
+AlignmentItf.o: AlignmentItf.cpp ../ngs/itf/AlignmentItf.hpp \
+  ../ngs/itf/Refcount.hpp ../ngs/itf/ErrorMsg.hpp ../ngs/itf/defs.h \
+  ../ngs/itf/StringItf.hpp ../ngs/itf/ErrBlock.hpp ../ngs/itf/ErrBlock.h \
+  ../ngs/itf/VTable.hpp ../ngs/itf/VTable.h ../ngs/itf/AlignmentItf.h \
+  ../ngs/Alignment.hpp ../ngs/Fragment.hpp ../ngs/ErrorMsg.hpp \
+  ../ngs/StringRef.hpp ../ngs/inl/StringRef.hpp ../ngs/inl/Fragment.hpp \
+  ../ngs/itf/FragmentItf.hpp ../ngs/inl/Alignment.hpp
+	${CXX} -c ${CXXFLAGS} AlignmentItf.cpp
+
+ErrBlock.o: ErrBlock.cpp ../ngs/itf/ErrBlock.hpp ../ngs/itf/ErrorMsg.hpp \
+  ../ngs/itf/defs.h ../ngs/itf/ErrBlock.h
+	${CXX} -c ${CXXFLAGS} ErrBlock.cpp
+
+ErrorMsg.o: ErrorMsg.cpp ../ngs/itf/ErrorMsg.hpp ../ngs/itf/defs.h
+	${CXX} -c ${CXXFLAGS} ErrorMsg.cpp
+
+FragmentItf.o: FragmentItf.cpp ../ngs/itf/FragmentItf.hpp \
+  ../ngs/itf/Refcount.hpp ../ngs/itf/ErrorMsg.hpp ../ngs/itf/defs.h \
+  ../ngs/itf/StringItf.hpp ../ngs/itf/ErrBlock.hpp ../ngs/itf/ErrBlock.h \
+  ../ngs/itf/VTable.hpp ../ngs/itf/VTable.h ../ngs/itf/FragmentItf.h
+	${CXX} -c ${CXXFLAGS} FragmentItf.cpp
+
+PackageItf.o: PackageItf.cpp ../ngs/itf/PackageItf.hpp \
+  ../ngs/StringRef.hpp ../ngs/ErrorMsg.hpp ../ngs/itf/ErrorMsg.hpp \
+  ../ngs/itf/defs.h ../ngs/inl/StringRef.hpp ../ngs/itf/StringItf.hpp \
+  ../ngs/itf/Refcount.hpp version.h
+	${CXX} -c ${CXXFLAGS} PackageItf.cpp
+
+PileupEventItf.o: PileupEventItf.cpp ../ngs/itf/PileupEventItf.hpp \
+  ../ngs/itf/Refcount.hpp ../ngs/itf/ErrorMsg.hpp ../ngs/itf/defs.h \
+  ../ngs/itf/AlignmentItf.hpp ../ngs/itf/StringItf.hpp \
+  ../ngs/itf/ErrBlock.hpp ../ngs/itf/ErrBlock.h ../ngs/itf/VTable.hpp \
+  ../ngs/itf/VTable.h ../ngs/itf/PileupEventItf.h
+	${CXX} -c ${CXXFLAGS} PileupEventItf.cpp
+
+PileupItf.o: PileupItf.cpp ../ngs/itf/PileupItf.hpp \
+  ../ngs/itf/Refcount.hpp ../ngs/itf/ErrorMsg.hpp ../ngs/itf/defs.h \
+  ../ngs/itf/PileupEventItf.hpp ../ngs/itf/StringItf.hpp \
+  ../ngs/itf/ErrBlock.hpp ../ngs/itf/ErrBlock.h ../ngs/itf/VTable.hpp \
+  ../ngs/itf/VTable.h ../ngs/itf/PileupItf.h
+	${CXX} -c ${CXXFLAGS} PileupItf.cpp
+
+ReadCollectionItf.o: ReadCollectionItf.cpp \
+  ../ngs/itf/ReadCollectionItf.hpp ../ngs/itf/Refcount.hpp \
+  ../ngs/itf/ErrorMsg.hpp ../ngs/itf/defs.h ../ngs/itf/StringItf.hpp \
+  ../ngs/itf/ReadItf.hpp ../ngs/itf/ReadGroupItf.hpp \
+  ../ngs/itf/ReferenceItf.hpp ../ngs/itf/AlignmentItf.hpp \
+  ../ngs/itf/StatisticsItf.hpp ../ngs/itf/ErrBlock.hpp \
+  ../ngs/itf/ErrBlock.h ../ngs/itf/VTable.hpp ../ngs/itf/VTable.h \
+  ../ngs/itf/ReadCollectionItf.h ../ngs/Alignment.hpp \
+  ../ngs/Fragment.hpp ../ngs/ErrorMsg.hpp ../ngs/StringRef.hpp \
+  ../ngs/inl/StringRef.hpp ../ngs/inl/Fragment.hpp \
+  ../ngs/itf/FragmentItf.hpp ../ngs/inl/Alignment.hpp ../ngs/Read.hpp \
+  ../ngs/FragmentIterator.hpp ../ngs/inl/FragmentIterator.hpp \
+  ../ngs/inl/Read.hpp
+	${CXX} -c ${CXXFLAGS} ReadCollectionItf.cpp
+
+ReadGroupItf.o: ReadGroupItf.cpp ../ngs/itf/ReadGroupItf.hpp \
+  ../ngs/itf/Refcount.hpp ../ngs/itf/ErrorMsg.hpp ../ngs/itf/defs.h \
+  ../ngs/itf/StringItf.hpp ../ngs/itf/StatisticsItf.hpp \
+  ../ngs/itf/ErrBlock.hpp ../ngs/itf/ErrBlock.h ../ngs/itf/VTable.hpp \
+  ../ngs/itf/VTable.h ../ngs/itf/ReadGroupItf.h
+	${CXX} -c ${CXXFLAGS} ReadGroupItf.cpp
+
+ReadItf.o: ReadItf.cpp ../ngs/itf/ReadItf.hpp ../ngs/itf/Refcount.hpp \
+  ../ngs/itf/ErrorMsg.hpp ../ngs/itf/defs.h ../ngs/itf/StringItf.hpp \
+  ../ngs/itf/ErrBlock.hpp ../ngs/itf/ErrBlock.h ../ngs/itf/VTable.hpp \
+  ../ngs/itf/VTable.h ../ngs/itf/ReadItf.h
+	${CXX} -c ${CXXFLAGS} ReadItf.cpp
+
+Refcount.o: Refcount.cpp ../ngs/itf/Refcount.hpp ../ngs/itf/ErrorMsg.hpp \
+  ../ngs/itf/defs.h ../ngs/itf/ErrBlock.hpp ../ngs/itf/ErrBlock.h \
+  ../ngs/itf/VTable.hpp ../ngs/itf/VTable.h ../ngs/itf/Refcount.h
+	${CXX} -c ${CXXFLAGS} Refcount.cpp
+
+ReferenceItf.o: ReferenceItf.cpp ../ngs/itf/ReferenceItf.hpp \
+  ../ngs/itf/Refcount.hpp ../ngs/itf/ErrorMsg.hpp ../ngs/itf/defs.h \
+  ../ngs/itf/PileupItf.hpp ../ngs/itf/AlignmentItf.hpp \
+  ../ngs/itf/StringItf.hpp ../ngs/itf/ErrBlock.hpp ../ngs/itf/ErrBlock.h \
+  ../ngs/itf/VTable.hpp ../ngs/itf/VTable.h ../ngs/itf/ReferenceItf.h \
+  ../ngs/Alignment.hpp ../ngs/Fragment.hpp ../ngs/ErrorMsg.hpp \
+  ../ngs/StringRef.hpp ../ngs/inl/StringRef.hpp ../ngs/inl/Fragment.hpp \
+  ../ngs/itf/FragmentItf.hpp ../ngs/inl/Alignment.hpp
+	${CXX} -c ${CXXFLAGS} ReferenceItf.cpp
+
+ReferenceSequenceItf.o: ReferenceSequenceItf.cpp \
+  ../ngs/itf/ReferenceSequenceItf.hpp ../ngs/itf/Refcount.hpp \
+  ../ngs/itf/ErrorMsg.hpp ../ngs/itf/defs.h ../ngs/itf/StringItf.hpp \
+  ../ngs/itf/ErrBlock.hpp ../ngs/itf/ErrBlock.h ../ngs/itf/VTable.hpp \
+  ../ngs/itf/VTable.h ../ngs/itf/ReferenceSequenceItf.h \
+  ../ngs/Alignment.hpp ../ngs/Fragment.hpp ../ngs/ErrorMsg.hpp \
+  ../ngs/StringRef.hpp ../ngs/inl/StringRef.hpp ../ngs/inl/Fragment.hpp \
+  ../ngs/itf/FragmentItf.hpp ../ngs/inl/Alignment.hpp \
+  ../ngs/itf/AlignmentItf.hpp
+	${CXX} -c ${CXXFLAGS} ReferenceSequenceItf.cpp
+
+StatisticsItf.o: StatisticsItf.cpp ../ngs/itf/StatisticsItf.hpp \
+  ../ngs/itf/Refcount.hpp ../ngs/itf/ErrorMsg.hpp ../ngs/itf/defs.h \
+  ../ngs/itf/StringItf.hpp ../ngs/itf/ErrBlock.hpp ../ngs/itf/ErrBlock.h \
+  ../ngs/itf/VTable.hpp ../ngs/itf/VTable.h ../ngs/itf/StatisticsItf.h
+	${CXX} -c ${CXXFLAGS} StatisticsItf.cpp
+
+StringItf.o: StringItf.cpp ../ngs/itf/StringItf.hpp \
+  ../ngs/itf/Refcount.hpp ../ngs/itf/ErrorMsg.hpp ../ngs/itf/defs.h \
+  ../ngs/itf/ErrBlock.hpp ../ngs/itf/ErrBlock.h ../ngs/itf/VTable.hpp \
+  ../ngs/itf/VTable.h ../ngs/itf/StringItf.h
+	${CXX} -c ${CXXFLAGS} StringItf.cpp
+
+VTable.o: VTable.cpp ../ngs/itf/VTable.hpp ../ngs/itf/ErrorMsg.hpp \
+  ../ngs/itf/defs.h ../ngs/itf/VTable.h
+	${CXX} -c ${CXXFLAGS} VTable.cpp
+

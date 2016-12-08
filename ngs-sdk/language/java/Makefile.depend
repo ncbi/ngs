@@ -1,0 +1,139 @@
+jni_AlignmentIteratorItf.o: jni_AlignmentIteratorItf.cpp \
+  jni_AlignmentIteratorItf.h jni.h jni_md.h jni_ErrorMsg.hpp \
+  ../../ngs/itf/ErrBlock.h ../../ngs/itf/defs.h jni_String.hpp \
+  ../../ngs/itf/FragmentItf.hpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/AlignmentItf.hpp \
+  ../../ngs/itf/StringItf.hpp
+	${CXX} -c ${CXXFLAGS} jni_AlignmentIteratorItf.cpp
+
+jni_AlignmentItf.o: jni_AlignmentItf.cpp jni_AlignmentItf.h jni.h \
+  jni_md.h jni_ErrorMsg.hpp ../../ngs/itf/ErrBlock.h \
+  ../../ngs/itf/defs.h jni_String.hpp ../../ngs/itf/FragmentItf.hpp \
+  ../../ngs/itf/Refcount.hpp ../../ngs/itf/ErrorMsg.hpp \
+  ../../ngs/itf/AlignmentItf.hpp ../../ngs/itf/StringItf.hpp
+	${CXX} -c ${CXXFLAGS} jni_AlignmentItf.cpp
+
+jni_ErrorMsg.o: jni_ErrorMsg.cpp jni_ErrorMsg.hpp \
+  ../../ngs/itf/ErrBlock.h ../../ngs/itf/defs.h jni.h jni_md.h
+	${CXX} -c ${CXXFLAGS} jni_ErrorMsg.cpp
+
+jni_FragmentItf.o: jni_FragmentItf.cpp jni_FragmentItf.h jni.h jni_md.h \
+  jni_ErrorMsg.hpp ../../ngs/itf/ErrBlock.h ../../ngs/itf/defs.h \
+  jni_String.hpp ../../ngs/itf/FragmentItf.hpp \
+  ../../ngs/itf/Refcount.hpp ../../ngs/itf/ErrorMsg.hpp \
+  ../../ngs/itf/StringItf.hpp
+	${CXX} -c ${CXXFLAGS} jni_FragmentItf.cpp
+
+jni_Package.o: jni_Package.cpp jni_Package.h jni.h jni_md.h \
+  jni_ErrorMsg.hpp ../../ngs/itf/ErrBlock.h ../../ngs/itf/defs.h \
+  jni_String.hpp ../../ngs/StringRef.hpp ../../ngs/ErrorMsg.hpp \
+  ../../ngs/itf/ErrorMsg.hpp ../../ngs/inl/StringRef.hpp \
+  ../../ngs/itf/StringItf.hpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/itf/PackageItf.hpp
+	${CXX} -c ${CXXFLAGS} jni_Package.cpp
+
+jni_PileupEventIteratorItf.o: jni_PileupEventIteratorItf.cpp \
+  jni_PileupEventIteratorItf.h jni.h jni_md.h jni_ErrorMsg.hpp \
+  ../../ngs/itf/ErrBlock.h ../../ngs/itf/defs.h jni_String.hpp \
+  ../../ngs/itf/PileupEventItf.hpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/itf/ErrorMsg.hpp
+	${CXX} -c ${CXXFLAGS} jni_PileupEventIteratorItf.cpp
+
+jni_PileupEventItf.o: jni_PileupEventItf.cpp jni_PileupEventItf.h jni.h \
+  jni_md.h jni_ErrorMsg.hpp ../../ngs/itf/ErrBlock.h \
+  ../../ngs/itf/defs.h jni_String.hpp ../../ngs/itf/PileupEventItf.hpp \
+  ../../ngs/itf/Refcount.hpp ../../ngs/itf/ErrorMsg.hpp \
+  ../../ngs/itf/AlignmentItf.hpp ../../ngs/itf/StringItf.hpp
+	${CXX} -c ${CXXFLAGS} jni_PileupEventItf.cpp
+
+jni_PileupIteratorItf.o: jni_PileupIteratorItf.cpp \
+  jni_PileupIteratorItf.h jni.h jni_md.h jni_ErrorMsg.hpp \
+  ../../ngs/itf/ErrBlock.h ../../ngs/itf/defs.h jni_String.hpp \
+  ../../ngs/itf/PileupItf.hpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/itf/ErrorMsg.hpp
+	${CXX} -c ${CXXFLAGS} jni_PileupIteratorItf.cpp
+
+jni_PileupItf.o: jni_PileupItf.cpp jni_PileupItf.h jni.h jni_md.h \
+  jni_ErrorMsg.hpp ../../ngs/itf/ErrBlock.h ../../ngs/itf/defs.h \
+  jni_String.hpp ../../ngs/itf/PileupItf.hpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/PileupEventItf.hpp \
+  ../../ngs/itf/StringItf.hpp
+	${CXX} -c ${CXXFLAGS} jni_PileupItf.cpp
+
+jni_ReadCollectionItf.o: jni_ReadCollectionItf.cpp \
+  jni_ReadCollectionItf.h jni.h jni_md.h jni_ErrorMsg.hpp \
+  ../../ngs/itf/ErrBlock.h ../../ngs/itf/defs.h jni_String.hpp \
+  ../../ngs/itf/ReadCollectionItf.hpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/ReferenceItf.hpp \
+  ../../ngs/itf/AlignmentItf.hpp ../../ngs/itf/ReadGroupItf.hpp \
+  ../../ngs/itf/ReadItf.hpp ../../ngs/itf/StringItf.hpp
+	${CXX} -c ${CXXFLAGS} jni_ReadCollectionItf.cpp
+
+jni_ReadGroupIteratorItf.o: jni_ReadGroupIteratorItf.cpp \
+  jni_ReadGroupIteratorItf.h jni.h jni_md.h jni_ErrorMsg.hpp \
+  ../../ngs/itf/ErrBlock.h ../../ngs/itf/defs.h \
+  ../../ngs/itf/ReadGroupItf.hpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/itf/ErrorMsg.hpp
+	${CXX} -c ${CXXFLAGS} jni_ReadGroupIteratorItf.cpp
+
+jni_ReadGroupItf.o: jni_ReadGroupItf.cpp jni_ReadGroupItf.h jni.h \
+  jni_md.h jni_ErrorMsg.hpp ../../ngs/itf/ErrBlock.h \
+  ../../ngs/itf/defs.h jni_String.hpp ../../ngs/itf/ReadGroupItf.hpp \
+  ../../ngs/itf/Refcount.hpp ../../ngs/itf/ErrorMsg.hpp \
+  ../../ngs/itf/ReadItf.hpp ../../ngs/itf/StatisticsItf.hpp \
+  ../../ngs/itf/StringItf.hpp
+	${CXX} -c ${CXXFLAGS} jni_ReadGroupItf.cpp
+
+jni_ReadIteratorItf.o: jni_ReadIteratorItf.cpp jni_ReadIteratorItf.h \
+  jni.h jni_md.h jni_ErrorMsg.hpp ../../ngs/itf/ErrBlock.h \
+  ../../ngs/itf/defs.h jni_String.hpp ../../ngs/itf/ReadItf.hpp \
+  ../../ngs/itf/Refcount.hpp ../../ngs/itf/ErrorMsg.hpp
+	${CXX} -c ${CXXFLAGS} jni_ReadIteratorItf.cpp
+
+jni_ReadItf.o: jni_ReadItf.cpp jni_ReadItf.h jni.h jni_md.h \
+  jni_ErrorMsg.hpp ../../ngs/itf/ErrBlock.h ../../ngs/itf/defs.h \
+  jni_String.hpp ../../ngs/itf/FragmentItf.hpp \
+  ../../ngs/itf/Refcount.hpp ../../ngs/itf/ErrorMsg.hpp \
+  ../../ngs/itf/ReadItf.hpp ../../ngs/itf/StringItf.hpp
+	${CXX} -c ${CXXFLAGS} jni_ReadItf.cpp
+
+jni_Refcount.o: jni_Refcount.cpp jni_Refcount.h jni.h jni_md.h \
+  jni_ErrorMsg.hpp ../../ngs/itf/ErrBlock.h ../../ngs/itf/defs.h \
+  ../../ngs/itf/Refcount.hpp ../../ngs/itf/ErrorMsg.hpp
+	${CXX} -c ${CXXFLAGS} jni_Refcount.cpp
+
+jni_ReferenceIteratorItf.o: jni_ReferenceIteratorItf.cpp \
+  jni_ReferenceIteratorItf.h jni.h jni_md.h jni_ErrorMsg.hpp \
+  ../../ngs/itf/ErrBlock.h ../../ngs/itf/defs.h jni_String.hpp \
+  ../../ngs/itf/ReferenceItf.hpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/itf/ErrorMsg.hpp
+	${CXX} -c ${CXXFLAGS} jni_ReferenceIteratorItf.cpp
+
+jni_ReferenceItf.o: jni_ReferenceItf.cpp jni_ReferenceItf.h jni.h \
+  jni_md.h jni_ErrorMsg.hpp ../../ngs/itf/ErrBlock.h \
+  ../../ngs/itf/defs.h jni_String.hpp ../../ngs/itf/ReferenceItf.hpp \
+  ../../ngs/itf/Refcount.hpp ../../ngs/itf/ErrorMsg.hpp \
+  ../../ngs/itf/AlignmentItf.hpp ../../ngs/itf/PileupItf.hpp \
+  ../../ngs/itf/StringItf.hpp
+	${CXX} -c ${CXXFLAGS} jni_ReferenceItf.cpp
+
+jni_ReferenceSequenceItf.o: jni_ReferenceSequenceItf.cpp \
+  jni_ReferenceSequenceItf.h jni.h jni_md.h jni_ErrorMsg.hpp \
+  ../../ngs/itf/ErrBlock.h ../../ngs/itf/defs.h jni_String.hpp \
+  ../../ngs/itf/ReferenceSequenceItf.hpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/StringItf.hpp
+	${CXX} -c ${CXXFLAGS} jni_ReferenceSequenceItf.cpp
+
+jni_StatisticsItf.o: jni_StatisticsItf.cpp jni_StatisticsItf.h jni.h \
+  jni_md.h jni_String.hpp ../../ngs/itf/defs.h jni_ErrorMsg.hpp \
+  ../../ngs/itf/ErrBlock.h ../../ngs/itf/StatisticsItf.hpp \
+  ../../ngs/itf/Refcount.hpp ../../ngs/itf/ErrorMsg.hpp \
+  ../../ngs/itf/StringItf.hpp
+	${CXX} -c ${CXXFLAGS} jni_StatisticsItf.cpp
+
+jni_String.o: jni_String.cpp jni_String.hpp ../../ngs/itf/defs.h jni.h \
+  jni_md.h jni_ErrorMsg.hpp ../../ngs/itf/ErrBlock.h \
+  ../../ngs/itf/StringItf.hpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/itf/ErrorMsg.hpp
+	${CXX} -c ${CXXFLAGS} jni_String.cpp
+
