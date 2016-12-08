@@ -3,12 +3,12 @@ MAKE ?=     make
 DIRS =      adapter dispatch language
 
 all:
-	@for dir in ${DIRS}; do \
-	    ${MAKE} -C $$dir -f Makefile.simple; \
+	for dir in ${DIRS}; do \
+	    ${MAKE} -C $$dir -f Makefile.simple ARCH=`uname -p`; \
 	done
 
 clean:
-	@for dir in ${DIRS}; do \
+	for dir in ${DIRS}; do \
 	    ${MAKE} -C $$dir -f Makefile.simple clean; \
 	done
 
