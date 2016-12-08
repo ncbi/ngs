@@ -94,7 +94,7 @@ AR          ?= ar
 RANLIB      ?= ranlib
 
 OS          ?= unix
-ARCH        ?= x86_64
+ARCH        != uname -p
 
 INCLUDES    += -I${LOCALBASE}/include -I.. -I../ngs/${OS}/${ARCH}
 CXXFLAGS    += ${INCLUDES}
