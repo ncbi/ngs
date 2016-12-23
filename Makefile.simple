@@ -1,6 +1,10 @@
 
-MAKE ?=     make
-DIRS =      ngs-sdk
+MAKE	?= make
+DIRS	= ngs-sdk
+
+MKDIR	?= mkdir
+PREFIX	?= /usr/local
+DESTDIR	?= ./stage
 
 all:
 	@for dir in ${DIRS}; do \
@@ -12,3 +16,6 @@ clean:
 	    ${MAKE} -C $$dir -f Makefile.simple clean; \
 	done
 
+install:
+	${MKDIR} -p ${DESTDIR}${PREFIX}/lib
+	${INSTALL} -c */*.a */*/*.a ${DESTDIR}${PREFIX}/lib
