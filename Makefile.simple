@@ -3,6 +3,7 @@ MAKE	?= make
 DIRS	= ngs-sdk
 
 MKDIR	?= mkdir
+INSTALL	?= install
 PREFIX	?= /usr/local
 DESTDIR	?= ./stage
 
