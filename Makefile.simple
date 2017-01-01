@@ -4,6 +4,8 @@ DIRS	= ngs-sdk
 
 MKDIR	?= mkdir
 INSTALL	?= install
+RM	?= rm
+
 PREFIX	?= /usr/local
 DESTDIR	?= ./stage
 
@@ -16,6 +18,7 @@ clean:
 	@for dir in ${DIRS}; do \
 	    ${MAKE} -C $$dir -f Makefile.simple clean; \
 	done
+	${RM} -rf ${DESTDIR}
 
 install: all
 	${MKDIR} -p ${DESTDIR}${PREFIX}/lib
