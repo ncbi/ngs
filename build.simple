@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+# Default case below works for FreeBSD, Linux, and Mac.
+# If another platform requires special compiler flags, add a case.
+case `uname` in
+*)
+    make -f Makefile.simple $@
+    ;;
+esac
+
