@@ -25,7 +25,68 @@ ${BIN}:	ngs/*.java
 		ngs/ReferenceIterator.java \
 		ngs/ReadCollection.java \
 		ngs/Package.java \
-		-d . -classpath . -sourcepath .:itf: && touch ngs-java-api
+		-d . -classpath . -sourcepath .:itf:
+	javac  \
+		ngs/itf/Refcount.java \
+		ngs/itf/StatisticsItf.java \
+		ngs/itf/FragmentItf.java \
+		ngs/itf/FragmentIteratorItf.java \
+		ngs/itf/ReadItf.java \
+		ngs/itf/ReadIteratorItf.java \
+		ngs/itf/ReadGroupItf.java \
+		ngs/itf/ReadGroupIteratorItf.java \
+		ngs/itf/AlignmentItf.java \
+		ngs/itf/AlignmentIteratorItf.java \
+		ngs/itf/PileupEventItf.java \
+		ngs/itf/PileupEventIteratorItf.java \
+		ngs/itf/PileupItf.java \
+		ngs/itf/PileupIteratorItf.java \
+		ngs/itf/ReferenceItf.java \
+		ngs/itf/ReferenceIteratorItf.java \
+		ngs/itf/ReadCollectionItf.java \
+		-d . -classpath . -sourcepath .:itf:
+	javac \
+		gov/nih/nlm/ncbi/ngs/DownloadManager.java \
+		gov/nih/nlm/ncbi/ngs/FileCreator.java \
+		gov/nih/nlm/ncbi/ngs/HttpManager.java \
+		gov/nih/nlm/ncbi/ngs/LibDependencies.java \
+		gov/nih/nlm/ncbi/ngs/LibManager.java \
+		gov/nih/nlm/ncbi/ngs/LibPathIterator.java \
+		gov/nih/nlm/ncbi/ngs/LibVersionChecker.java \
+		gov/nih/nlm/ncbi/ngs/LMProperties.java \
+		gov/nih/nlm/ncbi/ngs/Logger.java \
+		gov/nih/nlm/ncbi/ngs/Manager.java \
+		gov/nih/nlm/ncbi/ngs/NGS.java \
+		gov/nih/nlm/ncbi/ngs/Version.java \
+		gov/nih/nlm/ncbi/ngs/error/LibraryLoadError.java \
+		gov/nih/nlm/ncbi/ngs/error/LibraryNotFoundError.java \
+		gov/nih/nlm/ncbi/ngs/error/LibraryIncompatibleVersionError.java \
+		gov/nih/nlm/ncbi/ngs/error/cause/ConnectionProblemCause.java \
+		gov/nih/nlm/ncbi/ngs/error/cause/DownloadDisabledCause.java \
+		gov/nih/nlm/ncbi/ngs/error/cause/InvalidLibraryCause.java \
+		gov/nih/nlm/ncbi/ngs/error/cause/JvmErrorCause.java \
+		gov/nih/nlm/ncbi/ngs/error/cause/LibraryLoadCause.java \
+		gov/nih/nlm/ncbi/ngs/error/cause/OutdatedJarCause.java \
+		gov/nih/nlm/ncbi/ngs/error/cause/PrereleaseReqLibCause.java \
+		gov/nih/nlm/ncbi/ngs/error/cause/UnsupportedArchCause.java \
+		-d . -classpath . -sourcepath .:itf:
+	jar cf ngs-java.jar `find . -name "*.class"` || ( ${RM} -f ngs-java.jar && false )
+	javac  \
+		examples/examples/AlignTest.java \
+		examples/examples/AlignSliceTest.java \
+		examples/examples/FragTest.java \
+		examples/examples/PileupTest.java \
+		examples/examples/RefTest.java \
+		examples/examples/ReadGroupTest.java \
+		-d . -classpath . -sourcepath .:itf:gov/nih/nlm/ncbi/ngs
+	jar cf `find examples -name "*.class"` || ( ${RM} -f ngs-examples.jar && false )
 
 clean:
-	${RM} -f ngs/*.class ngs-java-api
+	${RM} -f \
+		ngs/*.class \
+		ngs/itf/*.class \
+		examples/*.class \
+		gov/nih/nlm/ncbi/ngs/*.class \
+		gov/nih/nlm/ncbi/ngs/error/*.class \
+		gov/nih/nlm/ncbi/ngs/error/cause/*.class \
+		*.jar
