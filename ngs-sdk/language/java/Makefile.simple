@@ -93,7 +93,7 @@ LOCALBASE   ?= ${PREFIX}
 
 # Portable defaults.  Can be overridden by mk.conf or command line.
 CXX         ?= g++
-CXXFLAGS    ?= -Wall -g
+CXXFLAGS    ?= -Wall -g -O -fPIC
 
 AR          ?= ar
 RANLIB      ?= ranlib

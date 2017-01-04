@@ -88,7 +88,7 @@ MANPREFIX   ?= ${PREFIX}
 
 # Defaults that should work with GCC and Clang.
 CXX         ?= c++
-CXXFLAGS    ?= -Wall -g -O
+CXXFLAGS    ?= -Wall -g -O -fPIC
 
 AR          ?= ar
 RANLIB      ?= ranlib

@@ -23,3 +23,4 @@ clean:
 install: all
 	${MKDIR} -p ${DESTDIR}${PREFIX}/lib
 	${INSTALL} -c ngs-sdk/*/*.a ngs-sdk/language/*/*.a ${DESTDIR}${PREFIX}/lib
+	${INSTALL} -c ngs-sdk/*.so* ${DESTDIR}${PREFIX}/lib

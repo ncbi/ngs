@@ -4,6 +4,7 @@
 # If another platform requires special compiler flags, add a case.
 case `uname` in
 *)
+    export CXXFLAGS='-g -O -fPIC'
     make -f Makefile.simple $@
     ;;
 esac

@@ -87,7 +87,7 @@ LOCALBASE   ?= /usr/local
 
 # Portable defaults.  Can be overridden by mk.conf or command line.
 CXX         ?= c++
-CXXFLAGS    ?= -Wall -g -O
+CXXFLAGS    ?= -Wall -g -O -fPIC
 
 INCLUDES    += -I${LOCALBASE}/include -I../..
 CXXFLAGS    += ${INCLUDES}
