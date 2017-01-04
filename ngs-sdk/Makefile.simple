@@ -3,16 +3,6 @@ MAKE	?= make
 DIRS	= adapter dispatch language
 LN	?= ln
 
-# Defaults for most Unix.  Override for OS X dylibs.
-SO_EXT		?= so
-SO_MAJ		= 1
-SO_MIN		= 3
-SO_REV		= 0
-SO_VER		= ${SO_MAJ}.${SO_MIN}.${SO_REV}
-SO_NAME		?= libngs-sdk.${SO_EXT}.${SO_VER}
-SO_SHORT_NAME	?= libngs-sdk.${SO_EXT}.${SO_MAJ}
-SO_FLAGS	?= -Wl,-soname=libngs-sdk.${SO_EXT}.${SO_MAJ}
-
 all:
 	for dir in ${DIRS}; do \
 	    ${MAKE} -C $$dir -f Makefile.simple ARCH=`uname -p`; \

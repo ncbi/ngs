@@ -9,6 +9,16 @@ RM      ?= rm
 PREFIX  ?= /usr/local
 DESTDIR ?= ./stage
 
+# Defaults for most Unix.  Override for OS X dylibs.
+SO_EXT		?= so
+SO_MAJ		= 1
+SO_MIN		= 3
+SO_REV		= 0
+SO_VER		= ${SO_MAJ}.${SO_MIN}.${SO_REV}
+SO_NAME		?= libngs-sdk.${SO_EXT}.${SO_VER}
+SO_SHORT_NAME	?= libngs-sdk.${SO_EXT}.${SO_MAJ}
+SO_FLAGS	?= -Wl,-soname=libngs-sdk.${SO_EXT}.${SO_MAJ}
+
 all:
 	@for dir in ${DIRS}; do \
 	    ${MAKE} -C $$dir -f Makefile.simple; \
@@ -24,7 +34,7 @@ install: all
 	${MKDIR} -p ${DESTDIR}${PREFIX}/lib
 	${INSTALL} -c ngs-sdk/*/*.a ngs-sdk/language/*/*.a \
 		${DESTDIR}${PREFIX}/lib
-	${INSTALL} -c ngs-sdk/*.so* ${DESTDIR}${PREFIX}/lib
+	${INSTALL} -c ngs-sdk/*.${SO_EXT}* ${DESTDIR}${PREFIX}/lib
 	${MKDIR} -p ${DESTDIR}${PREFIX}/include/ngs/adapter \
 		${DESTDIR}${PREFIX}/include/ngs/inl \
 		${DESTDIR}${PREFIX}/include/ngs/itf \
