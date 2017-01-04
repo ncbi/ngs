@@ -26,3 +26,4 @@ clean:
 	for dir in ${DIRS}; do \
 	    ${MAKE} -C $$dir -f Makefile.simple clean; \
 	done
+	${RM} -f libngs-sdk.*
