@@ -37,3 +37,6 @@ install: all
 		${DESTDIR}${PREFIX}/include/ngs/itf
 	${INSTALL} -c ngs-sdk/ngs/unix/`uname -p`/*.h \
 		${DESTDIR}${PREFIX}/include/ngs/unix/`uname -p`
+	${MKDIR} -p ${DESTDIR}${PREFIX}/share/java/classes
+	${INSTALL} -c ngs-java/ngs-java.jar \
+		${DESTDIR}${PREFIX}/share/java/classes
