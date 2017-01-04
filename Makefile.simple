@@ -1,13 +1,13 @@
 
-MAKE	?= make
-DIRS	= ngs-sdk
+MAKE    ?= make
+DIRS    = ngs-sdk
 
-MKDIR	?= mkdir
-INSTALL	?= install
-RM	?= rm
+MKDIR   ?= mkdir
+INSTALL ?= install
+RM      ?= rm
 
-PREFIX	?= /usr/local
-DESTDIR	?= ./stage
+PREFIX  ?= /usr/local
+DESTDIR ?= ./stage
 
 all:
 	@for dir in ${DIRS}; do \
@@ -22,5 +22,15 @@ clean:
 
 install: all
 	${MKDIR} -p ${DESTDIR}${PREFIX}/lib
-	${INSTALL} -c ngs-sdk/*/*.a ngs-sdk/language/*/*.a ${DESTDIR}${PREFIX}/lib
+	${INSTALL} -c ngs-sdk/*/*.a ngs-sdk/language/*/*.a \
+		${DESTDIR}${PREFIX}/lib
 	${INSTALL} -c ngs-sdk/*.so* ${DESTDIR}${PREFIX}/lib
+	${MKDIR} -p ${DESTDIR}${PREFIX}/include/ngs/adapter \
+		${DESTDIR}${PREFIX}/include/ngs/inl \
+		${DESTDIR}${PREFIX}/include/ngs/itf \
+		${DESTDIR}${PREFIX}/include/ngs/unix/`uname -p`
+	${INSTALL} -c ngs-sdk/ngs/*.hpp ${DESTDIR}${PREFIX}/include/ngs
+	${INSTALL} -c ngs-sdk/ngs/inl/*.hpp ${DESTDIR}${PREFIX}/include/ngs/inl
+	${INSTALL} -c ngs-sdk/ngs/itf/*.hpp ${DESTDIR}${PREFIX}/include/ngs/itf
+	${INSTALL} -c ngs-sdk/ngs/unix/`uname -p`/*.h \
+	    ${DESTDIR}${PREFIX}/include/ngs/unix/`uname -p`
