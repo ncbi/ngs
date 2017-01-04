@@ -30,7 +30,10 @@ install: all
 		${DESTDIR}${PREFIX}/include/ngs/itf \
 		${DESTDIR}${PREFIX}/include/ngs/unix/`uname -p`
 	${INSTALL} -c ngs-sdk/ngs/*.hpp ${DESTDIR}${PREFIX}/include/ngs
+	${INSTALL} -c ngs-sdk/ngs/adapter/*.hpp ngs-sdk/ngs/adapter/*.h \
+		${DESTDIR}${PREFIX}/include/ngs/adapter
 	${INSTALL} -c ngs-sdk/ngs/inl/*.hpp ${DESTDIR}${PREFIX}/include/ngs/inl
-	${INSTALL} -c ngs-sdk/ngs/itf/*.hpp ${DESTDIR}${PREFIX}/include/ngs/itf
+	${INSTALL} -c ngs-sdk/ngs/itf/*.hpp ngs-sdk/ngs/itf/*.h \
+		${DESTDIR}${PREFIX}/include/ngs/itf
 	${INSTALL} -c ngs-sdk/ngs/unix/`uname -p`/*.h \
-	    ${DESTDIR}${PREFIX}/include/ngs/unix/`uname -p`
+		${DESTDIR}${PREFIX}/include/ngs/unix/`uname -p`
