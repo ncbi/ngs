@@ -3,14 +3,24 @@ MAKE	?= make
 DIRS	= adapter dispatch language
 LN	?= ln
 
+# Defaults for most Unix.  Override for OS X dylibs.
+SO_EXT		?= so
+SO_MAJ		= 1
+SO_MIN		= 3
+SO_REV		= 0
+SO_VER		= ${SO_MAJ}.${SO_MIN}.${SO_REV}
+SO_NAME		?= libngs-sdk.${SO_EXT}.${SO_VER}
+SO_SHORT_NAME	?= libngs-sdk.${SO_EXT}.${SO_MAJ}
+SO_FLAGS	?= -Wl,-soname=libngs-sdk.${SO_EXT}.${SO_MAJ}
+
 all:
 	for dir in ${DIRS}; do \
 	    ${MAKE} -C $$dir -f Makefile.simple ARCH=`uname -p`; \
 	done
-	${CXX} -shared -o libngs-sdk.so.1.3.0 -Wl,-soname=libngs-sdk.so.1 \
+	${CXX} -shared -o ${SO_NAME} ${SO_FLAG} \
 		*/*.o -L./dispatch -lngs-disp
-	${LN} -sf libngs-sdk.so.1.3.0 libngs-sdk.so.1
-	${LN} -sf libngs-sdk.so.1.3.0 libngs-sdk.so
+	${LN} -sf ${SO_NAME} ${SO_SHORT_NAME}
+	${LN} -sf ${SO_NAME} libngs-sdk.${SO_EXT}
 
 clean:
 	for dir in ${DIRS}; do \

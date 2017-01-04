@@ -10,9 +10,14 @@
 # Default case below works for FreeBSD, Linux, and Mac.
 # If another platform requires special compiler flags, add a case.
 case `uname` in
+Darwin)
+    export CXXFLAGS='-g -O -fPIC'
+    export SO_EXT=dylib
+    export SO_FLAGS=''
+    ;;
 *)
     export CXXFLAGS='-g -O -fPIC'
-    make -f Makefile.simple $@
     ;;
 esac
 
+make -f Makefile.simple $@

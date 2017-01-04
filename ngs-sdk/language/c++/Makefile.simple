@@ -40,7 +40,7 @@
 # -Wall, as this would disrespect the environment.
 ############################################################################
 
-LIB     = ngs-bind=c++.a
+LIB     = ngs-bind-c++.a
 
 ############################################################################
 # List object files that comprise LIB.  Replace these with the names of
