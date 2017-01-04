@@ -93,10 +93,10 @@ CXXFLAGS    ?= -Wall -g -O -fPIC
 AR          ?= ar
 RANLIB      ?= ranlib
 
-OS          ?= unix
+NGS_OS      ?= unix
 ARCH        ?= ARCH-not-set
 
-INCLUDES    += -I${LOCALBASE}/include -I.. -I../ngs/${OS}/${ARCH}
+INCLUDES    += -I${LOCALBASE}/include -I.. -I../ngs/${NGS_OS}/${ARCH}
 CXXFLAGS    += ${INCLUDES}
 
 ############################################################################
