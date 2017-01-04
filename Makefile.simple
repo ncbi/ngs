@@ -10,6 +10,8 @@ PREFIX  ?= /usr/local
 DESTDIR ?= ./stage
 
 # Defaults for most Unix.  Override for OS X dylibs.
+# Some make implementations do not pass local make variables to child processes
+# by default, so pass SO_NAME, etc. manually for portability.
 SO_EXT		?= so
 SO_MAJ		= 1
 SO_MIN		= 3
@@ -21,7 +23,8 @@ SO_FLAGS	?= -Wl,-soname=libngs-sdk.${SO_EXT}.${SO_MAJ}
 
 all:
 	@for dir in ${DIRS}; do \
-	    ${MAKE} -C $$dir -f Makefile.simple; \
+	    ${MAKE} -C $$dir -f Makefile.simple \
+		SO_NAME=${SO_NAME} SO_FLAGS=${SO_FLAGS} SO_EXT=${SO_EXT}; \
 	done
 
 clean:

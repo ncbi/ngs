@@ -2,12 +2,13 @@
 MAKE	?= make
 DIRS	= adapter dispatch language
 LN	?= ln
+RM	?= rm
 
 all:
 	for dir in ${DIRS}; do \
 	    ${MAKE} -C $$dir -f Makefile.simple ARCH=`uname -p`; \
 	done
-	${CXX} -shared -o ${SO_NAME} ${SO_FLAG} \
+	${CXX} -shared -o ${SO_NAME} ${SO_FLAGS} \
 		*/*.o -L./dispatch -lngs-disp
 	${LN} -sf ${SO_NAME} ${SO_SHORT_NAME}
 	${LN} -sf ${SO_NAME} libngs-sdk.${SO_EXT}
