@@ -1,6 +1,6 @@
 
 MAKE    ?= make
-DIRS    = ngs-sdk
+DIRS    = ngs-sdk ngs-java
 
 MKDIR   ?= mkdir
 INSTALL ?= install
