@@ -10,8 +10,8 @@ all:
 	done
 	${CXX} -shared -o ${SO_NAME} ${SO_FLAGS} \
 		*/*.o -L./dispatch -lngs-disp
-	${LN} -sf ${SO_NAME} ${SO_SHORT_NAME}
-	${LN} -sf ${SO_NAME} libngs-sdk.${SO_EXT}
+	${LN} -f ${SO_NAME} ${SO_SHORT_NAME}
+	${LN} -f ${SO_NAME} libngs-sdk.${SO_EXT}
 
 clean:
 	for dir in ${DIRS}; do \

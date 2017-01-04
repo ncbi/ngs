@@ -24,7 +24,8 @@ SO_FLAGS	?= -Wl,-soname=libngs-sdk.${SO_EXT}.${SO_MAJ}
 all:
 	@for dir in ${DIRS}; do \
 	    ${MAKE} -C $$dir -f Makefile.simple \
-		SO_NAME=${SO_NAME} SO_FLAGS=${SO_FLAGS} SO_EXT=${SO_EXT}; \
+		SO_NAME=${SO_NAME} SO_SHORT_NAME=${SO_SHORT_NAME} \
+		SO_FLAGS=${SO_FLAGS} SO_EXT=${SO_EXT}; \
 	done
 
 clean:
