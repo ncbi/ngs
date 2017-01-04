@@ -1,6 +1,8 @@
 
 BIN     = ngs-java.jar
 
+RM	?= rm
+
 all:	${BIN}
 
 ${BIN}:	ngs/*.java
@@ -24,3 +26,6 @@ ${BIN}:	ngs/*.java
 		ngs/ReadCollection.java \
 		ngs/Package.java \
 		-d . -classpath . -sourcepath .:itf: && touch ngs-java-api
+
+clean:
+	${RM} -f ngs/*.class ngs-java-api
