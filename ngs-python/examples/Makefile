@@ -25,7 +25,7 @@
 
 default: std
 
-std: 
+std:
 
 clean:
 
@@ -35,11 +35,13 @@ PYTHON_VERS = $(shell python -V 2>&1)
 
 # there is a separate set of sources for 2.5 and 2.6
 ifeq (Python 2.6,$(shell expr "$(PYTHON_VERS)" : "\(Python 2.6\)"))
-PYTHON_VERS=26
-elif (Python 2.5,$(shell expr "$(PYTHON_VERS)" : "\(Python 2.5\)"))
-PYTHON_VERS=26
+    PYTHON_VERS=26
 else
-PYTHON_VERS=
+    ifeq (Python 2.5,$(shell expr "$(PYTHON_VERS)" : "\(Python 2.5\)"))
+        PYTHON_VERS=26
+    else
+        PYTHON_VERS=
+    endif
 endif
 
 NGS_EXAMPLES = \
@@ -55,13 +57,13 @@ NGS_EXAMPLES = \
 #
 # NOTE: Expect libngs-sdk.so and libncbi-vdb.so somewhere inside $LD_LIBRARY_PATH
 
-run_frag: 
+run_frag:
 	python FragTest$(PYTHON_VERS).py ERR225922 10000 2 $(REDIRECT)
 
-run_align: 
+run_align:
 	python AlignTest$(PYTHON_VERS).py ERR225922 10000 2 $(REDIRECT)
 
-run_align_slice: 
+run_align_slice:
 	python AlignSliceTest$(PYTHON_VERS).py SRR1121656 1 1 9999 $(REDIRECT)
 
 run_pileup:
@@ -69,21 +71,21 @@ run_pileup:
 
 run_ref:
 	python RefTest$(PYTHON_VERS).py SRR1121656 $(REDIRECT)
-    
+
 ALL_TESTS = run_frag run_align run_align_slice run_pileup run_ref
-    
+
 run_all: $(ALL_TESTS)
-    
+
 .PHONY: run_align run_align_slice run_frag
 
 # ===========================================================================
 #
 # expected results for auto-testing
 #
-expected.txt update_expected: 
+expected.txt update_expected:
 	rm -f expected.txt; $(MAKE) run_all REDIRECT=">>expected.txt"
 
-run_and_diff: expected.txt  
+run_and_diff: expected.txt
 	rm -f actual.txt; $(MAKE) run_all REDIRECT=">>actual.txt"
 	diff expected.txt actual.txt && rm actual.txt && echo NGS Python examples work as expected
 
