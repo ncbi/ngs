@@ -26,7 +26,33 @@
 The NCBI NGS Software Development Kit
 Contact: sra-tools@ncbi.nlm.nih.gov
 
-NCBI External Developer Release: NGS SDK 1.2.5
+NGS SDK 1.3.1
+March 6, 2017
+
+  build: configure detects location of ngs libraries  
+  build: configure was fixed to skip options unrecognized by gcc 4.4.7  
+  build: created sra-toolkit Debian package  
+  build: fixed a bug in 'configure' when in could not find source files in repository saved with non-standard name  
+
+NGS SDK 1.3.0
+October 7, 2016
+
+HTTPS-ENABLED RELEASE
+
+  build, ngs-tools: Now ngs-tools look for its dependencies using their normal build paths and does not reconfigure them  
+  build, ngs-tools: Now ngs-tools use CMAKE_INSTALL_PREFIX for installation path  
+  kns: All tools and libraries now support https  
+  ngs: Fixed all crashes when using null as string in ngs-java APIs  
+  ngs: NGS_ReferenceGetChunk() will now return chunks potentially exceeding 5000 bases  
+  ngs: fixed potential concurrency issues at exit, when called from Java  
+  ngs: ngs-java and ngs-python auto-download (of native libraries) now works through HTTPS  
+  ngs: read fragments of length 0 are now ignored  
+  ngs, ngs-tools, ref-variation: added class ngs-vdb::VdbAlignment, featuring method IsFirst()  
+  ngs-engine: improved diagnostic messages  
+  ngs-tools: Fixed Makefiles to keep supporting "./configure; make" build of sra-search, alongside CMake-based build.  
+
+
+NGS SDK 1.2.5
 July 11, 2016
 
   blast, kfg, ncbi-vdb, sra-tools, vfs: restored possibility to disable local caching
@@ -41,7 +67,7 @@ July 11, 2016
   vfs: environment variable VDB_PWFILE is no longer used
 
 
-NCBI External Developer Release: NGS SDK 1.2.4
+NGS SDK 1.2.4
 May 25, 2016
 
   build: MSVS 2013 toolset (12.0) is now supported across all repositories

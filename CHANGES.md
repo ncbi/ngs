@@ -1,5 +1,13 @@
 # NCBI External Developer Release:
 
+## NGS SDK 1.3.1
+**March 6, 2017**
+
+  **build**: configure detects location of ngs libraries  
+  **build**: configure was fixed to skip options unrecognized by gcc 4.4.7  
+  **build**: created sra-toolkit Debian package  
+  **build**: fixed a bug in 'configure' when in could not find source files in repository saved with non-standard name  
+
 ## NGS SDK 1.3.0
 **October 7, 2016**
 
