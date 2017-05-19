@@ -83,10 +83,19 @@ run_all: $(ALL_TESTS)
 # expected results for auto-testing
 #
 expected.txt update_expected:
-	rm -f expected.txt; $(MAKE) run_all REDIRECT=">>expected.txt"
+	if [ "$(PYTHON_VERS)" = "26" ] ; then \
+		echo Python 2.6 is not supported ; \
+	else \
+		rm -f expected.txt; $(MAKE) run_all REDIRECT=">>expected.txt" ; \
+	fi
 
 run_and_diff: expected.txt
-	rm -f actual.txt; $(MAKE) run_all REDIRECT=">>actual.txt"
-	diff expected.txt actual.txt && rm actual.txt && echo NGS Python examples work as expected
+	if [ "$(PYTHON_VERS)" = "26" ] ; then \
+		echo Python 2.6 is not supported ; \
+	else \
+		rm -f actual.txt; $(MAKE) run_all REDIRECT=">>actual.txt" ; \
+		diff expected.txt actual.txt && rm actual.txt && echo NGS Python examples work as expected ; \
+	fi
+
 
 .PHONY: update_expected run_and_diff
