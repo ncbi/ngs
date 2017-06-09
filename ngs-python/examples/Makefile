@@ -86,14 +86,14 @@ expected.txt update_expected:
 	if [ "$(PYTHON_VERS)" = "26" ] ; then \
 		echo Python 2.6 is not supported ; \
 	else \
-		rm -f expected.txt; $(MAKE) run_all REDIRECT=">>expected.txt" ; \
+		rm -f expected.txt; LD_LIBRARY_PATH=$(LD_LIBRARY_PATH) $(MAKE) run_all REDIRECT=">>expected.txt" ; \
 	fi
 
 run_and_diff: expected.txt
 	if [ "$(PYTHON_VERS)" = "26" ] ; then \
 		echo Python 2.6 is not supported ; \
 	else \
-		rm -f actual.txt; $(MAKE) run_all REDIRECT=">>actual.txt" ; \
+		rm -f actual.txt; LD_LIBRARY_PATH=$(LD_LIBRARY_PATH) $(MAKE) run_all REDIRECT=">>actual.txt" ; \
 		diff expected.txt actual.txt && rm actual.txt && echo NGS Python examples work as expected ; \
 	fi
 
