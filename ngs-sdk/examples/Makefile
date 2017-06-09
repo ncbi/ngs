@@ -51,6 +51,7 @@ std: $(TARGETS)
 $(TARGETS): $(NCBI_VDB_LIBDIR)/libncbi-vdb-static.a ncbi-headers $(NGS_LIBDIR)/libngs-c++.a ngs-headers
 
 clean:
+	echo $(LD_LIBRARY_PATH)
 	rm -f $(TARGETS) *.o
 	rm -rf *.dSYM
 
