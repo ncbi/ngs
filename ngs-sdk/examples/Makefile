@@ -175,11 +175,11 @@ run_all: $(ALL_TESTS)
 #
 expected.txt update_expected: 
 	rm -f expected.txt
-	LD_LIBRARY_PATH=$(LD_LIBRARY_PATH) $(MAKE) run_all REDIRECT=">>expected.txt"
+	export LD_LIBRARY_PATH=$(LD_LIBRARY_PATH) ; $(MAKE) run_all REDIRECT=">>expected.txt"
 
 run_and_diff: expected.txt
 	rm -f actual.txt
-	LD_LIBRARY_PATH=$(LD_LIBRARY_PATH) $(MAKE) run_all REDIRECT=">>actual.txt"
+	export LD_LIBRARY_PATH=$(LD_LIBRARY_PATH) ; $(MAKE) run_all REDIRECT=">>actual.txt"
 	@ diff expected.txt actual.txt && rm actual.txt && echo "NGS C++ examples work as expected"
 
 .PHONY: update_expected run_and_diff install
