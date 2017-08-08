@@ -180,6 +180,7 @@ expected.txt update_expected:
 
 run_and_diff: expected.txt
 	rm -f actual.txt
+	echo $(http_proxy)
 	export LD_LIBRARY_PATH=$(LD_LIBRARY_PATH) ; $(MAKE) run_all REDIRECT=">>actual.txt"
 	@ diff expected.txt actual.txt && rm actual.txt && echo "NGS C++ examples work as expected"
 
