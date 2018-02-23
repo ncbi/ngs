@@ -46,7 +46,7 @@ namespace
         char const* error_descr = x.what();
         size_t len = strlen ( error_descr );
         char* error_copy = new char [ len + 1 ];
-        ::memcpy ( error_copy, error_descr, len + 1 );
+        ::memmove ( error_copy, error_descr, len + 1 );
         *((char**)ppNGSStrError) = error_copy;
 
         return PY_RES_ERROR;
@@ -56,7 +56,7 @@ namespace
     {
         char const error_text_constant[] = "INTERNAL ERROR";
         char* error_copy = new char [ sizeof error_text_constant ];
-        ::memcpy ( error_copy, error_text_constant, sizeof error_text_constant );
+        ::memmove ( error_copy, error_text_constant, sizeof error_text_constant );
         *((char**)ppNGSStrError) = error_copy;
 
         return PY_RES_ERROR;

@@ -51,7 +51,11 @@ clean:
 
 ngs-bam: $(LIBDIR) $(OBJDIR) $(LIBDIR)/$(LPFX)ngs-bam.$(SHLX)
 
-ngs-bam-c++: $(LIBDIR) $(OBJDIR) $(LIBDIR)/$(LPFX)ngs-bam-c++.$(LIBX)
+ngs-bam-c++:  $(LIBDIR)           $(LIBDIR)/$(LPFX)ngs-bam-c++-static.$(LIBX)
+
+$(LIBDIR)/$(LPFX)ngs-bam-c++-static.$(LIBX): $(LIBDIR)/$(LPFX)ngs-bam-c++.$(LIBX)
+	rm -f $@
+	ln -s $(notdir $^) $@
 
 runtests: ngs-bam ngs-bam-c++
 

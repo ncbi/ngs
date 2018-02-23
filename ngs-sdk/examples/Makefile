@@ -51,6 +51,7 @@ std: $(TARGETS)
 $(TARGETS): $(NCBI_VDB_LIBDIR)/libncbi-vdb-static.a ncbi-headers $(NGS_LIBDIR)/libngs-c++.a ngs-headers
 
 clean:
+	echo $(LD_LIBRARY_PATH)
 	rm -f $(TARGETS) *.o
 	rm -rf *.dSYM
 
@@ -175,11 +176,12 @@ run_all: $(ALL_TESTS)
 #
 expected.txt update_expected: 
 	rm -f expected.txt
-	$(MAKE) run_all REDIRECT=">>expected.txt"
+	export LD_LIBRARY_PATH=$(LD_LIBRARY_PATH) ; $(MAKE) run_all REDIRECT=">>expected.txt"
 
 run_and_diff: expected.txt
 	rm -f actual.txt
-	$(MAKE) run_all REDIRECT=">>actual.txt"
+	echo $(http_proxy)
+	export LD_LIBRARY_PATH=$(LD_LIBRARY_PATH) ; $(MAKE) run_all REDIRECT=">>actual.txt"
 	@ diff expected.txt actual.txt && rm actual.txt && echo "NGS C++ examples work as expected"
 
 .PHONY: update_expected run_and_diff install

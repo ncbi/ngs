@@ -370,7 +370,7 @@ void BAMFile::ReadZlib(void) {
         
         if (total_in >= IO_BLK_SIZE && total_in + zs.avail_in == 2 * IO_BLK_SIZE)
         {
-            memcpy(iobuffer, &iobuffer[sizeof(iobuffer)/2], sizeof(iobuffer)/2);
+            memmove(iobuffer, &iobuffer[sizeof(iobuffer)/2], sizeof(iobuffer)/2);
             cpos += sizeof(iobuffer)/2;
             zs.next_in  -= sizeof(iobuffer)/2;
             zs.avail_in += FillBuffer(1);
@@ -398,7 +398,7 @@ size_t BAMFile::ReadN(size_t N, void *Dst) {
         if (avail_in) {
             size_t const copy = avail_out < avail_in ? avail_out : avail_in;
             
-            memcpy(dst + n, bambuffer + bam_cur, copy);
+            memmove(dst + n, bambuffer + bam_cur, copy);
             bam_cur += copy;
             if (bam_cur == zs.total_out)
                 bam_cur = zs.total_out = 0;

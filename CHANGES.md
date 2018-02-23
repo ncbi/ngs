@@ -1,5 +1,26 @@
 # NCBI External Developer Release:
 
+## NGS SDK 2.9.0
+**February 23, 2018**
+
+  **version**: changed version to match that of _ncbi-vdb_
+  **build**: Fixed configure allowing to run it on Perl with version >= v5.26 that has "." removed from @INC  
+  **kfg**: added searching of configuration files in ../etc/ncbi/ relative to the binaries  
+  **kfs**: fix to improve on windows  
+  **klib**: Reverted KTimeMakeTime to use UTC  
+  **kns**: Accept the same http_proxy specifications as wget  
+  **kns**: Added possibility to report server's IP address after network error  
+  **kns**: Ignore HTTP headers sent multiple times  
+  **kns**: Improved reporting of network errors  
+  **kns**: fixed generation of invalid error code in response to dropped connection  
+  **ncbi-vdb**: fixed bug of directory not found on mac  
+  **ncbi-vdb, ngs-engine**: improved handling of blobs inside the NGS engine   
+  **ngs**: Examples for python 2.6 were removed  
+  **ngs**: Python examples work with Python 2.6.6  
+  **ngs-engine**: improved performance when iterating through partially aligned and unaligned reads  
+  **ngs-engine**: optimized filtered access to unaligned runs  
+  **vfs**: Name resolving service was updated and switched to protocol version 3.0  
+
 ## NGS SDK 1.3.0
 **October 7, 2016**
 
