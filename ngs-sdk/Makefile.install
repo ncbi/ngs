@@ -56,6 +56,10 @@ copyexamples:
 	@ mkdir -p $(INST_SHAREDIR)/examples
 	@ $(MAKE) -C $(TOP)/examples install INST_TARGET=$(INST_SHAREDIR)/examples
 
+# unset outside defined variables
+ROOT =
+LINUX_ROOT =
+
 #fake root for debugging
 #uncomment this line and change the test for root ( see under install: ) to succeed:
 #ROOT = ~/root
