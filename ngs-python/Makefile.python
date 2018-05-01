@@ -66,6 +66,9 @@ endif
 
 ifeq (linux, $(OS))
 
+# unset outside defined variables
+ROOT =
+
 #fake root for debugging
 #uncomment this line and change the test for root ( see under install: ) to succeed:
 #ROOT = ~/root 
