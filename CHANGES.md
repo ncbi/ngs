@@ -1,5 +1,11 @@
 # NCBI External Developer Release:
 
+## NGS SDK 2.9.1
+**June 15, 2018**
+
+  **build**: 'make install' ignore ROOT environment variable  
+
+
 ## NGS SDK 2.9.0
 **February 23, 2018**
 
@@ -20,6 +26,7 @@
   **ngs-engine**: improved performance when iterating through partially aligned and unaligned reads  
   **ngs-engine**: optimized filtered access to unaligned runs  
   **vfs**: Name resolving service was updated and switched to protocol version 3.0  
+
 
 ## NGS SDK 1.3.0
 **October 7, 2016**
