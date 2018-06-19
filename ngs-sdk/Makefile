@@ -23,7 +23,9 @@
 # ===========================================================================
 
 # default response to "make"
-default: subtargs
+default: std
+
+std: subtargs
 
 # the sub-targets
 SUBDIRS =    \
