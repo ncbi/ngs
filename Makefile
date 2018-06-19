@@ -23,7 +23,9 @@
 # ===========================================================================
 
 # default response to "make"
-default: subdirs
+default: std
+
+std: subdirs
 
 # the sub-directories
 SUBDIRS =    \

@@ -51,6 +51,10 @@ all std: $(TARGETS)
 # install
 #
 
+# unset outside defined variables
+ROOT =
+LINUX_ROOT =
+
 #fake root for debugging
 #uncomment this line and change the test for root ( see under install: ) to succeed:
 #ROOT = ~/root
