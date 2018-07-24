@@ -1,5 +1,10 @@
 # NCBI External Developer Release:
 
+## NGS SDK 2.9.2
+**July 23, 2018**
+  **ngs**: changed version to match that of _ncbi-vdb_
+
+
 ## NGS SDK 2.9.1
 **June 15, 2018**
 
