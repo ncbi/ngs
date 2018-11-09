@@ -144,6 +144,34 @@ JNIEXPORT jboolean JNICALL Java_ngs_itf_ReferenceItf_GetIsCircular
 
 /*
  * Class:     ngs_itf_ReferenceItf
+ * Method:    GetIsLocal
+ * Signature: (J)Z
+ */
+JNIEXPORT jboolean JNICALL Java_ngs_itf_ReferenceItf_GetIsLocal
+    ( JNIEnv * jenv, jobject jthis, jlong jself )
+{
+    try
+    {
+        return ( jboolean ) Self ( jself ) -> getIsLocal ();
+    }
+    catch ( ErrorMsg & x )
+    {
+        ErrorMsgThrow ( jenv, xt_error_msg, x . what () );
+    }
+    catch ( std :: exception & x )
+    {
+        ErrorMsgThrow ( jenv, xt_runtime, x . what () );
+    }
+    catch ( ... )
+    {
+        JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
+    }
+
+    return false;
+}
+
+/*
+ * Class:     ngs_itf_ReferenceItf
  * Method:    GetLength
  * Signature: (J)J
  */
@@ -380,7 +408,7 @@ JNIEXPORT jlong JNICALL Java_ngs_itf_ReferenceItf_GetFilteredAlignmentSlice
     {
         JNI_INTERNAL_ERROR ( jenv, "%s", __func__ );
     }
-    
+
     return 0;
 }
 

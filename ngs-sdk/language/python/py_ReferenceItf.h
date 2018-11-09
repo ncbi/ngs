@@ -35,6 +35,7 @@ extern "C" {
 LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetCommonName              ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
 LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetCanonicalName           ( void* pRef, void** ppNGSStringBuf, void** ppNGSStrError );
 LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetIsCircular              ( void* pRef, int* pRet, void** ppNGSStrError );
+LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetIsLocal                 ( void* pRef, int* pRet, void** ppNGSStrError );
 LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetLength                  ( void* pRef, uint64_t* pRet, void** ppNGSStrError );
 LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetReferenceBases          ( void* pRef, uint64_t offset, uint64_t length, void** ppNGSStringBuf, void** ppNGSStrError );
 LIB_EXPORT PY_RES_TYPE PY_NGS_ReferenceGetReferenceChunk          ( void* pRef, uint64_t offset, uint64_t length, void** ppNGSStringBuf, void** ppNGSStrError );

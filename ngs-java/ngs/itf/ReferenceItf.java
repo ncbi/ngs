@@ -75,6 +75,16 @@ class ReferenceItf
     }
 
 
+    /* getIsLocal
+     *  returns true if reference is local
+     */
+    public boolean getIsLocal ()
+        throws ErrorMsg
+    {
+        return this . GetIsLocal ( self );
+    }
+
+
     /* getLength
      *  returns the length of the reference sequence
      */
@@ -210,7 +220,7 @@ class ReferenceItf
             throw new ErrorMsg ( x . toString () );
         }
     }
-    
+
     /* getFilteredAlignmentSlice
      *  returns a filtered iterator across a slice of the Reference
      *  behaves like "getAlignmentSlice" except that supported filters are applied to selection
@@ -236,7 +246,7 @@ class ReferenceItf
     /*----------------------------------------------------------------------
      * PILEUP
      */
-    
+
     /* getPileups
      *  returns an iterator of contained Pileups
      */
@@ -342,7 +352,9 @@ class ReferenceItf
         throws ErrorMsg;
     private native String GetCanonicalName ( long self )
         throws ErrorMsg;
-    private native boolean GetIsCircular ( long self )
+        private native boolean GetIsCircular ( long self )
+        throws ErrorMsg;
+    private native boolean GetIsLocal ( long self )
         throws ErrorMsg;
     private native long GetLength ( long self )
         throws ErrorMsg;

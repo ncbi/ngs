@@ -3,7 +3,7 @@
 #include <test/test_engine/test_engine.hpp>
 #include <test/test_engine/ReadCollectionItf.hpp>
 
-//////////////////////////////////// 
+////////////////////////////////////
 
 // our little unit testing framework
 
@@ -20,15 +20,15 @@ static unsigned int tests_passed = 0;
 #define Assert(v) \
     { if ( ! ( v ) ) throw std::logic_error ( "Assertion failed: " #v ); }
 
-//////////////////////////////////// 
+////////////////////////////////////
 #define TEST_BEGIN_READCOLLECTION( v ) \
     TEST_BEGIN ( v ) \
-    ngs::ReadCollection rc = ngs_test_engine::NGS::openReadCollection ( "test" );	
+    ngs::ReadCollection rc = ngs_test_engine::NGS::openReadCollection ( "test" );
 
 /////////// ReadCollection
 TEST_BEGIN ( ReadCollection_CreateDestroy )
     {
-        ngs::ReadCollection rc = ngs_test_engine::NGS::openReadCollection ( "test" );	
+        ngs::ReadCollection rc = ngs_test_engine::NGS::openReadCollection ( "test" );
         Assert ( ngs_test_engine::ReadCollectionItf::instanceCount == 1 );
     }
     Assert ( ngs_test_engine::ReadCollectionItf::instanceCount == 0 );
@@ -41,7 +41,7 @@ TEST_END
 
 TEST_BEGIN ( ReadCollection_Duplicate )
     {
-        ngs::ReadCollection rc1 = ngs_test_engine::NGS::openReadCollection ( "test" );	
+        ngs::ReadCollection rc1 = ngs_test_engine::NGS::openReadCollection ( "test" );
         Assert ( ngs_test_engine::ReadCollectionItf::instanceCount == 1 );
 
         ngs::ReadCollection rc2 = rc1;
@@ -135,7 +135,7 @@ TEST_END
         ngs::ReadGroupIterator readGroupIt = rc.getReadGroups (); \
         Assert ( readGroupIt.nextReadGroup() ); \
         ngs::ReadGroup readGroup = readGroupIt;
-        
+
 TEST_BEGIN_READGROUP ( ReadGroup_getName )
     ngs::String name = readGroup.getName();
     Assert ( "readgroup" == name );
@@ -181,6 +181,10 @@ TEST_BEGIN_REFERENCE ( Reference_getIsCircular )
     Assert ( ! refs.getIsCircular() );
 TEST_END
 
+TEST_BEGIN_REFERENCE ( Reference_getIsLocal )
+    Assert ( refs.getIsLocal() );
+TEST_END
+
 TEST_BEGIN_REFERENCE ( Reference_getLength )
     uint64_t length = refs.getLength ();
     Assert ( 101 == length );
@@ -213,6 +217,10 @@ TEST_BEGIN_REFERENCE( Reference_getAlignmentSlice )
     ngs::AlignmentIterator als = refs.getAlignmentSlice ( 3, 2, ngs::Alignment::all );
 TEST_END
 
+TEST_BEGIN_REFERENCE( Reference_getFilteredAlignmentSlice )
+    ngs::AlignmentIterator als = refs.getFilteredAlignmentSlice ( 3, 2, ngs::Alignment::all, ngs::Alignment::maxMapQuality, 0 );
+TEST_END
+
 TEST_BEGIN_REFERENCE( Reference_getPileups )
     ngs::PileupIterator pups = refs.getPileups ( ngs::Alignment::all );
 TEST_END
@@ -228,12 +236,15 @@ void TestReference()
     Reference_getCommonName ();
     Reference_getCanonicalName ();
     Reference_getIsCircular ();
+    Reference_getIsLocal ();
     Reference_getLength ();
     Reference_getReferenceBases ();
     Reference_getReferenceChunk ();
+    Reference_getAlignmentCount ();
     Reference_getAlignment ();
     Reference_getAlignments ();
     Reference_getAlignmentSlice ();
+    Reference_getFilteredAlignmentSlice ();
     Reference_getPileups();
     Reference_getPileupSlice();
 }
@@ -364,9 +375,9 @@ void TestRead ()
     Read_getFragmentQualities();
     Read_getFragmentQualitiesOffset ();
     Read_getFragmentQualitiesOffsetLength ();
-    
+
     Read_IterationFragments ();
-    
+
     Read_getReadId ();
     Read_getNumFragments ();
     Read_getReadCategory ();

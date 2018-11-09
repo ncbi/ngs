@@ -144,6 +144,30 @@ namespace ngs
         return ret;
     }
 
+    bool ReferenceItf :: getIsLocal () const
+        throw ( ErrorMsg )
+    {
+        // the object is really from C
+        const NGS_Reference_v1 * self = Test ();
+
+        // cast vtable to our level
+        const NGS_Reference_v1_vt * vt = Access ( self -> vt );
+
+        // test for v1.2
+        if ( vt -> dad . minor_version < 4 )
+            throw ErrorMsg ( "the Reference interface provided by this NGS engine is too old to support this message" );
+
+        // call through C vtable
+        ErrBlock err;
+        assert ( vt -> is_local != 0 );
+        bool ret  = ( * vt -> is_local ) ( self, & err );
+
+        // check for errors
+        err . Check ();
+
+        return ret;
+    }
+
     uint64_t ReferenceItf :: getLength () const
         throw ( ErrorMsg )
     {
@@ -500,7 +524,7 @@ namespace ngs
 
         return PileupItf :: Cast ( ret );
     }
-    
+
     bool ReferenceItf :: nextReference ()
         throw ( ErrorMsg )
     {

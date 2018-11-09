@@ -107,6 +107,32 @@ PY_RES_TYPE PY_NGS_ReferenceGetIsCircular ( void* pRef, int* pRet, void** ppNGSS
     return ret;
 }
 
+PY_RES_TYPE PY_NGS_ReferenceGetIsLocal ( void* pRef, int* pRet, void** ppNGSStrError )
+{
+    PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes
+    try
+    {
+        bool res = CheckedCast< ngs::ReferenceItf* >(pRef) -> getIsLocal ();
+        assert (pRet != NULL);
+        *pRet = (int) res;
+        ret = PY_RES_OK;
+    }
+    catch ( ngs::ErrorMsg & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( std::exception & x )
+    {
+        ret = ExceptionHandler ( x, ppNGSStrError );
+    }
+    catch ( ... )
+    {
+        ret = ExceptionHandler ( ppNGSStrError );
+    }
+
+    return ret;
+}
+
 PY_RES_TYPE PY_NGS_ReferenceGetLength ( void* pRef, uint64_t* pRet, void** ppNGSStrError )
 {
     PY_RES_TYPE ret = PY_RES_ERROR; // TODO: use xt_* codes

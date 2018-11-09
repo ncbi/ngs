@@ -56,6 +56,8 @@ namespace ngs
             throw ( ErrorMsg );
         bool getIsCircular () const
             throw ( ErrorMsg );
+        bool getIsLocal () const
+            throw ( ErrorMsg );
         uint64_t getLength () const
             throw ( ErrorMsg );
         StringItf * getReferenceBases ( uint64_t offset ) const
