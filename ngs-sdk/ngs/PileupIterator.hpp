@@ -50,29 +50,29 @@ namespace ngs
          *  but could not be accessed.
          */
         bool nextPileup ()
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
     public:
 
         // C++ support
 
         PileupIterator ( PileupRef ref )
-            throw ();
+            NGS_NOTHROW ();
 
         PileupIterator & operator = ( const PileupIterator & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         PileupIterator ( const PileupIterator & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         ~ PileupIterator ()
-            throw ();
+            NGS_NOTHROW ();
 
     private:
 
         Pileup & operator = ( const Pileup & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         PileupIterator & operator = ( PileupRef ref )
-            throw ();
+            NGS_NOTHROW ();
     };
 
 } // namespace ngs

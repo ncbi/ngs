@@ -49,15 +49,15 @@ namespace ngs
     public:
 
         StringItf * getReferenceSpec () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         int64_t getReferencePosition () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         char getReferenceBase () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         uint32_t getPileupDepth () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         bool nextPileup ()
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
     };
 

@@ -28,16 +28,16 @@
 
 namespace ngs
 {
-    
+
     PileupEvent :: PileupEvent ( PileupEventRef ref )
-            throw ()
+            NGS_NOTHROW ()
         : self ( ref )
     {
         assert ( ref != 0 );
     }
 
     PileupEvent & PileupEvent :: operator = ( const PileupEvent & obj )
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         assert ( obj . self != 0 );
         PileupEventRef new_ref = obj . self -> Duplicate ();
@@ -47,14 +47,14 @@ namespace ngs
     }
 
     PileupEvent :: PileupEvent ( const PileupEvent & obj )
-            throw ( ErrorMsg )
+            NGS_THROWS ( ErrorMsg )
         : self ( obj . self == 0 ? 0 : obj . self -> Duplicate() )
     {
         assert ( obj . self != 0 );
     }
-    
+
     PileupEvent :: ~ PileupEvent ()
-        throw ()
+        NGS_NOTHROW ()
     {
         this -> self -> Release ();
         this -> self = 0;

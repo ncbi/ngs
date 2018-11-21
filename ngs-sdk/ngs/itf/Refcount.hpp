@@ -48,10 +48,10 @@ namespace ngs
     public:
 
         void Release ()
-            throw ();
+            NGS_NOTHROW ();
 
         void * Duplicate () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
     private:
         OpaqueRefcount ();
@@ -71,14 +71,14 @@ namespace ngs
 
         inline
         void Release ()
-            throw ()
+            NGS_NOTHROW ()
         {
             OpaqueRefcount :: Release ();
         }
 
         inline
         T * Duplicate () const
-            throw ( ErrorMsg )
+            NGS_THROWS ( ErrorMsg )
         {
             return static_cast < T* > ( OpaqueRefcount :: Duplicate () );
         }

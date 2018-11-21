@@ -44,22 +44,22 @@ namespace ngs
 
     inline
     const char * StringRef :: data () const
-        throw ()
+        NGS_NOTHROW ()
     { return self -> data (); }
 
     inline
     size_t StringRef :: size () const
-        throw ()
+        NGS_NOTHROW ()
     { return self -> size (); }
 
     inline
     StringRef StringRef :: substr ( size_t offset ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> substr ( offset ) ); }
 
     inline
     StringRef StringRef :: substr ( size_t offset, size_t size ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> substr ( offset, size ) ); }
 
 

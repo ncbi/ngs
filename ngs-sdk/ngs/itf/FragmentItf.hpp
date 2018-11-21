@@ -49,25 +49,25 @@ namespace ngs
     public:
 
         StringItf * getFragmentId () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getFragmentBases () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getFragmentBases ( uint64_t offset ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getFragmentBases ( uint64_t offset, uint64_t length ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getFragmentQualities () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getFragmentQualities ( uint64_t offset ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getFragmentQualities ( uint64_t offset, uint64_t length ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         bool nextFragment ()
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         bool isPaired () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         bool isAligned () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
     };
 
 

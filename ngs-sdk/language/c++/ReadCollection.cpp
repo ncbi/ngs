@@ -30,7 +30,7 @@ namespace ngs
 {
 
     ReadCollection & ReadCollection :: operator = ( ReadCollectionRef ref )
-        throw ()
+        NGS_NOTHROW ()
     {
         self -> Release ();
         self = ref;
@@ -39,13 +39,13 @@ namespace ngs
     }
 
     ReadCollection :: ReadCollection ( ReadCollectionRef ref )
-            throw ()
+            NGS_NOTHROW ()
         : self ( ref )
     {
     }
 
     ReadCollection & ReadCollection :: operator = ( const ReadCollection & obj )
-        throw ()
+        NGS_NOTHROW ()
     {
         self -> Release ();
         self = obj . self -> Duplicate ();
@@ -54,13 +54,13 @@ namespace ngs
     }
 
     ReadCollection :: ReadCollection ( const ReadCollection & obj )
-            throw ()
+            NGS_NOTHROW ()
         : self ( obj . self -> Duplicate () )
     {
     }
 
     ReadCollection :: ~ ReadCollection ()
-        throw ()
+        NGS_NOTHROW ()
     {
         self -> Release ();
         self = 0;

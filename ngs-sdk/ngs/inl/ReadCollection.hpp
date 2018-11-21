@@ -44,99 +44,99 @@ namespace ngs
 
 	inline
     String ReadCollection :: getName () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getName () ) . toString (); }
 
 	inline
     ReadGroupIterator ReadCollection :: getReadGroups () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return ReadGroupIterator ( self -> getReadGroups () ); }
 
 	inline
     bool ReadCollection :: hasReadGroup ( const String & spec ) const
-        throw ()
+        NGS_NOTHROW ()
     { return self -> hasReadGroup ( spec . c_str () ); }
 
 	inline
     ReadGroup ReadCollection :: getReadGroup ( const String & spec ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return ReadGroup ( self -> getReadGroup ( spec . c_str () ) ); }
 
 	inline
     ReferenceIterator ReadCollection :: getReferences () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return ReferenceIterator ( self -> getReferences () ); }
 
 	inline
     bool ReadCollection :: hasReference ( const String & spec ) const
-        throw ()
+        NGS_NOTHROW ()
     { return self -> hasReference ( spec . c_str () ); }
 
 	inline
     Reference ReadCollection :: getReference ( const String & spec ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return Reference ( self -> getReference ( spec . c_str () ) ); }
 
 	inline
     Alignment ReadCollection :: getAlignment ( const String & alignmentId ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return Alignment ( ( AlignmentRef ) self -> getAlignment ( alignmentId . c_str () ) ); }
 
 	inline
     AlignmentIterator ReadCollection :: getAlignments ( Alignment :: AlignmentCategory categories ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return AlignmentIterator ( ( AlignmentRef ) self -> getAlignments ( ( uint32_t ) categories ) ); }
 
 	inline
     uint64_t ReadCollection :: getAlignmentCount () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getAlignmentCount ( ( uint32_t ) Alignment :: all ); }
 
 	inline
     uint64_t ReadCollection :: getAlignmentCount ( Alignment :: AlignmentCategory categories ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getAlignmentCount ( ( uint32_t ) categories ); }
 
 	inline
     AlignmentIterator ReadCollection :: getAlignmentRange ( uint64_t first, uint64_t count ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return AlignmentIterator ( ( AlignmentRef ) self -> getAlignmentRange ( first, count, ( uint32_t ) Alignment :: all ) ); }
 
 	inline
     AlignmentIterator ReadCollection :: getAlignmentRange ( uint64_t first, uint64_t count, Alignment :: AlignmentCategory categories ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return AlignmentIterator ( ( AlignmentRef ) self -> getAlignmentRange ( first, count, ( uint32_t ) categories ) ); }
 
 	inline
     Read ReadCollection :: getRead ( const String & readId ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return Read ( ( ReadRef ) self -> getRead ( readId . c_str () ) ); }
 
 	inline
     ReadIterator ReadCollection :: getReads ( Read :: ReadCategory categories ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return ReadIterator ( ( ReadRef ) self -> getReads ( ( uint32_t ) categories ) ); }
 
 	inline
     uint64_t ReadCollection :: getReadCount () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getReadCount ( ( uint32_t ) Read :: all ); }
 
 	inline
     uint64_t ReadCollection :: getReadCount ( Read :: ReadCategory categories ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getReadCount ( ( uint32_t ) categories ); }
 
 	inline
     ReadIterator ReadCollection :: getReadRange ( uint64_t first, uint64_t count ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return ReadIterator ( ( ReadRef ) self -> getReadRange ( first, count ) ); }
 
 	inline
     ReadIterator ReadCollection :: getReadRange ( uint64_t first, uint64_t count, Read :: ReadCategory categories ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return ReadIterator ( ( ReadRef ) self -> getReadRange ( first, count, ( uint32_t ) categories ) ); }
-    
+
 } // namespace ngs
 
 #endif // _hpp_ngs_itf_collection_

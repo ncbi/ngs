@@ -44,7 +44,7 @@ namespace ngs
 
     inline
     String Package :: getPackageVersion ()
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return PackageItf :: getPackageVersion (); }
 
 } // namespace ngs

@@ -48,62 +48,62 @@ namespace ngs
 
     inline
     StringRef Read :: getReadId () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getReadId () ); }
 
     inline
     uint32_t Read :: getNumFragments () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getNumFragments (); }
 
     inline
     bool Read :: fragmentIsAligned ( uint32_t fragIdx ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> fragmentIsAligned ( fragIdx ); }
 
     inline
     Read :: ReadCategory Read :: getReadCategory () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return ( Read :: ReadCategory ) self -> getReadCategory (); }
 
     inline
     String Read :: getReadGroup () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getReadGroup () ) . toString (); }
 
     inline
     StringRef Read :: getReadName () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getReadName () ); }
 
     inline
     StringRef Read :: getReadBases () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getReadBases () ); }
 
     inline
     StringRef Read :: getReadBases ( uint64_t offset ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getReadBases ( offset ) ); }
 
     inline
     StringRef Read :: getReadBases ( uint64_t offset, uint64_t length ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getReadBases ( offset, length ) ); }
 
     inline
     StringRef Read :: getReadQualities () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getReadQualities () ); }
 
     inline
     StringRef Read :: getReadQualities ( uint64_t offset ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getReadQualities ( offset ) ); }
 
     inline
     StringRef Read :: getReadQualities ( uint64_t offset, uint64_t length ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getReadQualities ( offset, length ) ); }
 
 #undef self

@@ -45,7 +45,7 @@ namespace ngs
 
     inline
     bool FragmentIterator :: nextFragment ()
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> nextFragment (); }
 
 

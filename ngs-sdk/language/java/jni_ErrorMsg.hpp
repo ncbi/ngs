@@ -47,7 +47,7 @@
  *  upon return from JNI
  */
 void ErrorMsgThrow ( JNIEnv * jenv, uint32_t type, const char *msg, ... )
-    throw ();
+    NGS_NOTHROW ();
 
 
 /* AssertUnsignedInt
@@ -55,11 +55,11 @@ void ErrorMsgThrow ( JNIEnv * jenv, uint32_t type, const char *msg, ... )
  *  use this to assert that a signed integer is >= 0
  */
 void ErrorMsgAssertU32 ( JNIEnv * jenv, jint i )
-    throw ();
+    NGS_NOTHROW ();
 
 inline
 void ErrorMsgAssertUnsignedInt ( JNIEnv * jenv, jint i )
-    throw ()
+    NGS_NOTHROW ()
 {
     if ( i < 0 )
         ErrorMsgAssertU32 ( jenv, i );
@@ -70,11 +70,11 @@ void ErrorMsgAssertUnsignedInt ( JNIEnv * jenv, jint i )
  *  use this to assert that a signed integer is >= 0
  */
 void ErrorMsgAssertU64 ( JNIEnv * jenv, jlong i )
-    throw ();
+    NGS_NOTHROW ();
 
 inline
 void ErrorMsgAssertUnsignedLong ( JNIEnv * jenv, jlong i )
-    throw ()
+    NGS_NOTHROW ()
 {
     if ( i < 0 )
         ErrorMsgAssertU64 ( jenv, i );
@@ -90,13 +90,13 @@ void ErrorMsgAssertUnsignedLong ( JNIEnv * jenv, jlong i )
  *  throw a Java RuntimeException object taken from the C context block
  */
 void RuntimeExceptionThrow ( JNIEnv * jenv, const char *msg, ... )
-    throw ();
+    NGS_NOTHROW ();
 
 
 /* INTERNAL_ERROR
  */
 void JNI_INTERNAL_ERROR ( JNIEnv * jenv, const char * fmt, ... )
-    throw ();
+    NGS_NOTHROW ();
 
 
 /* UNIMPLEMENTED
@@ -104,7 +104,7 @@ void JNI_INTERNAL_ERROR ( JNIEnv * jenv, const char * fmt, ... )
  */
 inline
 void JNI_UNIMPLEMENTED ( JNIEnv * jenv )
-    throw ()
+    NGS_NOTHROW ()
 {
     RuntimeExceptionThrow ( jenv, "UNIMPLEMENTED" );
 }

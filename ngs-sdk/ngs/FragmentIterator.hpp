@@ -48,29 +48,29 @@ namespace ngs
          *  but could not be accessed.
          */
         bool nextFragment ()
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
     public:
 
         // C++ support
 
         FragmentIterator ( FragmentRef ref )
-            throw ();
+            NGS_NOTHROW ();
 
         FragmentIterator & operator = ( const FragmentIterator & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         FragmentIterator ( const FragmentIterator & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         ~ FragmentIterator ()
-            throw ();
+            NGS_NOTHROW ();
 
     private:
 
         Fragment & operator = ( const Fragment & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         FragmentIterator & operator = ( FragmentRef ref )
-            throw ();
+            NGS_NOTHROW ();
     };
 
 } // namespace ngs

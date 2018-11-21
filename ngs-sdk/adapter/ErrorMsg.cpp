@@ -38,7 +38,7 @@ namespace ngs_adapt
      *  what went wrong
      */
     const char * ErrorMsg :: what () const
-        throw ()
+        NGS_NOTHROW ()
     {
         return msg . c_str ();
     }
@@ -47,7 +47,7 @@ namespace ngs_adapt
      *  returns the detailed message
      */
     const :: std :: string & ErrorMsg :: toMessage () const
-        throw ()
+        NGS_NOTHROW ()
     {
         return msg;
     }
@@ -56,33 +56,33 @@ namespace ngs_adapt
      *  returns a short description
      */
     const :: std :: string & ErrorMsg :: toString () const
-        throw ()
+        NGS_NOTHROW ()
     {
         return msg;
     }
 
     /* constructors
      *  various means of constructing
-     */        
+     */
     ErrorMsg :: ErrorMsg ()
-        throw ()
+        NGS_NOTHROW ()
     {
     }
-    
+
     ErrorMsg :: ErrorMsg ( const :: std :: string & message )
-            throw ()
+            NGS_NOTHROW ()
         : msg ( message )
     {
     }
 
     ErrorMsg :: ErrorMsg ( const ErrorMsg & obj )
-            throw ()
+            NGS_NOTHROW ()
         : msg ( obj . msg )
     {
     }
 
     ErrorMsg & ErrorMsg :: operator = ( const ErrorMsg & obj )
-        throw ()
+        NGS_NOTHROW ()
     {
         this -> msg = obj . msg;
         return * this;
@@ -90,7 +90,7 @@ namespace ngs_adapt
 
 
     ErrorMsg :: ~ ErrorMsg ()
-        throw ()
+        NGS_NOTHROW ()
     {
     }
 

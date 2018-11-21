@@ -49,55 +49,55 @@ namespace ngs
     public:
 
         StringItf * getAlignmentId () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getReferenceSpec () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         int32_t getMappingQuality () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getReferenceBases () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getReadGroup () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getReadId () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getClippedFragmentBases () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getClippedFragmentQualities () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getAlignedFragmentBases () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         uint32_t getAlignmentCategory () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         int64_t getAlignmentPosition () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         uint64_t getReferencePositionProjectionRange ( int64_t ref_pos ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         uint64_t getAlignmentLength () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         bool getIsReversedOrientation () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         int32_t getSoftClip ( uint32_t edge ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         uint64_t getTemplateLength () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getShortCigar ( bool clipped ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getLongCigar ( bool clipped ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         char getRNAOrientation () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         bool hasMate () const
-            throw ();
+            NGS_NOTHROW ();
         StringItf * getMateAlignmentId () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         AlignmentItf * getMateAlignment () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getMateReferenceSpec () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         bool getMateIsReversedOrientation () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         bool nextAlignment ()
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
     };
 
 } // namespace ngs

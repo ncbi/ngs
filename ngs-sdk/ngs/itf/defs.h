@@ -59,6 +59,18 @@ typedef struct NGS_ErrBlock_v1 NGS_ErrBlock_v1;
  */
 typedef struct NGS_String_v1 NGS_String_v1;
 
+/*--------------------------------------------------------------------------
+ * Dynamic exception specification throw(...), deprecated in C++11
+ */
+#if defined (__cplusplus)
+    #if __cplusplus >= 201103L
+        #define NGS_THROWS(...)
+        #define NGS_NOTHROW() noexcept
+    #else
+        #define NGS_THROWS(...) throw(__VA_ARGS__)
+        #define NGS_NOTHROW() throw()
+    #endif
+#endif
 
 #ifdef __cplusplus
 }

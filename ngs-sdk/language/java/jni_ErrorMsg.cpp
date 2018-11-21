@@ -39,7 +39,7 @@
  */
 static
 void ErrorMsgThrow ( JNIEnv * jenv, jclass jexcept_cls, const char * fmt, va_list args )
-    throw ()
+    NGS_NOTHROW ()
 {
     // expand message into buffer
     char msg [ 4096 ];
@@ -58,7 +58,7 @@ void ErrorMsgThrow ( JNIEnv * jenv, jclass jexcept_cls, const char * fmt, va_lis
  */
 static
 void ErrorMsgThrow ( JNIEnv * jenv, uint32_t type, const char * fmt, va_list args )
-    throw ()
+    NGS_NOTHROW ()
 {
     jclass jexcept_cls = 0;
 
@@ -81,7 +81,7 @@ void ErrorMsgThrow ( JNIEnv * jenv, uint32_t type, const char * fmt, va_list arg
  *  may temporarily take information from point of throw
  */
 void ErrorMsgThrow ( JNIEnv * jenv, uint32_t type, const char *fmt, ... )
-    throw ()
+    NGS_NOTHROW ()
 {
     va_list args;
     va_start ( args, fmt );
@@ -93,7 +93,7 @@ void ErrorMsgThrow ( JNIEnv * jenv, uint32_t type, const char *fmt, ... )
 
 
 void RuntimeExceptionThrow ( JNIEnv * jenv, const char *fmt, ... )
-    throw ()
+    NGS_NOTHROW ()
 {
     va_list args;
     va_start ( args, fmt );
@@ -107,7 +107,7 @@ void RuntimeExceptionThrow ( JNIEnv * jenv, const char *fmt, ... )
 /* INTERNAL_ERROR
  */
 void JNI_INTERNAL_ERROR ( JNIEnv * jenv, const char * fmt, ... )
-    throw ()
+    NGS_NOTHROW ()
 {
     va_list args;
     va_start ( args, fmt );
@@ -128,14 +128,14 @@ void JNI_INTERNAL_ERROR ( JNIEnv * jenv, const char * fmt, ... )
  * AssertU64
  */
 void ErrorMsgAssertU32 ( JNIEnv * jenv, jint i )
-    throw ()
+    NGS_NOTHROW ()
 {
     if ( i < 0 )
         ErrorMsgThrow ( jenv, xt_error_msg, "integer sign violation" );
 }
 
 void ErrorMsgAssertU64 ( JNIEnv * jenv, jlong i )
-    throw ()
+    NGS_NOTHROW ()
 {
     if ( i < 0 )
         ErrorMsgThrow ( jenv, xt_error_msg, "integer sign violation" );

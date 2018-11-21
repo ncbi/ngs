@@ -44,7 +44,7 @@ namespace ngs
 
     inline
     bool ReadIterator :: nextRead ()
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> nextRead (); }
 
 

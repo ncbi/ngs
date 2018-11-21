@@ -44,12 +44,12 @@ namespace ngs
 
     inline
     String ReadGroup :: getName () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getName () ) . toString (); }
 
     inline
-    Statistics ReadGroup :: getStatistics () const 
-        throw ( ErrorMsg )
+    Statistics ReadGroup :: getStatistics () const
+        NGS_THROWS ( ErrorMsg )
     { return Statistics ( self -> getStatistics () ); }
 
 } // namespace ngs

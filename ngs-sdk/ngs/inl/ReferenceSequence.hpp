@@ -44,37 +44,37 @@ namespace ngs
 
     inline
     String ReferenceSequence :: getCanonicalName () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getCanonicalName () ) . toString (); }
 
     inline
     bool ReferenceSequence :: getIsCircular () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getIsCircular (); }
 
     inline
     uint64_t ReferenceSequence :: getLength () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getLength (); }
 
     inline
     String ReferenceSequence :: getReferenceBases ( uint64_t offset ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getReferenceBases ( offset ) ) . toString (); }
 
     inline
     String ReferenceSequence :: getReferenceBases ( uint64_t offset, uint64_t length ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getReferenceBases ( offset, length ) ) . toString (); }
 
     inline
     StringRef ReferenceSequence :: getReferenceChunk ( uint64_t offset ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getReferenceChunk ( offset ) ); }
 
     inline
     StringRef ReferenceSequence :: getReferenceChunk ( uint64_t offset, uint64_t length ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getReferenceChunk ( offset, length ) ); }
 
 } // namespace ngs

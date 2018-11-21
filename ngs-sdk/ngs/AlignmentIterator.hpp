@@ -49,29 +49,29 @@ namespace ngs
          *  but could not be accessed.
          */
         bool nextAlignment ()
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
     public:
 
         // C++ support
 
         AlignmentIterator ( AlignmentRef ref )
-            throw ();
+            NGS_NOTHROW ();
 
         AlignmentIterator & operator = ( const AlignmentIterator & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         AlignmentIterator ( const AlignmentIterator & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         ~ AlignmentIterator ()
-            throw ();
+            NGS_NOTHROW ();
 
     private:
 
         Alignment & operator = ( const Alignment & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         AlignmentIterator & operator = ( AlignmentRef ref )
-            throw ();
+            NGS_NOTHROW ();
     };
 
 } // namespace ngs

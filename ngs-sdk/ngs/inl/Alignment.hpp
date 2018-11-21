@@ -49,122 +49,122 @@ namespace ngs
 
     inline
     StringRef Alignment :: getAlignmentId () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getAlignmentId () ); }
 
     inline
     String Alignment :: getReferenceSpec () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getReferenceSpec () ) . toString (); }
 
     inline
     int Alignment :: getMappingQuality () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getMappingQuality (); }
 
     inline
     StringRef Alignment :: getReferenceBases () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getReferenceBases () ); }
 
     inline
     String Alignment :: getReadGroup () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getReadGroup () ) . toString (); }
 
     inline
     StringRef Alignment :: getReadId () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getReadId () ); }
 
     inline
     StringRef Alignment :: getClippedFragmentBases () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getClippedFragmentBases () ); }
 
     inline
     StringRef Alignment :: getClippedFragmentQualities () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getClippedFragmentQualities () ); }
 
     inline
     StringRef Alignment :: getAlignedFragmentBases () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getAlignedFragmentBases () ); }
 
     inline
     Alignment :: AlignmentCategory Alignment :: getAlignmentCategory () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return ( Alignment :: AlignmentCategory ) self -> getAlignmentCategory (); }
 
     inline
     int64_t Alignment :: getAlignmentPosition () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getAlignmentPosition (); }
 
     inline
     uint64_t Alignment :: getReferencePositionProjectionRange (int64_t ref_pos) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getReferencePositionProjectionRange (ref_pos); }
 
     inline
     uint64_t Alignment :: getAlignmentLength () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getAlignmentLength (); }
 
     inline
     bool Alignment :: getIsReversedOrientation () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getIsReversedOrientation (); }
 
     inline
     int Alignment :: getSoftClip ( ClipEdge edge ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getSoftClip ( edge ); }
 
     inline
     uint64_t Alignment :: getTemplateLength () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getTemplateLength (); }
 
     inline
     StringRef Alignment :: getShortCigar ( bool clipped ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getShortCigar ( clipped ) ); }
 
     inline
     StringRef Alignment :: getLongCigar ( bool clipped ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getLongCigar ( clipped ) ); }
 
     inline
     char Alignment :: getRNAOrientation () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getRNAOrientation (); }
-    
+
     inline
     bool Alignment :: hasMate () const
-        throw ()
+        NGS_NOTHROW ()
     { return self -> hasMate (); }
 
     inline
     StringRef Alignment :: getMateAlignmentId () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getMateAlignmentId () ); }
 
     inline
     Alignment Alignment :: getMateAlignment () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return Alignment ( ( AlignmentRef ) self -> getMateAlignment () ); }
 
     inline
     String Alignment :: getMateReferenceSpec () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getMateReferenceSpec () ) . toString (); }
 
     inline
     bool Alignment :: getMateIsReversedOrientation () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getMateIsReversedOrientation (); }
 
 #undef self

@@ -49,17 +49,17 @@ namespace ngs
     public:
 
         uint32_t getValueType ( const char * path ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getAsString ( const char * path ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         int64_t getAsI64 ( const char * path ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         uint64_t getAsU64 ( const char * path ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         double getAsDouble ( const char * path ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * nextPath ( const char * path ) const
-            throw ();
+            NGS_NOTHROW ();
     };
 
 } // namespace ngs

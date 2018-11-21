@@ -48,22 +48,22 @@ namespace ngs
 
     inline
     String Pileup :: getReferenceSpec () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getReferenceSpec () ) . toString (); }
 
     inline
     int64_t Pileup :: getReferencePosition () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getReferencePosition (); }
 
     inline
     char Pileup :: getReferenceBase () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getReferenceBase (); }
 
     inline
     uint32_t Pileup :: getPileupDepth () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getPileupDepth (); }
 
 #undef self

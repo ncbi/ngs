@@ -45,11 +45,11 @@ namespace ngs
     struct   ErrBlock : public :: NGS_ErrBlock_v1
     {
         void Throw () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         inline
         void Check () const
-            throw ( ErrorMsg )
+            NGS_THROWS ( ErrorMsg )
         {
             if ( xtype != xt_okay )
                 Throw ();

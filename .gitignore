@@ -12,3 +12,6 @@ OUTDIR
 /.project
 /.pydevproject
 .idea/
+.vscode
+.gdb_history
+core

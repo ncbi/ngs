@@ -44,7 +44,7 @@ namespace ngs
 
     inline
     bool ReferenceIterator :: nextReference ()
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> nextReference (); }
 
 

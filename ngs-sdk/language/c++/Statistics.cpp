@@ -29,32 +29,32 @@
 namespace ngs
 {
     Statistics :: Statistics ( StatisticsRef ref )
-            throw ()
+            NGS_NOTHROW ()
         : self ( ref )
     {
         assert ( ref != 0 );
     }
 
     Statistics & Statistics :: operator = ( const Statistics & obj )
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         self -> Release ();
         self = obj . self -> Duplicate ();
 
         return * this;
     }
-        
+
     Statistics :: Statistics ( const Statistics & obj )
-            throw ( ErrorMsg )
+            NGS_THROWS ( ErrorMsg )
         : self ( obj . self -> Duplicate () )
     {
     }
 
     Statistics :: ~ Statistics ()
-        throw ()
+        NGS_NOTHROW ()
     {
         self -> Release ();
         self = 0;
     }
-        
+
 }

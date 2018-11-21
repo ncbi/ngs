@@ -49,7 +49,7 @@ namespace ngs
          *  but could not be accessed.
          */
         bool nextPileupEvent ()
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
 
         /* resetPileupEvent
@@ -57,29 +57,29 @@ namespace ngs
          *  the next call to "nextPileupEvent" will advance to first event
          */
         void resetPileupEvent ()
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
     public:
 
         // C++ support
 
         PileupEventIterator ( PileupEventRef ref )
-            throw ();
+            NGS_NOTHROW ();
 
         PileupEventIterator & operator = ( const PileupEventIterator & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         PileupEventIterator ( const PileupEventIterator & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         ~ PileupEventIterator ()
-            throw ();
+            NGS_NOTHROW ();
 
     private:
 
         PileupEvent & operator = ( const PileupEvent & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         PileupEventIterator & operator = ( PileupEventRef ref )
-            throw ();
+            NGS_NOTHROW ();
     };
 
 } // namespace ngs

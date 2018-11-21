@@ -30,26 +30,26 @@ namespace ngs
 {
 
     ReadGroupIterator :: ReadGroupIterator ( ReadGroupRef ref )
-            throw ()
+            NGS_NOTHROW ()
         : ReadGroup ( ref )
     {
     }
 
     ReadGroupIterator & ReadGroupIterator :: operator = ( const ReadGroupIterator & obj )
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         ReadGroup :: operator = ( obj );
         return * this;
     }
 
     ReadGroupIterator :: ReadGroupIterator ( const ReadGroupIterator & obj )
-            throw ( ErrorMsg )
+            NGS_THROWS ( ErrorMsg )
         : ReadGroup ( obj )
     {
     }
-    
+
     ReadGroupIterator :: ~ ReadGroupIterator ()
-        throw ()
+        NGS_NOTHROW ()
     {
     }
 

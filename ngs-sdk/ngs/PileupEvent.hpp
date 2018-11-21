@@ -44,7 +44,7 @@ namespace ngs
      * forwards and typedefs
      */
     typedef class PileupEventItf * PileupEventRef;
-    
+
 
     /*======================================================================
      * PileupEvent
@@ -63,7 +63,7 @@ namespace ngs
         /* getMappingQuality
          */
         int getMappingQuality () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
 
         /*------------------------------------------------------------------
@@ -74,33 +74,33 @@ namespace ngs
          *  unique within ReadCollection
          */
         StringRef getAlignmentId () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getAlignmentPosition
          *  gives position of event on sequence
          */
         int64_t getAlignmentPosition () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getFirstAlignmentPosition
          *  returns the position of this Alignment's first event
          *  in Reference coordinates
          */
         int64_t getFirstAlignmentPosition () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getLastAlignmentPosition
          *  returns the position of this Alignment's last event
          *  in INCLUSIVE Reference coordinates
          */
         int64_t getLastAlignmentPosition () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
 
         /*------------------------------------------------------------------
          * event details
          */
-         
+
         /* EventType
          */
         enum PileupEventType
@@ -124,7 +124,7 @@ namespace ngs
             // a.k.a. a replacement
             insertion_before_deletion = insertion | deletion,
             replacement               = insertion_before_deletion,
-            
+
             // additional modifier bits - may be added to any event above
             alignment_start           = 0x80,
             alignment_stop            = 0x40,
@@ -153,17 +153,17 @@ namespace ngs
          *  is set, then the event was preceded by an insertion.
          *  The inserted bases and qualities can be retrieved by
          *    "getInsertionBases()" and "getInsertionQualities()"
-         *  
+         *
          */
         PileupEventType getEventType () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getAlignmentBase
          *  retrieves base aligned at current Reference position
          *  returns '-' for deletion events
          */
         char getAlignmentBase () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getAlignmentQuality
          *  retrieves quality aligned at current Reference position
@@ -171,20 +171,20 @@ namespace ngs
          *  quality is ascii-encoded phred score
          */
         char getAlignmentQuality () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getInsertionBases
          *  returns bases corresponding to insertion event
          *  returns empty string for all non-insertion events
          */
         StringRef getInsertionBases () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getInsertionQualities
          *  returns qualities corresponding to insertion event
          */
         StringRef getInsertionQualities () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getEventRepeatCount
          *  returns the number of times this event repeats
@@ -192,7 +192,7 @@ namespace ngs
          *  yielding a different event for this alignment.
          */
         uint32_t getEventRepeatCount () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* EventIndelType
          */
@@ -224,24 +224,24 @@ namespace ngs
          *  when event type is an insertion or deletion
          */
         EventIndelType getEventIndelType () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
     public:
 
         // C++ support
 
         PileupEvent & operator = ( PileupEventRef ref )
-            throw ();
+            NGS_NOTHROW ();
         PileupEvent ( PileupEventRef ref )
-            throw ();
+            NGS_NOTHROW ();
 
         PileupEvent & operator = ( const PileupEvent & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         PileupEvent ( const PileupEvent & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         ~ PileupEvent ()
-            throw ();
+            NGS_NOTHROW ();
 
     protected:
 

@@ -30,26 +30,26 @@ namespace ngs
 {
 
     FragmentIterator :: FragmentIterator ( FragmentRef ref )
-            throw ()
+            NGS_NOTHROW ()
         : Fragment ( ref )
     {
     }
 
     FragmentIterator & FragmentIterator :: operator = ( const FragmentIterator & obj )
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         Fragment :: operator = ( obj );
         return * this;
     }
 
     FragmentIterator :: FragmentIterator ( const FragmentIterator & obj )
-            throw ( ErrorMsg )
+            NGS_THROWS ( ErrorMsg )
         : Fragment ( obj )
     {
     }
-    
+
     FragmentIterator :: ~ FragmentIterator ()
-        throw ()
+        NGS_NOTHROW ()
     {
     }
 
