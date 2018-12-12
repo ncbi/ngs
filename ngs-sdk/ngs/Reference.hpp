@@ -71,6 +71,13 @@ namespace ngs
         bool getIsCircular () const
             throw ( ErrorMsg );
 
+        /* getIsLocal
+         * returns true if Reference is stored locally within the ReadCollection.
+         * Unique Reference sequences are stored locally, while  Publicly available Reference sequences are stored externally.
+         * An exception to this rule is when a public Reference is small,  in which case the sequence will be available both locally and externally
+         */
+        bool getIsLocal () const
+            throw ( ErrorMsg );
 
         /* getLength
          *  returns the length of the reference sequence

@@ -33,6 +33,14 @@ JNIEXPORT jboolean JNICALL Java_ngs_itf_ReferenceItf_GetIsCircular
 
 /*
  * Class:     ngs_itf_ReferenceItf
+ * Method:    GetIsLocal
+ * Signature: (J)Z
+ */
+JNIEXPORT jboolean JNICALL Java_ngs_itf_ReferenceItf_GetIsLocal
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     ngs_itf_ReferenceItf
  * Method:    GetLength
  * Signature: (J)J
  */

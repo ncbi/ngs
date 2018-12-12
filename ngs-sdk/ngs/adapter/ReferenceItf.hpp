@@ -55,6 +55,7 @@ namespace ngs_adapt
         virtual StringItf * getCommonName () const = 0;
         virtual StringItf * getCanonicalName () const = 0;
         virtual bool getIsCircular () const = 0;
+        virtual bool getIsLocal () const = 0;
         virtual uint64_t getLength () const = 0;
         virtual StringItf * getReferenceBases ( uint64_t offset, uint64_t length ) const = 0;
         virtual StringItf * getReferenceChunk ( uint64_t offset, uint64_t length ) const = 0;
@@ -62,6 +63,7 @@ namespace ngs_adapt
         virtual AlignmentItf * getAlignment ( const char * alignmentId ) const = 0;
         virtual AlignmentItf * getAlignments ( bool wants_primary, bool wants_secondary ) const = 0;
         virtual AlignmentItf * getAlignmentSlice ( int64_t start, uint64_t length, bool wants_primary, bool wants_secondary ) const = 0;
+        virtual AlignmentItf * getFilteredAlignmentSlice ( int64_t start, uint64_t length, uint32_t flags, int32_t map_qual ) const = 0;
         virtual PileupItf * getPileups ( bool wants_primary, bool wants_secondary ) const = 0;
         virtual PileupItf * getFilteredPileups ( uint32_t flags, int32_t map_qual ) const = 0;
         virtual PileupItf * getPileupSlice ( int64_t start, uint64_t length, bool wants_primary, bool wants_secondary ) const = 0;
@@ -78,6 +80,7 @@ namespace ngs_adapt
         static NGS_String_v1 * CC get_cmn_name ( const NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err );
         static NGS_String_v1 * CC get_canon_name ( const NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err );
         static bool CC is_circular ( const NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err );
+        static bool CC is_local ( const NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err );
         static uint64_t CC get_length ( const NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err );
         static NGS_String_v1 * CC get_ref_bases ( const NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err,
             uint64_t offset, uint64_t length );
@@ -91,6 +94,8 @@ namespace ngs_adapt
             bool wants_primary, bool wants_secondary );
         static NGS_Alignment_v1 * CC get_align_slice ( const NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err,
             int64_t start, uint64_t length, bool wants_primary, bool wants_secondary );
+        static NGS_Alignment_v1 * CC get_filtered_align_slice ( const NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err,
+            int64_t start, uint64_t length, uint32_t flags, int32_t map_qual );
         static NGS_Pileup_v1 * CC get_pileups ( const NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err,
             bool wants_primary, bool wants_secondary );
         static NGS_Pileup_v1 * CC get_filtered_pileups ( const NGS_Reference_v1 * self, NGS_ErrBlock_v1 * err,

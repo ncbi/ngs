@@ -58,6 +58,11 @@ namespace ngs
     { return self -> getIsCircular (); }
 
     inline
+    bool Reference :: getIsLocal () const
+        throw ( ErrorMsg )
+    { return self -> getIsLocal (); }
+
+    inline
     uint64_t Reference :: getLength () const
         throw ( ErrorMsg )
     { return self -> getLength (); }
@@ -126,7 +131,7 @@ namespace ngs
     PileupIterator Reference :: getFilteredPileups ( Alignment :: AlignmentCategory categories, Alignment :: AlignmentFilter filters, int32_t mappingQuality ) const
         throw ( ErrorMsg )
     { return PileupIterator ( ( PileupRef ) self -> getFilteredPileups ( ( uint32_t ) categories, ( uint32_t ) filters, mappingQuality ) ); }
-    
+
     inline
     PileupIterator Reference :: getPileupSlice ( int64_t start, uint64_t length ) const
         throw ( ErrorMsg )
