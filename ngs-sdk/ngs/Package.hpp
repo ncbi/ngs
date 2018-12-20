@@ -58,7 +58,7 @@ namespace ngs
          */
         static
         String getPackageVersion ()
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
     private:
 

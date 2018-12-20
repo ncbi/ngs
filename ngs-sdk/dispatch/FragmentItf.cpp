@@ -58,7 +58,7 @@ namespace ngs
      */
 
     StringItf * FragmentItf :: getFragmentId () const
-            throw ( ErrorMsg )
+            NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Fragment_v1 * self = Test ();
@@ -78,19 +78,19 @@ namespace ngs
     }
 
     StringItf * FragmentItf :: getFragmentBases () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         return this -> getFragmentBases ( 0, -1 );
     }
 
     StringItf * FragmentItf :: getFragmentBases ( uint64_t offset ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         return this -> getFragmentBases ( offset, -1 );
     }
 
     StringItf * FragmentItf :: getFragmentBases ( uint64_t offset, uint64_t length ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Fragment_v1 * self = Test ();
@@ -110,19 +110,19 @@ namespace ngs
     }
 
     StringItf * FragmentItf :: getFragmentQualities () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         return this -> getFragmentQualities ( 0, -1 );
     }
 
     StringItf * FragmentItf :: getFragmentQualities ( uint64_t offset ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         return this -> getFragmentQualities ( offset, -1 );
     }
 
     StringItf * FragmentItf :: getFragmentQualities ( uint64_t offset, uint64_t length ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Fragment_v1 * self = Test ();
@@ -142,7 +142,7 @@ namespace ngs
     }
 
     bool FragmentItf :: nextFragment ()
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         NGS_Fragment_v1 * self = Test ();
@@ -162,7 +162,7 @@ namespace ngs
     }
 
     bool FragmentItf :: isPaired () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Fragment_v1 * self = Test ();
@@ -186,7 +186,7 @@ namespace ngs
     }
 
     bool FragmentItf :: isAligned () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Fragment_v1 * self = Test ();

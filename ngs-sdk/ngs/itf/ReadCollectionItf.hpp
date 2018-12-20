@@ -51,39 +51,39 @@ namespace ngs
     class   ReadCollectionItf : public Refcount < ReadCollectionItf, NGS_ReadCollection_v1 >
     {
     public:
-        
+
         StringItf * getName () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         ReadGroupItf * getReadGroups () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         bool hasReadGroup ( const char * spec ) const
-            throw ();
+            NGS_NOTHROW ();
         ReadGroupItf * getReadGroup ( const char * spec ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         ReferenceItf * getReferences () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         bool hasReference ( const char * spec ) const
-            throw ();
+            NGS_NOTHROW ();
         ReferenceItf * getReference ( const char * spec ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         AlignmentItf * getAlignment ( const char * alignmentId ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         AlignmentItf * getAlignments ( uint32_t categories ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         uint64_t getAlignmentCount ( uint32_t categories ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         AlignmentItf * getAlignmentRange ( uint64_t first, uint64_t count, uint32_t categories ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         ReadItf * getRead ( const char * readId ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         ReadItf * getReads ( uint32_t categories ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         uint64_t getReadCount ( uint32_t categories ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         ReadItf * getReadRange ( uint64_t first, uint64_t count ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         ReadItf * getReadRange ( uint64_t first, uint64_t count, uint32_t categories ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
     };
 
 } // namespace ngs

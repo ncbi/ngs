@@ -49,29 +49,29 @@ namespace ngs
          *  but could not be accessed.
          */
         bool nextReference ()
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
     public:
 
         // C++ support
 
         ReferenceIterator ( ReferenceRef ref )
-            throw ();
+            NGS_NOTHROW ();
 
         ReferenceIterator & operator = ( const ReferenceIterator & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         ReferenceIterator ( const ReferenceIterator & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         ~ ReferenceIterator ()
-            throw ();
+            NGS_NOTHROW ();
 
     private:
 
         Reference & operator = ( const Reference & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         ReferenceIterator & operator = ( ReferenceRef ref )
-            throw ();
+            NGS_NOTHROW ();
     };
 
 } // namespace ngs

@@ -45,7 +45,7 @@
 namespace ngs_test_engine
 {
 
-	  ngs::ReadCollection NGS::openReadCollection ( const String & spec ) throw ( ErrorMsg )
+	  ngs::ReadCollection NGS::openReadCollection ( const String & spec ) NGS_THROWS ( ErrorMsg )
 	{
         ngs_adapt::ReadCollectionItf * ad_itf = new ngs_test_engine::ReadCollectionItf ( spec . c_str () );
         NGS_ReadCollection_v1 * c_obj = ad_itf -> Cast ();

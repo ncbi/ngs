@@ -34,7 +34,7 @@ namespace ngs
      */
 
     void ErrBlock :: Throw () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         if ( xtype != xt_okay )
             throw ErrorMsg ( msg );

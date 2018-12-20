@@ -59,13 +59,13 @@ namespace ngs
          *  NOT necessarily NUL-terminated
          */
         const char * data () const
-            throw ();
+            NGS_NOTHROW ();
 
         /* size
          *   return size of string in bytes
          */
         size_t size () const
-            throw ();
+            NGS_NOTHROW ();
 
         /* substr
          *  create a substring of the original
@@ -73,9 +73,9 @@ namespace ngs
          *  "offset" is zero-based
          */
         StringRef substr ( size_t offset ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringRef substr ( size_t offset, size_t size ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* toString
          *  create a normal C++ string
@@ -83,30 +83,30 @@ namespace ngs
          *  "offset" is zero-based
          */
         String toString () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         String toString ( size_t offset ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         String toString ( size_t offset, size_t size ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
     public:
 
         // C++ support
         StringRef ( StringItf * ref )
-            throw ();
+            NGS_NOTHROW ();
 
         StringRef ( const StringRef & obj )
-            throw ();
+            NGS_NOTHROW ();
         StringRef & operator = ( const StringRef & obj )
-            throw ();
+            NGS_NOTHROW ();
 
         ~ StringRef ()
-            throw ();
+            NGS_NOTHROW ();
 
     private:
 
         StringRef & operator = ( StringItf * ref )
-            throw ();
+            NGS_NOTHROW ();
 
         StringItf * self;
     };

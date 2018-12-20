@@ -54,7 +54,7 @@ namespace ngs
          *  the id will be unique within ReadCollection.
          */
         StringRef getAlignmentId () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
 
         /*------------------------------------------------------------------
@@ -64,18 +64,18 @@ namespace ngs
         /* getReferenceSpec
          */
         String getReferenceSpec () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
-        /* getMappingQuality 
+        /* getMappingQuality
          */
         int getMappingQuality () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getReferenceBases
          *  return reference bases
          */
         StringRef getReferenceBases () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
 
         /*------------------------------------------------------------------
@@ -85,31 +85,31 @@ namespace ngs
         /* getReadGroup
          */
         String getReadGroup () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getReadId
          */
         StringRef getReadId () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getClippedFragmentBases
          *  return fragment bases
          */
         StringRef getClippedFragmentBases () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getClippedFragmentQualities
          *  return fragment phred quality values
          *  using ASCII offset of 33
          */
         StringRef getClippedFragmentQualities () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getAlignedFragmentBases
          *  return fragment bases in their aligned orientation
          */
         StringRef getAlignedFragmentBases () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /*------------------------------------------------------------------
          * details of this alignment
@@ -136,14 +136,14 @@ namespace ngs
             secondaryAlignment = 2,
             all = primaryAlignment | secondaryAlignment
         };
-        
+
         /* getAlignmentCategory
          *  alignments are categorized as primary or secondary (alternate).
          *  return an AlignmentCategory
          *  throws ErrorMsg if the property cannot be retrieved
          */
         AlignmentCategory getAlignmentCategory () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getAlignmentPosition
          *  retrieve the Alignment's starting position on the Reference
@@ -151,7 +151,7 @@ namespace ngs
          *  throws ErrorMsg if the property cannot be retrieved
          */
         int64_t getAlignmentPosition () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getReferencePositionProjectionRange
          *  retrieve the projection of Reference position on the Alignment
@@ -160,7 +160,7 @@ namespace ngs
          *   -upper 32bits represent a 0-based offset from start of the Alignment
          *    corresponding to ref_pos (beginning of the insertion in the case ref_pos
          *    projects on the insertion)
-         *   -lower 32bits represent the length of the ref_pos projection on the 
+         *   -lower 32bits represent the length of the ref_pos projection on the
          *    Alignment: e.g. 1 - match/mismatch, 0 - ref_pos is within the
          *    region deleted from the Alignment, > 1 - there is an insertion
          *    on the Alignment so ref_pos can be projected anywhere from the
@@ -168,7 +168,7 @@ namespace ngs
          *  throws ErrorMsg if the property cannot be retrieved
          */
         uint64_t getReferencePositionProjectionRange ( int64_t ref_pos ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getAligmentLength
          *  retrieve the projected length of an Alignment projected upon Reference.
@@ -176,7 +176,7 @@ namespace ngs
          *  throws ErrorMsg if the property cannot be retrieved
          */
         uint64_t getAlignmentLength () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getIsReversedOrientation
          *  test if orientation is reversed with respect to the Reference sequence.
@@ -184,7 +184,7 @@ namespace ngs
          *  throws ErrorMsg if the property cannot be retrieved
          */
         bool getIsReversedOrientation () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* ClipEdge
          */
@@ -197,24 +197,24 @@ namespace ngs
         /* getSoftClip
          */
         int getSoftClip ( ClipEdge edge ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getTemplateLength
          */
         uint64_t getTemplateLength () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getShortCigar
          *  returns a text string describing alignment details
          */
         StringRef getShortCigar ( bool clipped ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getLongCigar
          *  returns a text string describing alignment details
          */
         StringRef getLongCigar ( bool clipped ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getRNAOrientation
          *  returns '+' if positive strand is transcribed
@@ -222,54 +222,54 @@ namespace ngs
          *  returns '?' if unknown
          */
         char getRNAOrientation () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
 
         /*------------------------------------------------------------------
          * details of mate alignment
          */
-         
+
         /* hasMate
          */
         bool hasMate () const
-            throw ();
+            NGS_NOTHROW ();
 
         /* getMateAlignmentId
          */
         StringRef getMateAlignmentId () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getMateAlignment
          */
         Alignment getMateAlignment () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getMateReferenceSpec
          */
         String getMateReferenceSpec () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getMateIsReversedOrientation
          */
         bool getMateIsReversedOrientation () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
     public:
 
         // C++ support
 
         Alignment & operator = ( AlignmentRef ref )
-            throw ();
+            NGS_NOTHROW ();
         Alignment ( AlignmentRef ref )
-            throw ();
+            NGS_NOTHROW ();
 
         Alignment & operator = ( const Alignment & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         Alignment ( const Alignment & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         ~ Alignment ()
-            throw ();
+            NGS_NOTHROW ();
     };
 
 } // namespace ngs

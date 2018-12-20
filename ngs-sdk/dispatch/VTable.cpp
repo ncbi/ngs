@@ -102,7 +102,7 @@ namespace ngs
      *  resolves array indices of itf tokens
      */
     void Resolve ( const ItfTok  & itf )
-        throw ()
+        NGS_NOTHROW ()
     {
         // interfaces only support single-inheritance
         // perform a one-shot runtime depth assignment
@@ -110,7 +110,7 @@ namespace ngs
     }
 
     void Resolve ( const NGS_VTable * vt, const ItfTok & itf )
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         if ( vt != 0 )
         {

@@ -52,20 +52,20 @@ namespace ngs
         /* getReadId
          */
         StringRef getReadId () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getNumFragments
          *  the number of biological Fragments contained in the read
          */
         uint32_t getNumFragments () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* fragmentIsAligned
          *  tests a fragment for being aligned
          */
         bool fragmentIsAligned ( uint32_t fragIdx ) const
-            throw ( ErrorMsg );
-            
+            NGS_THROWS ( ErrorMsg );
+
         /*------------------------------------------------------------------
          * read details
          */
@@ -84,17 +84,17 @@ namespace ngs
         /* getReadCategory
          */
         ReadCategory getReadCategory () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getReadGroup
          */
         String getReadGroup () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getReadName
          */
         StringRef getReadName () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
 
         /* getReadBases
@@ -102,11 +102,11 @@ namespace ngs
          *  "offset" is zero-based
          */
         StringRef getReadBases () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringRef getReadBases ( uint64_t offset ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringRef getReadBases ( uint64_t offset, uint64_t length ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
 
         /* getReadQualities
@@ -115,31 +115,31 @@ namespace ngs
          *  "offset" is zero-based
          */
         StringRef getReadQualities () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringRef getReadQualities ( uint64_t offset ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringRef getReadQualities ( uint64_t offset, uint64_t length ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
     public:
 
         // C++ support
 
         Read ( ReadRef ref )
-            throw ();
+            NGS_NOTHROW ();
 
         Read & operator = ( const Read & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         Read ( const Read & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         ~ Read ()
-            throw ();
+            NGS_NOTHROW ();
 
     private:
 
         Read & operator = ( ReadRef ref )
-            throw ();
+            NGS_NOTHROW ();
     };
 
 } // namespace ngs

@@ -29,26 +29,26 @@
 namespace ngs
 {
     AlignmentIterator :: AlignmentIterator ( AlignmentRef ref )
-            throw ()
+            NGS_NOTHROW ()
         : Alignment ( ref )
     {
     }
 
     AlignmentIterator & AlignmentIterator :: operator = ( const AlignmentIterator & obj )
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         Alignment :: operator = ( obj );
         return * this;
     }
 
     AlignmentIterator :: AlignmentIterator ( const AlignmentIterator & obj )
-            throw ( ErrorMsg )
+            NGS_THROWS ( ErrorMsg )
         : Alignment ( obj )
     {
     }
-    
+
     AlignmentIterator :: ~ AlignmentIterator ()
-        throw ()
+        NGS_NOTHROW ()
     {
     }
 

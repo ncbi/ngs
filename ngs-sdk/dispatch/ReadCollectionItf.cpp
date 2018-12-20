@@ -67,7 +67,7 @@ namespace ngs
      */
 
     StringItf * ReadCollectionItf :: getName () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_ReadCollection_v1 * self = Test ();
@@ -87,7 +87,7 @@ namespace ngs
     }
 
     ReadGroupItf * ReadCollectionItf :: getReadGroups () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_ReadCollection_v1 * self = Test ();
@@ -107,7 +107,7 @@ namespace ngs
     }
 
     bool ReadCollectionItf :: hasReadGroup ( const char * spec ) const
-        throw ()
+        NGS_NOTHROW ()
     {
         try
         {
@@ -140,7 +140,7 @@ namespace ngs
     }
 
     ReadGroupItf * ReadCollectionItf :: getReadGroup ( const char * spec ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_ReadCollection_v1 * self = Test ();
@@ -160,7 +160,7 @@ namespace ngs
     }
 
     ReferenceItf * ReadCollectionItf :: getReferences () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_ReadCollection_v1 * self = Test ();
@@ -180,7 +180,7 @@ namespace ngs
     }
 
     bool ReadCollectionItf :: hasReference ( const char * spec ) const
-        throw ()
+        NGS_NOTHROW ()
     {
         try
         {
@@ -213,7 +213,7 @@ namespace ngs
     }
 
     ReferenceItf * ReadCollectionItf :: getReference ( const char * spec ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_ReadCollection_v1 * self = Test ();
@@ -233,7 +233,7 @@ namespace ngs
     }
 
     AlignmentItf * ReadCollectionItf :: getAlignment ( const char * alignmentId ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_ReadCollection_v1 * self = Test ();
@@ -253,7 +253,7 @@ namespace ngs
     }
 
     AlignmentItf * ReadCollectionItf :: getAlignments ( uint32_t categories ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_ReadCollection_v1 * self = Test ();
@@ -276,7 +276,7 @@ namespace ngs
     }
 
     uint64_t ReadCollectionItf :: getAlignmentCount ( uint32_t categories ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_ReadCollection_v1 * self = Test ();
@@ -299,7 +299,7 @@ namespace ngs
     }
 
     AlignmentItf * ReadCollectionItf :: getAlignmentRange ( uint64_t first, uint64_t count, uint32_t categories ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_ReadCollection_v1 * self = Test ();
@@ -322,7 +322,7 @@ namespace ngs
     }
 
     ReadItf * ReadCollectionItf :: getRead ( const char * readId ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_ReadCollection_v1 * self = Test ();
@@ -342,7 +342,7 @@ namespace ngs
     }
 
     ReadItf * ReadCollectionItf :: getReads ( uint32_t categories ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_ReadCollection_v1 * self = Test ();
@@ -365,7 +365,7 @@ namespace ngs
     }
 
     uint64_t ReadCollectionItf :: getReadCount ( uint32_t categories ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_ReadCollection_v1 * self = Test ();
@@ -386,9 +386,9 @@ namespace ngs
 
         return ret;
     }
-    
+
     ReadItf * ReadCollectionItf :: getReadRange ( uint64_t first, uint64_t count ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_ReadCollection_v1 * self = Test ();
@@ -408,7 +408,7 @@ namespace ngs
     }
 
     ReadItf * ReadCollectionItf :: getReadRange ( uint64_t first, uint64_t count, uint32_t categories ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_ReadCollection_v1 * self = Test ();

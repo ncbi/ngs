@@ -60,7 +60,7 @@ namespace ngs
      */
 
     int32_t PileupEventItf :: getMappingQuality () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_PileupEvent_v1 * self = Test ();
@@ -80,7 +80,7 @@ namespace ngs
     }
 
     StringItf * PileupEventItf :: getAlignmentId () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_PileupEvent_v1 * self = Test ();
@@ -100,7 +100,7 @@ namespace ngs
     }
 
     int64_t PileupEventItf :: getAlignmentPosition () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_PileupEvent_v1 * self = Test ();
@@ -120,7 +120,7 @@ namespace ngs
     }
 
     int64_t PileupEventItf :: getFirstAlignmentPosition () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_PileupEvent_v1 * self = Test ();
@@ -140,7 +140,7 @@ namespace ngs
     }
 
     int64_t PileupEventItf :: getLastAlignmentPosition () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_PileupEvent_v1 * self = Test ();
@@ -160,7 +160,7 @@ namespace ngs
     }
 
     uint32_t PileupEventItf :: getEventType () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_PileupEvent_v1 * self = Test ();
@@ -180,7 +180,7 @@ namespace ngs
     }
 
     char PileupEventItf :: getAlignmentBase () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_PileupEvent_v1 * self = Test ();
@@ -200,7 +200,7 @@ namespace ngs
     }
 
     char PileupEventItf :: getAlignmentQuality () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_PileupEvent_v1 * self = Test ();
@@ -220,7 +220,7 @@ namespace ngs
     }
 
     StringItf * PileupEventItf :: getInsertionBases () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_PileupEvent_v1 * self = Test ();
@@ -240,7 +240,7 @@ namespace ngs
     }
 
     StringItf * PileupEventItf :: getInsertionQualities () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_PileupEvent_v1 * self = Test ();
@@ -260,7 +260,7 @@ namespace ngs
     }
 
     uint32_t PileupEventItf :: getEventRepeatCount () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_PileupEvent_v1 * self = Test ();
@@ -280,7 +280,7 @@ namespace ngs
     }
 
     uint32_t PileupEventItf :: getEventIndelType () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_PileupEvent_v1 * self = Test ();
@@ -300,7 +300,7 @@ namespace ngs
     }
 
     bool PileupEventItf :: nextPileupEvent ()
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         NGS_PileupEvent_v1 * self = Test ();
@@ -320,7 +320,7 @@ namespace ngs
     }
 
     void PileupEventItf :: resetPileupEvent ()
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         NGS_PileupEvent_v1 * self = Test ();

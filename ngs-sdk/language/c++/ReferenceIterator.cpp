@@ -30,26 +30,26 @@ namespace ngs
 {
 
     ReferenceIterator :: ReferenceIterator ( ReferenceRef ref )
-            throw ()
+            NGS_NOTHROW ()
         : Reference ( ref )
     {
     }
 
     ReferenceIterator & ReferenceIterator :: operator = ( const ReferenceIterator & obj )
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         Reference :: operator = ( obj );
         return * this;
     }
 
     ReferenceIterator :: ReferenceIterator ( const ReferenceIterator & obj )
-            throw ( ErrorMsg )
+            NGS_THROWS ( ErrorMsg )
         : Reference ( obj )
     {
     }
-    
+
     ReferenceIterator :: ~ ReferenceIterator ()
-        throw ()
+        NGS_NOTHROW ()
     {
     }
 

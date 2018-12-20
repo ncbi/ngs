@@ -29,26 +29,26 @@
 namespace ngs
 {
     Alignment :: Alignment ( AlignmentRef ref )
-            throw ()
+            NGS_NOTHROW ()
         : Fragment ( ref )
     {
     }
 
     Alignment & Alignment :: operator = ( const Alignment & obj )
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         Fragment :: operator = ( obj );
         return * this;
     }
 
     Alignment :: Alignment ( const Alignment & obj )
-            throw ( ErrorMsg )
+            NGS_THROWS ( ErrorMsg )
         : Fragment ( obj )
     {
     }
-    
+
     Alignment :: ~ Alignment ()
-        throw ()
+        NGS_NOTHROW ()
     {
     }
 

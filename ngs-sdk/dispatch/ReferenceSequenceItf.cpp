@@ -61,7 +61,7 @@ namespace ngs
      */
 
     StringItf * ReferenceSequenceItf :: getCanonicalName () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_ReferenceSequence_v1 * self = Test ();
@@ -81,7 +81,7 @@ namespace ngs
     }
 
     bool ReferenceSequenceItf :: getIsCircular () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_ReferenceSequence_v1 * self = Test ();
@@ -101,7 +101,7 @@ namespace ngs
     }
 
     uint64_t ReferenceSequenceItf :: getLength () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_ReferenceSequence_v1 * self = Test ();
@@ -121,13 +121,13 @@ namespace ngs
     }
 
     StringItf * ReferenceSequenceItf :: getReferenceBases ( uint64_t offset ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         return this -> getReferenceBases ( offset, -1 );
     }
 
     StringItf * ReferenceSequenceItf :: getReferenceBases ( uint64_t offset, uint64_t length ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_ReferenceSequence_v1 * self = Test ();
@@ -147,13 +147,13 @@ namespace ngs
     }
 
     StringItf * ReferenceSequenceItf :: getReferenceChunk ( uint64_t offset ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         return this -> getReferenceChunk ( offset, -1 );
     }
 
     StringItf * ReferenceSequenceItf :: getReferenceChunk ( uint64_t offset, uint64_t length ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_ReferenceSequence_v1 * self = Test ();

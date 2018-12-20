@@ -45,47 +45,47 @@ namespace ngs
 
     inline
     StringRef Fragment :: getFragmentId () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getFragmentId () ); }
 
     inline
     StringRef Fragment :: getFragmentBases () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getFragmentBases () ); }
 
     inline
     StringRef Fragment :: getFragmentBases ( uint64_t offset ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getFragmentBases ( offset ) ); }
 
     inline
     StringRef Fragment :: getFragmentBases ( uint64_t offset, uint64_t length ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getFragmentBases ( offset, length ) ); }
 
     inline
     StringRef Fragment :: getFragmentQualities () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getFragmentQualities () ); }
 
     inline
     StringRef Fragment :: getFragmentQualities ( uint64_t offset ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getFragmentQualities ( offset ) ); }
 
     inline
     StringRef Fragment :: getFragmentQualities ( uint64_t offset, uint64_t length ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getFragmentQualities ( offset, length ) ); }
 
     inline
     bool Fragment :: isPaired () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> isPaired (); }
 
     inline
     bool Fragment :: isAligned () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> isAligned (); }
 
 

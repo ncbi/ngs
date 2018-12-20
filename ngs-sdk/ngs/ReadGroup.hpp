@@ -56,32 +56,32 @@ namespace ngs
          *  returns the simple name of the read group
          */
         String getName () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
 
         /*------------------------------------------------------------------
          * STATISTICS
          */
-		 
-		Statistics getStatistics () const 
-            throw ( ErrorMsg );
+
+		Statistics getStatistics () const
+            NGS_THROWS ( ErrorMsg );
 
     public:
 
         // C++ support
 
         ReadGroup & operator = ( ReadGroupRef ref )
-            throw ();
+            NGS_NOTHROW ();
         ReadGroup ( ReadGroupRef ref )
-            throw ();
+            NGS_NOTHROW ();
 
         ReadGroup & operator = ( const ReadGroup & obj )
-            throw ();
+            NGS_NOTHROW ();
         ReadGroup ( const ReadGroup & obj )
-            throw ();
+            NGS_NOTHROW ();
 
         ~ ReadGroup ()
-            throw ();
+            NGS_NOTHROW ();
 
     protected:
 

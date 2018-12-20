@@ -51,17 +51,17 @@ namespace ngs
     public:
 
         StringItf * getName () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 #if READ_GROUP_SUPPORTS_READS
         ReadItf * getRead ( const char * readId )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         ReadItf * getReads ( uint32_t categories )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 #endif
-		StatisticsItf * getStatistics () const 
-            throw ( ErrorMsg );
+		StatisticsItf * getStatistics () const
+            NGS_THROWS ( ErrorMsg );
         bool nextReadGroup ()
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
     };
 
 } // namespace ngs

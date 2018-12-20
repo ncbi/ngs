@@ -49,33 +49,33 @@ namespace ngs
     public:
 
         int32_t getMappingQuality () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getAlignmentId () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         int64_t getAlignmentPosition () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         int64_t getFirstAlignmentPosition () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         int64_t getLastAlignmentPosition () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         uint32_t getEventType () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         char getAlignmentBase () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         char getAlignmentQuality () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getInsertionBases () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getInsertionQualities () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         uint32_t getEventRepeatCount () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         uint32_t getEventIndelType () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         bool nextPileupEvent ()
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         void resetPileupEvent ()
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
     };
 

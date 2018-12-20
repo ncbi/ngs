@@ -37,7 +37,7 @@ namespace ngs
      */
 
     String PackageItf :: getPackageVersion ()
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         return String ( NGS_SDK_VERSION );
     }

@@ -30,14 +30,14 @@ namespace ngs
 {
 
     ReferenceSequence :: ReferenceSequence ( ReferenceSequenceRef ref )
-            throw ()
+            NGS_NOTHROW ()
         : self ( ref )
     {
         assert ( ref != 0 );
     }
 
     ReferenceSequence & ReferenceSequence :: operator = ( ReferenceSequenceRef ref )
-            throw ()
+            NGS_NOTHROW ()
     {
         assert ( ref != 0 );
         ReferenceSequenceRef new_ref = ref -> Duplicate ();
@@ -47,7 +47,7 @@ namespace ngs
     }
 
     ReferenceSequence & ReferenceSequence :: operator = ( const ReferenceSequence & obj )
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         assert ( obj . self != 0 );
         ReferenceSequenceRef new_ref = obj . self -> Duplicate ();
@@ -57,14 +57,14 @@ namespace ngs
     }
 
     ReferenceSequence :: ReferenceSequence ( const ReferenceSequence & obj )
-            throw ( ErrorMsg )
+            NGS_THROWS ( ErrorMsg )
         : self ( obj . self == 0 ? 0 : obj . self -> Duplicate() )
     {
         assert ( obj . self != 0 );
     }
-    
+
     ReferenceSequence :: ~ ReferenceSequence ()
-        throw ()
+        NGS_NOTHROW ()
     {
         this -> self -> Release ();
         this -> self = 0;

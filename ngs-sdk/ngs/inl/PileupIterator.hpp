@@ -48,7 +48,7 @@ namespace ngs
 
     inline
     bool PileupIterator :: nextPileup ()
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> nextPileup (); }
 
 #undef self

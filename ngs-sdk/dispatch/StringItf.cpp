@@ -57,7 +57,7 @@ namespace ngs
      */
 
     const char * StringItf :: data () const
-        throw ()
+        NGS_NOTHROW ()
     {
         if ( this != 0 )
         {
@@ -92,7 +92,7 @@ namespace ngs
     }
 
     size_t StringItf :: size () const
-        throw ()
+        NGS_NOTHROW ()
     {
         if ( this != 0 )
         {
@@ -127,13 +127,13 @@ namespace ngs
     }
 
     StringItf * StringItf :: substr ( size_t offset ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         return substr ( offset, -1 );
     }
 
     StringItf * StringItf :: substr ( size_t offset, size_t size ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_String_v1 * self = Test ();

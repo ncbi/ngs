@@ -29,14 +29,14 @@
 namespace ngs
 {
     Fragment :: Fragment ( FragmentRef ref )
-            throw ()
+            NGS_NOTHROW ()
         : self ( ref )
     {
         assert ( ref != 0 );
     }
 
     Fragment & Fragment :: operator = ( const Fragment & obj )
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         assert ( obj . self != 0 );
         FragmentRef new_ref = obj . self -> Duplicate ();
@@ -46,14 +46,14 @@ namespace ngs
     }
 
     Fragment :: Fragment ( const Fragment & obj )
-            throw ( ErrorMsg )
+            NGS_THROWS ( ErrorMsg )
         : self ( obj . self -> Duplicate () )
     {
         assert ( obj . self != 0 );
     }
-    
+
     Fragment :: ~ Fragment ()
-        throw ()
+        NGS_NOTHROW ()
     {
         self -> Release ();
         this -> self = 0;

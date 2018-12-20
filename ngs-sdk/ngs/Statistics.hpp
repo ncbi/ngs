@@ -50,7 +50,7 @@ namespace ngs
      * Statistics
      *  represents a set of statistics as a collection of path/value pairs
      */
-    class Statistics 
+    class Statistics
     {
     public:
 
@@ -62,68 +62,68 @@ namespace ngs
             uint64,
             real
         };
-    
+
         /* getValueType
          */
         ValueType getValueType ( const String & path ) const
-            throw ();
-    
+            NGS_NOTHROW ();
+
         /* getAsString
          */
         String getAsString ( const String & path ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* other int types ? */
-        
+
         /* getAsI64
          *  returns a signed 64-bit integer
          */
         int64_t getAsI64 ( const String & path ) const
-            throw ( ErrorMsg );
-            
+            NGS_THROWS ( ErrorMsg );
+
         /* getAsU64
          *  returns an unsigned 64-bit integer
          */
         uint64_t getAsU64 ( const String & path ) const
-            throw ( ErrorMsg );
-        
+            NGS_THROWS ( ErrorMsg );
+
         /* getAsDouble
          *  returns a 64-bit floating point
          */
         double getAsDouble ( const String & path ) const
-            throw ( ErrorMsg );
-            
-        /* nextPath 
+            NGS_THROWS ( ErrorMsg );
+
+        /* nextPath
          *  advance to next path in container
          *
          * param path is NULL or empty to request first path, or a valid path string
          * returns an empty string if no more paths, or the next valid path string
          */
         String nextPath ( const String & path ) const
-            throw ();
-            
+            NGS_NOTHROW ();
+
     public:
 
         // C++ support
 
         Statistics ( StatisticsRef ref )
-            throw ();
+            NGS_NOTHROW ();
 
         Statistics & operator = ( const Statistics & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         Statistics ( const Statistics & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         ~ Statistics ()
-            throw ();
+            NGS_NOTHROW ();
 
     private:
         Statistics & operator = ( StatisticsRef ref )
-            throw ();
-            
+            NGS_NOTHROW ();
+
     protected:
 
-        StatisticsRef self;            
+        StatisticsRef self;
     };
 
 } // namespace ngs

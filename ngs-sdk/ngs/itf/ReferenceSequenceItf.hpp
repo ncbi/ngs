@@ -49,19 +49,19 @@ namespace ngs
     public:
 
         StringItf * getCanonicalName () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         bool getIsCircular () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         uint64_t getLength () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getReferenceBases ( uint64_t offset ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getReferenceBases ( uint64_t offset, uint64_t length ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getReferenceChunk ( uint64_t offset ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getReferenceChunk ( uint64_t offset, uint64_t length ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
     };
 
 } // namespace ngs

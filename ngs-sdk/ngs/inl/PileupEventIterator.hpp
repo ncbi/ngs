@@ -43,12 +43,12 @@ namespace ngs
 
     inline
     bool PileupEventIterator :: nextPileupEvent ()
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> nextPileupEvent (); }
 
     inline
     void PileupEventIterator :: resetPileupEvent ()
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> resetPileupEvent (); }
 
 
