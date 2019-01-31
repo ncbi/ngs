@@ -1,7 +1,15 @@
 # NCBI External Developer Release:
 
+
+## NGS SDK 2.9.4
+**January 31, 2019**
+
+  **ngs, ngs-tools**: dump-ref-fasta: added an option to skip non-local references  
+
+
 ## NGS SDK 2.9.2
 **July 23, 2018**
+
   **ngs**: changed version to match that of _ncbi-vdb_
 
 
