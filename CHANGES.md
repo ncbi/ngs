@@ -4,7 +4,7 @@
 ## NGS SDK 2.9.4
 **January 31, 2019**
 
-  **ngs, ngs-tools**: dump-ref-fasta: added an option to skip non-local references  
+  **ngs, ngs-tools**: added an option to skip non-local references  
 
 
 ## NGS SDK 2.9.2
