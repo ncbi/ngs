@@ -7,6 +7,12 @@
   **ngs, ngs-tools**: added an option to skip non-local references  
 
 
+## NGS SDK 2.9.3
+**October 17, 2018**
+
+  **ngs**: changed version to match that of _ncbi-vdb_
+
+
 ## NGS SDK 2.9.2
 **July 23, 2018**
 
