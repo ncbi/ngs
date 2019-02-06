@@ -58,7 +58,7 @@ namespace ngs
      */
 
     StringItf * ReadGroupItf :: getName () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_ReadGroup_v1 * self = Test ();
@@ -77,8 +77,8 @@ namespace ngs
         return StringItf :: Cast ( ret );
     }
 
-    StatisticsItf * ReadGroupItf :: getStatistics () const 
-        throw ( ErrorMsg )
+    StatisticsItf * ReadGroupItf :: getStatistics () const
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_ReadGroup_v1 * self = Test ();
@@ -98,7 +98,7 @@ namespace ngs
     }
 
     bool ReadGroupItf :: nextReadGroup ()
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         NGS_ReadGroup_v1 * self = Test ();

@@ -60,7 +60,7 @@ namespace ngs
      */
 
     StringItf * PileupItf :: getReferenceSpec () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Pileup_v1 * self = Test ();
@@ -80,7 +80,7 @@ namespace ngs
     }
 
     int64_t PileupItf :: getReferencePosition () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Pileup_v1 * self = Test ();
@@ -100,7 +100,7 @@ namespace ngs
     }
 
     char PileupItf :: getReferenceBase () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Pileup_v1 * self = Test ();
@@ -120,7 +120,7 @@ namespace ngs
     }
 
     uint32_t PileupItf :: getPileupDepth () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Pileup_v1 * self = Test ();
@@ -140,7 +140,7 @@ namespace ngs
     }
 
     bool PileupItf :: nextPileup ()
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         NGS_Pileup_v1 * self = Test ();

@@ -44,32 +44,32 @@ namespace ngs
 
     inline
     Statistics :: ValueType Statistics :: getValueType ( const String & path ) const
-        throw ()
+        NGS_NOTHROW ()
     { return ( Statistics :: ValueType ) self -> getValueType ( path . c_str () ); }
 
     inline
     String Statistics :: getAsString ( const String & path ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getAsString ( path . c_str () ) ) . toString (); }
 
     inline
     int64_t Statistics :: getAsI64 ( const String & path ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getAsI64 ( path . c_str () ); }
 
     inline
     uint64_t Statistics :: getAsU64 ( const String & path ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getAsU64 ( path . c_str () ); }
 
     inline
     double Statistics :: getAsDouble ( const String & path ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getAsDouble ( path . c_str () ); }
 
     inline
     String Statistics :: nextPath ( const String & path ) const
-        throw ()
+        NGS_NOTHROW ()
     { return StringRef ( self -> nextPath ( path . c_str () ) ) . toString (); }
 
 } // namespace ngs

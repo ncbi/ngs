@@ -56,27 +56,33 @@ namespace ngs
          *  returns the common name of reference, e.g. "chr1"
          */
         String getCommonName () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getCanonicalName
          *  returns the accessioned name of reference, e.g. "NC_000001.11"
          */
         String getCanonicalName () const
-            throw ( ErrorMsg );
-
+            NGS_THROWS ( ErrorMsg );
 
         /* getIsCircular
          *  returns true if reference is circular
          */
         bool getIsCircular () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
+        /* getIsLocal
+         * returns true if Reference is stored locally within the ReadCollection.
+         * Unique Reference sequences are stored locally, while  Publicly available Reference sequences are stored externally.
+         * An exception to this rule is when a public Reference is small,  in which case the sequence will be available both locally and externally
+         */
+        bool getIsLocal () const
+            NGS_THROWS ( ErrorMsg );
 
         /* getLength
          *  returns the length of the reference sequence
          */
         uint64_t getLength () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
 
         /* getReferenceBases
@@ -84,9 +90,9 @@ namespace ngs
          *  "offset" is zero-based
          */
         String getReferenceBases ( uint64_t offset ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         String getReferenceBases ( uint64_t offset, uint64_t length ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getReferenceChunk
          *  return largest contiguous chunk available of
@@ -97,9 +103,9 @@ namespace ngs
          *  than requested.
          */
         StringRef getReferenceChunk ( uint64_t offset ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringRef getReferenceChunk ( uint64_t offset, uint64_t length ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
 
         /*------------------------------------------------------------------
@@ -111,9 +117,9 @@ namespace ngs
          *  "categories" provides a means of filtering by AlignmentCategory
          */
         uint64_t getAlignmentCount () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         uint64_t getAlignmentCount ( Alignment :: AlignmentCategory categories ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getAlignment
          *  returns an individual Alignment
@@ -121,13 +127,13 @@ namespace ngs
          *  or is not part of this Reference
          */
         Alignment getAlignment ( const String & alignmentId ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getAlignments
          *  returns an iterator of contained alignments
          */
         AlignmentIterator getAlignments ( Alignment :: AlignmentCategory categories ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getAlignmentSlice
          *  returns an iterator across a slice of the Reference
@@ -141,9 +147,9 @@ namespace ngs
          *  "categories" provides a means of filtering by AlignmentCategory
          */
         AlignmentIterator getAlignmentSlice ( int64_t start, uint64_t length ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         AlignmentIterator getAlignmentSlice ( int64_t start, uint64_t length, Alignment :: AlignmentCategory categories ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getFilteredAlignmentSlice
          *  returns a filtered iterator across a slice of the Reference
@@ -153,7 +159,7 @@ namespace ngs
          */
         AlignmentIterator getFilteredAlignmentSlice ( int64_t start, uint64_t length, Alignment :: AlignmentCategory categories,
                 Alignment :: AlignmentFilter filters, int32_t mappingQuality ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
 
         /*------------------------------------------------------------------
@@ -166,7 +172,7 @@ namespace ngs
          *  No mapping qualities are taken into account.
          */
         PileupIterator getPileups ( Alignment :: AlignmentCategory categories ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getFilteredPileups
          *  returns an iterator of contained Pileups
@@ -176,7 +182,7 @@ namespace ngs
          */
         PileupIterator getFilteredPileups ( Alignment :: AlignmentCategory categories,
                 Alignment :: AlignmentFilter filters, int32_t mappingQuality ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getPileupSlice
          *  creates a PileupIterator on a slice (window) of reference
@@ -185,9 +191,9 @@ namespace ngs
          *  "categories" provides a means of filtering by AlignmentCategory
          */
         PileupIterator getPileupSlice ( int64_t start, uint64_t length ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         PileupIterator getPileupSlice ( int64_t start, uint64_t length, Alignment :: AlignmentCategory categories ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getFilteredPileupSlice
          *  creates a PileupIterator on a slice (window) of reference
@@ -197,24 +203,24 @@ namespace ngs
          */
         PileupIterator getFilteredPileupSlice ( int64_t start, uint64_t length, Alignment :: AlignmentCategory categories,
                 Alignment :: AlignmentFilter filters, int32_t mappingQuality ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
     public:
 
         // C++ support
 
         Reference & operator = ( ReferenceRef ref )
-            throw ();
+            NGS_NOTHROW ();
         Reference ( ReferenceRef ref )
-            throw ();
+            NGS_NOTHROW ();
 
         Reference & operator = ( const Reference & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         Reference ( const Reference & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         ~ Reference ()
-            throw ();
+            NGS_NOTHROW ();
 
     protected:
 

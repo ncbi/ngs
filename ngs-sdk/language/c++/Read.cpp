@@ -30,26 +30,26 @@ namespace ngs
 {
 
     Read :: Read ( ReadRef ref )
-            throw ()
+            NGS_NOTHROW ()
         : FragmentIterator ( ( FragmentRef ) ref )
     {
     }
 
     Read & Read :: operator = ( const Read & obj )
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         FragmentIterator :: operator = ( obj );
         return * this;
     }
 
     Read :: Read ( const Read & obj )
-            throw ( ErrorMsg )
+            NGS_THROWS ( ErrorMsg )
         : FragmentIterator ( obj )
     {
     }
-    
+
     Read :: ~ Read ()
-        throw ()
+        NGS_NOTHROW ()
     {
     }
 

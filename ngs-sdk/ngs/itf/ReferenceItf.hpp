@@ -51,47 +51,49 @@ namespace ngs
     public:
 
         StringItf * getCommonName () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getCanonicalName () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         bool getIsCircular () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
+        bool getIsLocal () const
+            NGS_THROWS ( ErrorMsg );
         uint64_t getLength () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getReferenceBases ( uint64_t offset ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getReferenceBases ( uint64_t offset, uint64_t length ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getReferenceChunk ( uint64_t offset ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getReferenceChunk ( uint64_t offset, uint64_t length ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         uint64_t getAlignmentCount () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         uint64_t getAlignmentCount ( uint32_t categories ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         AlignmentItf * getAlignment ( const char * alignmentId ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         AlignmentItf * getAlignments ( uint32_t categories ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         AlignmentItf * getAlignmentSlice ( int64_t start, uint64_t length ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         AlignmentItf * getAlignmentSlice ( int64_t start, uint64_t length, uint32_t categories ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         AlignmentItf * getFilteredAlignmentSlice ( int64_t start, uint64_t length, uint32_t categories, uint32_t filters, int32_t mappingQuality ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         PileupItf * getPileups ( uint32_t categories ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         PileupItf * getFilteredPileups ( uint32_t categories, uint32_t filters, int32_t mappingQuality ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         PileupItf * getPileupSlice ( int64_t start, uint64_t length ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         PileupItf * getPileupSlice ( int64_t start, uint64_t length, uint32_t categories ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         PileupItf * getFilteredPileupSlice ( int64_t start, uint64_t length, uint32_t categories, uint32_t filters, int32_t mappingQuality ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         bool nextReference ()
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
     };
 
 } // namespace ngs

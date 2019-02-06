@@ -49,29 +49,29 @@ namespace ngs
          *  but could not be accessed.
          */
         bool nextReadGroup ()
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
     public:
 
         // C++ support
 
         ReadGroupIterator ( ReadGroupRef ref )
-            throw ();
+            NGS_NOTHROW ();
 
         ReadGroupIterator & operator = ( const ReadGroupIterator & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         ReadGroupIterator ( const ReadGroupIterator & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         ~ ReadGroupIterator ()
-            throw ();
+            NGS_NOTHROW ();
 
     private:
 
         ReadGroup & operator = ( const ReadGroup & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         ReadGroupIterator & operator = ( ReadGroupRef ref )
-            throw ();
+            NGS_NOTHROW ();
     };
 
 } // namespace ngs

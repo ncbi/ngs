@@ -64,7 +64,7 @@ namespace ngs
     }
 
     void OpaqueRefcount :: Release ()
-        throw ()
+        NGS_NOTHROW ()
     {
         if ( this != 0 )
         {
@@ -95,7 +95,7 @@ namespace ngs
     }
 
     void * OpaqueRefcount :: Duplicate () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         if ( this != 0 )
         {

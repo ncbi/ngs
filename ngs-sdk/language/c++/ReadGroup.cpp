@@ -30,37 +30,37 @@ namespace ngs
 {
 
     ReadGroup & ReadGroup :: operator = ( ReadGroupRef ref )
-        throw ()
+        NGS_NOTHROW ()
     {
         self -> Release ();
         self = ref;
 
         return * this;
     }
-        
+
     ReadGroup :: ReadGroup ( ReadGroupRef ref )
-            throw ()
+            NGS_NOTHROW ()
         : self ( ref )
     {
     }
 
     ReadGroup & ReadGroup :: operator = ( const ReadGroup & obj )
-        throw ()
+        NGS_NOTHROW ()
     {
         self -> Release ();
         self = obj . self -> Duplicate ();
 
         return * this;
     }
-        
+
     ReadGroup :: ReadGroup ( const ReadGroup & obj )
-            throw ()
+            NGS_NOTHROW ()
         : self ( obj . self -> Duplicate () )
     {
     }
 
     ReadGroup :: ~ ReadGroup ()
-        throw ()
+        NGS_NOTHROW ()
     {
         self -> Release ();
         self = 0;

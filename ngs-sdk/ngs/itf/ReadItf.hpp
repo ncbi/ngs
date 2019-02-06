@@ -49,31 +49,31 @@ namespace ngs
     public:
 
         StringItf * getReadId () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         uint32_t getNumFragments () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         bool fragmentIsAligned ( uint32_t fragIdx ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         uint32_t getReadCategory () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getReadGroup () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getReadName () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getReadBases () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getReadBases ( uint64_t offset ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getReadBases ( uint64_t offset, uint64_t length ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getReadQualities () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getReadQualities ( uint64_t offset ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * getReadQualities ( uint64_t offset, uint64_t length ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         bool nextRead ()
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
     };
 
 } // namespace ngs

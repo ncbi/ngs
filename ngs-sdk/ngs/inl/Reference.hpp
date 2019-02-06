@@ -44,102 +44,107 @@ namespace ngs
 
     inline
     String Reference :: getCommonName () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getCommonName () ) . toString (); }
 
     inline
     String Reference :: getCanonicalName () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getCanonicalName () ) . toString (); }
 
     inline
     bool Reference :: getIsCircular () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getIsCircular (); }
 
     inline
+    bool Reference :: getIsLocal () const
+        NGS_THROWS ( ErrorMsg )
+    { return self -> getIsLocal (); }
+
+    inline
     uint64_t Reference :: getLength () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getLength (); }
 
     inline
     String Reference :: getReferenceBases ( uint64_t offset ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getReferenceBases ( offset ) ) . toString (); }
 
     inline
     String Reference :: getReferenceBases ( uint64_t offset, uint64_t length ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getReferenceBases ( offset, length ) ) . toString (); }
 
     inline
     StringRef Reference :: getReferenceChunk ( uint64_t offset ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getReferenceChunk ( offset ) ); }
 
     inline
     StringRef Reference :: getReferenceChunk ( uint64_t offset, uint64_t length ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getReferenceChunk ( offset, length ) ); }
 
     inline
     uint64_t Reference :: getAlignmentCount () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getAlignmentCount (); }
 
     inline
     uint64_t Reference :: getAlignmentCount ( Alignment :: AlignmentCategory categories ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getAlignmentCount ( ( uint32_t ) categories ); }
 
     inline
     Alignment Reference :: getAlignment ( const String & alignmentId ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return Alignment ( ( AlignmentRef ) self -> getAlignment ( alignmentId . c_str () ) ); }
 
     inline
     AlignmentIterator Reference :: getAlignments ( Alignment :: AlignmentCategory categories ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return AlignmentIterator ( ( AlignmentRef ) self -> getAlignments ( ( uint32_t ) categories ) ); }
 
     inline
     AlignmentIterator Reference :: getAlignmentSlice ( int64_t start, uint64_t length ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return AlignmentIterator ( ( AlignmentRef ) self -> getAlignmentSlice ( start, length ) ); }
 
     inline
     AlignmentIterator Reference :: getAlignmentSlice ( int64_t start, uint64_t length, Alignment :: AlignmentCategory categories ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return AlignmentIterator ( ( AlignmentRef ) self -> getAlignmentSlice ( start, length, ( uint32_t ) categories ) ); }
 
     inline
     AlignmentIterator Reference :: getFilteredAlignmentSlice ( int64_t start, uint64_t length, Alignment :: AlignmentCategory categories, Alignment :: AlignmentFilter filters, int32_t mappingQuality ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return AlignmentIterator ( ( AlignmentRef ) self -> getFilteredAlignmentSlice ( start, length, ( uint32_t ) categories, ( uint32_t ) filters, mappingQuality ) ); }
 
     inline
     PileupIterator Reference :: getPileups ( Alignment :: AlignmentCategory categories ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return PileupIterator ( ( PileupRef ) self -> getPileups ( ( uint32_t ) categories ) ); }
 
     inline
     PileupIterator Reference :: getFilteredPileups ( Alignment :: AlignmentCategory categories, Alignment :: AlignmentFilter filters, int32_t mappingQuality ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return PileupIterator ( ( PileupRef ) self -> getFilteredPileups ( ( uint32_t ) categories, ( uint32_t ) filters, mappingQuality ) ); }
-    
+
     inline
     PileupIterator Reference :: getPileupSlice ( int64_t start, uint64_t length ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return PileupIterator ( ( PileupRef ) self -> getPileupSlice ( start, length ) ); }
 
     inline
     PileupIterator Reference :: getPileupSlice ( int64_t start, uint64_t length, Alignment :: AlignmentCategory categories ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return PileupIterator ( ( PileupRef ) self -> getPileupSlice ( start, length, ( uint32_t ) categories ) ); }
 
     inline
     PileupIterator Reference :: getFilteredPileupSlice ( int64_t start, uint64_t length, Alignment :: AlignmentCategory categories, Alignment :: AlignmentFilter filters, int32_t mappingQuality ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return PileupIterator ( ( PileupRef ) self -> getFilteredPileupSlice ( start, length, ( uint32_t ) categories, ( uint32_t ) filters, mappingQuality ) ); }
 
 } // namespace ngs

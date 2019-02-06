@@ -34,7 +34,7 @@ namespace ngs
      */
 
     String StringRef :: toString () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         const char * str = self -> data ();
         size_t sz = self -> size ();
@@ -43,7 +43,7 @@ namespace ngs
     }
 
     String StringRef :: toString ( size_t offset ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         const char * str = self -> data ();
         size_t sz = self -> size ();
@@ -55,7 +55,7 @@ namespace ngs
     }
 
     String StringRef :: toString ( size_t offset, size_t size ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         const char * str = self -> data ();
         size_t sz = self -> size ();
@@ -76,21 +76,21 @@ namespace ngs
 
     // C++ support
     StringRef :: StringRef ( StringItf * ref )
-            throw ()
+            NGS_NOTHROW ()
         : self ( ref )
     {
         assert ( self != 0 );
     }
 
     StringRef :: StringRef ( const StringRef & obj )
-            throw ()
+            NGS_NOTHROW ()
         : self ( obj . self -> Duplicate () )
     {
         assert ( self != 0 );
     }
 
     StringRef & StringRef :: operator = ( const StringRef & obj )
-        throw ()
+        NGS_NOTHROW ()
     {
         StringItf * new_self = obj . self -> Duplicate ();
         self -> Release ();
@@ -100,7 +100,7 @@ namespace ngs
     }
 
     StringRef :: ~ StringRef ()
-        throw ()
+        NGS_NOTHROW ()
     {
         self -> Release ();
         self = 0;

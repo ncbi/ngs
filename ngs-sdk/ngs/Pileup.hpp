@@ -38,7 +38,7 @@ namespace ngs
      * forwards and typedefs
      */
     typedef PileupEventRef PileupRef;
-    
+
 
     /*======================================================================
      * Pileup
@@ -56,18 +56,18 @@ namespace ngs
         /* getReferenceSpec
          */
         String getReferenceSpec () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getReferencePosition
          */
         int64_t getReferencePosition () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getReferenceBase
          *  retrieves base at current Reference position
          */
         char getReferenceBase () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
 
         /*------------------------------------------------------------------
@@ -79,24 +79,24 @@ namespace ngs
          *  at the current reference position
          */
         uint32_t getPileupDepth () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
     public:
 
         // C++ support
 
         Pileup & operator = ( PileupRef ref )
-            throw ();
+            NGS_NOTHROW ();
         Pileup ( PileupRef ref )
-            throw ();
+            NGS_NOTHROW ();
 
         Pileup & operator = ( const Pileup & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         Pileup ( const Pileup & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         ~ Pileup ()
-            throw ();
+            NGS_NOTHROW ();
     };
 
 } // namespace ngs

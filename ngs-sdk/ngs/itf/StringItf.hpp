@@ -44,13 +44,13 @@ namespace ngs
     public:
 
         const char * data () const
-            throw ();
+            NGS_NOTHROW ();
         size_t size () const
-            throw ();
+            NGS_NOTHROW ();
         StringItf * substr ( size_t offset ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringItf * substr ( size_t offset, size_t size ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
     };
 
 

@@ -30,14 +30,14 @@ namespace ngs
 {
 
     Reference :: Reference ( ReferenceRef ref )
-            throw ()
+            NGS_NOTHROW ()
         : self ( ref )
     {
         assert ( ref != 0 );
     }
 
     Reference & Reference :: operator = ( const Reference & obj )
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         assert ( obj . self != 0 );
         ReferenceRef new_ref = obj . self -> Duplicate ();
@@ -47,14 +47,14 @@ namespace ngs
     }
 
     Reference :: Reference ( const Reference & obj )
-            throw ( ErrorMsg )
+            NGS_THROWS ( ErrorMsg )
         : self ( obj . self == 0 ? 0 : obj . self -> Duplicate() )
     {
         assert ( obj . self != 0 );
     }
-    
+
     Reference :: ~ Reference ()
-        throw ()
+        NGS_NOTHROW ()
     {
         this -> self -> Release ();
         this -> self = 0;

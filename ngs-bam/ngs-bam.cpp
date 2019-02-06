@@ -46,7 +46,7 @@ public:
     : path(filepath)
     , file(filepath)
     {};
-    
+
     ngs_adapt::StringItf *getName() const;
     ngs_adapt::ReadGroupItf *getReadGroups() const;
     bool hasReadGroup(char const spec[]) const;
@@ -75,7 +75,7 @@ public:
                                      bool const want_full,
                                      bool const want_partial,
                                      bool const want_unaligned) const;
-    
+
     void Seek(BAMFilePosType const new_pos) {
     	file.Seek(new_pos.fpos(), new_pos.bpos());
     }
@@ -202,19 +202,19 @@ protected:
     bool want_secondary;
 
     ngs_adapt::StringItf *getCigar(bool const clipped, char const OPCODE[]) const;
-    
+
     bool shouldSkip() const {
         int const flag = current->flag();
 
         if ((flag & 0x0004) != 0)
             return true;
-        
+
         if ((flag & 0x0900) == 0 && !want_primary)
             return true;
-        
+
         if ((flag & 0x0900) != 0 && !want_secondary)
             return true;
-        
+
         return false;
     }
 
@@ -230,7 +230,7 @@ public:
             delete current;
         parent->Release();
     }
-    
+
     ngs_adapt::StringItf *getFragmentBases(uint64_t offset, uint64_t length) const;
     ngs_adapt::StringItf *getFragmentQualities(uint64_t offset, uint64_t length) const;
     ngs_adapt::StringItf *getReferenceSpec() const;
@@ -270,7 +270,7 @@ public:
     {
         parent->Seek(*cur++);
     }
-    
+
     bool nextAlignment() {
         for ( ; ; ) {
             if (!Alignment::nextAlignment())
@@ -278,10 +278,10 @@ public:
             if (current->isSelfMapped()) {
                 unsigned const POS   = current->pos();
                 unsigned const REFID = current->refID();
-                
+
                 if (REFID != refID || POS >= end)
                     return false;
-                
+
                 unsigned const REFLEN = current->refLen();
                 if (POS + REFLEN > beg)
                     return true;
@@ -296,7 +296,7 @@ class ReadCollection::Reference : public ngs_adapt::ReferenceItf
     unsigned cur;
     unsigned max;
     int state;
-    
+
 public:
     Reference(ReadCollection const *const Parent,
               unsigned const current,
@@ -307,18 +307,18 @@ public:
     , max(references)
     , state(initState)
     {}
-    
+
     ~Reference() {
         parent->Release();
     }
-    
+
     ngs_adapt::StringItf *getCommonName() const {
         if (state == 2)
             throw std::runtime_error("no current row");
-        
+
         HeaderRefInfo const &ri = parent->getRefInfo(cur);
         std::string const &RNAME = ri.getName();
-        
+
         return new ngs_adapt::StringItf(RNAME.data(), RNAME.size());
     }
     ngs_adapt::StringItf *getCanonicalName() const {
@@ -328,12 +328,15 @@ public:
     bool getIsCircular() const {
         throw std::runtime_error("not available");
     }
+     bool getIsLocal () const {
+        throw std::runtime_error("not available");
+    }
     uint64_t getLength() const {
         if (state == 2)
             throw std::runtime_error("no current row");
-        
+
         HeaderRefInfo const &ri = parent->getRefInfo(cur);
-        
+
         return ri.getLength();
     }
     ngs_adapt::StringItf *getReferenceBases(uint64_t const offset, uint64_t const length) const {
@@ -354,22 +357,25 @@ public:
     ngs_adapt::AlignmentItf *getAlignmentSlice(int64_t const Start, uint64_t const length, bool const want_primary, bool const want_secondary) const {
         if (state == 2)
             throw std::runtime_error("no current row");
-        
+
         HeaderRefInfo const &ri = parent->getRefInfo(cur);
         unsigned const len = ri.getLength();
         if (Start >= len)
             return new ReadCollection::AlignmentNone();
-        
+
         unsigned const start = Start < 0 ? 0 : Start;
         uint64_t const End = (Start < 0 ? 0 : Start) + length;
         unsigned const end = End > len ? len : End;
         BAMFilePosTypeList const &slice = ri.slice(start, end);
-        
+
         if (slice.size() == 0)
             return new ReadCollection::AlignmentNone();
 
         return new ReadCollection::AlignmentSlice(parent, want_primary, want_secondary,
                                                   slice, start, end);
+    }
+    ngs_adapt::AlignmentItf * getFilteredAlignmentSlice ( int64_t start, uint64_t length, uint32_t flags, int32_t map_qual ) const {
+        throw std::runtime_error("not available");
     }
     ngs_adapt::PileupItf *getPileups(bool const want_primary, bool const want_secondary) const {
         throw std::runtime_error("not available");
@@ -410,7 +416,7 @@ public:
 ngs_adapt::StringItf *ReadCollection::getName() const
 {
     unsigned const sep = path.rfind('/');
-    
+
     if (sep == path.npos)
         return new ngs_adapt::StringItf(path.data(), path.size());
     else {
@@ -449,7 +455,7 @@ bool ReadCollection::hasReference(char const spec[]) const
 ngs_adapt::ReferenceItf *ReadCollection::getReference(char const spec[]) const
 {
     int const i = file.getReferenceIndexByName(spec);
-    
+
     if (i < 0)
         return NULL;
     else
@@ -518,13 +524,13 @@ ngs_adapt::StringItf *ReadCollection::Alignment::getFragmentBases(uint64_t const
     unsigned const seqLen = current->l_seq();
     unsigned const offset = Offset < seqLen ? Offset : seqLen;
     unsigned const seqEnd = End < seqLen ? End : seqLen;
-    
+
     seqBuffer.resize(0);
     seqBuffer.reserve(seqLen);
-    
+
     for (unsigned i = offset; i < seqEnd; ++i)
         seqBuffer.append(1, current->seq(i));
-    
+
     return new ngs_adapt::StringItf(seqBuffer.data(), seqBuffer.size());
 }
 
@@ -536,13 +542,13 @@ ngs_adapt::StringItf *ReadCollection::Alignment::getFragmentQualities(uint64_t c
     unsigned const seqEnd = End < seqLen ? End : seqLen;
     bool notFF = false;
     uint8_t const *qual = current->qual();
-    
+
     qualBuffer.resize(0);
     qualBuffer.reserve(seqLen);
-    
+
     for (unsigned i = offset; i < seqEnd; ++i) {
         int const qv = qual[i];
-        
+
         notFF |= (qv != 0xFF);
         qualBuffer.append(1, (char)((qv > 63 ? 63 : qv) + 33));
     }
@@ -621,7 +627,7 @@ bool ReadCollection::Alignment::hasMate() const
 ngs_adapt::StringItf *ReadCollection::Alignment::getMateReferenceSpec() const
 {
     int const refID = current->next_refID();
-    
+
     if (refID < 0)
         return new ngs_adapt::StringItf("", 0);
 
@@ -655,6 +661,6 @@ ngs::ReadCollection NGS_BAM::openReadCollection(std::string const &path)
     ngs_adapt::ReadCollectionItf *const self = new ReadCollection(path);
     NGS_ReadCollection_v1 *const c_obj = self->Cast();
     ngs::ReadCollectionItf *const ngs_itf = ngs::ReadCollectionItf::Cast(c_obj);
-    
+
     return ngs::ReadCollection(ngs_itf);
 }

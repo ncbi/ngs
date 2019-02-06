@@ -92,6 +92,21 @@ namespace ngs_adapt
         return 0;
     }
 
+    bool CC ReferenceItf :: is_local ( const NGS_Reference_v1 * iself, NGS_ErrBlock_v1 * err )
+    {
+        const ReferenceItf * self = Self ( iself );
+        try
+        {
+            return self -> getIsLocal ();
+        }
+        catch ( ... )
+        {
+            ErrBlockHandleException ( err );
+        }
+
+        return 0;
+    }
+
     uint64_t CC ReferenceItf :: get_length ( const NGS_Reference_v1 * iself, NGS_ErrBlock_v1 * err )
     {
         const ReferenceItf * self = Self ( iself );
@@ -132,6 +147,22 @@ namespace ngs_adapt
         {
             StringItf * val = self -> getReferenceChunk ( offset, length );
             return val -> Cast ();
+        }
+        catch ( ... )
+        {
+            ErrBlockHandleException ( err );
+        }
+
+        return 0;
+    }
+
+    uint64_t CC ReferenceItf :: get_alignment_count ( const NGS_Reference_v1 * iself, NGS_ErrBlock_v1 * err,
+            bool wants_primary, bool wants_secondary )
+    {
+        const ReferenceItf * self = Self ( iself );
+        try
+        {
+            return self -> getAlignmentCount ( wants_primary, wants_secondary );
         }
         catch ( ... )
         {
@@ -182,6 +213,23 @@ namespace ngs_adapt
         try
         {
             AlignmentItf * val = self -> getAlignmentSlice ( start, length, wants_primary, wants_secondary );
+            return val -> Cast ();
+        }
+        catch ( ... )
+        {
+            ErrBlockHandleException ( err );
+        }
+
+        return 0;
+    }
+
+    NGS_Alignment_v1 * CC ReferenceItf :: get_filtered_align_slice ( const NGS_Reference_v1 * iself, NGS_ErrBlock_v1 * err,
+                                            int64_t start, uint64_t length, uint32_t flags, int32_t map_qual )
+    {
+        const ReferenceItf * self = Self ( iself );
+        try
+        {
+            AlignmentItf * val = self -> getFilteredAlignmentSlice ( start, length, flags, map_qual );
             return val -> Cast ();
         }
         catch ( ... )
@@ -280,7 +328,7 @@ namespace ngs_adapt
         {
             "ngs_adapt::ReferenceItf",
             "NGS_Reference_v1",
-            1,
+            4,
             & OpaqueRefcount :: ivt . dad
         },
 
@@ -300,7 +348,17 @@ namespace ngs_adapt
 
         // 1.1
         get_filtered_pileups,
-        get_filtered_pileup_slice
+        get_filtered_pileup_slice,
+
+        // 1.2
+        get_alignment_count,
+
+        // 1.3 interface
+        NULL,// get_filtered_alignments (not exposed via ngs::Reference)
+        get_filtered_align_slice,
+
+        // 1.4
+        is_local
     };
 
 } // namespace ngs_adapt

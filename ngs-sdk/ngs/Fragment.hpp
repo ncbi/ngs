@@ -59,7 +59,7 @@ namespace ngs
          *  representing a single biological fragment
          */
         StringRef getFragmentId () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
 
         /*------------------------------------------------------------------
@@ -71,11 +71,11 @@ namespace ngs
          *  "offset" is zero-based
          */
         StringRef getFragmentBases () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringRef getFragmentBases ( uint64_t offset ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringRef getFragmentBases ( uint64_t offset, uint64_t length ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
 
         /* getFragmentQualities
@@ -84,45 +84,45 @@ namespace ngs
          *  "offset" is zero-based
          */
         StringRef getFragmentQualities () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringRef getFragmentQualities ( uint64_t offset ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringRef getFragmentQualities ( uint64_t offset, uint64_t length ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
 
         /* isPaired
          *  returns true if fragment has a mate
          */
         bool isPaired () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
 
         /* isAligned
          *  returns true if fragment has alignment data
          */
         bool isAligned () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
     public:
 
         // C++ support
 
         Fragment ( FragmentRef ref )
-            throw ();
+            NGS_NOTHROW ();
 
         Fragment & operator = ( const Fragment & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         Fragment ( const Fragment & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         ~ Fragment ()
-            throw ();
+            NGS_NOTHROW ();
 
     private:
 
         Fragment & operator = ( FragmentRef ref )
-            throw ();
+            NGS_NOTHROW ();
 
     protected:
 

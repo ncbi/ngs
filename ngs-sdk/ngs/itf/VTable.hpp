@@ -72,9 +72,9 @@ namespace ngs
      *  resolves array indices of itf tokens
      */
     void Resolve ( const ItfTok & itf )
-        throw ();
+        NGS_NOTHROW ();
     void Resolve ( const NGS_VTable * vt, const ItfTok & itf )
-        throw ( ErrorMsg );
+        NGS_THROWS ( ErrorMsg );
 
     /*----------------------------------------------------------------------
      * Cast
@@ -82,7 +82,7 @@ namespace ngs
      */
     inline
     const void * Cast ( const NGS_VTable * vt, const ItfTok & itf )
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         if ( vt != 0 )
         {

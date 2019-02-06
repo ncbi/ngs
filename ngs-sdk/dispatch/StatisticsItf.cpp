@@ -58,7 +58,7 @@ namespace ngs
      */
 
     uint32_t StatisticsItf :: getValueType ( const char * path ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Statistics_v1 * self = Test ();
@@ -78,7 +78,7 @@ namespace ngs
     }
 
     StringItf * StatisticsItf :: getAsString ( const char * path ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Statistics_v1 * self = Test ();
@@ -98,7 +98,7 @@ namespace ngs
     }
 
     int64_t StatisticsItf :: getAsI64 ( const char * path ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Statistics_v1 * self = Test ();
@@ -118,7 +118,7 @@ namespace ngs
     }
 
     uint64_t StatisticsItf :: getAsU64 ( const char * path ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Statistics_v1 * self = Test ();
@@ -138,7 +138,7 @@ namespace ngs
     }
 
     double StatisticsItf :: getAsDouble ( const char * path ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Statistics_v1 * self = Test ();
@@ -158,7 +158,7 @@ namespace ngs
     }
 
     StringItf * StatisticsItf :: nextPath ( const char * path ) const
-        throw ()
+        NGS_NOTHROW ()
     {
         try
         {

@@ -85,7 +85,7 @@ namespace ngs
      */
 
     StringItf * ReferenceItf :: getCommonName () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Reference_v1 * self = Test ();
@@ -105,7 +105,7 @@ namespace ngs
     }
 
     StringItf * ReferenceItf :: getCanonicalName () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Reference_v1 * self = Test ();
@@ -125,7 +125,7 @@ namespace ngs
     }
 
     bool ReferenceItf :: getIsCircular () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Reference_v1 * self = Test ();
@@ -144,8 +144,32 @@ namespace ngs
         return ret;
     }
 
+    bool ReferenceItf :: getIsLocal () const
+        NGS_THROWS ( ErrorMsg )
+    {
+        // the object is really from C
+        const NGS_Reference_v1 * self = Test ();
+
+        // cast vtable to our level
+        const NGS_Reference_v1_vt * vt = Access ( self -> vt );
+
+        // test for v1.2
+        if ( vt -> dad . minor_version < 4 )
+            throw ErrorMsg ( "the Reference interface provided by this NGS engine is too old to support this message" );
+
+        // call through C vtable
+        ErrBlock err;
+        assert ( vt -> is_local != 0 );
+        bool ret  = ( * vt -> is_local ) ( self, & err );
+
+        // check for errors
+        err . Check ();
+
+        return ret;
+    }
+
     uint64_t ReferenceItf :: getLength () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Reference_v1 * self = Test ();
@@ -165,13 +189,13 @@ namespace ngs
     }
 
     StringItf * ReferenceItf :: getReferenceBases ( uint64_t offset ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         return this -> getReferenceBases ( offset, -1 );
     }
 
     StringItf * ReferenceItf :: getReferenceBases ( uint64_t offset, uint64_t length ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Reference_v1 * self = Test ();
@@ -191,13 +215,13 @@ namespace ngs
     }
 
     StringItf * ReferenceItf :: getReferenceChunk ( uint64_t offset ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         return this -> getReferenceChunk ( offset, -1 );
     }
 
     StringItf * ReferenceItf :: getReferenceChunk ( uint64_t offset, uint64_t length ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Reference_v1 * self = Test ();
@@ -218,14 +242,14 @@ namespace ngs
 
 
     uint64_t ReferenceItf :: getAlignmentCount () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         return this -> getAlignmentCount ( Alignment :: all );
     }
 
 
     uint64_t ReferenceItf :: getAlignmentCount ( uint32_t categories ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Reference_v1 * self = Test ();
@@ -256,7 +280,7 @@ namespace ngs
     }
 
     AlignmentItf * ReferenceItf :: getAlignment ( const char * alignmentId ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Reference_v1 * self = Test ();
@@ -276,7 +300,7 @@ namespace ngs
     }
 
     AlignmentItf * ReferenceItf :: getAlignments ( uint32_t categories ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Reference_v1 * self = Test ();
@@ -304,13 +328,13 @@ namespace ngs
 
 
     AlignmentItf * ReferenceItf :: getAlignmentSlice ( int64_t start, uint64_t length ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         return this -> getAlignmentSlice ( start, length, Alignment :: all );
     }
 
     AlignmentItf * ReferenceItf :: getAlignmentSlice ( int64_t start, uint64_t length, uint32_t categories ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Reference_v1 * self = Test ();
@@ -337,7 +361,7 @@ namespace ngs
     }
 
     AlignmentItf * ReferenceItf :: getFilteredAlignmentSlice ( int64_t start, uint64_t length, uint32_t categories, uint32_t filters, int32_t mappingQuality ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Reference_v1 * self = Test ();
@@ -372,7 +396,7 @@ namespace ngs
     }
 
     PileupItf * ReferenceItf :: getPileups ( uint32_t categories ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Reference_v1 * self = Test ();
@@ -399,7 +423,7 @@ namespace ngs
     }
 
     PileupItf * ReferenceItf :: getFilteredPileups ( uint32_t categories, uint32_t filters, int32_t mappingQuality ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Reference_v1 * self = Test ();
@@ -434,13 +458,13 @@ namespace ngs
     }
 
     PileupItf * ReferenceItf :: getPileupSlice ( int64_t start, uint64_t length ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         return this -> getPileupSlice ( start, length, Alignment :: all );
     }
 
     PileupItf * ReferenceItf :: getPileupSlice ( int64_t start, uint64_t length, uint32_t categories ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Reference_v1 * self = Test ();
@@ -467,7 +491,7 @@ namespace ngs
     }
 
     PileupItf * ReferenceItf :: getFilteredPileupSlice ( int64_t start, uint64_t length, uint32_t categories, uint32_t filters, int32_t mappingQuality ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Reference_v1 * self = Test ();
@@ -500,9 +524,9 @@ namespace ngs
 
         return PileupItf :: Cast ( ret );
     }
-    
+
     bool ReferenceItf :: nextReference ()
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         NGS_Reference_v1 * self = Test ();

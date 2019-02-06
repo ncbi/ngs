@@ -50,39 +50,39 @@ namespace ngs
          *  what went wrong
          */
         const char * what () const
-            throw ();
+            NGS_NOTHROW ();
 
         /* toMessage ( for Java )
          *  returns the detailed message
          */
         const :: std :: string & toMessage () const
-            throw ();
+            NGS_NOTHROW ();
 
         /* toString ( for Java )
          *  returns a short description
          */
         const :: std :: string & toString () const
-            throw ();
+            NGS_NOTHROW ();
 
         /* constructors
          *  various means of constructing
-         */        
+         */
         ErrorMsg ()
-            throw ();
+            NGS_NOTHROW ();
         ErrorMsg ( const :: std :: string & message )
-            throw ();
+            NGS_NOTHROW ();
 
     public:
 
         // C++ support
 
         ErrorMsg ( const ErrorMsg & obj )
-            throw ();
+            NGS_NOTHROW ();
         ErrorMsg & operator = ( const ErrorMsg & obj )
-            throw ();
+            NGS_NOTHROW ();
 
         virtual ~ ErrorMsg ()
-            throw ();
+            NGS_NOTHROW ();
 
     private:
 

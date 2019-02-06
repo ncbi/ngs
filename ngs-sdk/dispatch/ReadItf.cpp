@@ -58,7 +58,7 @@ namespace ngs
      */
 
     StringItf * ReadItf :: getReadId () const
-            throw ( ErrorMsg )
+            NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Read_v1 * self = Test ();
@@ -78,7 +78,7 @@ namespace ngs
     }
 
     uint32_t ReadItf :: getNumFragments () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Read_v1 * self = Test ();
@@ -98,7 +98,7 @@ namespace ngs
     }
 
     bool ReadItf :: fragmentIsAligned ( uint32_t fragIdx ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Read_v1 * self = Test ();
@@ -122,7 +122,7 @@ namespace ngs
     }
 
     uint32_t ReadItf :: getReadCategory () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Read_v1 * self = Test ();
@@ -142,7 +142,7 @@ namespace ngs
     }
 
     StringItf * ReadItf :: getReadGroup () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Read_v1 * self = Test ();
@@ -162,7 +162,7 @@ namespace ngs
     }
 
     StringItf * ReadItf :: getReadName () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Read_v1 * self = Test ();
@@ -182,19 +182,19 @@ namespace ngs
     }
 
     StringItf * ReadItf :: getReadBases () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         return this -> getReadBases ( 0, -1 );
     }
 
     StringItf * ReadItf :: getReadBases ( uint64_t offset ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         return this -> getReadBases ( offset, -1 );
     }
 
     StringItf * ReadItf :: getReadBases ( uint64_t offset, uint64_t length ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Read_v1 * self = Test ();
@@ -214,19 +214,19 @@ namespace ngs
     }
 
     StringItf * ReadItf :: getReadQualities () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         return this -> getReadQualities ( 0, -1 );
     }
 
     StringItf * ReadItf :: getReadQualities ( uint64_t offset ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         return this -> getReadQualities ( offset, -1 );
     }
 
     StringItf * ReadItf :: getReadQualities ( uint64_t offset, uint64_t length ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Read_v1 * self = Test ();
@@ -246,7 +246,7 @@ namespace ngs
     }
 
     bool ReadItf :: nextRead ()
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         NGS_Read_v1 * self = Test ();

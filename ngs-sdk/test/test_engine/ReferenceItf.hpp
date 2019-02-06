@@ -48,21 +48,26 @@ namespace ngs_test_engine
     {
     public:
 
-		virtual ngs_adapt :: StringItf * getCommonName () const 
-        { 
+		virtual ngs_adapt :: StringItf * getCommonName () const
+        {
             static std::string name = "common name";
-            return new ngs_adapt :: StringItf ( name.c_str(), name.size() ); 
+            return new ngs_adapt :: StringItf ( name.c_str(), name.size() );
         }
 
-		virtual ngs_adapt :: StringItf * getCanonicalName () const 
-        { 
+		virtual ngs_adapt :: StringItf * getCanonicalName () const
+        {
             static std::string name = "canonical name";
-            return new ngs_adapt :: StringItf ( name.c_str(), name.size() ); 
+            return new ngs_adapt :: StringItf ( name.c_str(), name.size() );
         }
 
         virtual bool getIsCircular () const
-        {   
+        {
             return false;
+        }
+
+        virtual bool getIsLocal () const
+        {
+            return true;
         }
 
         virtual uint64_t getLength () const
@@ -73,13 +78,13 @@ namespace ngs_test_engine
         virtual ngs_adapt :: StringItf * getReferenceBases ( uint64_t offset, uint64_t length ) const
         {
             static std::string bases= "CAGT";
-            return new ngs_adapt :: StringItf ( bases.c_str(), bases.size() ); 
+            return new ngs_adapt :: StringItf ( bases.c_str(), bases.size() );
         }
 
         virtual ngs_adapt :: StringItf * getReferenceChunk ( uint64_t offset, uint64_t length ) const
         {
             static std::string bases= "AG";
-            return new ngs_adapt :: StringItf ( bases.c_str(), bases.size() ); 
+            return new ngs_adapt :: StringItf ( bases.c_str(), bases.size() );
         }
 
         virtual uint64_t getAlignmentCount ( bool wants_primary, bool wants_secondary ) const
@@ -89,40 +94,45 @@ namespace ngs_test_engine
 
         virtual ngs_adapt :: AlignmentItf * getAlignment ( const char * alignmentId ) const
         {
-            return new ngs_test_engine::AlignmentItf ( alignmentId ); 
+            return new ngs_test_engine::AlignmentItf ( alignmentId );
         }
 
         virtual ngs_adapt :: AlignmentItf * getAlignments ( bool wants_primary, bool wants_secondary ) const
         {
-            return new ngs_test_engine::AlignmentItf ( 5 ); 
+            return new ngs_test_engine::AlignmentItf ( 5 );
         }
 
         virtual ngs_adapt :: AlignmentItf * getAlignmentSlice ( int64_t start, uint64_t length, bool wants_primary, bool wants_secondary ) const
         {
-            return new ngs_test_engine::AlignmentItf ( ( unsigned int ) length ); 
+            return new ngs_test_engine::AlignmentItf ( ( unsigned int ) length );
+        }
+
+        virtual ngs_adapt :: AlignmentItf * getFilteredAlignmentSlice ( int64_t start, uint64_t length, uint32_t flags, int32_t map_qual ) const
+        {
+            return new ngs_test_engine::AlignmentItf ( ( unsigned int ) length );
         }
 
         virtual ngs_adapt :: PileupItf * getPileups ( bool wants_primary, bool wants_secondary ) const
         {
-            return new ngs_test_engine::PileupItf ( 3 ); 
+            return new ngs_test_engine::PileupItf ( 3 );
         }
 
         virtual ngs_adapt :: PileupItf * getFilteredPileups ( uint32_t flags, int32_t map_qual ) const
         {
-            return new ngs_test_engine::PileupItf ( 3 ); 
+            return new ngs_test_engine::PileupItf ( 3 );
         }
 
         virtual ngs_adapt :: PileupItf * getPileupSlice ( int64_t start, uint64_t length, bool wants_primary, bool wants_secondary ) const
         {
-            return new ngs_test_engine::PileupItf ( ( unsigned int ) length ); 
+            return new ngs_test_engine::PileupItf ( ( unsigned int ) length );
         }
 
         virtual ngs_adapt :: PileupItf * getFilteredPileupSlice ( int64_t start, uint64_t length, uint32_t flags, int32_t map_qual ) const
         {
-            return new ngs_test_engine::PileupItf ( ( unsigned int ) length ); 
+            return new ngs_test_engine::PileupItf ( ( unsigned int ) length );
         }
 
-        virtual bool nextReference () 
+        virtual bool nextReference ()
         {
             switch ( iterateFor )
             {
@@ -133,19 +143,19 @@ namespace ngs_test_engine
         }
 
 	public:
-		ReferenceItf () 
+		ReferenceItf ()
         : iterateFor(-1)
-        { 
+        {
             ++instanceCount;
         }
-		ReferenceItf ( unsigned int p_iterateFor ) 
+		ReferenceItf ( unsigned int p_iterateFor )
         : iterateFor( ( int ) p_iterateFor )
-        { 
+        {
             ++instanceCount;
         }
-		
-        ~ReferenceItf () 
-        { 
+
+        ~ReferenceItf ()
+        {
             --instanceCount;
         }
 

@@ -55,7 +55,7 @@ namespace ngs
     class ReadCollection
     {
     public:
-        
+
         /* getName
          *  returns the simple name of the read collection
          *  this name is generally extracted from the "spec"
@@ -68,7 +68,7 @@ namespace ngs
          *  a canonical name (e.g. ".sra"), they will be removed.
          */
         String getName () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
 
         /*------------------------------------------------------------------
@@ -79,18 +79,18 @@ namespace ngs
          *  returns an iterator of all ReadGroups used
          */
         ReadGroupIterator getReadGroups () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* hasReadGroup
          *  returns true if a call to "getReadGroup()" should succeed
          */
         bool hasReadGroup ( const String & spec ) const
-            throw ();
+            NGS_NOTHROW ();
 
         /* getReadGroup
          */
         ReadGroup getReadGroup ( const String & spec ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
 
         /*------------------------------------------------------------------
@@ -102,18 +102,18 @@ namespace ngs
          *  iterator will be empty if no Reads are aligned
          */
         ReferenceIterator getReferences () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* hasReference
          *  returns true if a call to "getReference()" should succeed
          */
         bool hasReference ( const String & spec ) const
-            throw ();
+            NGS_NOTHROW ();
 
         /* getReference
          */
         Reference getReference ( const String & spec ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
 
         /*------------------------------------------------------------------
@@ -125,22 +125,22 @@ namespace ngs
          *  throws ErrorMsg if Alignment does not exist
          */
         Alignment getAlignment ( const String & alignmentId ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getAlignments
          *  returns an iterator of all Alignments from specified categories
          */
         AlignmentIterator getAlignments ( Alignment :: AlignmentCategory categories ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getAlignmentCount
          *  returns count of all alignments
          *  "categories" provides a means of filtering by AlignmentCategory
          */
         uint64_t getAlignmentCount () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         uint64_t getAlignmentCount ( Alignment :: AlignmentCategory categories ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getAlignmentRange
          *  returns an iterator across a range of Alignments
@@ -148,9 +148,9 @@ namespace ngs
          *  "categories" provides a means of filtering by AlignmentCategory
          */
         AlignmentIterator getAlignmentRange ( uint64_t first, uint64_t count ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         AlignmentIterator getAlignmentRange ( uint64_t first, uint64_t count, Alignment :: AlignmentCategory categories ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
 
         /*------------------------------------------------------------------
@@ -162,23 +162,23 @@ namespace ngs
          *  throws ErrorMsg if Read does not exist
          */
         Read getRead ( const String & readId ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getReads
          *  returns an iterator of all contained machine Reads
          *  "categories" provides a means of filtering by ReadCategory
          */
         ReadIterator getReads ( Read :: ReadCategory categories ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getReadCount
          *  returns the number of reads in the collection
          *  "categories" provides an optional means of filtering by ReadCategory
          */
         uint64_t getReadCount () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         uint64_t getReadCount ( Read :: ReadCategory categories ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getReadRange
          *  returns an iterator across a range of Reads
@@ -186,26 +186,26 @@ namespace ngs
          *  "categories" provides an optional means of filtering by ReadCategory
          */
         ReadIterator getReadRange ( uint64_t first, uint64_t count ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         ReadIterator getReadRange ( uint64_t first, uint64_t count, Read :: ReadCategory categories ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
     public:
 
         // C++ support
 
         ReadCollection & operator = ( ReadCollectionRef ref )
-            throw ();
+            NGS_NOTHROW ();
         ReadCollection ( ReadCollectionRef ref )
-            throw ();
+            NGS_NOTHROW ();
 
         ReadCollection & operator = ( const ReadCollection & obj )
-            throw ();
+            NGS_NOTHROW ();
         ReadCollection ( const ReadCollection & obj )
-            throw ();
+            NGS_NOTHROW ();
 
         ~ ReadCollection ()
-            throw ();
+            NGS_NOTHROW ();
 
     protected:
 

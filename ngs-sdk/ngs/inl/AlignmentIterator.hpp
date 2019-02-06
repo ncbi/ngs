@@ -49,7 +49,7 @@ namespace ngs
 
     inline
     bool AlignmentIterator :: nextAlignment ()
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> nextAlignment (); }
 
 #undef self

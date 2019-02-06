@@ -61,7 +61,7 @@ namespace ngs
      */
 
     StringItf * AlignmentItf :: getAlignmentId () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Alignment_v1 * self = Test ();
@@ -81,7 +81,7 @@ namespace ngs
     }
 
     StringItf * AlignmentItf :: getReferenceSpec () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Alignment_v1 * self = Test ();
@@ -101,7 +101,7 @@ namespace ngs
     }
 
     int32_t AlignmentItf :: getMappingQuality () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Alignment_v1 * self = Test ();
@@ -121,7 +121,7 @@ namespace ngs
     }
 
     StringItf * AlignmentItf :: getReferenceBases () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Alignment_v1 * self = Test ();
@@ -141,7 +141,7 @@ namespace ngs
     }
 
     StringItf * AlignmentItf :: getReadGroup () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Alignment_v1 * self = Test ();
@@ -161,7 +161,7 @@ namespace ngs
     }
 
     StringItf * AlignmentItf :: getReadId () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Alignment_v1 * self = Test ();
@@ -181,7 +181,7 @@ namespace ngs
     }
 
     StringItf * AlignmentItf :: getClippedFragmentBases () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Alignment_v1 * self = Test ();
@@ -201,7 +201,7 @@ namespace ngs
     }
 
     StringItf * AlignmentItf :: getClippedFragmentQualities () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Alignment_v1 * self = Test ();
@@ -221,7 +221,7 @@ namespace ngs
     }
 
     StringItf * AlignmentItf :: getAlignedFragmentBases () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Alignment_v1 * self = Test ();
@@ -241,7 +241,7 @@ namespace ngs
     }
 
     uint32_t AlignmentItf :: getAlignmentCategory () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Alignment_v1 * self = Test ();
@@ -261,7 +261,7 @@ namespace ngs
     }
 
     int64_t AlignmentItf :: getAlignmentPosition () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Alignment_v1 * self = Test ();
@@ -281,7 +281,7 @@ namespace ngs
     }
 
     uint64_t AlignmentItf :: getReferencePositionProjectionRange (int64_t ref_pos) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Alignment_v1 * self = Test ();
@@ -305,7 +305,7 @@ namespace ngs
     }
 
     uint64_t AlignmentItf :: getAlignmentLength () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Alignment_v1 * self = Test ();
@@ -325,7 +325,7 @@ namespace ngs
     }
 
     bool AlignmentItf :: getIsReversedOrientation () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Alignment_v1 * self = Test ();
@@ -345,7 +345,7 @@ namespace ngs
     }
 
     int32_t AlignmentItf :: getSoftClip ( uint32_t edge ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Alignment_v1 * self = Test ();
@@ -365,7 +365,7 @@ namespace ngs
     }
 
     uint64_t AlignmentItf :: getTemplateLength () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Alignment_v1 * self = Test ();
@@ -385,7 +385,7 @@ namespace ngs
     }
 
     StringItf * AlignmentItf :: getShortCigar ( bool clipped ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Alignment_v1 * self = Test ();
@@ -405,7 +405,7 @@ namespace ngs
     }
 
     StringItf * AlignmentItf :: getLongCigar ( bool clipped ) const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Alignment_v1 * self = Test ();
@@ -425,7 +425,7 @@ namespace ngs
     }
 
     char AlignmentItf :: getRNAOrientation () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Alignment_v1 * self = Test ();
@@ -449,7 +449,7 @@ namespace ngs
     }
 
     bool AlignmentItf :: hasMate () const
-        throw ()
+        NGS_NOTHROW ()
     {
         try
         {
@@ -482,7 +482,7 @@ namespace ngs
     }
 
     StringItf * AlignmentItf :: getMateAlignmentId () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Alignment_v1 * self = Test ();
@@ -502,7 +502,7 @@ namespace ngs
     }
 
     AlignmentItf * AlignmentItf :: getMateAlignment () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Alignment_v1 * self = Test ();
@@ -522,7 +522,7 @@ namespace ngs
     }
 
     StringItf * AlignmentItf :: getMateReferenceSpec () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Alignment_v1 * self = Test ();
@@ -542,7 +542,7 @@ namespace ngs
     }
 
     bool AlignmentItf :: getMateIsReversedOrientation () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         const NGS_Alignment_v1 * self = Test ();
@@ -562,7 +562,7 @@ namespace ngs
     }
 
     bool AlignmentItf :: nextAlignment ()
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         // the object is really from C
         NGS_Alignment_v1 * self = Test ();

@@ -58,21 +58,21 @@ namespace ngs
          *  returns the accessioned name of reference, e.g. "NC_000001.11"
          */
         String getCanonicalName () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
 
         /* getIsCircular
          *  returns true if reference is circular
          */
         bool getIsCircular () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
 
         /* getLength
          *  returns the length of the reference sequence
          */
         uint64_t getLength () const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
 
         /* getReferenceBases
@@ -80,9 +80,9 @@ namespace ngs
          *  "offset" is zero-based
          */
         String getReferenceBases ( uint64_t offset ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         String getReferenceBases ( uint64_t offset, uint64_t length ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         /* getReferenceChunk
          *  return largest contiguous chunk available of
@@ -93,26 +93,26 @@ namespace ngs
          *  than requested.
          */
         StringRef getReferenceChunk ( uint64_t offset ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         StringRef getReferenceChunk ( uint64_t offset, uint64_t length ) const
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
     public:
 
         // C++ support
 
         ReferenceSequence & operator = ( ReferenceSequenceRef ref )
-            throw ();
+            NGS_NOTHROW ();
         ReferenceSequence ( ReferenceSequenceRef ref )
-            throw ();
+            NGS_NOTHROW ();
 
         ReferenceSequence & operator = ( const ReferenceSequence & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
         ReferenceSequence ( const ReferenceSequence & obj )
-            throw ( ErrorMsg );
+            NGS_THROWS ( ErrorMsg );
 
         ~ ReferenceSequence ()
-            throw ();
+            NGS_NOTHROW ();
 
     protected:
 

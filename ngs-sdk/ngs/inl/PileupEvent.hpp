@@ -44,62 +44,62 @@ namespace ngs
 
     inline
     int PileupEvent :: getMappingQuality () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getMappingQuality (); }
 
     inline
     StringRef PileupEvent :: getAlignmentId () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getAlignmentId () ); }
 
     inline
     int64_t PileupEvent :: getAlignmentPosition () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getAlignmentPosition (); }
 
     inline
     int64_t PileupEvent :: getFirstAlignmentPosition () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getFirstAlignmentPosition (); }
 
     inline
     int64_t PileupEvent :: getLastAlignmentPosition () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getLastAlignmentPosition (); }
 
     inline
     PileupEvent :: PileupEventType PileupEvent :: getEventType () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return ( PileupEvent :: PileupEventType ) self -> getEventType (); }
 
     inline
     char PileupEvent :: getAlignmentBase () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getAlignmentBase (); }
 
     inline
     char PileupEvent :: getAlignmentQuality () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getAlignmentQuality (); }
 
     inline
     StringRef PileupEvent :: getInsertionBases () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getInsertionBases () ); }
 
     inline
     StringRef PileupEvent :: getInsertionQualities () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return StringRef ( self -> getInsertionQualities () ); }
 
     inline
     uint32_t PileupEvent :: getEventRepeatCount () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return self -> getEventRepeatCount (); }
 
     inline
     PileupEvent :: EventIndelType PileupEvent :: getEventIndelType () const
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     { return ( PileupEvent :: EventIndelType ) self -> getEventIndelType (); }
 
 

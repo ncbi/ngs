@@ -29,27 +29,27 @@
 namespace ngs
 {
     Pileup :: Pileup ( PileupRef ref )
-            throw ()
+            NGS_NOTHROW ()
         : PileupEventIterator ( ( PileupEventRef ) ref )
     {
         assert ( ref != 0 );
     }
 
     Pileup & Pileup :: operator = ( const Pileup & obj )
-        throw ( ErrorMsg )
+        NGS_THROWS ( ErrorMsg )
     {
         PileupEventIterator :: operator = ( obj );
         return * this;
     }
 
     Pileup :: Pileup ( const Pileup & obj )
-            throw ( ErrorMsg )
+            NGS_THROWS ( ErrorMsg )
         : PileupEventIterator ( obj )
     {
     }
-    
+
     Pileup :: ~ Pileup ()
-        throw ()
+        NGS_NOTHROW ()
     {
     }
 }
