@@ -371,7 +371,7 @@ if ($TOOLS =~ /gcc$/) {
 } elsif ($TOOLS eq 'clang') {
     $CPP  = 'clang++' unless ($CPP);
     $CC   = 'clang -c';
-    my $versionMin = '-mmacosx-version-min=10.6';
+    my $versionMin = '-mmacosx-version-min=10.7';
     $CP   = "$CPP -c $versionMin";
     if ($BITS ne '32_64') {
         $ARCH_FL = '-arch i386' if ($BITS == 32);
@@ -1522,7 +1522,7 @@ sub check_compiler {
             $flags = $n;
             $log = '                      int main() {                     }\n'
         } elsif ($n eq 'hdf5') {
-            $library = '-lhdf5';
+            $library = '-Wl,-Bstatic -lhdf5 -Wl,-Bdynamic -ldl -lm -lz';
             $log = '#include <hdf5.h>  \n int main() { H5close         (); }\n'
         } elsif ($n eq 'fuse') {
             $flags = '-D_FILE_OFFSET_BITS=64';
@@ -1565,7 +1565,14 @@ sub check_compiler {
         push ( @l, '' ) unless ( @l );
         for my $i ( 0 .. $#l ) {
             my $l = $l [ $i ];
-            next if ( $l && ! -d $l );
+            if ( $l && ! -d $l ) {
+                if ( $i == $#l ) {
+                    println 'no';
+                    return;
+                } else {
+                    next;
+                }
+            }
             my $gcc = "| $tool -xc $flags " . ($I ? "-I$I " : ' ')
                                       . ($l ? "-L$l " : ' ') . "- $library";
             $gcc .= ' 2> /dev/null' unless ($OPT{'debug'});
