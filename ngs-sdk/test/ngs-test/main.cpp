@@ -783,15 +783,9 @@ void TestStatistics ()
 }
 
 /////////// main
-#include <unistd.h>
-static void h() {
-char name[512] ="";
-gethostname(name, sizeof name);
-std::cerr << "GETHOSTNAME = '" << name << "'\n";
-}
 
 int main ()
-{h();
+{
     ReadCollection_Duplicate(); // call this one first to test correct population of static vtables!
 
     TestReadCollection ();
