@@ -25,7 +25,7 @@
 default: std
 
 ifeq (Darwin,$(shell uname -s))
-    MFLAGS += -mmacosx-version-min=10.6
+    MFLAGS += -mmacosx-version-min=10.10
 endif
 
 CC = cc $(MFLAGS) $(CFLAGS)
