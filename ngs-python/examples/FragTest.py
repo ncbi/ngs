@@ -39,7 +39,7 @@ def run(acc, splitNum, splitNo):
 
         # compute window to iterate through
         MAX_ROW = run.getReadCount()
-        chunk = MAX_ROW/splitNum
+        chunk = int( MAX_ROW / splitNum )
         first = int(round(chunk*(splitNo-1)))
         next_first = int(round(chunk*(splitNo)))
         if next_first > MAX_ROW:
