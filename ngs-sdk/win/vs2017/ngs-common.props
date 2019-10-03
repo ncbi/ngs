@@ -1,44 +1,37 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
     <ItemGroup Label="ProjectConfigurations">
-        <ProjectConfiguration Include="Debug|Win32">
-            <Configuration>Debug</Configuration>
-            <Platform>Win32</Platform>
-        </ProjectConfiguration>
         <ProjectConfiguration Include="Debug|x64">
             <Configuration>Debug</Configuration>
             <Platform>x64</Platform>
-        </ProjectConfiguration>
-        <ProjectConfiguration Include="Release|Win32">
-            <Configuration>Release</Configuration>
-            <Platform>Win32</Platform>
         </ProjectConfiguration>
         <ProjectConfiguration Include="Release|x64">
             <Configuration>Release</Configuration>
             <Platform>x64</Platform>
         </ProjectConfiguration>
     </ItemGroup>
-  
+
     <PropertyGroup Label="Configuration">
-        <PlatformToolset>v141</PlatformToolset>
+        <PlatformToolset Condition="'$(PlatformToolset)' == ''">v141</PlatformToolset>
+        <PlatformToolset Condition="'$(PlatformToolset)' != ''">$(PlatformToolset)</PlatformToolset>
     </PropertyGroup>
 
     <PropertyGroup Label="Globals">
 		<WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
         <Platform Condition="'$(Platform)' == ''">x64</Platform>
         <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
-    
+
         <NGS_ROOT Condition="'$(NGS_ROOT)' == ''">$(ProjectDir)..\..\..\</NGS_ROOT>
         <NGS_OUTDIR Condition="'$(NGS_OUTDIR)' == ''">$(NGS_ROOT)..\OUTDIR\ngs-sdk\</NGS_OUTDIR>
-        <NGS_TARGET Condition="'$(NGS_TARGET)' == ''">$(NGS_OUTDIR)win\$(PlatformToolset)\$(Platform)\$(Configuration)\</NGS_TARGET>    
+        <NGS_TARGET Condition="'$(NGS_TARGET)' == ''">$(NGS_OUTDIR)win\$(PlatformToolset)\$(Platform)\$(Configuration)\</NGS_TARGET>
     </PropertyGroup>
-  
+
     <ItemDefinitionGroup>
         <ClCompile>
             <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
         </ClCompile>
     </ItemDefinitionGroup>
-  
+
     <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
 
     <PropertyGroup Label="Configuration">
@@ -48,14 +41,14 @@
         <LinkIncremental>false</LinkIncremental>
         <WholeProgramOptimization>false</WholeProgramOptimization>
     </PropertyGroup>
-    
+
     <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
         <UseDebugLibraries>true</UseDebugLibraries>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)'=='Release'" Label="Configuration">
         <UseDebugLibraries>false</UseDebugLibraries>
     </PropertyGroup>
-    
+
     <ItemDefinitionGroup>
         <ClCompile>
             <WarningLevel>Level3</WarningLevel>
@@ -66,7 +59,7 @@
             <AdditionalIncludeDirectories>$(NGS_ROOT)\ngs-sdk;$(NGS_ROOT)\ngs-sdk\ngs\win;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
         </ClCompile>
     </ItemDefinitionGroup>
-    
+
     <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
         <ClCompile>
             <Optimization>Disabled</Optimization>
@@ -91,5 +84,5 @@
             <OptimizeReferences>true</OptimizeReferences>
         </Link>
     </ItemDefinitionGroup>
-    
+
 </Project>
