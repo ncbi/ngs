@@ -25,6 +25,9 @@
 
 default: std
 
+TOP = ..
+include ../Makefile.config
+
 #DEBUGGING = -d
 
 TARGETS =             \
@@ -52,7 +55,7 @@ NGS_EXAMPLES_PATH = \
 NGS_CLASS_PATH = ..
 
 NGS-JavaTest.jar: $(NGS_EXAMPLES_PATH)
-	javac $(DEBUGGING) $^ -d .
+	javac $(DEBUGGING) -cp $(NGS_CLASS_PATH) $^ -d .
 	( jar cf $@ `find examples -name "*.class"`; chmod -x,o-w $@ ) || ( rm -f $@ && false )
 
 # ===========================================================================
@@ -64,7 +67,11 @@ JAVAFLAGS = -classpath $(CLASSPATH):$(NGS_CLASS_PATH):.
 # Expect libngs-sdk.so and libncbi-vdb.so somewhere inside $LD_LIBRARY_PATH;
 #   if the libraries are not found, error out.
 # Comment out to rely on "smart load" instead (may download libraries from NCBI):
-JAVAFLAGS += -Djava.library.path=$(LD_LIBRARY_PATH) -Dvdb.System.loadLibrary=1
+#ENV = LD_LIBRARY_PATH=$(TARGDIR)/../ngs-sdk/linux/gcc/x86_64/dbg/lib:$(TARGDIR)/../ncbi-vdb/linux/gcc/x86_64/dbg/lib:$$LD_LIBRARY_PATH
+
+JAVAFLAGS += -cp /home/boshkina/devel/inst/jar/ngs-java.jar:$$CLASSPATH \
+             -Djava.library.path=$(TARGDIR)/../ngs-sdk/linux/gcc/x86_64/dbg/lib:$(TARGDIR)/../ncbi-vdb/linux/gcc/x86_64/dbg/lib:$(LD_LIBRARY_PATH) \
+             -Dvdb.System.loadLibrary=1
 
 # uncomment to see detailed log"
 JAVAFLAGS += -Dvdb.log=FINEST
