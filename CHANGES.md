@@ -1,6 +1,12 @@
 # NCBI External Developer Release:
 
 
+## NGS SDK 2.10.2
+**January 15, 2020**
+
+  **ngs**: test-code is now python3-compatible  
+
+
 ## NGS SDK 2.10.1
 **December 16, 2019**
 
