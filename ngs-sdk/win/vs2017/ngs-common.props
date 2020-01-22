@@ -18,7 +18,7 @@
             <Platform>x64</Platform>
         </ProjectConfiguration>
     </ItemGroup>
-  
+
     <PropertyGroup Label="Configuration">
         <PlatformToolset>v141</PlatformToolset>
     </PropertyGroup>
@@ -27,18 +27,18 @@
 		<WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
         <Platform Condition="'$(Platform)' == ''">x64</Platform>
         <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
-    
+
         <NGS_ROOT Condition="'$(NGS_ROOT)' == ''">$(ProjectDir)..\..\..\</NGS_ROOT>
         <NGS_OUTDIR Condition="'$(NGS_OUTDIR)' == ''">$(NGS_ROOT)..\OUTDIR\ngs-sdk\</NGS_OUTDIR>
-        <NGS_TARGET Condition="'$(NGS_TARGET)' == ''">$(NGS_OUTDIR)win\$(PlatformToolset)\$(Platform)\$(Configuration)\</NGS_TARGET>    
+        <NGS_TARGET Condition="'$(NGS_TARGET)' == ''">$(NGS_OUTDIR)win\$(PlatformToolset)\$(Platform)\$(Configuration)\</NGS_TARGET>
     </PropertyGroup>
-  
+
     <ItemDefinitionGroup>
         <ClCompile>
             <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
         </ClCompile>
     </ItemDefinitionGroup>
-  
+
     <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
 
     <PropertyGroup Label="Configuration">
@@ -48,14 +48,14 @@
         <LinkIncremental>false</LinkIncremental>
         <WholeProgramOptimization>false</WholeProgramOptimization>
     </PropertyGroup>
-    
+
     <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
         <UseDebugLibraries>true</UseDebugLibraries>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)'=='Release'" Label="Configuration">
         <UseDebugLibraries>false</UseDebugLibraries>
     </PropertyGroup>
-    
+
     <ItemDefinitionGroup>
         <ClCompile>
             <WarningLevel>Level3</WarningLevel>
@@ -64,9 +64,10 @@
             <DisableSpecificWarnings>4996;4101;4251;4290</DisableSpecificWarnings>
             <StringPooling>true</StringPooling>
             <AdditionalIncludeDirectories>$(NGS_ROOT)\ngs-sdk;$(NGS_ROOT)\ngs-sdk\ngs\win;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+            <TreatSpecificWarningsAsErrors>4307;%(TreatSpecificWarningsAsErrors)</TreatSpecificWarningsAsErrors>
         </ClCompile>
     </ItemDefinitionGroup>
-    
+
     <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
         <ClCompile>
             <Optimization>Disabled</Optimization>
@@ -91,5 +92,5 @@
             <OptimizeReferences>true</OptimizeReferences>
         </Link>
     </ItemDefinitionGroup>
-    
+
 </Project>
