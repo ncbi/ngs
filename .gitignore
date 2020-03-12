@@ -15,3 +15,7 @@ OUTDIR
 .vscode
 .gdb_history
 core
+.vs
+*.user
+*.sdf
+*.opensdf
