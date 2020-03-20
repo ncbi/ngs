@@ -196,7 +196,7 @@ class LibManager:
                 tempfile.gettempdir(),
             )
         else:
-            return ( env_path, )
+            return env_path.split(';')
 
     @staticmethod
     def get_post_os_name_param():
