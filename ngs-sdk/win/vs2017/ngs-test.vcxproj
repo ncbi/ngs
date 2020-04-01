@@ -33,6 +33,6 @@
   </ItemDefinitionGroup>
   <Import Project="..\ngs-test.files" />
   <Target Name="AfterBuild" Condition="'$(Autorun)'=='true'">
-    <Exec Command="$(OutDir)$(TargetName)$(TargetExt)" WorkingDirectory="$(ProjectDir)\" />
+    <Exec Command="&quot;$(OutDir)$(TargetName)$(TargetExt)&quot;" WorkingDirectory="$(ProjectDir)\" />
   </Target>
 </Project>
