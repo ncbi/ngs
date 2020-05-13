@@ -146,6 +146,7 @@ class Manager
         }
         catch ( Throwable e )
         {
+            Logger.info ( "Version threw " + e );
             return "";
         }
     }
