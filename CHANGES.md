@@ -2,7 +2,7 @@
 
 
 ## NGS SDK 2.10.8
-**June 24, 2020**
+**June 29, 2020**
 
   **ngs**: changed version to match that of _ncbi-vdb_
 
