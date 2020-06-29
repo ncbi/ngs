@@ -67,7 +67,7 @@ JAVAFLAGS = -classpath $(CLASSPATH):$(NGS_CLASS_PATH):.
 JAVAFLAGS += -Djava.library.path=$(LD_LIBRARY_PATH) -Dvdb.System.loadLibrary=1
 
 # uncomment to see detailed log"
-JAVAFLAGS += -Dvdb.log=FINEST
+#JAVAFLAGS += -Dvdb.log=FINEST
 
 run_frag: NGS-JavaTest.jar
 	java $(JAVAFLAGS) examples.FragTest ERR225922 10000 2  $(REDIRECT)
@@ -105,7 +105,7 @@ expected.txt update_expected:
 	rm -f expected.txt; LD_LIBRARY_PATH=$(LD_LIBRARY_PATH) $(MAKE) run_all REDIRECT=">>expected.txt"
 
 run_and_diff: expected.txt  
-	rm -f actual.txt; LD_LIBRARY_PATH=$(LD_LIBRARY_PATH) $(MAKE) run_all REDIRECT=">>actual.txt"
-	diff expected.txt actual.txt && rm actual.txt && echo NGS Java examples work as expected
+	@ rm -f actual.txt; LD_LIBRARY_PATH=$(LD_LIBRARY_PATH) $(MAKE) run_all REDIRECT=">>actual.txt"
+	@ diff expected.txt actual.txt && rm actual.txt && echo NGS Java examples work as expected
 
 .PHONY: update_expected run_and_diff

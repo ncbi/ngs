@@ -186,7 +186,7 @@ class LibVersionChecker {
     private static boolean tryJava(Vector<String> cmdarray) {
         try {
             Process p
-                    = Runtime.getRuntime().exec(cmdarray.elementAt(0) + " -?");
+                    = Runtime.getRuntime().exec(cmdarray.elementAt(0) + " -version");
             if (p.waitFor() == 0) {
                 return true;
             }
