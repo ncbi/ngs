@@ -85,7 +85,7 @@ ifeq (0, $(shell id -u))
    
 else
 	@ echo "Installing ngs-python package to the current user..."
-	@ python setup.py -q install --user
+	  python setup.py   install --user
 	@ echo "... installed"
 endif
 
