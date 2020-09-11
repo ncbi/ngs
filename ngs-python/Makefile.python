@@ -55,7 +55,7 @@ $(INST_PYTHONDIR):
 
 install: $(TARGETS) $(INST_PYTHONDIR) copyexamples
 ifeq (0, $(shell id -u))
-	@ echo "Installing ngs-python package..."
+	@ echo "Installing ngs python package..."
 	@ python setup.py -q install
  
 else
