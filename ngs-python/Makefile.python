@@ -85,6 +85,8 @@ ifeq (0, $(shell id -u))
    
 else
 	@ echo "Installing ngs-python package to the current user..."
+	  echo '$$ python -m site --user-base'
+	  python -m site --user-base
 	  echo '$$ python -m site --user-site'
 	  python -m site --user-site
 	  python setup.py  -q install --user
