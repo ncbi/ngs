@@ -37,6 +37,8 @@
     </target>
 
     <target name="jar" depends="ncbi">
+        <echo message="PATH=${PATH}"/>
+        <echo message="APPDATA=${APPDATA}"/>
         <mkdir dir="${build.dir}\jar"/>
         <jar destfile="${build.dir}\jar\ngs-java.jar" >
             <fileset dir="${classes.dir}" includes="ngs\**" />
