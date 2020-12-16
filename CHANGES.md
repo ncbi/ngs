@@ -1,6 +1,13 @@
 # NCBI External Developer Release:
 
 
+## NGS SDK 2.10.9
+**December 16, 2020**
+
+  **build**: added configure option to produce build in output directory relative to sources  
+  **ngs**: created NGS release 2.10.8 Linux tarball from build of the libraries by gcc-7.3.0  
+
+
 ## NGS SDK 2.10.8
 **June 29, 2020**
 

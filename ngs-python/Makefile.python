@@ -80,12 +80,17 @@ $(INST_PYTHONDIR):
 
 install: $(TARGETS) $(INST_PYTHONDIR) copyexamples
 ifeq (0, $(shell id -u))
-	@ echo "Installing ngs package..."
+	@ echo "Installing ngs-python package..."
 	@ python setup.py -q install
    
 else
-	@ echo "Installing ngs package..."
-	@ python setup.py -q install --user
+	@ echo "Installing ngs-python package to the current user..."
+	  echo '$$ python -m site --user-base'
+	  python -m site --user-base
+	  echo '$$ python -m site --user-site'
+	  python -m site --user-site
+	  python setup.py  -q install --user
+	@ echo "... installed"
 endif
 
 ifneq (, $(NGS_LIBDIR))
