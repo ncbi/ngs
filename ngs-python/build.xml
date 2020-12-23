@@ -13,6 +13,7 @@
 
     <!-- Set this to full path to Python if not in PATH already -->
     <property name="python.exe"     value="python" />
+    <property name="PYTHONUSERBASE" value="${Output}\tmp\ngs"/>
 
     <target name="install">
         <exec executable="${python.exe}" failonerror="true" >
@@ -27,6 +28,7 @@
         <element name="args" optional="yes" />
         <sequential>
             <exec executable="${python.exe}" failonerror="true">
+                <env key="PYTHONUSERBASE" value="${PYTHONUSERBASE}"/>
                 <env key="PATH" value="${vdb.dir};${ngs.dir};${env.PATH}"/>
                 <env key="NGS_PY_DOWNLOAD_LIBRARY" value="0"/>
                 <arg value="examples/@{class}.py"/>
