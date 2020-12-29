@@ -17,6 +17,7 @@
 
     <target name="install">
         <exec executable="${python.exe}" failonerror="true" >
+            <env key="PYTHONUSERBASE" value="${PYTHONUSERBASE}"/>
             <arg value="setup.py" />
             <arg value="install" />
             <arg value="--user" />
@@ -31,6 +32,7 @@
                 <env key="PYTHONUSERBASE" value="${PYTHONUSERBASE}"/>
                 <env key="PATH" value="${vdb.dir};${ngs.dir};${env.PATH}"/>
                 <env key="NGS_PY_DOWNLOAD_LIBRARY" value="0"/>
+                <env key="NGS_PY_LIBRARY_PATH" path="${vdb.dir};${ngs.dir}"/>
                 <arg value="examples/@{class}.py"/>
                 <args />
             </exec>
