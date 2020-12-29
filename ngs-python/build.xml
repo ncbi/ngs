@@ -17,6 +17,7 @@
 
     <target name="install">
         <exec executable="${python.exe}" failonerror="true" >
+            <env key="PYTHONUSERBASE" value="${PYTHONUSERBASE}"/>
             <arg value="setup.py" />
             <arg value="install" />
             <arg value="--user" />
