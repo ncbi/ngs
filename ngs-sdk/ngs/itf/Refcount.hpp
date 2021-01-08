@@ -27,6 +27,8 @@
 #ifndef _hpp_ngs_itf_refcount_
 #define _hpp_ngs_itf_refcount_
 
+#pragma clang diagnostic ignored "-Wtautological-undefined-compare"
+
 #ifndef _hpp_ngs_itf_error_msg_
 #include <ngs/itf/ErrorMsg.hpp>
 #endif
