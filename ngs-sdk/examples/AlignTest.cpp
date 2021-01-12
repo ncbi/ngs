@@ -47,7 +47,7 @@ public:
             return run.getAlignments ( Alignment::primaryAlignment );
 
         // compute window to iterate through
-        long MAX_ROW = run.getAlignmentCount (); 
+        long MAX_ROW = run.getAlignmentCount ();
         double chunk = ( double ) MAX_ROW / splitNum;
         long first = ( long ) round ( chunk * ( splitNo-1 ) );
 
@@ -103,7 +103,7 @@ public:
             String extension = acc . substr ( dot );
             if ( extension == ".bam" || extension == ".BAM" )
             {
-                run_bam ( acc, splitNum, splitNo );
+                //run_bam ( acc, splitNum, splitNo );
                 return;
             }
         }

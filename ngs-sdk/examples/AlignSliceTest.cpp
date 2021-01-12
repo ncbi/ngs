@@ -90,7 +90,7 @@ public:
             String extension = acc . substr ( dot );
             if ( extension == ".bam" || extension == ".BAM" )
             {
-                run_bam ( acc, refname, start, stop );
+                // run_bam ( acc, refname, start, stop );
                 return;
             }
         }

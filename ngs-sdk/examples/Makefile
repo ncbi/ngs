@@ -65,9 +65,8 @@ clean:
 TEST_LIBS =              \
 	-L$(NCBI_VDB_LIBDIR) \
 	-L$(NGS_LIBDIR)      \
-	-lncbi-ngs-c++       \
+	-lncbi-ngs           \
 	-lngs-c++            \
-	-lngs-bam-c++        \
 	-lncbi-ngs-c++       \
 	-lncbi-vdb-static    \
 	-lngs-adapt-c++      \
@@ -139,7 +138,7 @@ RefTest: $(REF_TEST_SRC)
 #
 # installation
 #
-install: 
+install:
 	@ cp *.cpp Makefile Makefile.config $(INST_TARGET)
 
 # ===========================================================================
@@ -174,7 +173,7 @@ run_all: $(ALL_TESTS)
 #
 # expected results for auto-testing
 #
-expected.txt update_expected: 
+expected.txt update_expected:
 	rm -f expected.txt
 	export LD_LIBRARY_PATH=$(LD_LIBRARY_PATH) ; $(MAKE) run_all REDIRECT=">>expected.txt"
 

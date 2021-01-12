@@ -86,7 +86,7 @@ public:
             String extension = acc . substr ( dot );
             if ( extension == ".bam" || extension == ".BAM" )
             {
-                run_bam ( acc, splitNum, splitNo );
+                //run_bam ( acc, splitNum, splitNo );
                 return;
             }
         }
