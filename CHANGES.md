@@ -17,7 +17,7 @@
 ## NGS SDK 2.10.5
 **April 1, 2020**
 
-  **ncbi-vdb, ngs, ngs-tools, sra-tools**: all Linux builds now use g++ 7.3 (C++11 ABI)
+  **ngs, ncbi-vdb, sra-tools, ngs-tools**: all Linux builds now use g++ 7.3 (C++11 ABI)
 
 
 ## NGS SDK 2.10.4
