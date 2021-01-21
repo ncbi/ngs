@@ -34,7 +34,7 @@ CXX = c++ $(MFLAGS) $(CPPFLAGS)
 # ensure definition of paths, namely
 # NCBI_VDB_LIBDIR and NGS_LIBDIR
 include $(CURDIR)/Makefile.config
-$(warning CPPFLAGS=$(CPPFLAGS))
+#$(warning CPPFLAGS=$(CPPFLAGS))
 
 TARGETS =               \
 	AlignSliceTest      \
