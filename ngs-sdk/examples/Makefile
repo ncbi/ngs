@@ -34,6 +34,7 @@ CXX = c++ $(MFLAGS) $(CPPFLAGS)
 # ensure definition of paths, namely
 # NCBI_VDB_LIBDIR and NGS_LIBDIR
 include $(CURDIR)/Makefile.config
+#$(warning CPPFLAGS=$(CPPFLAGS))
 
 TARGETS =               \
 	AlignSliceTest      \
@@ -57,19 +58,18 @@ clean:
 
 .PHONY: default std $(TARGETS)
 
-# C++ applications require two NGS libraries:
-#  1. ngs-c++ which contains the NGS "front-end" interfaces
-#  2. an NGS "back-end" engine such as ncbi-ngs-c++
-#     which in turn relies upon ncbi-vdb to access the SRA
+# C++ applications require several static libraries:
+#  1. libngs-c++.a and libngs-adapt-c++.a which contain the NGS "front-end" interfaces.
+#  2. an NGS "back-end" engine such as libncbi-ngs-c++.a
+#     which in turn relies upon ncbi-vdb to access the SRA (libncbi-ngs.a, libncbi-vdb-static.a)
 #
 TEST_LIBS =              \
 	-L$(NCBI_VDB_LIBDIR) \
 	-L$(NGS_LIBDIR)      \
 	-lncbi-ngs-c++       \
-	-lngs-c++            \
-	-lngs-bam-c++        \
-	-lncbi-ngs-c++       \
+	-lncbi-ngs           \
 	-lncbi-vdb-static    \
+	-lngs-c++            \
 	-lngs-adapt-c++      \
 	-lpthread            \
 	-ldl                 \
@@ -139,7 +139,7 @@ RefTest: $(REF_TEST_SRC)
 #
 # installation
 #
-install: 
+install:
 	@ cp *.cpp Makefile Makefile.config $(INST_TARGET)
 
 # ===========================================================================
@@ -174,7 +174,7 @@ run_all: $(ALL_TESTS)
 #
 # expected results for auto-testing
 #
-expected.txt update_expected: 
+expected.txt update_expected:
 	rm -f expected.txt
 	export LD_LIBRARY_PATH=$(LD_LIBRARY_PATH) ; $(MAKE) run_all REDIRECT=">>expected.txt"
 
