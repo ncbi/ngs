@@ -25,7 +25,7 @@
 */
 
 #include <ncbi-vdb/NGS.hpp>
-#include <ngs-bam/ngs-bam.hpp>
+//#include <ngs-bam/ngs-bam.hpp>
 #include <ngs/ErrorMsg.hpp>
 #include <ngs/ReadCollection.hpp>
 #include <ngs/ReadIterator.hpp>
@@ -74,8 +74,8 @@ public:
     static void run_bam ( String acc, int splitNum, int splitNo )
     {
         // open requested accession using example BAM implementation of the API
-        ReadCollection run = NGS_BAM::openReadCollection ( acc );
-        run_common ( run, splitNum, splitNo );
+        //ReadCollection run = NGS_BAM::openReadCollection ( acc );
+        //run_common ( run, splitNum, splitNo );
     }
 
     static void run ( String acc, int splitNum, int splitNo )

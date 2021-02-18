@@ -25,7 +25,7 @@
 */
 
 #include <ncbi-vdb/NGS.hpp>
-#include <ngs-bam/ngs-bam.hpp>
+//#include <ngs-bam/ngs-bam.hpp>
 #include <ngs/ErrorMsg.hpp>
 #include <ngs/ReadCollection.hpp>
 #include <ngs/Reference.hpp>
@@ -78,8 +78,8 @@ public:
     static void run_bam ( String acc, String refname, int start, int stop )
     {
         // open requested accession using example BAM implementation of the API
-        ReadCollection run = NGS_BAM::openReadCollection ( acc );
-        run_common ( run, refname, start, stop );
+        //ReadCollection run = NGS_BAM::openReadCollection ( acc );
+        //run_common ( run, refname, start, stop );
     }
 
     static void run ( String acc, String refname, int start, int stop )
