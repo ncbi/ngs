@@ -28,8 +28,8 @@ ifeq (Darwin,$(shell uname -s))
     MFLAGS += -mmacosx-version-min=10.10
 endif
 
-CC = cc $(MFLAGS) $(CFLAGS)
-CXX = c++ $(MFLAGS) $(CPPFLAGS)
+CC = gcc $(MFLAGS) $(CFLAGS)
+CXX = g++ $(MFLAGS) $(CPPFLAGS)
 
 # ensure definition of paths, namely
 # NCBI_VDB_LIBDIR and NGS_LIBDIR
