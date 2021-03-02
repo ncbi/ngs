@@ -29,6 +29,6 @@ package gov.nih.nlm.ncbi.ngs;
 class LibDependencies {
     final static String NGS_SDK  = "ngs-sdk";
     final static String NCBI_VDB = "ncbi-vdb";
-    final static String NGS_SDK_VERSION = "2.10.10";
-    final static String NCBI_VDB_VERSION = "2.10.10";
+    final static String NGS_SDK_VERSION = "2.11.0";
+    final static String NCBI_VDB_VERSION = "2.11.0";
 }
