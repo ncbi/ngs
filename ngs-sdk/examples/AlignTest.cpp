@@ -25,7 +25,7 @@
 */
 
 #include <ncbi-vdb/NGS.hpp>
-#include <ngs-bam/ngs-bam.hpp>
+//#include <ngs-bam/ngs-bam.hpp>
 #include <ngs/ErrorMsg.hpp>
 #include <ngs/ReadCollection.hpp>
 #include <ngs/AlignmentIterator.hpp>
@@ -47,7 +47,7 @@ public:
             return run.getAlignments ( Alignment::primaryAlignment );
 
         // compute window to iterate through
-        long MAX_ROW = run.getAlignmentCount (); 
+        long MAX_ROW = run.getAlignmentCount ();
         double chunk = ( double ) MAX_ROW / splitNum;
         long first = ( long ) round ( chunk * ( splitNo-1 ) );
 
@@ -91,8 +91,8 @@ public:
     static void run_bam ( String acc, int splitNum, int splitNo )
     {
         // open requested accession using example BAM implementation of the API
-        ReadCollection run = NGS_BAM::openReadCollection ( acc );
-        run_common ( run, splitNum, splitNo );
+        //ReadCollection run = NGS_BAM::openReadCollection ( acc );
+        //run_common ( run, splitNum, splitNo );
     }
 
     static void run ( String acc, int splitNum, int splitNo )
@@ -103,7 +103,7 @@ public:
             String extension = acc . substr ( dot );
             if ( extension == ".bam" || extension == ".BAM" )
             {
-                run_bam ( acc, splitNum, splitNo );
+                //run_bam ( acc, splitNum, splitNo );
                 return;
             }
         }

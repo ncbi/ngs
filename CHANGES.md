@@ -1,6 +1,13 @@
 # NCBI External Developer Release:
 
 
+## NGS SDK 2.11.0
+**March 15, 2021**
+
+  **build, ncbi-vdb, ngs, ngs-tools**: introduced an additional external library, libncbi-ngs  
+  **ncbi-vdb, ngs, ngs-tools, sra-tools, vdb**: added support for 64-bit ARM (AArch64, Apple Silicon)  
+
+
 ## NGS SDK 2.10.9
 **December 16, 2020**
 
