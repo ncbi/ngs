@@ -1,0 +1,14 @@
+
+MAKE ?=     make
+LANGUAGES=  c++ java python
+
+all:
+	@for dir in ${LANGUAGES}; do \
+	    ${MAKE} -C $$dir -f Makefile.simple; \
+	done
+
+clean:
+	@for dir in ${LANGUAGES}; do \
+	    ${MAKE} -C $$dir -f Makefile.simple clean; \
+	done
+

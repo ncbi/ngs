@@ -1,0 +1,114 @@
+py_AlignmentIteratorItf.o: py_AlignmentIteratorItf.cpp \
+  py_AlignmentIteratorItf.h py_ngs_defs.h py_ErrorMsg.hpp \
+  ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/itf/AlignmentItf.hpp ../../ngs/itf/Refcount.hpp
+	${CXX} -c ${CXXFLAGS} py_AlignmentIteratorItf.cpp
+
+py_AlignmentItf.o: py_AlignmentItf.cpp py_AlignmentItf.h py_ngs_defs.h \
+  py_ErrorMsg.hpp ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/itf/AlignmentItf.hpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/itf/FragmentItf.hpp
+	${CXX} -c ${CXXFLAGS} py_AlignmentItf.cpp
+
+py_FragmentIteratorItf.o: py_FragmentIteratorItf.cpp \
+  py_FragmentIteratorItf.h py_ngs_defs.h py_ErrorMsg.hpp \
+  ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/itf/FragmentItf.hpp ../../ngs/itf/Refcount.hpp
+	${CXX} -c ${CXXFLAGS} py_FragmentIteratorItf.cpp
+
+py_FragmentItf.o: py_FragmentItf.cpp py_FragmentItf.h py_ngs_defs.h \
+  py_ErrorMsg.hpp ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/itf/FragmentItf.hpp ../../ngs/itf/Refcount.hpp
+	${CXX} -c ${CXXFLAGS} py_FragmentItf.cpp
+
+py_PackageItf.o: py_PackageItf.cpp py_PackageItf.h py_ngs_defs.h \
+  py_ErrorMsg.hpp ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/itf/PackageItf.hpp ../../ngs/StringRef.hpp \
+  ../../ngs/ErrorMsg.hpp ../../ngs/inl/StringRef.hpp \
+  ../../ngs/itf/StringItf.hpp ../../ngs/itf/Refcount.hpp
+	${CXX} -c ${CXXFLAGS} py_PackageItf.cpp
+
+py_PileupEventIteratorItf.o: py_PileupEventIteratorItf.cpp \
+  py_PileupEventIteratorItf.h py_ngs_defs.h py_ErrorMsg.hpp \
+  ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/itf/PileupEventItf.hpp ../../ngs/itf/Refcount.hpp
+	${CXX} -c ${CXXFLAGS} py_PileupEventIteratorItf.cpp
+
+py_PileupEventItf.o: py_PileupEventItf.cpp py_PileupEventItf.h \
+  py_ngs_defs.h py_ErrorMsg.hpp ../../ngs/itf/ErrorMsg.hpp \
+  ../../ngs/itf/defs.h ../../ngs/itf/PileupEventItf.hpp \
+  ../../ngs/itf/Refcount.hpp
+	${CXX} -c ${CXXFLAGS} py_PileupEventItf.cpp
+
+py_PileupIteratorItf.o: py_PileupIteratorItf.cpp py_PileupIteratorItf.h \
+  py_ngs_defs.h py_ErrorMsg.hpp ../../ngs/itf/ErrorMsg.hpp \
+  ../../ngs/itf/defs.h ../../ngs/itf/PileupItf.hpp \
+  ../../ngs/itf/Refcount.hpp
+	${CXX} -c ${CXXFLAGS} py_PileupIteratorItf.cpp
+
+py_PileupItf.o: py_PileupItf.cpp py_PileupItf.h py_ngs_defs.h \
+  py_ErrorMsg.hpp ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/itf/PileupItf.hpp ../../ngs/itf/Refcount.hpp
+	${CXX} -c ${CXXFLAGS} py_PileupItf.cpp
+
+py_ReadCollectionItf.o: py_ReadCollectionItf.cpp py_ReadCollectionItf.h \
+  py_ngs_defs.h py_ErrorMsg.hpp ../../ngs/itf/ErrorMsg.hpp \
+  ../../ngs/itf/defs.h ../../ngs/itf/ReadCollectionItf.hpp \
+  ../../ngs/itf/Refcount.hpp
+	${CXX} -c ${CXXFLAGS} py_ReadCollectionItf.cpp
+
+py_ReadGroupIteratorItf.o: py_ReadGroupIteratorItf.cpp \
+  py_ReadGroupIteratorItf.h py_ngs_defs.h py_ErrorMsg.hpp \
+  ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/itf/ReadGroupItf.hpp ../../ngs/itf/Refcount.hpp
+	${CXX} -c ${CXXFLAGS} py_ReadGroupIteratorItf.cpp
+
+py_ReadGroupItf.o: py_ReadGroupItf.cpp py_ReadGroupItf.h py_ngs_defs.h \
+  py_ErrorMsg.hpp ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/itf/ReadGroupItf.hpp ../../ngs/itf/Refcount.hpp
+	${CXX} -c ${CXXFLAGS} py_ReadGroupItf.cpp
+
+py_ReadIteratorItf.o: py_ReadIteratorItf.cpp py_ReadIteratorItf.h \
+  py_ngs_defs.h py_ErrorMsg.hpp ../../ngs/itf/ErrorMsg.hpp \
+  ../../ngs/itf/defs.h ../../ngs/itf/ReadItf.hpp \
+  ../../ngs/itf/Refcount.hpp
+	${CXX} -c ${CXXFLAGS} py_ReadIteratorItf.cpp
+
+py_ReadItf.o: py_ReadItf.cpp py_ReadItf.h py_ngs_defs.h py_ErrorMsg.hpp \
+  ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/itf/ReadItf.hpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/itf/FragmentItf.hpp
+	${CXX} -c ${CXXFLAGS} py_ReadItf.cpp
+
+py_Refcount.o: py_Refcount.cpp py_Refcount.h py_ngs_defs.h \
+  py_ErrorMsg.hpp ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/itf/Refcount.hpp
+	${CXX} -c ${CXXFLAGS} py_Refcount.cpp
+
+py_ReferenceIteratorItf.o: py_ReferenceIteratorItf.cpp \
+  py_ReferenceIteratorItf.h py_ngs_defs.h py_ErrorMsg.hpp \
+  ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/itf/ReferenceItf.hpp ../../ngs/itf/Refcount.hpp
+	${CXX} -c ${CXXFLAGS} py_ReferenceIteratorItf.cpp
+
+py_ReferenceItf.o: py_ReferenceItf.cpp py_ReferenceItf.h py_ngs_defs.h \
+  py_ErrorMsg.hpp ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/itf/ReferenceItf.hpp ../../ngs/itf/Refcount.hpp
+	${CXX} -c ${CXXFLAGS} py_ReferenceItf.cpp
+
+py_ReferenceSequenceItf.o: py_ReferenceSequenceItf.cpp \
+  py_ReferenceSequenceItf.h py_ngs_defs.h py_ErrorMsg.hpp \
+  ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/itf/ReferenceSequenceItf.hpp ../../ngs/itf/Refcount.hpp
+	${CXX} -c ${CXXFLAGS} py_ReferenceSequenceItf.cpp
+
+py_StatisticsItf.o: py_StatisticsItf.cpp py_StatisticsItf.h py_ngs_defs.h \
+  py_ErrorMsg.hpp ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/itf/StatisticsItf.hpp ../../ngs/itf/Refcount.hpp
+	${CXX} -c ${CXXFLAGS} py_StatisticsItf.cpp
+
+py_StringItf.o: py_StringItf.cpp py_StringItf.h py_ngs_defs.h \
+  py_ErrorMsg.hpp ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/itf/StringItf.hpp ../../ngs/itf/Refcount.hpp
+	${CXX} -c ${CXXFLAGS} py_StringItf.cpp
+

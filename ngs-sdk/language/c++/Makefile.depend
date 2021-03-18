@@ -1,0 +1,213 @@
+Alignment.o: Alignment.cpp ../../ngs/Alignment.hpp ../../ngs/Fragment.hpp \
+  ../../ngs/ErrorMsg.hpp ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/StringRef.hpp ../../ngs/inl/StringRef.hpp \
+  ../../ngs/itf/StringItf.hpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/inl/Fragment.hpp ../../ngs/itf/FragmentItf.hpp \
+  ../../ngs/inl/Alignment.hpp ../../ngs/itf/AlignmentItf.hpp
+	${CXX} -c ${CXXFLAGS} Alignment.cpp
+
+AlignmentIterator.o: AlignmentIterator.cpp \
+  ../../ngs/AlignmentIterator.hpp ../../ngs/Alignment.hpp \
+  ../../ngs/Fragment.hpp ../../ngs/ErrorMsg.hpp \
+  ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/StringRef.hpp ../../ngs/inl/StringRef.hpp \
+  ../../ngs/itf/StringItf.hpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/inl/Fragment.hpp ../../ngs/itf/FragmentItf.hpp \
+  ../../ngs/inl/Alignment.hpp ../../ngs/itf/AlignmentItf.hpp \
+  ../../ngs/inl/AlignmentIterator.hpp
+	${CXX} -c ${CXXFLAGS} AlignmentIterator.cpp
+
+Fragment.o: Fragment.cpp ../../ngs/Fragment.hpp ../../ngs/ErrorMsg.hpp \
+  ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/StringRef.hpp ../../ngs/inl/StringRef.hpp \
+  ../../ngs/itf/StringItf.hpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/inl/Fragment.hpp ../../ngs/itf/FragmentItf.hpp
+	${CXX} -c ${CXXFLAGS} Fragment.cpp
+
+FragmentIterator.o: FragmentIterator.cpp ../../ngs/FragmentIterator.hpp \
+  ../../ngs/Fragment.hpp ../../ngs/ErrorMsg.hpp \
+  ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/StringRef.hpp ../../ngs/inl/StringRef.hpp \
+  ../../ngs/itf/StringItf.hpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/inl/Fragment.hpp ../../ngs/itf/FragmentItf.hpp \
+  ../../ngs/inl/FragmentIterator.hpp
+	${CXX} -c ${CXXFLAGS} FragmentIterator.cpp
+
+Pileup.o: Pileup.cpp ../../ngs/Pileup.hpp \
+  ../../ngs/PileupEventIterator.hpp ../../ngs/PileupEvent.hpp \
+  ../../ngs/ErrorMsg.hpp ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/StringRef.hpp ../../ngs/inl/StringRef.hpp \
+  ../../ngs/itf/StringItf.hpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/inl/PileupEvent.hpp ../../ngs/itf/PileupEventItf.hpp \
+  ../../ngs/inl/PileupEventIterator.hpp ../../ngs/inl/Pileup.hpp \
+  ../../ngs/itf/PileupItf.hpp
+	${CXX} -c ${CXXFLAGS} Pileup.cpp
+
+PileupEvent.o: PileupEvent.cpp ../../ngs/PileupEvent.hpp \
+  ../../ngs/ErrorMsg.hpp ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/StringRef.hpp ../../ngs/inl/StringRef.hpp \
+  ../../ngs/itf/StringItf.hpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/inl/PileupEvent.hpp ../../ngs/itf/PileupEventItf.hpp
+	${CXX} -c ${CXXFLAGS} PileupEvent.cpp
+
+PileupEventIterator.o: PileupEventIterator.cpp \
+  ../../ngs/PileupEventIterator.hpp ../../ngs/PileupEvent.hpp \
+  ../../ngs/ErrorMsg.hpp ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/StringRef.hpp ../../ngs/inl/StringRef.hpp \
+  ../../ngs/itf/StringItf.hpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/inl/PileupEvent.hpp ../../ngs/itf/PileupEventItf.hpp \
+  ../../ngs/inl/PileupEventIterator.hpp
+	${CXX} -c ${CXXFLAGS} PileupEventIterator.cpp
+
+PileupIterator.o: PileupIterator.cpp ../../ngs/PileupIterator.hpp \
+  ../../ngs/Pileup.hpp ../../ngs/PileupEventIterator.hpp \
+  ../../ngs/PileupEvent.hpp ../../ngs/ErrorMsg.hpp \
+  ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/StringRef.hpp ../../ngs/inl/StringRef.hpp \
+  ../../ngs/itf/StringItf.hpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/inl/PileupEvent.hpp ../../ngs/itf/PileupEventItf.hpp \
+  ../../ngs/inl/PileupEventIterator.hpp ../../ngs/inl/Pileup.hpp \
+  ../../ngs/itf/PileupItf.hpp ../../ngs/inl/PileupIterator.hpp
+	${CXX} -c ${CXXFLAGS} PileupIterator.cpp
+
+Read.o: Read.cpp ../../ngs/Read.hpp ../../ngs/FragmentIterator.hpp \
+  ../../ngs/Fragment.hpp ../../ngs/ErrorMsg.hpp \
+  ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/StringRef.hpp ../../ngs/inl/StringRef.hpp \
+  ../../ngs/itf/StringItf.hpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/inl/Fragment.hpp ../../ngs/itf/FragmentItf.hpp \
+  ../../ngs/inl/FragmentIterator.hpp ../../ngs/inl/Read.hpp \
+  ../../ngs/itf/ReadItf.hpp
+	${CXX} -c ${CXXFLAGS} Read.cpp
+
+ReadCollection.o: ReadCollection.cpp ../../ngs/ReadCollection.hpp \
+  ../../ngs/ReadGroupIterator.hpp ../../ngs/ReadGroup.hpp \
+  ../../ngs/ReadIterator.hpp ../../ngs/Read.hpp \
+  ../../ngs/FragmentIterator.hpp ../../ngs/Fragment.hpp \
+  ../../ngs/ErrorMsg.hpp ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/StringRef.hpp ../../ngs/inl/StringRef.hpp \
+  ../../ngs/itf/StringItf.hpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/inl/Fragment.hpp ../../ngs/itf/FragmentItf.hpp \
+  ../../ngs/inl/FragmentIterator.hpp ../../ngs/inl/Read.hpp \
+  ../../ngs/itf/ReadItf.hpp ../../ngs/inl/ReadIterator.hpp \
+  ../../ngs/Statistics.hpp ../../ngs/inl/Statistics.hpp \
+  ../../ngs/itf/StatisticsItf.hpp ../../ngs/inl/ReadGroup.hpp \
+  ../../ngs/itf/ReadGroupItf.hpp ../../ngs/inl/ReadGroupIterator.hpp \
+  ../../ngs/ReferenceIterator.hpp ../../ngs/Reference.hpp \
+  ../../ngs/AlignmentIterator.hpp ../../ngs/Alignment.hpp \
+  ../../ngs/inl/Alignment.hpp ../../ngs/itf/AlignmentItf.hpp \
+  ../../ngs/inl/AlignmentIterator.hpp ../../ngs/PileupIterator.hpp \
+  ../../ngs/Pileup.hpp ../../ngs/PileupEventIterator.hpp \
+  ../../ngs/PileupEvent.hpp ../../ngs/inl/PileupEvent.hpp \
+  ../../ngs/itf/PileupEventItf.hpp ../../ngs/inl/PileupEventIterator.hpp \
+  ../../ngs/inl/Pileup.hpp ../../ngs/itf/PileupItf.hpp \
+  ../../ngs/inl/PileupIterator.hpp ../../ngs/inl/Reference.hpp \
+  ../../ngs/itf/ReferenceItf.hpp ../../ngs/inl/ReferenceIterator.hpp \
+  ../../ngs/inl/ReadCollection.hpp ../../ngs/itf/ReadCollectionItf.hpp
+	${CXX} -c ${CXXFLAGS} ReadCollection.cpp
+
+ReadGroup.o: ReadGroup.cpp ../../ngs/ReadGroup.hpp \
+  ../../ngs/ReadIterator.hpp ../../ngs/Read.hpp \
+  ../../ngs/FragmentIterator.hpp ../../ngs/Fragment.hpp \
+  ../../ngs/ErrorMsg.hpp ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/StringRef.hpp ../../ngs/inl/StringRef.hpp \
+  ../../ngs/itf/StringItf.hpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/inl/Fragment.hpp ../../ngs/itf/FragmentItf.hpp \
+  ../../ngs/inl/FragmentIterator.hpp ../../ngs/inl/Read.hpp \
+  ../../ngs/itf/ReadItf.hpp ../../ngs/inl/ReadIterator.hpp \
+  ../../ngs/Statistics.hpp ../../ngs/inl/Statistics.hpp \
+  ../../ngs/itf/StatisticsItf.hpp ../../ngs/inl/ReadGroup.hpp \
+  ../../ngs/itf/ReadGroupItf.hpp
+	${CXX} -c ${CXXFLAGS} ReadGroup.cpp
+
+ReadGroupIterator.o: ReadGroupIterator.cpp \
+  ../../ngs/ReadGroupIterator.hpp ../../ngs/ReadGroup.hpp \
+  ../../ngs/ReadIterator.hpp ../../ngs/Read.hpp \
+  ../../ngs/FragmentIterator.hpp ../../ngs/Fragment.hpp \
+  ../../ngs/ErrorMsg.hpp ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/StringRef.hpp ../../ngs/inl/StringRef.hpp \
+  ../../ngs/itf/StringItf.hpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/inl/Fragment.hpp ../../ngs/itf/FragmentItf.hpp \
+  ../../ngs/inl/FragmentIterator.hpp ../../ngs/inl/Read.hpp \
+  ../../ngs/itf/ReadItf.hpp ../../ngs/inl/ReadIterator.hpp \
+  ../../ngs/Statistics.hpp ../../ngs/inl/Statistics.hpp \
+  ../../ngs/itf/StatisticsItf.hpp ../../ngs/inl/ReadGroup.hpp \
+  ../../ngs/itf/ReadGroupItf.hpp ../../ngs/inl/ReadGroupIterator.hpp
+	${CXX} -c ${CXXFLAGS} ReadGroupIterator.cpp
+
+ReadIterator.o: ReadIterator.cpp ../../ngs/ReadIterator.hpp \
+  ../../ngs/Read.hpp ../../ngs/FragmentIterator.hpp \
+  ../../ngs/Fragment.hpp ../../ngs/ErrorMsg.hpp \
+  ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/StringRef.hpp ../../ngs/inl/StringRef.hpp \
+  ../../ngs/itf/StringItf.hpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/inl/Fragment.hpp ../../ngs/itf/FragmentItf.hpp \
+  ../../ngs/inl/FragmentIterator.hpp ../../ngs/inl/Read.hpp \
+  ../../ngs/itf/ReadItf.hpp ../../ngs/inl/ReadIterator.hpp
+	${CXX} -c ${CXXFLAGS} ReadIterator.cpp
+
+Refcount.o: Refcount.cpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/itf/ErrBlock.hpp ../../ngs/itf/ErrBlock.h \
+  ../../ngs/itf/VTable.hpp ../../ngs/itf/VTable.h \
+  ../../ngs/itf/Refcount.h
+	${CXX} -c ${CXXFLAGS} Refcount.cpp
+
+Reference.o: Reference.cpp ../../ngs/Reference.hpp \
+  ../../ngs/AlignmentIterator.hpp ../../ngs/Alignment.hpp \
+  ../../ngs/Fragment.hpp ../../ngs/ErrorMsg.hpp \
+  ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/StringRef.hpp ../../ngs/inl/StringRef.hpp \
+  ../../ngs/itf/StringItf.hpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/inl/Fragment.hpp ../../ngs/itf/FragmentItf.hpp \
+  ../../ngs/inl/Alignment.hpp ../../ngs/itf/AlignmentItf.hpp \
+  ../../ngs/inl/AlignmentIterator.hpp ../../ngs/PileupIterator.hpp \
+  ../../ngs/Pileup.hpp ../../ngs/PileupEventIterator.hpp \
+  ../../ngs/PileupEvent.hpp ../../ngs/inl/PileupEvent.hpp \
+  ../../ngs/itf/PileupEventItf.hpp ../../ngs/inl/PileupEventIterator.hpp \
+  ../../ngs/inl/Pileup.hpp ../../ngs/itf/PileupItf.hpp \
+  ../../ngs/inl/PileupIterator.hpp ../../ngs/inl/Reference.hpp \
+  ../../ngs/itf/ReferenceItf.hpp
+	${CXX} -c ${CXXFLAGS} Reference.cpp
+
+ReferenceIterator.o: ReferenceIterator.cpp \
+  ../../ngs/ReferenceIterator.hpp ../../ngs/Reference.hpp \
+  ../../ngs/AlignmentIterator.hpp ../../ngs/Alignment.hpp \
+  ../../ngs/Fragment.hpp ../../ngs/ErrorMsg.hpp \
+  ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/StringRef.hpp ../../ngs/inl/StringRef.hpp \
+  ../../ngs/itf/StringItf.hpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/inl/Fragment.hpp ../../ngs/itf/FragmentItf.hpp \
+  ../../ngs/inl/Alignment.hpp ../../ngs/itf/AlignmentItf.hpp \
+  ../../ngs/inl/AlignmentIterator.hpp ../../ngs/PileupIterator.hpp \
+  ../../ngs/Pileup.hpp ../../ngs/PileupEventIterator.hpp \
+  ../../ngs/PileupEvent.hpp ../../ngs/inl/PileupEvent.hpp \
+  ../../ngs/itf/PileupEventItf.hpp ../../ngs/inl/PileupEventIterator.hpp \
+  ../../ngs/inl/Pileup.hpp ../../ngs/itf/PileupItf.hpp \
+  ../../ngs/inl/PileupIterator.hpp ../../ngs/inl/Reference.hpp \
+  ../../ngs/itf/ReferenceItf.hpp ../../ngs/inl/ReferenceIterator.hpp
+	${CXX} -c ${CXXFLAGS} ReferenceIterator.cpp
+
+ReferenceSequence.o: ReferenceSequence.cpp \
+  ../../ngs/ReferenceSequence.hpp ../../ngs/ErrorMsg.hpp \
+  ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/StringRef.hpp ../../ngs/inl/StringRef.hpp \
+  ../../ngs/itf/StringItf.hpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/inl/ReferenceSequence.hpp \
+  ../../ngs/itf/ReferenceSequenceItf.hpp
+	${CXX} -c ${CXXFLAGS} ReferenceSequence.cpp
+
+Statistics.o: Statistics.cpp ../../ngs/Statistics.hpp \
+  ../../ngs/ErrorMsg.hpp ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/StringRef.hpp ../../ngs/inl/StringRef.hpp \
+  ../../ngs/itf/StringItf.hpp ../../ngs/itf/Refcount.hpp \
+  ../../ngs/inl/Statistics.hpp ../../ngs/itf/StatisticsItf.hpp
+	${CXX} -c ${CXXFLAGS} Statistics.cpp
+
+StringRef.o: StringRef.cpp ../../ngs/StringRef.hpp ../../ngs/ErrorMsg.hpp \
+  ../../ngs/itf/ErrorMsg.hpp ../../ngs/itf/defs.h \
+  ../../ngs/inl/StringRef.hpp ../../ngs/itf/StringItf.hpp \
+  ../../ngs/itf/Refcount.hpp ../../ngs/itf/StringItf.h \
+  ../../ngs/itf/VTable.h
+	${CXX} -c ${CXXFLAGS} StringRef.cpp
+
