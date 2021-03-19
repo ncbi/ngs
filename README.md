@@ -9,7 +9,7 @@ The API is currently expressed in C++, Java and Python languages. The design mak
 
 # Distribution of NGS APIs and Examples
 
-You can find information about building and running examples in README file located in [tar archives](https://github.com/ncbi/ngs/wiki/Downloads)
+You can find information about building and running examples in README file located in [tar archives](https://github.com/ncbi/ngs/wiki/Downloads).
 
 # Documentation
 
