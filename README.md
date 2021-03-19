@@ -7,6 +7,10 @@ NGS is a new, domain-specific API for accessing reads, alignments and pileups pr
 
 The API is currently expressed in C++, Java and Python languages. The design makes it possible to maintain a high degree of similarity between the code in one language and code in another - especially between C++ and Java.
 
+# Distribution of NGS APIs and Examples
+
+You can find information about building and running examples in README file located in [tar archives](https://github.com/ncbi/ngs/wiki/Downloads)
+
 # Documentation
 
 Further documentation is available on the [wiki](https://github.com/ncbi/ngs/wiki).
