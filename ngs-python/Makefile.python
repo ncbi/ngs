@@ -48,7 +48,7 @@ copyexamples:
 
 #-------------------------------------------------------------------------------
 # install
-# 
+#
 ifeq (mac, $(OS))
 $(INST_PYTHONDIR):
 	@ mkdir -p $@
@@ -56,11 +56,11 @@ $(INST_PYTHONDIR):
 install: $(TARGETS) $(INST_PYTHONDIR) copyexamples
 ifeq (0, $(shell id -u))
 	@ echo "Installing ngs-python package..."
-	@ python setup.py -q install
- 
+	@ $(PYTHON) setup.py -q install
+
 else
 	@ echo "Installing ngs-python package..."
-	@ python setup.py -q install --user
+	@ $(PYTHON) setup.py -q install --user
 endif
 endif
 
@@ -71,7 +71,7 @@ ROOT =
 
 #fake root for debugging
 #uncomment this line and change the test for root ( see under install: ) to succeed:
-#ROOT = ~/root 
+#ROOT = ~/root
 
 PROFILE_FILE = $(ROOT)/etc/profile.d/ngs-python
 
@@ -81,15 +81,15 @@ $(INST_PYTHONDIR):
 install: $(TARGETS) $(INST_PYTHONDIR) copyexamples
 ifeq (0, $(shell id -u))
 	@ echo "Installing ngs-python package..."
-	@ python setup.py -q install
-   
+	@ $(PYTHON) setup.py -q install
+
 else
 	@ echo "Installing ngs-python package to the current user..."
 	  echo '$$ python -m site --user-base'
-	  python -m site --user-base
+	  $(PYTHON) -m site --user-base
 	  echo '$$ python -m site --user-site'
-	  python -m site --user-site
-	  python setup.py  -q install --user
+	  $(PYTHON) -m site --user-site
+	  $(PYTHON) setup.py  -q install --user
 	@ echo "... installed"
 endif
 
