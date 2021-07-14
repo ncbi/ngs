@@ -31,6 +31,8 @@ clean:
 
 .PHONY: default std $(TARGETS)
 
+PYTHON ?= python3
+
 PYTHON_VERS = $(shell $(PYTHON) -V 2>&1)
 
 # there is a separate set of sources for 2.5 and 2.6
