@@ -24,7 +24,7 @@
 *
 */
 
-#include <ncbi-vdb/NGS.hpp>
+#include <NGS.hpp>
 #include <ngs/ErrorMsg.hpp>
 #include <ngs/ReadCollection.hpp>
 #include <ngs/ReadIterator.hpp>
@@ -49,7 +49,7 @@ public:
         String run_name = run.getName ();
 
         // compute window to iterate through
-        long MAX_ROW = run.getReadCount (); 
+        long MAX_ROW = run.getReadCount ();
 
         //start iterator on reads
         ReadIterator it = run.getReadRange ( 1, MAX_ROW, Read::all );
