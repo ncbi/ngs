@@ -24,7 +24,7 @@
 *
 */
 
-#include <ncbi-vdb/NGS.hpp>
+#include <NGS.hpp>
 
 
 using namespace ngs;

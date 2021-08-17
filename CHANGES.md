@@ -1,6 +1,13 @@
 # NCBI External Developer Release:
 
 
+## NGS SDK 2.11.1
+**August 17, 2021**
+
+  **ncbi-vdb, ngs, ngs-tools, sra-tools**: configure prints the version of compiler  
+  **ngs**: added information about building and running examples  
+
+
 ## NGS SDK 2.11.0
 **March 15, 2021**
 

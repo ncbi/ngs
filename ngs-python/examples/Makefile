@@ -31,7 +31,9 @@ clean:
 
 .PHONY: default std $(TARGETS)
 
-PYTHON_VERS = $(shell python -V 2>&1)
+PYTHON ?= python3
+
+PYTHON_VERS = $(shell $(PYTHON) -V 2>&1)
 
 # there is a separate set of sources for 2.5 and 2.6
 ifeq (Python 2.6,$(shell expr "$(PYTHON_VERS)" : "\(Python 2.6\)"))
@@ -58,19 +60,19 @@ NGS_EXAMPLES = \
 # NOTE: Expect libngs-sdk.so and libncbi-vdb.so somewhere inside $LD_LIBRARY_PATH
 
 run_frag:
-	python FragTest$(PYTHON_VERS).py ERR225922 10000 2 $(REDIRECT)
+	$(PYTHON) FragTest$(PYTHON_VERS).py ERR225922 10000 2 $(REDIRECT)
 
 run_align:
-	python AlignTest$(PYTHON_VERS).py ERR225922 10000 2 $(REDIRECT)
+	$(PYTHON) AlignTest$(PYTHON_VERS).py ERR225922 10000 2 $(REDIRECT)
 
 run_align_slice:
-	python AlignSliceTest$(PYTHON_VERS).py SRR1121656 1 1 9999 $(REDIRECT)
+	$(PYTHON) AlignSliceTest$(PYTHON_VERS).py SRR1121656 1 1 9999 $(REDIRECT)
 
 run_pileup:
-	python PileupTest$(PYTHON_VERS).py SRR1121656 1 9999 10003 $(REDIRECT)
+	$(PYTHON) PileupTest$(PYTHON_VERS).py SRR1121656 1 9999 10003 $(REDIRECT)
 
 run_ref:
-	python RefTest$(PYTHON_VERS).py SRR1121656 $(REDIRECT)
+	$(PYTHON) RefTest$(PYTHON_VERS).py SRR1121656 $(REDIRECT)
 
 ALL_TESTS = run_frag run_align run_align_slice run_pileup run_ref
 

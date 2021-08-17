@@ -43,6 +43,11 @@ namespace ngs_adapt
         if ( what == 0 )
             what = "BAD ERROR MESSAGE";
 
+/* NGS_Checkmarx Scan Report
+ * about the dangerous function, strncpy is ignored:
+ * null - character is implicitly appended at the end of destination.
+ * The same for 3 strncpy calls below.
+ */
         strncpy ( self -> msg, what, sizeof self -> msg );
         self -> msg [ sizeof self -> msg - 1 ] = 0;
 
