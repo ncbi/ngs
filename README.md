@@ -3,45 +3,41 @@ ngs
 
 ## ANNOUNCEMENTS:
 
-December 10, 2021
+### This repository is now frozen. The NGS project has moved to https://github.com/ncbi/sra-tools/ngs. See the full anouncement below.
 
-NCBI's SRA will change the source build system to use CMake in the next toolkit release (date TBD). This change is an important step to improve developers’ productivity as it provides unified cross platform access to support multiple build systems. This change affects developers building NCBI SRA tools from source. Old makefiles and build systems will no longer be supported after we make this change.
+February 10, 2022
 
-This change will also include the structure of GitHub repositories, which will undergo consolidation to provide an easier environment for building tools and libraries (NGS libs and dependencies are consolidated). Consolidation of NGS libraries and dependencies provides better usage scope isolation and makes building more straightforward.
+NCBI's SRA changed the source build system to use CMake in toolkit release 3.0.0 (February 07, 2022). This change is an important step to improve developers' productivity as it provides unified cross platform access to support multiple build systems. This change affects developers building NCBI SRA tools from source. Old makefiles and build systems are longer be supported.
 
-### **Affected repositories**
+This change also includes the structure of GitHub repositories, which underwent consolidation to provide an easier environment for building tools and libraries (NGS libs and dependencies are consolidated). Consolidation of NGS libraries and dependencies provides better usage scope isolation and makes building more straightforward.
 
-1) ncbi/ngs (https://github.com/ncbi/ngs)
+#### **Affected repositories**
 
-   This repository will be frozen, and all the code moved to Github repository ncbi/sra-tools, under subdirectory ngs/. All future modifications       
-   will take place in sra-tools
+1) [ncbi/ngs](https://github.com/ncbi/ngs) (This repository)
 
-2) ncbi/ncbi-vdb (https://github.com/ncbi/ncbi-vdb)
+   This repository is frozen. All future development will take place in GitHub repository ncbi/sra-tools (this repository), under subdirectory `ngs/`.
 
-   This project’s build system will be based on CMake. The libraries supporting access to VDB data via NGS API will be moved to Github repository 
-   ncbi/sra-tools. 
+2) [ncbi/ncbi-vdb](https://github.com/ncbi/ncbi-vdb)
 
-The projects to move are: 
+   This project's build system is based on CMake. The libraries providing access to SRA data in VDB format via the NGS API have moved to GitHub repository
+   [ncbi/sra-tools](https://github.com/ncbi/ncbi-vdb).
 
-| Old location (base URL: https://github.com/ncbi/ncbi-vdb) | New location (base URL: https://github.com/ncbi/sra-tools) |
-| --------------------------------------------------------- | ---------------------------------------------------------- |
-| libs/ngs | ngs/ncbi/ngs |
-| libs/ngs-c++ | ngs/ncbi/ngs-c++ |
-| libs/ngs-jni | ngs/ncbi/ngs-jni |
-| libs/ngs-py | ngs/ncbi/ngs-py |
-| libs/vdb-sqlite | libs/vdb-sqlite |
-| test/ngs-java | test/ngs-java |
-| test/ngs-python | test/ngs-python |
+   | Old (base URL: https://github.com/ncbi/ncbi-vdb) | New (base URL: https://github.com/ncbi/sra-tools) |
+   | -------------------------------------------------| ------------------------------------------------- |
+   | `libs/ngs`        | `ngs/ncbi/ngs`     |
+   | `libs/ngs-c++`    | `ngs/ncbi/ngs-c++` |
+   | `libs/ngs-jni`    | `ngs/ncbi/ngs-jni` |
+   | `libs/ngs-py`     | `ngs/ncbi/ngs-py`  |
+   | `libs/vdb-sqlite` | `libs/vdb-sqlite`  |
+   | `test/ngs-java`   | `test/ngs-java`    |
+   | `test/ngs-python` | `test/ngs-python`  |
 
 
-3) ncbi/sra-tools (https://github.com/ncbi/sra-tools)
+3) [ncbi/sra-tools](https://github.com/ncbi/sra-tools)
 
-   This project’s build system will be based on CMake. The project will acquire some new components:
+   This project's build system is based on CMake. The project acquired some new components, as listed in the table above.
 
-       3a) NGS SDK (now under ngs/, formerly in Github repository ncbi/ngs)
-       
-       3b) NGS-related VDB access libraries and their dependents, formerly in Github repository ncbi/ncbi-vdb, as listed in the table above.
-
+----
 
 # NGS Language Bindings
 
