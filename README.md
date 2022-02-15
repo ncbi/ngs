@@ -3,7 +3,7 @@ ngs
 
 ## ANNOUNCEMENTS:
 
-### This repository is now frozen. The NGS project has moved to https://github.com/ncbi/sra-tools/ngs. See the full anouncement below.
+### This repository is now frozen. The NGS project has moved to https://github.com/ncbi/sra-tools/ngs. See the full announcement below.
 
 February 10, 2022
 
