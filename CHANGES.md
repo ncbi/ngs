@@ -1,5 +1,16 @@
 # NCBI External Developer Release:
 
+### NGS SDK 3.0.1
+**November 15, 2022**
+
+  SRA tolkit release 3.0.1.
+
+
+### NGS SDK 3.0.0
+**February 10, 2022**
+
+  **ngs**: https://github.com/ncbi/ngs repository is now frozen. The NGS project has moved to https://github.com/ncbi/sra-tools/ngs.
+
 
 ## NGS SDK 2.11.2
 **October 7, 2021**
