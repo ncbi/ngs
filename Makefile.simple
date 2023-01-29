@@ -1,0 +1,100 @@
+############################################################################
+#
+# Simple, portable Makefile for POSIX platforms.
+# 
+# Author: J. Bacon
+#
+# This Makefile and it's children provide a simple and portable way to
+# build NGS on POSIX platforms.  It was originally tested with BSD and GNU
+# make on CentOS Linux, FreeBSD, Mac OS X, and NetBSD.
+#
+# The associated build.simple script can be used to invoke make more
+# easily and provide flags for not-quite-standard systems such as OS X.
+#
+# LICENSE: Public Domain
+#
+# Variables that are conditionally assigned (with ?=) can be overridden
+# via the command line as follows:
+#
+#       make VAR=value
+#
+# For example, MacPorts installs to /opt/local instead of the default
+# /usr/local, and hence might use the following:
+# 
+#       make PREFIX=/opt/local
+#
+# Different systems may also use different compilers and keep libraries in
+# different locations:
+#
+#       make CC=gcc CFLAGS=-O2 LDFLAGS="-L/usr/X11R6 -lX11"
+#
+# Variables can also inheret values from parent Makefiles (as in *BSD ports).
+#
+# Lastly, they can be overridden by the environment, e.g.
+# 
+#       setenv CFLAGS "-O -Wall -pipe"
+#       make
+#
+# All these override methods allow the Makefile to respect the environment
+# in which it is used.
+#
+# You can append values to variables within this Makefile (with +=).
+# However, this should not be used to add compiler-specific flags like
+# -Wall, as this would disrespect the environment.
+############################################################################
+
+MAKE    ?= make
+DIRS    = ngs-sdk ngs-java
+
+MKDIR   ?= mkdir
+INSTALL ?= install
+RM      ?= rm
+
+PREFIX  ?= /usr/local
+DESTDIR ?= ./stage
+
+# Defaults for most Unix.  Override for OS X dylibs.
+# Some make implementations do not pass local make variables to child processes
+# by default, so pass SO_NAME, etc. manually for portability.
+SO_EXT          ?= so
+SO_MAJ          = 1
+SO_MIN          = 3
+SO_REV          = 0
+SO_VER          = ${SO_MAJ}.${SO_MIN}.${SO_REV}
+SO_NAME         ?= libngs-sdk.${SO_EXT}.${SO_VER}
+SO_SHORT_NAME   ?= libngs-sdk.${SO_EXT}.${SO_MAJ}
+SO_FLAGS        ?= -Wl,-soname=libngs-sdk.${SO_EXT}.${SO_MAJ}
+
+all:
+	@for dir in ${DIRS}; do \
+	    ${MAKE} -C $$dir -f Makefile.simple \
+		SO_NAME=${SO_NAME} SO_SHORT_NAME=${SO_SHORT_NAME} \
+		SO_FLAGS=${SO_FLAGS} SO_EXT=${SO_EXT}; \
+	done
+
+clean:
+	@for dir in ${DIRS}; do \
+	    ${MAKE} -C $$dir -f Makefile.simple clean; \
+	done
+	${RM} -rf ${DESTDIR}
+
+install: all
+	${MKDIR} -p ${DESTDIR}${PREFIX}/lib
+	${INSTALL} -c ngs-sdk/*/*.a ngs-sdk/language/*/*.a \
+		${DESTDIR}${PREFIX}/lib
+	${INSTALL} -c ngs-sdk/*.${SO_EXT}* ${DESTDIR}${PREFIX}/lib
+	${MKDIR} -p ${DESTDIR}${PREFIX}/include/ngs/adapter \
+		${DESTDIR}${PREFIX}/include/ngs/inl \
+		${DESTDIR}${PREFIX}/include/ngs/itf \
+		${DESTDIR}${PREFIX}/include/ngs/unix/`uname -p`
+	${INSTALL} -c ngs-sdk/ngs/*.hpp ${DESTDIR}${PREFIX}/include/ngs
+	${INSTALL} -c ngs-sdk/ngs/adapter/*.hpp ngs-sdk/ngs/adapter/*.h \
+		${DESTDIR}${PREFIX}/include/ngs/adapter
+	${INSTALL} -c ngs-sdk/ngs/inl/*.hpp ${DESTDIR}${PREFIX}/include/ngs/inl
+	${INSTALL} -c ngs-sdk/ngs/itf/*.hpp ngs-sdk/ngs/itf/*.h \
+		${DESTDIR}${PREFIX}/include/ngs/itf
+	${INSTALL} -c ngs-sdk/ngs/unix/`uname -p`/*.h \
+		${DESTDIR}${PREFIX}/include/ngs/unix/`uname -p`
+	${MKDIR} -p ${DESTDIR}${PREFIX}/share/java/classes
+	${INSTALL} -c ngs-java/ngs-java.jar \
+		${DESTDIR}${PREFIX}/share/java/classes

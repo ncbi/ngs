@@ -1,0 +1,25 @@
+#!/bin/sh -e
+
+# Note:
+# This script is only for recording platform-specific flags.
+# Makefile.simple should not depend on this script.
+# You can simple run
+#
+#   make -f Makefile.simple CXX=...
+
+# Default case below works for FreeBSD, Linux, and Mac.
+# If another platform requires special compiler flags, add a case.
+
+case `uname` in
+Darwin)
+    # FIXME: Not sure about the best SO_FLAGS
+    export CXXFLAGS='-g -O -fPIC'
+    export SO_EXT=dylib
+    export SO_FLAGS=''
+    ;;
+*)
+    export CXXFLAGS='-g -O -fPIC'
+    ;;
+esac
+
+make -f Makefile.simple $@

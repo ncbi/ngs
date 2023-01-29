@@ -1,0 +1,20 @@
+
+MAKE	?= make
+DIRS	= adapter dispatch language
+LN	?= ln
+RM	?= rm
+
+all:
+	for dir in ${DIRS}; do \
+	    ${MAKE} -C $$dir -f Makefile.simple ARCH=`uname -p`; \
+	done
+	${CXX} -shared -o ${SO_NAME} ${SO_FLAGS} \
+		*/*.o -L./dispatch -lngs-disp
+	${LN} -f ${SO_NAME} ${SO_SHORT_NAME}
+	${LN} -f ${SO_NAME} libngs-sdk.${SO_EXT}
+
+clean:
+	for dir in ${DIRS}; do \
+	    ${MAKE} -C $$dir -f Makefile.simple clean; \
+	done
+	${RM} -f libngs-sdk.*
